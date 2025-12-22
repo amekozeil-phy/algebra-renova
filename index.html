@@ -6,6 +6,15 @@
     <title>Algebra Renova - Revolução Matemática</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600;700&family=Cinzel:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax para renderizar fórmulas LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Toast notifications -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     <style>
         /* VARIÁVEIS DE CORES E ESTILOS */
         :root {
@@ -68,7 +77,7 @@
             position: fixed;
             height: 100vh;
             overflow-y: auto;
-            z-index: 100;
+            z-index: 1000;
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
         }
 
@@ -109,6 +118,7 @@
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 20px;
+            position: relative;
         }
 
         .user-avatar {
@@ -122,6 +132,36 @@
             font-size: 1.8rem;
             margin: 0 auto 10px;
             border: 2px solid var(--accent-teal);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar-upload {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 0.7rem;
+            display: none;
+        }
+
+        .user-avatar:hover .user-avatar-upload {
+            display: block;
+        }
+
+        #avatar-upload {
+            display: none;
         }
 
         .user-name {
@@ -169,6 +209,7 @@
             border-radius: 8px;
             transition: all 0.3s ease;
             color: var(--text-secondary);
+            cursor: pointer;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -203,6 +244,7 @@
             justify-content: center;
             font-size: 0.7rem;
             margin-left: auto;
+            cursor: pointer;
         }
 
         /* CONTEÚDO PRINCIPAL */
@@ -363,6 +405,14 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .activity-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px 10px;
         }
 
         .activity-item:last-child {
@@ -431,6 +481,67 @@
             font-size: 0.85rem;
         }
 
+        /* MODAIS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-dark);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 25px 30px 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-family: var(--font-decorative);
+            color: var(--accent-teal);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-red);
+        }
+
+        .modal-body {
+            padding: 25px 30px;
+        }
+
         /* SEÇÕES DE CONTEÚDO */
         .content-section {
             display: none;
@@ -471,11 +582,13 @@
             border: 1px solid var(--border-color);
             padding: 20px;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .theory-card:hover, .group-card:hover, .topic-card:hover {
             border-color: var(--accent-purple);
             box-shadow: 0 5px 15px var(--shadow-color);
+            transform: translateY(-3px);
         }
 
         .theory-header, .group-header, .topic-header {
@@ -664,6 +777,30 @@
             overflow-y: auto;
         }
 
+        .chat-group {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-group:hover, .chat-group.active {
+            background-color: rgba(106, 13, 173, 0.2);
+        }
+
+        .chat-group-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
         .chat-main {
             flex: 1;
             display: flex;
@@ -675,6 +812,9 @@
             background-color: var(--secondary-dark);
             border-bottom: 1px solid var(--border-color);
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .chat-messages {
@@ -691,6 +831,12 @@
             padding: 12px 15px;
             border-radius: 10px;
             position: relative;
+            animation: messageAppear 0.3s ease;
+        }
+
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message-sent {
@@ -709,6 +855,20 @@
             font-weight: 600;
             margin-bottom: 5px;
             color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-sender-level {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background-color: var(--accent-purple);
+        }
+
+        .message-content {
+            line-height: 1.5;
         }
 
         .message-time {
@@ -718,22 +878,51 @@
             margin-top: 5px;
         }
 
-        .chat-input {
+        .chat-input-container {
             padding: 15px;
             background-color: var(--secondary-dark);
             border-top: 1px solid var(--border-color);
             display: flex;
             gap: 10px;
+            align-items: flex-end;
         }
 
-        .chat-input input {
+        .chat-input {
             flex: 1;
-            padding: 12px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-input textarea {
             background-color: var(--tertiary-dark);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             color: var(--text-primary);
             font-family: var(--font-mono);
+            padding: 12px 15px;
+            resize: none;
+            min-height: 60px;
+            max-height: 120px;
+        }
+
+        .chat-input-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .latex-preview {
+            background-color: var(--tertiary-dark);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .latex-preview.active {
+            display: block;
         }
 
         /* TABELAS */
@@ -804,6 +993,33 @@
             font-family: var(--font-decorative);
         }
 
+        /* NOTIFICAÇÕES */
+        .notifications-modal .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .notifications-modal .notification-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .notifications-modal .notification-item.unread {
+            background-color: rgba(106, 13, 173, 0.1);
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--accent-teal);
+        }
+
+        .notification-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
         /* RESPONSIVIDADE */
         @media (max-width: 1100px) {
             .sidebar {
@@ -859,6 +1075,18 @@
             .search-box input {
                 width: 150px;
             }
+            
+            .chat-container {
+                flex-direction: column;
+                height: 80vh;
+            }
+            
+            .chat-sidebar {
+                width: 100%;
+                height: 200px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
         }
 
         /* ANIMAÇÕES E EFEITOS ESPECIAIS */
@@ -894,6 +1122,107 @@
                 radial-gradient(circle at 20% 30%, var(--accent-purple) 0%, transparent 10%),
                 radial-gradient(circle at 80% 70%, var(--accent-blue) 0%, transparent 10%),
                 radial-gradient(circle at 40% 80%, var(--accent-teal) 0%, transparent 10%);
+        }
+
+        /* TOAST NOTIFICATIONS CUSTOM */
+        .toast-success {
+            background-color: var(--accent-teal) !important;
+        }
+
+        .toast-error {
+            background-color: var(--accent-red) !important;
+        }
+
+        .toast-info {
+            background-color: var(--accent-blue) !important;
+        }
+
+        .toast-warning {
+            background-color: var(--accent-gold) !important;
+            color: #000 !important;
+        }
+
+        /* DISCUSSÃO DETALHADA */
+        .discussion-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .discussion-header {
+            background-color: var(--secondary-dark);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .discussion-title {
+            font-size: 1.8rem;
+            color: var(--accent-teal);
+            margin-bottom: 10px;
+            font-family: var(--font-decorative);
+        }
+
+        .discussion-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .discussion-content {
+            background-color: var(--secondary-dark);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            line-height: 1.8;
+        }
+
+        .discussion-replies {
+            background-color: var(--secondary-dark);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .reply {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .reply:last-child {
+            border-bottom: none;
+        }
+
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reply-author {
+            font-weight: 600;
+            color: var(--accent-teal);
+        }
+
+        .reply-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .reply-content {
+            line-height: 1.6;
+        }
+
+        .reply-form {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
@@ -932,6 +1261,13 @@
                     </select>
                 </div>
                 
+                <!-- Campo extra para chave do Núcleo (inicialmente oculto) -->
+                <div class="form-group" id="master-key-group" style="display: none;">
+                    <label class="form-label" for="master-key">Chave de Acesso do Núcleo</label>
+                    <input type="password" class="form-control" id="master-key" placeholder="Enter a chave secreta do Núcleo">
+                    <small style="color: var(--text-secondary); font-size: 0.8rem;">Apenas membros do Núcleo possuem esta chave</small>
+                </div>
+                
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Acessar Portal</button>
             </form>
             
@@ -955,7 +1291,10 @@
             </div>
             
             <div class="user-info">
-                <div class="user-avatar" id="user-avatar">AR</div>
+                <div class="user-avatar" id="user-avatar">
+                    <div class="user-avatar-upload">Alterar Foto</div>
+                </div>
+                <input type="file" id="avatar-upload" accept="image/*">
                 <div class="user-name" id="user-name">Membro Algebra Renova</div>
                 <div class="user-level level-observador" id="user-level">Observador</div>
             </div>
@@ -963,32 +1302,32 @@
             <ul class="nav-menu">
                 <li class="nav-section">Navegação Principal</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link active" data-section="dashboard">
+                    <a class="nav-link active" data-section="dashboard">
                         <i class="fas fa-chart-network"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="manifesto">
+                    <a class="nav-link" data-section="manifesto">
                         <i class="fas fa-scroll"></i>
                         <span class="nav-text">Manifesto</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="theories">
+                    <a class="nav-link" data-section="theories">
                         <i class="fas fa-atom"></i>
                         <span class="nav-text">Teorias</span>
                         <span class="notification-badge" id="theory-notif">0</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="research-groups">
+                    <a class="nav-link" data-section="research-groups">
                         <i class="fas fa-users-cog"></i>
                         <span class="nav-text">Grupos de Pesquisa</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="forum">
+                    <a class="nav-link" data-section="forum">
                         <i class="fas fa-comments"></i>
                         <span class="nav-text">Fórum de Dúvidas</span>
                         <span class="notification-badge" id="forum-notif">0</span>
@@ -997,13 +1336,13 @@
                 
                 <li class="nav-section">Comunicação</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="chat">
+                    <a class="nav-link" data-section="chat">
                         <i class="fas fa-comment-dots"></i>
                         <span class="nav-text">Chat Geral</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="files">
+                    <a class="nav-link" data-section="files">
                         <i class="fas fa-archive"></i>
                         <span class="nav-text">Arquivos</span>
                     </a>
@@ -1011,19 +1350,19 @@
                 
                 <li class="nav-section">Hierarquia</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="initiation">
+                    <a class="nav-link" data-section="initiation">
                         <i class="fas fa-door-open"></i>
                         <span class="nav-text">Rito de Iniciação</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="profile">
+                    <a class="nav-link" data-section="profile">
                         <i class="fas fa-user-cog"></i>
                         <span class="nav-text">Perfil</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="members">
+                    <a class="nav-link" data-section="members">
                         <i class="fas fa-chess-queen"></i>
                         <span class="nav-text">Membros</span>
                     </a>
@@ -1120,7 +1459,7 @@
                             <div class="card-icon"><i class="fas fa-star"></i></div>
                         </div>
                         <div class="theories-list" style="grid-template-columns: 1fr;" id="featured-theories">
-                            <!-- Conteúdo carregado dinamicamente -->
+                            <!-- Conteúdo dinâmico -->
                         </div>
                         <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" data-section="theories">Ver Todas as Teorias</button>
                     </div>
@@ -1201,73 +1540,7 @@
                 </div>
                 
                 <div class="theories-list" id="theories-list">
-                    <!-- Conteúdo carregado dinamicamente -->
-                </div>
-                
-                <!-- FORMULÁRIO DE NOVA TEORIA (OCULTO INICIALMENTE) -->
-                <div id="new-theory-form" class="form-container" style="display: none; margin-top: 40px;">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Propor Nova Teoria</h3>
-                            <div class="card-icon"><i class="fas fa-atom"></i></div>
-                        </div>
-                        <div style="padding: 20px;">
-                            <form id="theory-form">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label" for="theory-name">Nome da Teoria</label>
-                                        <input type="text" class="form-control" id="theory-name" placeholder="Ex: Álgebra Transdimensional" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="theory-group">Grupo de Pesquisa</label>
-                                        <select class="form-control" id="theory-group" required>
-                                            <option value="">Selecione um grupo</option>
-                                            <option value="transfunctoracao">Transfunctoração</option>
-                                            <option value="transformacoes">Transformações Radicais</option>
-                                            <option value="estruturas">Estruturas Não-Convencionais</option>
-                                            <option value="algebra-superior">Álgebra Superior</option>
-                                            <option value="conjecturas">Conjecturas e "Caças"</option>
-                                            <option value="analise">Análise Não-Padrão</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" for="theory-description">Descrição da Teoria</label>
-                                    <textarea class="form-control" id="theory-description" placeholder="Descreva a teoria proposta, seus fundamentos e objetivos..." rows="5" required></textarea>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label" for="theory-visibility">Visibilidade</label>
-                                        <select class="form-control" id="theory-visibility" required>
-                                            <option value="public">Pública (todos os membros)</option>
-                                            <option value="private">Privada (apenas grupo de pesquisa)</option>
-                                            <option value="restricted">Restrita (apenas Núcleo)</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="theory-status">Status Inicial</label>
-                                        <select class="form-control" id="theory-status" required>
-                                            <option value="developing">Em desenvolvimento</option>
-                                            <option value="proposal">Proposta</option>
-                                            <option value="discussion">Em discussão</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" for="theory-tags">Tags (separadas por vírgula)</label>
-                                    <input type="text" class="form-control" id="theory-tags" placeholder="Ex: álgebra, transfunctoração, não-associativa, transdimensional">
-                                </div>
-                                
-                                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                                    <button type="submit" class="btn btn-primary">Submeter Teoria</button>
-                                    <button type="button" class="btn btn-secondary" id="cancel-theory-btn">Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <!-- Conteúdo dinâmico -->
                 </div>
             </section>
 
@@ -1278,102 +1551,8 @@
                     <button class="btn btn-primary" id="join-group-btn"><i class="fas fa-user-plus"></i> Solicitar Ingresso</button>
                 </div>
                 
-                <div class="groups-list">
-                    <!-- Grupo 1 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Transfunctoração</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-private">Privado</span>
-                        </div>
-                        <p class="group-description">Estuda a transferência de estruturas entre diferentes domínios matemáticos, criando novas correspondências entre álgebra, topologia e teoria das categorias.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-lock"></i> Acesso por aprovação</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grupo 2 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Transformações Radicais</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-public">Público</span>
-                        </div>
-                        <p class="group-description">Explora transformações que não preservam estruturas tradicionais, mas criam novas categorias matemáticas através de rupturas conceituais.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-unlock"></i> Aberto a todos</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grupo 3 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Estruturas Não-Convencionais</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-private">Privado</span>
-                        </div>
-                        <p class="group-description">Desenvolve estruturas algébricas que violam axiomas fundamentais, como associatividade, comutatividade e distributividade, criando novos paradigmas.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-lock"></i> Acesso por aprovação</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grupo 4 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Álgebra Superior</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-public">Público</span>
-                        </div>
-                        <p class="group-description">Expande os limites da álgebra tradicional através da criação de novas operações, relações e estruturas com dimensionalidade variável.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-unlock"></i> Aberto a todos</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grupo 5 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Conjecturas e "Caças"</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-restricted">Restrito</span>
-                        </div>
-                        <p class="group-description">Foca na formulação e resolução de conjecturas matemáticas de alta complexidade, com ênfase em estruturas que desafiam a intuição tradicional.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-lock"></i> Apenas Núcleo</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grupo 6 -->
-                    <div class="group-card">
-                        <div class="group-header">
-                            <div>
-                                <h4 class="group-title">Análise Não-Padrão</h4>
-                                <div class="group-members">Membros: [aguardando]</div>
-                            </div>
-                            <span class="group-type type-public">Público</span>
-                        </div>
-                        <p class="group-description">Desenvolve frameworks analíticos que transcendem os limites do cálculo tradicional, integrando conceitos de infinitésimos, hiper-reais e continuidade discreta.</p>
-                        <div class="group-meta">
-                            <span><i class="fas fa-file-alt"></i> Teorias: 0</span>
-                            <span><i class="fas fa-unlock"></i> Aberto a todos</span>
-                        </div>
-                    </div>
+                <div class="groups-list" id="groups-list">
+                    <!-- Conteúdo dinâmico -->
                 </div>
             </section>
 
@@ -1385,51 +1564,7 @@
                 </div>
                 
                 <div class="forum-topics" id="forum-topics">
-                    <!-- Conteúdo carregado dinamicamente -->
-                </div>
-                
-                <!-- FORMULÁRIO DE NOVO TÓPICO (OCULTO INICIALMENTE) -->
-                <div id="new-topic-form" class="form-container" style="display: none; margin-top: 40px;">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Criar Novo Tópico</h3>
-                            <div class="card-icon"><i class="fas fa-comment"></i></div>
-                        </div>
-                        <div style="padding: 20px;">
-                            <form id="topic-form">
-                                <div class="form-group">
-                                    <label class="form-label" for="topic-title">Título do Tópico</label>
-                                    <input type="text" class="form-control" id="topic-title" placeholder="Ex: Dúvida sobre transfunctoração entre dimensões" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" for="topic-description">Descrição/Questão</label>
-                                    <textarea class="form-control" id="topic-description" placeholder="Descreva sua dúvida, questão ou ponto de debate..." rows="5" required></textarea>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label" for="topic-category">Categoria</label>
-                                        <select class="form-control" id="topic-category" required>
-                                            <option value="duvida">Dúvida Conceitual</option>
-                                            <option value="debate">Debate Teórico</option>
-                                            <option value="desafio">Desafio Matemático</option>
-                                            <option value="discussao">Discussão Geral</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="topic-tags">Tags (separadas por vírgula)</label>
-                                        <input type="text" class="form-control" id="topic-tags" placeholder="Ex: álgebra, transfunctoração, anti-identidades">
-                                    </div>
-                                </div>
-                                
-                                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                                    <button type="submit" class="btn btn-primary">Criar Tópico</button>
-                                    <button type="button" class="btn btn-secondary" id="cancel-topic-btn">Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <!-- Conteúdo dinâmico -->
                 </div>
             </section>
 
@@ -1443,36 +1578,35 @@
                 </div>
                 
                 <div class="chat-container">
-                    <div class="chat-sidebar">
-                        <h4 style="margin-bottom: 15px; color: var(--accent-teal);">Membros Online</h4>
-                        <ul id="online-users" style="list-style: none;">
-                            <li style="padding: 8px 0; display: flex; align-items: center;">
-                                <div style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-teal); margin-right: 10px;"></div>
-                                <span id="current-user-chat">Você</span>
-                            </li>
-                        </ul>
-                        
-                        <h4 style="margin: 20px 0 15px; color: var(--accent-teal);">Canais</h4>
-                        <ul style="list-style: none;">
-                            <li style="padding: 8px 0;"><i class="fas fa-hashtag" style="margin-right: 10px;"></i>Geral</li>
-                            <li style="padding: 8px 0;"><i class="fas fa-hashtag" style="margin-right: 10px;"></i>Teorias</li>
-                            <li style="padding: 8px 0;"><i class="fas fa-hashtag" style="margin-right: 10px;"></i>Conjecturas</li>
-                            <li style="padding: 8px 0;"><i class="fas fa-hashtag" style="margin-right: 10px;"></i>Off-topic</li>
-                        </ul>
+                    <div class="chat-sidebar" id="chat-sidebar">
+                        <!-- Canais dinâmicos -->
                     </div>
                     
                     <div class="chat-main">
                         <div class="chat-header">
-                            <i class="fas fa-hashtag" style="margin-right: 10px;"></i>Geral
+                            <span id="current-chat-title">Geral</span>
+                            <button class="btn btn-small btn-secondary" id="chat-info-btn">
+                                <i class="fas fa-info-circle"></i> Info
+                            </button>
                         </div>
                         
                         <div class="chat-messages" id="chat-messages">
-                            <!-- Conteúdo carregado dinamicamente -->
+                            <!-- Mensagens dinâmicas -->
                         </div>
                         
-                        <div class="chat-input">
-                            <input type="text" id="chat-input" placeholder="Digite sua mensagem..." autocomplete="off">
-                            <button class="btn btn-primary btn-small" id="send-message"><i class="fas fa-paper-plane"></i></button>
+                        <div class="chat-input-container">
+                            <div class="chat-input">
+                                <textarea id="chat-input" placeholder="Digite sua mensagem... Use $ para fórmulas LaTeX. Ex: $E = mc^2$" autocomplete="off"></textarea>
+                                <div class="latex-preview" id="latex-preview"></div>
+                                <div class="chat-input-actions">
+                                    <button class="btn btn-small btn-secondary" id="latex-toggle">
+                                        <i class="fas fa-square-root-alt"></i> LaTeX
+                                    </button>
+                                    <button class="btn btn-primary btn-small" id="send-message">
+                                        <i class="fas fa-paper-plane"></i> Enviar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1504,17 +1638,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="files-table">
-                                    <tr>
-                                        <td><i class="fas fa-file-pdf" style="color: #e74c3c; margin-right: 8px;"></i> Manifesto_Algebra_Renova.pdf</td>
-                                        <td>PDF</td>
-                                        <td>2.4 MB</td>
-                                        <td>Lohan Cunha</td>
-                                        <td>Fundacional</td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-small"><i class="fas fa-download"></i></button>
-                                            <button class="btn btn-secondary btn-small"><i class="fas fa-eye"></i></button>
-                                        </td>
-                                    </tr>
+                                    <!-- Conteúdo dinâmico -->
                                 </tbody>
                             </table>
                         </div>
@@ -1650,7 +1774,7 @@
                             <div style="flex: 1; min-width: 250px; background-color: var(--tertiary-dark); padding: 20px; border-radius: 8px; border-top: 4px solid var(--accent-red);">
                                 <h4 style="color: var(--accent-red); margin-bottom: 10px;">Núcleo</h4>
                                 <p style="margin-bottom: 15px;">Acesso total, direção estratégica, validação de teorias.</p>
-                                <ul style="list-style: none; padding-left: 0;">
+                                <ul style="list-style: none; padding-left: 0;" id="nucleo-list">
                                     <li style="padding: 5px 0;"><i class="fas fa-crown" style="margin-right: 8px; color: var(--accent-gold);"></i>Lohan Cunha (Fundador)</li>
                                 </ul>
                             </div>
@@ -1659,7 +1783,7 @@
                                 <h4 style="color: var(--accent-teal); margin-bottom: 10px;">Iniciados</h4>
                                 <p style="margin-bottom: 15px;">Acesso amplo, podem propor teorias, liderar grupos públicos.</p>
                                 <ul style="list-style: none; padding-left: 0;" id="iniciados-list">
-                                    <li style="padding: 5px 0;"><i class="fas fa-user-check" style="margin-right: 8px; color: var(--accent-teal);"></i>[Aguardando membros]</li>
+                                    <!-- Dinâmico -->
                                 </ul>
                             </div>
                             
@@ -1667,7 +1791,7 @@
                                 <h4 style="color: #6c757d; margin-bottom: 10px;">Observadores</h4>
                                 <p style="margin-bottom: 15px;">Acesso limitado, leitura de conteúdo, participação restrita no fórum.</p>
                                 <ul style="list-style: none; padding-left: 0;" id="observadores-list">
-                                    <li style="padding: 5px 0;"><i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>Você</li>
+                                    <!-- Dinâmico -->
                                 </ul>
                             </div>
                         </div>
@@ -1686,49 +1810,316 @@
         </main>
     </div>
 
+    <!-- MODAIS -->
+
+    <!-- Modal Nova Teoria -->
+    <div id="modal-new-theory" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nova Teoria</h3>
+                <button class="modal-close" data-modal="modal-new-theory">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="theory-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="theory-name">Nome da Teoria *</label>
+                            <input type="text" class="form-control" id="theory-name" placeholder="Ex: Álgebra Transdimensional" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="theory-group">Grupo de Pesquisa *</label>
+                            <select class="form-control" id="theory-group" required>
+                                <option value="">Selecione um grupo</option>
+                                <option value="transfunctoracao">Transfunctoração</option>
+                                <option value="transformacoes">Transformações Radicais</option>
+                                <option value="estruturas">Estruturas Não-Convencionais</option>
+                                <option value="algebra-superior">Álgebra Superior</option>
+                                <option value="conjecturas">Conjecturas e "Caças"</option>
+                                <option value="analise">Análise Não-Padrão</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="theory-description">Descrição da Teoria *</label>
+                        <textarea class="form-control" id="theory-description" placeholder="Descreva a teoria proposta, seus fundamentos e objetivos..." rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="theory-visibility">Visibilidade *</label>
+                            <select class="form-control" id="theory-visibility" required>
+                                <option value="public">Pública (todos os membros)</option>
+                                <option value="private">Privada (apenas grupo de pesquisa)</option>
+                                <option value="restricted">Restrita (apenas Núcleo)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="theory-status">Status Inicial *</label>
+                            <select class="form-control" id="theory-status" required>
+                                <option value="developing">Em desenvolvimento</option>
+                                <option value="proposal">Proposta</option>
+                                <option value="discussion">Em discussão</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="theory-tags">Tags (separadas por vírgula)</label>
+                        <input type="text" class="form-control" id="theory-tags" placeholder="Ex: álgebra, transfunctoração, não-associativa, transdimensional">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="theory-content">Conteúdo Detalhado (LaTeX suportado)</label>
+                        <textarea class="form-control" id="theory-content" placeholder="Descreva em detalhes sua teoria. Use $$ para fórmulas LaTeX. Ex: $$E = mc^2$$" rows="8"></textarea>
+                        <small style="color: var(--text-secondary);">Dica: Use $$f(x) = \int_{-\infty}^{\infty} \hat{f}(\xi) e^{2\pi i \xi x} d\xi$$ para fórmulas</small>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">Submeter Teoria</button>
+                        <button type="button" class="btn btn-secondary" data-modal="modal-new-theory">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Tópico -->
+    <div id="modal-new-topic" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Novo Tópico de Discussão</h3>
+                <button class="modal-close" data-modal="modal-new-topic">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="topic-form">
+                    <div class="form-group">
+                        <label class="form-label" for="topic-title">Título do Tópico *</label>
+                        <input type="text" class="form-control" id="topic-title" placeholder="Ex: Dúvida sobre transfunctoração entre dimensões" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="topic-description">Descrição/Questão *</label>
+                        <textarea class="form-control" id="topic-description" placeholder="Descreva sua dúvida, questão ou ponto de debate..." rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="topic-category">Categoria *</label>
+                            <select class="form-control" id="topic-category" required>
+                                <option value="duvida">Dúvida Conceitual</option>
+                                <option value="debate">Debate Teórico</option>
+                                <option value="desafio">Desafio Matemático</option>
+                                <option value="discussao">Discussão Geral</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="topic-tags">Tags (separadas por vírgula)</label>
+                            <input type="text" class="form-control" id="topic-tags" placeholder="Ex: álgebra, transfunctoração, anti-identidades">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="topic-content">Conteúdo Detalhado (LaTeX suportado)</label>
+                        <textarea class="form-control" id="topic-content" placeholder="Desenvolva sua discussão com detalhes. Use $ para fórmulas inline e $$ para fórmulas em bloco." rows="8"></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">Criar Tópico</button>
+                        <button type="button" class="btn btn-secondary" data-modal="modal-new-topic">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Discussão Detalhada -->
+    <div id="modal-discussion" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="discussion-modal-title">Discussão</h3>
+                <button class="modal-close" data-modal="modal-discussion">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="discussion-container" id="discussion-container">
+                    <!-- Conteúdo dinâmico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notificações -->
+    <div id="modal-notifications" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Notificações</h3>
+                <button class="modal-close" data-modal="modal-notifications">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="notifications-list">
+                    <!-- Conteúdo dinâmico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Upload Arquivo -->
+    <div id="modal-upload" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Upload de Arquivo</h3>
+                <button class="modal-close" data-modal="modal-upload">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-form">
+                    <div class="form-group">
+                        <label class="form-label" for="file-name">Nome do Arquivo *</label>
+                        <input type="text" class="form-control" id="file-name" placeholder="Ex: Artigo_Transfunctoracao.pdf" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="file-type">Tipo de Arquivo *</label>
+                            <select class="form-control" id="file-type" required>
+                                <option value="pdf">PDF</option>
+                                <option value="tex">LaTeX</option>
+                                <option value="md">Markdown</option>
+                                <option value="txt">Texto</option>
+                                <option value="image">Imagem</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="file-visibility">Visibilidade *</label>
+                            <select class="form-control" id="file-visibility" required>
+                                <option value="public">Público</option>
+                                <option value="private">Privado (apenas meu grupo)</option>
+                                <option value="restricted">Restrito (apenas Núcleo)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="file-description">Descrição</label>
+                        <textarea class="form-control" id="file-description" placeholder="Descreva o conteúdo do arquivo..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="file-upload">Selecionar Arquivo *</label>
+                        <input type="file" class="form-control" id="file-upload" required>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" class="btn btn-secondary" data-modal="modal-upload">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Info Chat -->
+    <div id="modal-chat-info" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="chat-info-title">Informações do Chat</h3>
+                <button class="modal-close" data-modal="modal-chat-info">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="chat-info-content">
+                    <!-- Conteúdo dinâmico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alterar Senha -->
+    <div id="modal-change-password" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Alterar Senha</h3>
+                <button class="modal-close" data-modal="modal-change-password">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Senha Atual *</label>
+                        <input type="password" class="form-control" id="current-password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">Nova Senha *</label>
+                        <input type="password" class="form-control" id="new-password" required>
+                        <small style="color: var(--text-secondary);">Mínimo 8 caracteres</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirmar Nova Senha *</label>
+                        <input type="password" class="form-control" id="confirm-password" required>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">Alterar Senha</button>
+                        <button type="button" class="btn btn-secondary" data-modal="modal-change-password">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- BACKGROUND FRACTAL -->
     <div class="fractal-bg"></div>
 
     <script>
         // =============================================
-        // SISTEMA DE PERSISTÊNCIA COM LOCALSTORAGE
+        // CONSTANTES E CONFIGURAÇÕES
         // =============================================
-        
-        // Chaves para localStorage
+
+        const MASTER_KEY = "algebra_renova_nucleo_2024"; // Chave secreta para acesso ao Núcleo
         const STORAGE_KEYS = {
             USER: 'algebra_renova_user',
             THEORIES: 'algebra_renova_theories',
             FORUM_TOPICS: 'algebra_renova_forum_topics',
             CHAT_MESSAGES: 'algebra_renova_chat_messages',
-            ACTIVITIES: 'algebra_renova_activities'
+            NOTIFICATIONS: 'algebra_renova_notifications',
+            FILES: 'algebra_renova_files',
+            ACTIVITIES: 'algebra_renova_activities',
+            MEMBERS: 'algebra_renova_members',
+            CHAT_GROUPS: 'algebra_renova_chat_groups'
         };
 
-        // Dados iniciais (usados apenas na primeira execução)
+        // Dados iniciais
         const INITIAL_DATA = {
             theories: [
                 {
                     id: 1,
                     title: "Álgebra das Anti-identidades",
                     author: "Lohan Cunha",
+                    authorLevel: "nucleo",
                     group: "Transfunctoração",
-                    description: "Explora estruturas algébricas onde as identidades tradicionais são substituídas por seus opostos conceituais, criando sistemas onde a+b ≠ b+a e a·1 ≠ a.",
+                    description: "Explora estruturas algébricas onde as identidades tradicionais são substituídas por seus opostos conceituais.",
+                    content: "Na álgebra tradicional, temos identidades como $a + 0 = a$ e $a \\cdot 1 = a$. Nesta teoria, propomos sistemas onde estas identidades não se mantêm: $$a + 0 \\neq a$$ $$a \\cdot 1 \\neq a$$ Isso permite a criação de estruturas totalmente novas.",
                     status: "developing",
                     version: "v1.0.0",
-                    date: "Teoria fundacional",
+                    date: new Date().toISOString(),
                     visibility: "public",
-                    tags: "álgebra, anti-identidades, transfunctoração"
+                    tags: "álgebra, anti-identidades, transfunctoração",
+                    replies: []
                 },
                 {
                     id: 2,
                     title: "Transfunctoração Quântica",
                     author: "Lohan Cunha",
+                    authorLevel: "nucleo",
                     group: "Transformações Radicais",
-                    description: "Estuda como estruturas algébricas podem ser 'transportadas' entre diferentes domínios matemáticos, mantendo certas propriedades enquanto transformam outras radicalmente.",
+                    description: "Estuda como estruturas algébricas podem ser 'transportadas' entre diferentes domínios matemáticos.",
+                    content: "A transfunctoração quântica permite mover estruturas entre espaços de dimensão diferente mantendo certas propriedades invariantes: $$\\mathcal{F}: \\mathcal{C} \\to \\mathcal{D}$$ onde $\\mathcal{C}$ e $\\mathcal{D}$ são categorias distintas.",
                     status: "published",
                     version: "v2.0.0",
-                    date: "Teoria fundacional",
+                    date: new Date().toISOString(),
                     visibility: "public",
-                    tags: "transfunctoração, quântica, transformações"
+                    tags: "transfunctoração, quântica, transformações",
+                    replies: []
                 }
             ],
             forumTopics: [
@@ -1736,74 +2127,175 @@
                     id: 1,
                     title: "Interpretação da Anti-identidade a+0 ≠ a",
                     author: "Lohan Cunha",
-                    description: "Como interpretar sistemas onde o elemento neutro aditivo não funciona como neutro? Que implicações isso tem para a estrutura algébrica como um todo?",
+                    authorLevel: "nucleo",
+                    description: "Como interpretar sistemas onde o elemento neutro aditivo não funciona como neutro?",
+                    content: "Em sistemas tradicionais, o elemento neutro aditivo $0$ satisfaz $a + 0 = a$ para todo $a$. Em nossa teoria das anti-identidades, temos $a + 0 \\neq a$. Qual seria a interpretação física/matemática disso?",
                     category: "debate",
                     tags: "álgebra, anti-identidades, interpretação",
-                    replies: 0,
+                    replies: [],
                     status: "active",
-                    date: "Fundacional"
+                    date: new Date().toISOString(),
+                    views: 0
                 }
             ],
-            chatMessages: [
+            chatMessages: {
+                geral: [
+                    {
+                        id: 1,
+                        sender: "Sistema Algebra Renova",
+                        senderLevel: "system",
+                        message: "Bem-vindo ao chat. Conecte-se com outros membros para discutir ideias, teorias e conjecturas.",
+                        time: new Date().toISOString(),
+                        type: "received"
+                    }
+                ],
+                transfunctoracao: [],
+                transformacoes: [],
+                estruturas: [],
+                algebra_superior: [],
+                conjecturas: [],
+                analise: []
+            },
+            notifications: [],
+            files: [
                 {
                     id: 1,
-                    sender: "Sistema Algebra Renova",
-                    message: "Bem-vindo ao chat. Conecte-se com outros membros para discutir ideias, teorias e conjecturas.",
-                    time: "Agora",
-                    type: "received"
+                    name: "Manifesto_Algebra_Renova.pdf",
+                    type: "pdf",
+                    size: "2.4 MB",
+                    uploadedBy: "Lohan Cunha",
+                    uploadedByLevel: "nucleo",
+                    date: new Date().toISOString(),
+                    description: "Manifesto fundacional da organização",
+                    visibility: "public",
+                    url: "#"
                 }
             ],
             activities: [
                 {
                     id: 1,
                     title: "Bem-vindo ao Algebra Renova",
-                    time: "Sua jornada começa agora",
-                    icon: "door-open"
+                    time: new Date().toISOString(),
+                    icon: "door-open",
+                    type: "system"
+                }
+            ],
+            members: [
+                {
+                    id: 1,
+                    name: "Lohan Cunha",
+                    level: "nucleo",
+                    avatar: "LC",
+                    joinDate: new Date().toISOString(),
+                    description: "Fundador do Algebra Renova",
+                    expertise: "Álgebra Abstrata, Teoria das Categorias",
+                    status: "active",
+                    theoriesCount: 2,
+                    postsCount: 1
+                }
+            ],
+            chatGroups: [
+                {
+                    id: "geral",
+                    name: "Geral",
+                    description: "Discussões gerais da organização",
+                    type: "public",
+                    icon: "hashtag",
+                    members: ["all"]
+                },
+                {
+                    id: "transfunctoracao",
+                    name: "Transfunctoração",
+                    description: "Discussões sobre transfunctoração",
+                    type: "private",
+                    icon: "butterfly",
+                    members: ["nucleo"]
+                },
+                {
+                    id: "transformacoes",
+                    name: "Transformações Radicais",
+                    description: "Grupo de transformações não-convencionais",
+                    type: "public",
+                    icon: "exchange-alt",
+                    members: ["all"]
+                },
+                {
+                    id: "estruturas",
+                    name: "Estruturas Não-Convencionais",
+                    description: "Estruturas que violam axiomas fundamentais",
+                    type: "private",
+                    icon: "cubes",
+                    members: ["nucleo", "iniciado"]
+                },
+                {
+                    id: "algebra_superior",
+                    name: "Álgebra Superior",
+                    description: "Álgebra além dos limites tradicionais",
+                    type: "public",
+                    icon: "infinity",
+                    members: ["all"]
+                },
+                {
+                    id: "conjecturas",
+                    name: "Conjecturas e Caças",
+                    description: "Caça às conjecturas mais complexas",
+                    type: "restricted",
+                    icon: "search",
+                    members: ["nucleo"]
+                },
+                {
+                    id: "analise",
+                    name: "Análise Não-Padrão",
+                    description: "Análise além do cálculo tradicional",
+                    type: "public",
+                    icon: "chart-line",
+                    members: ["all"]
                 }
             ]
         };
 
-        // Estado global da aplicação
+        // =============================================
+        // ESTADO GLOBAL DA APLICAÇÃO
+        // =============================================
+
         let currentUser = null;
         let theories = [];
         let forumTopics = [];
-        let chatMessages = [];
+        let chatMessages = {};
+        let notifications = [];
+        let files = [];
         let activities = [];
+        let members = [];
+        let chatGroups = [];
+        let currentChatGroup = "geral";
+        let unreadNotifications = 0;
 
         // =============================================
-        // FUNÇÕES DE PERSISTÊNCIA
+        // FUNÇÕES DE PERSISTÊNCIA (LOCALSTORAGE)
         // =============================================
 
-        // Inicializar dados do localStorage
         function initializeStorage() {
-            // Verificar e criar dados iniciais se não existirem
-            if (!localStorage.getItem(STORAGE_KEYS.THEORIES)) {
-                localStorage.setItem(STORAGE_KEYS.THEORIES, JSON.stringify(INITIAL_DATA.theories));
-            }
-            
-            if (!localStorage.getItem(STORAGE_KEYS.FORUM_TOPICS)) {
-                localStorage.setItem(STORAGE_KEYS.FORUM_TOPICS, JSON.stringify(INITIAL_DATA.forumTopics));
-            }
-            
-            if (!localStorage.getItem(STORAGE_KEYS.CHAT_MESSAGES)) {
-                localStorage.setItem(STORAGE_KEYS.CHAT_MESSAGES, JSON.stringify(INITIAL_DATA.chatMessages));
-            }
-            
-            if (!localStorage.getItem(STORAGE_KEYS.ACTIVITIES)) {
-                localStorage.setItem(STORAGE_KEYS.ACTIVITIES, JSON.stringify(INITIAL_DATA.activities));
-            }
+            // Inicializar todos os dados no localStorage se não existirem
+            Object.keys(STORAGE_KEYS).forEach(key => {
+                if (!localStorage.getItem(STORAGE_KEYS[key])) {
+                    localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(INITIAL_DATA[key.toLowerCase()] || []));
+                }
+            });
             
             // Carregar dados do localStorage
             loadFromStorage();
         }
 
-        // Carregar dados do localStorage
         function loadFromStorage() {
             try {
                 theories = JSON.parse(localStorage.getItem(STORAGE_KEYS.THEORIES)) || [];
                 forumTopics = JSON.parse(localStorage.getItem(STORAGE_KEYS.FORUM_TOPICS)) || [];
-                chatMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_MESSAGES)) || [];
+                chatMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_MESSAGES)) || INITIAL_DATA.chatMessages;
+                notifications = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) || [];
+                files = JSON.parse(localStorage.getItem(STORAGE_KEYS.FILES)) || [];
                 activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES)) || [];
+                members = JSON.parse(localStorage.getItem(STORAGE_KEYS.MEMBERS)) || [];
+                chatGroups = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_GROUPS)) || [];
                 
                 // Carregar usuário se existir
                 const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
@@ -1811,126 +2303,262 @@
                     currentUser = JSON.parse(savedUser);
                 }
             } catch (error) {
-                console.error("Erro ao carregar dados do localStorage:", error);
-                // Recriar dados iniciais em caso de erro
+                console.error("Erro ao carregar do localStorage:", error);
+                // Resetar para dados iniciais em caso de erro
                 theories = INITIAL_DATA.theories;
                 forumTopics = INITIAL_DATA.forumTopics;
                 chatMessages = INITIAL_DATA.chatMessages;
+                notifications = INITIAL_DATA.notifications;
+                files = INITIAL_DATA.files;
                 activities = INITIAL_DATA.activities;
+                members = INITIAL_DATA.members;
+                chatGroups = INITIAL_DATA.chatGroups;
             }
         }
 
-        // Salvar dados no localStorage
         function saveToStorage(key, data) {
             try {
                 localStorage.setItem(key, JSON.stringify(data));
             } catch (error) {
-                console.error(`Erro ao salvar ${key} no localStorage:`, error);
+                console.error(`Erro ao salvar ${key}:`, error);
+                showToast("Erro ao salvar dados", "error");
             }
         }
 
-        // Salvar usuário atual
         function saveUser() {
             if (currentUser) {
+                // Adicionar timestamp de última atividade
+                currentUser.lastActivity = new Date().toISOString();
                 saveToStorage(STORAGE_KEYS.USER, currentUser);
+                
+                // Atualizar na lista de membros
+                const memberIndex = members.findIndex(m => m.id === currentUser.id);
+                if (memberIndex !== -1) {
+                    members[memberIndex] = {...currentUser};
+                } else {
+                    // Se não existe, adicionar
+                    members.push({...currentUser});
+                }
+                saveToStorage(STORAGE_KEYS.MEMBERS, members);
             }
         }
 
-        // Salvar teorias
         function saveTheories() {
             saveToStorage(STORAGE_KEYS.THEORIES, theories);
         }
 
-        // Salvar tópicos do fórum
         function saveForumTopics() {
             saveToStorage(STORAGE_KEYS.FORUM_TOPICS, forumTopics);
         }
 
-        // Salvar mensagens do chat
         function saveChatMessages() {
             saveToStorage(STORAGE_KEYS.CHAT_MESSAGES, chatMessages);
         }
 
-        // Salvar atividades
+        function saveNotifications() {
+            saveToStorage(STORAGE_KEYS.NOTIFICATIONS, notifications);
+        }
+
+        function saveFiles() {
+            saveToStorage(STORAGE_KEYS.FILES, files);
+        }
+
         function saveActivities() {
             saveToStorage(STORAGE_KEYS.ACTIVITIES, activities);
+        }
+
+        // =============================================
+        // FUNÇÕES DE UTILIDADE
+        // =============================================
+
+        function showToast(message, type = "success") {
+            toastr.options = {
+                positionClass: "toast-top-right",
+                progressBar: true,
+                closeButton: true,
+                timeOut: 3000,
+                extendedTimeOut: 1000
+            };
+            
+            switch(type) {
+                case "success":
+                    toastr.success(message);
+                    break;
+                case "error":
+                    toastr.error(message);
+                    break;
+                case "warning":
+                    toastr.warning(message);
+                    break;
+                case "info":
+                    toastr.info(message);
+                    break;
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return "Agora";
+            if (diffMins < 60) return `${diffMins} min atrás`;
+            if (diffHours < 24) return `${diffHours} h atrás`;
+            if (diffDays < 7) return `${diffDays} dias atrás`;
+            
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function hasAccessToGroup(group) {
+            if (!currentUser) return false;
+            
+            if (group.type === "public") return true;
+            if (group.type === "restricted") return currentUser.level === "nucleo";
+            if (group.type === "private") {
+                return group.members.includes(currentUser.level) || group.members.includes("all");
+            }
+            return false;
         }
 
         // =============================================
         // FUNÇÕES DE MANIPULAÇÃO DE DADOS
         // =============================================
 
-        // Adicionar nova teoria
-        function addTheory(theory) {
-            const newId = theories.length > 0 ? Math.max(...theories.map(t => t.id)) + 1 : 1;
+        function createNewTheory(theoryData) {
             const newTheory = {
-                ...theory,
-                id: newId,
-                date: new Date().toLocaleDateString('pt-BR')
+                id: generateId(),
+                ...theoryData,
+                author: currentUser.name,
+                authorLevel: currentUser.level,
+                date: new Date().toISOString(),
+                replies: [],
+                version: "v1.0.0"
             };
             
             theories.push(newTheory);
             saveTheories();
             
             // Adicionar atividade
-            addActivity(`Nova teoria proposta: "${theory.title}"`, 'Agora');
+            addActivity(`Nova teoria criada: "${theoryData.title}"`, "lightbulb");
             
+            // Adicionar notificação para membros do Núcleo
+            if (currentUser.level !== "nucleo") {
+                members.filter(m => m.level === "nucleo").forEach(member => {
+                    addNotification(member.id, "Nova teoria para revisão", `${currentUser.name} criou a teoria "${theoryData.title}"`, "theory", newTheory.id);
+                });
+            }
+            
+            showToast("Teoria criada com sucesso!", "success");
             return newTheory;
         }
 
-        // Adicionar novo tópico no fórum
-        function addForumTopic(topic) {
-            const newId = forumTopics.length > 0 ? Math.max(...forumTopics.map(t => t.id)) + 1 : 1;
+        function createNewTopic(topicData) {
             const newTopic = {
-                ...topic,
-                id: newId,
-                date: new Date().toLocaleDateString('pt-BR'),
-                replies: 0,
-                status: 'active'
+                id: generateId(),
+                ...topicData,
+                author: currentUser.name,
+                authorLevel: currentUser.level,
+                date: new Date().toISOString(),
+                replies: [],
+                views: 0,
+                status: "active"
             };
             
             forumTopics.push(newTopic);
             saveForumTopics();
             
             // Adicionar atividade
-            addActivity(`Novo tópico no fórum: "${topic.title}"`, 'Agora');
+            addActivity(`Novo tópico no fórum: "${topicData.title}"`, "comments");
             
+            showToast("Tópico criado com sucesso!", "success");
             return newTopic;
         }
 
-        // Adicionar mensagem no chat
-        function addChatMessage(message) {
-            const newId = chatMessages.length > 0 ? Math.max(...chatMessages.map(m => m.id)) + 1 : 1;
+        function addChatMessageToGroup(groupId, messageData) {
+            if (!chatMessages[groupId]) {
+                chatMessages[groupId] = [];
+            }
+            
             const newMessage = {
-                ...message,
-                id: newId,
-                time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                id: generateId(),
+                ...messageData,
+                sender: currentUser.name,
+                senderLevel: currentUser.level,
+                time: new Date().toISOString(),
+                type: "sent"
             };
             
-            chatMessages.push(newMessage);
+            chatMessages[groupId].push(newMessage);
             saveChatMessages();
+            
+            // Renderizar mensagem imediatamente
+            renderChatMessages(groupId);
             
             return newMessage;
         }
 
-        // Adicionar atividade recente
-        function addActivity(title, time) {
-            const newId = activities.length > 0 ? Math.max(...activities.map(a => a.id)) + 1 : 1;
-            const newActivity = {
-                id: newId,
-                title: title,
-                time: time || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-                icon: 'history'
+        function addNotification(userId, title, message, type, referenceId) {
+            const notification = {
+                id: generateId(),
+                userId,
+                title,
+                message,
+                type,
+                referenceId,
+                read: false,
+                date: new Date().toISOString()
             };
             
-            // Manter apenas as 5 atividades mais recentes
-            activities.unshift(newActivity);
-            if (activities.length > 5) {
-                activities = activities.slice(0, 5);
+            notifications.push(notification);
+            saveNotifications();
+            
+            // Se for para o usuário atual, atualizar contador
+            if (currentUser && userId === currentUser.id) {
+                updateNotificationBadge();
             }
             
+            return notification;
+        }
+
+        function addActivity(title, icon) {
+            const activity = {
+                id: generateId(),
+                title,
+                icon,
+                time: new Date().toISOString(),
+                userId: currentUser?.id
+            };
+            
+            activities.unshift(activity);
+            if (activities.length > 10) activities.pop();
             saveActivities();
-            return newActivity;
+            
+            renderActivities();
+        }
+
+        function addFile(fileData) {
+            const newFile = {
+                id: generateId(),
+                ...fileData,
+                uploadedBy: currentUser.name,
+                uploadedByLevel: currentUser.level,
+                date: new Date().toISOString()
+            };
+            
+            files.push(newFile);
+            saveFiles();
+            
+            addActivity(`Novo arquivo enviado: "${fileData.name}"`, "file-upload");
+            showToast("Arquivo enviado com sucesso!", "success");
+            
+            return newFile;
         }
 
         // =============================================
@@ -1941,82 +2569,47 @@
             const theoriesList = document.getElementById('theories-list');
             const featuredTheories = document.getElementById('featured-theories');
             
-            if (theoriesList) {
-                theoriesList.innerHTML = '';
-                
-                if (theories.length === 0) {
-                    theoriesList.innerHTML = `
-                        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                            <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhuma teoria ainda</h4>
-                            <p style="color: var(--text-secondary); margin-bottom: 20px;">Seja o primeiro a propor uma nova teoria matemática!</p>
-                            <button class="btn btn-primary" id="create-first-theory">Criar Primeira Teoria</button>
-                        </div>
-                    `;
-                    
-                    document.getElementById('create-first-theory')?.addEventListener('click', () => {
-                        document.getElementById('new-theory-btn').click();
-                    });
-                } else {
-                    theories.forEach(theory => {
-                        const theoryCard = document.createElement('div');
-                        theoryCard.className = 'theory-card';
-                        
-                        let statusClass = 'status-developing';
-                        let statusText = 'Em desenvolvimento';
-                        
-                        if (theory.status === 'published') {
-                            statusClass = 'status-published';
-                            statusText = 'Publicada';
-                        } else if (theory.status === 'archived') {
-                            statusClass = 'status-archived';
-                            statusText = 'Arquivada';
-                        } else if (theory.status === 'proposal') {
-                            statusClass = 'status-developing';
-                            statusText = 'Proposta';
-                        } else if (theory.status === 'discussion') {
-                            statusClass = 'status-developing';
-                            statusText = 'Em discussão';
-                        }
-                        
-                        theoryCard.innerHTML = `
-                            <div class="theory-header">
-                                <div>
-                                    <h4 class="theory-title">${theory.title}</h4>
-                                    <div class="theory-author">Por ${theory.author} • Grupo: ${theory.group}</div>
-                                </div>
-                                <span class="theory-status ${statusClass}">${statusText}</span>
-                            </div>
-                            <p class="theory-description">${theory.description}</p>
-                            <div class="theory-meta">
-                                <span><i class="fas fa-calendar"></i> ${theory.date}</span>
-                                <span><i class="fas fa-code-branch"></i> ${theory.version || 'v1.0.0'}</span>
-                            </div>
-                        `;
-                        
-                        theoriesList.appendChild(theoryCard);
-                    });
-                }
-                
-                // Atualizar badge de notificações
-                updateNotificationBadges();
-            }
+            if (!theoriesList) return;
             
-            // Teorias em destaque (apenas as mais recentes, máximo 2)
-            if (featuredTheories && theories.length > 0) {
-                featuredTheories.innerHTML = '';
-                const latestTheories = theories.slice(-2).reverse(); // Pegar as 2 mais recentes
+            theoriesList.innerHTML = '';
+            
+            if (theories.length === 0) {
+                theoriesList.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhuma teoria ainda</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px;">Seja o primeiro a propor uma nova teoria matemática!</p>
+                        ${currentUser && currentUser.level !== "observador" ? 
+                            '<button class="btn btn-primary" id="create-first-theory">Criar Primeira Teoria</button>' : 
+                            '<p style="color: var(--accent-red);">Apenas membros Iniciados e Núcleo podem criar teorias</p>'}
+                    </div>
+                `;
                 
-                latestTheories.forEach(theory => {
+                document.getElementById('create-first-theory')?.addEventListener('click', () => {
+                    openModal('modal-new-theory');
+                });
+            } else {
+                theories.forEach(theory => {
+                    const hasAccess = theory.visibility === "public" || 
+                                     (theory.visibility === "private" && currentUser?.level === theory.authorLevel) ||
+                                     (theory.visibility === "restricted" && currentUser?.level === "nucleo");
+                    
+                    if (!hasAccess) return;
+                    
+                    const theoryCard = document.createElement('div');
+                    theoryCard.className = 'theory-card';
+                    theoryCard.dataset.id = theory.id;
+                    
                     let statusClass = 'status-developing';
                     let statusText = 'Em desenvolvimento';
                     
                     if (theory.status === 'published') {
                         statusClass = 'status-published';
                         statusText = 'Publicada';
+                    } else if (theory.status === 'proposal') {
+                        statusClass = 'status-developing';
+                        statusText = 'Proposta';
                     }
                     
-                    const theoryCard = document.createElement('div');
-                    theoryCard.className = 'theory-card';
                     theoryCard.innerHTML = `
                         <div class="theory-header">
                             <div>
@@ -2025,121 +2618,695 @@
                             </div>
                             <span class="theory-status ${statusClass}">${statusText}</span>
                         </div>
-                        <p class="theory-description">${theory.description.substring(0, 150)}${theory.description.length > 150 ? '...' : ''}</p>
+                        <p class="theory-description">${theory.description}</p>
                         <div class="theory-meta">
-                            <span><i class="fas fa-calendar"></i> ${theory.date}</span>
-                            <span><i class="fas fa-code-branch"></i> ${theory.version || 'v1.0.0'}</span>
+                            <span><i class="fas fa-calendar"></i> ${formatDate(theory.date)}</span>
+                            <span><i class="fas fa-code-branch"></i> ${theory.version}</span>
                         </div>
                     `;
                     
+                    theoryCard.addEventListener('click', () => openDiscussionModal(theory, 'theory'));
+                    theoriesList.appendChild(theoryCard);
+                });
+            }
+            
+            // Teorias em destaque
+            if (featuredTheories) {
+                featuredTheories.innerHTML = '';
+                const featured = theories
+                    .filter(t => t.visibility === "public")
+                    .slice(-2)
+                    .reverse();
+                
+                featured.forEach(theory => {
+                    const theoryCard = document.createElement('div');
+                    theoryCard.className = 'theory-card';
+                    theoryCard.dataset.id = theory.id;
+                    
+                    let statusClass = 'status-developing';
+                    let statusText = 'Em desenvolvimento';
+                    
+                    if (theory.status === 'published') {
+                        statusClass = 'status-published';
+                        statusText = 'Publicada';
+                    }
+                    
+                    theoryCard.innerHTML = `
+                        <div class="theory-header">
+                            <div>
+                                <h4 class="theory-title">${theory.title}</h4>
+                                <div class="theory-author">Por ${theory.author}</div>
+                            </div>
+                            <span class="theory-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <p class="theory-description">${theory.description.substring(0, 100)}${theory.description.length > 100 ? '...' : ''}</p>
+                        <div class="theory-meta">
+                            <span><i class="fas fa-calendar"></i> ${formatDate(theory.date)}</span>
+                            <span><i class="fas fa-eye"></i> Ver detalhes</span>
+                        </div>
+                    `;
+                    
+                    theoryCard.addEventListener('click', () => openDiscussionModal(theory, 'theory'));
                     featuredTheories.appendChild(theoryCard);
                 });
             }
+            
+            updateNotificationBadge();
         }
 
         function renderForumTopics() {
             const forumTopicsContainer = document.getElementById('forum-topics');
             
-            if (forumTopicsContainer) {
-                forumTopicsContainer.innerHTML = '';
+            if (!forumTopicsContainer) return;
+            
+            forumTopicsContainer.innerHTML = '';
+            
+            if (forumTopics.length === 0) {
+                forumTopicsContainer.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhum tópico ainda</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px;">Inicie uma discussão sobre matemática avançada!</p>
+                        <button class="btn btn-primary" id="create-first-topic">Criar Primeiro Tópico</button>
+                    </div>
+                `;
                 
-                if (forumTopics.length === 0) {
-                    forumTopicsContainer.innerHTML = `
-                        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                            <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhum tópico ainda</h4>
-                            <p style="color: var(--text-secondary); margin-bottom: 20px;">Inicie uma discussão sobre matemática avançada!</p>
-                            <button class="btn btn-primary" id="create-first-topic">Criar Primeiro Tópico</button>
+                document.getElementById('create-first-topic')?.addEventListener('click', () => {
+                    openModal('modal-new-topic');
+                });
+            } else {
+                forumTopics.forEach(topic => {
+                    const topicCard = document.createElement('div');
+                    topicCard.className = 'topic-card';
+                    topicCard.dataset.id = topic.id;
+                    
+                    topicCard.innerHTML = `
+                        <div class="topic-header">
+                            <div>
+                                <h4 class="topic-title">${topic.title}</h4>
+                                <div class="topic-author">Por ${topic.author} • ${formatDate(topic.date)}</div>
+                            </div>
+                            <span class="topic-status status-developing">${topic.status === 'active' ? 'Ativo' : 'Fechado'}</span>
+                        </div>
+                        <p class="topic-description">${topic.description}</p>
+                        <div class="topic-meta">
+                            <span><i class="fas fa-comment"></i> ${topic.replies.length} resposta${topic.replies.length !== 1 ? 's' : ''}</span>
+                            <span><i class="fas fa-eye"></i> ${topic.views} visualizações</span>
                         </div>
                     `;
                     
-                    document.getElementById('create-first-topic')?.addEventListener('click', () => {
-                        document.getElementById('new-topic-btn').click();
-                    });
-                } else {
-                    forumTopics.forEach(topic => {
-                        const topicCard = document.createElement('div');
-                        topicCard.className = 'topic-card';
-                        
-                        topicCard.innerHTML = `
-                            <div class="topic-header">
-                                <div>
-                                    <h4 class="topic-title">${topic.title}</h4>
-                                    <div class="topic-author">Por ${topic.author} • ${topic.date}</div>
-                                </div>
-                                <span class="topic-status status-developing">${topic.status === 'active' ? 'Ativo' : 'Fechado'}</span>
-                            </div>
-                            <p class="topic-description">${topic.description}</p>
-                            <div class="topic-meta">
-                                <span><i class="fas fa-comment"></i> ${topic.replies} resposta${topic.replies !== 1 ? 's' : ''}</span>
-                                <span><i class="fas fa-tags"></i> ${topic.tags || 'Sem tags'}</span>
-                            </div>
-                        `;
-                        
-                        forumTopicsContainer.appendChild(topicCard);
-                    });
-                }
-                
-                // Atualizar badge de notificações
-                updateNotificationBadges();
+                    topicCard.addEventListener('click', () => openDiscussionModal(topic, 'forum'));
+                    forumTopicsContainer.appendChild(topicCard);
+                });
             }
+            
+            updateNotificationBadge();
         }
 
-        function renderChatMessages() {
+        function renderChatGroups() {
+            const chatSidebar = document.getElementById('chat-sidebar');
+            
+            if (!chatSidebar) return;
+            
+            chatSidebar.innerHTML = '';
+            
+            chatGroups.forEach(group => {
+                if (!hasAccessToGroup(group)) return;
+                
+                const groupElement = document.createElement('div');
+                groupElement.className = `chat-group ${currentChatGroup === group.id ? 'active' : ''}`;
+                groupElement.dataset.group = group.id;
+                
+                groupElement.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <div class="chat-group-icon">
+                            <i class="fas fa-${group.icon}"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">${group.name}</div>
+                            <small style="color: var(--text-secondary);">${group.description}</small>
+                        </div>
+                    </div>
+                `;
+                
+                groupElement.addEventListener('click', () => {
+                    currentChatGroup = group.id;
+                    document.getElementById('current-chat-title').textContent = group.name;
+                    renderChatGroups();
+                    renderChatMessages(group.id);
+                });
+                
+                chatSidebar.appendChild(groupElement);
+            });
+        }
+
+        function renderChatMessages(groupId = currentChatGroup) {
             const chatMessagesContainer = document.getElementById('chat-messages');
             
-            if (chatMessagesContainer) {
-                chatMessagesContainer.innerHTML = '';
-                
-                chatMessages.forEach(msg => {
+            if (!chatMessagesContainer) return;
+            
+            chatMessagesContainer.innerHTML = '';
+            
+            const messages = chatMessages[groupId] || [];
+            
+            if (messages.length === 0) {
+                chatMessagesContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                        <p>Nenhuma mensagem ainda. Seja o primeiro a enviar uma mensagem!</p>
+                    </div>
+                `;
+            } else {
+                messages.forEach(msg => {
                     const messageDiv = document.createElement('div');
                     messageDiv.className = `message message-${msg.type}`;
                     
+                    const levelClass = msg.senderLevel === "nucleo" ? "level-nucleo" : 
+                                      msg.senderLevel === "iniciado" ? "level-iniciado" : 
+                                      msg.senderLevel === "system" ? "level-observador" : "level-observador";
+                    
+                    const levelText = msg.senderLevel === "nucleo" ? "Núcleo" : 
+                                     msg.senderLevel === "iniciado" ? "Iniciado" : 
+                                     msg.senderLevel === "system" ? "Sistema" : "Observador";
+                    
                     messageDiv.innerHTML = `
-                        <div class="message-sender">${msg.sender}</div>
-                        <div>${msg.message}</div>
-                        <div class="message-time">${msg.time}</div>
+                        <div class="message-sender">
+                            ${msg.sender}
+                            ${msg.senderLevel !== "system" ? `<span class="message-sender-level ${levelClass}">${levelText}</span>` : ''}
+                        </div>
+                        <div class="message-content">${renderLatexInText(msg.message)}</div>
+                        <div class="message-time">${formatDate(msg.time)}</div>
                     `;
                     
                     chatMessagesContainer.appendChild(messageDiv);
                 });
-                
-                // Rolagem automática para a última mensagem
-                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             }
+            
+            // Scroll para o final
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            
+            // Renderizar MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([chatMessagesContainer]).catch(err => console.log(err));
+            }
+        }
+
+        function renderLatexInText(text) {
+            // Converte LaTeX inline ($...$) para MathJax
+            return text.replace(/\$(.*?)\$/g, '\\\\($1\\\\)')
+                      .replace(/\$\$(.*?)\$\$/g, '\\\\[$1\\\\]');
+        }
+
+        function renderNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            
+            if (!notificationsList) return;
+            
+            notificationsList.innerHTML = '';
+            
+            const userNotifications = notifications.filter(n => n.userId === currentUser.id);
+            unreadNotifications = userNotifications.filter(n => !n.read).length;
+            
+            if (userNotifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                        <p>Nenhuma notificação</p>
+                    </div>
+                `;
+            } else {
+                userNotifications.slice().reverse().forEach(notification => {
+                    const notificationElement = document.createElement('div');
+                    notificationElement.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                    notificationElement.dataset.id = notification.id;
+                    
+                    let icon = 'bell';
+                    if (notification.type === 'theory') icon = 'atom';
+                    if (notification.type === 'forum') icon = 'comment';
+                    if (notification.type === 'system') icon = 'info-circle';
+                    
+                    notificationElement.innerHTML = `
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--tertiary-dark); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-${icon}" style="color: var(--accent-teal);"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div class="notification-title">${notification.title}</div>
+                                <div style="color: var(--text-secondary); margin: 5px 0;">${notification.message}</div>
+                                <div class="notification-time">${formatDate(notification.date)}</div>
+                            </div>
+                            ${!notification.read ? '<div style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-red);"></div>' : ''}
+                        </div>
+                    `;
+                    
+                    notificationElement.addEventListener('click', () => {
+                        // Marcar como lida
+                        notification.read = true;
+                        saveNotifications();
+                        updateNotificationBadge();
+                        
+                        // Navegar para o conteúdo relacionado
+                        if (notification.type === 'theory') {
+                            const theory = theories.find(t => t.id === notification.referenceId);
+                            if (theory) {
+                                openDiscussionModal(theory, 'theory');
+                                closeModal('modal-notifications');
+                            }
+                        } else if (notification.type === 'forum') {
+                            const topic = forumTopics.find(t => t.id === notification.referenceId);
+                            if (topic) {
+                                openDiscussionModal(topic, 'forum');
+                                closeModal('modal-notifications');
+                            }
+                        }
+                    });
+                    
+                    notificationsList.appendChild(notificationElement);
+                });
+            }
+            
+            updateNotificationBadge();
         }
 
         function renderActivities() {
             const activitiesList = document.getElementById('recent-activities');
             
-            if (activitiesList) {
-                activitiesList.innerHTML = '';
-                
-                if (activities.length === 0) {
-                    activitiesList.innerHTML = `
-                        <li class="activity-item">
-                            <div class="activity-icon"><i class="fas fa-info-circle"></i></div>
-                            <div class="activity-content">
-                                <div class="activity-title">Nenhuma atividade recente</div>
-                                <div class="activity-time">Comece a explorar o site</div>
-                            </div>
-                        </li>
+            if (!activitiesList) return;
+            
+            activitiesList.innerHTML = '';
+            
+            const recentActivities = activities.slice(0, 5);
+            
+            if (recentActivities.length === 0) {
+                activitiesList.innerHTML = `
+                    <li class="activity-item">
+                        <div class="activity-icon"><i class="fas fa-info-circle"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">Nenhuma atividade recente</div>
+                            <div class="activity-time">Comece a explorar o site</div>
+                        </div>
+                    </li>
+                `;
+            } else {
+                recentActivities.forEach(activity => {
+                    const activityItem = document.createElement('li');
+                    activityItem.className = 'activity-item';
+                    
+                    activityItem.innerHTML = `
+                        <div class="activity-icon"><i class="fas fa-${activity.icon}"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-time">${formatDate(activity.time)}</div>
+                        </div>
                     `;
+                    
+                    activitiesList.appendChild(activityItem);
+                });
+            }
+        }
+
+        function renderFiles() {
+            const filesTable = document.getElementById('files-table');
+            
+            if (!filesTable) return;
+            
+            filesTable.innerHTML = '';
+            
+            const userFiles = files.filter(file => 
+                file.visibility === "public" || 
+                (file.visibility === "private" && file.uploadedBy === currentUser.name) ||
+                (file.visibility === "restricted" && currentUser.level === "nucleo")
+            );
+            
+            if (userFiles.length === 0) {
+                filesTable.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                            Nenhum arquivo disponível
+                        </td>
+                    </tr>
+                `;
+            } else {
+                userFiles.forEach(file => {
+                    let icon = 'file';
+                    let iconColor = '#6c757d';
+                    
+                    if (file.type === 'pdf') {
+                        icon = 'file-pdf';
+                        iconColor = '#e74c3c';
+                    } else if (file.type === 'tex') {
+                        icon = 'code';
+                        iconColor = '#3498db';
+                    } else if (file.type === 'image') {
+                        icon = 'file-image';
+                        iconColor = '#2ecc71';
+                    }
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><i class="fas fa-${icon}" style="color: ${iconColor}; margin-right: 8px;"></i> ${file.name}</td>
+                        <td>${file.type.toUpperCase()}</td>
+                        <td>${file.size}</td>
+                        <td>${file.uploadedBy}</td>
+                        <td>${formatDate(file.date)}</td>
+                        <td>
+                            <button class="btn btn-secondary btn-small" data-file-id="${file.id}">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            ${file.description ? `<button class="btn btn-secondary btn-small" title="${file.description}">
+                                <i class="fas fa-eye"></i>
+                            </button>` : ''}
+                        </td>
+                    `;
+                    
+                    filesTable.appendChild(row);
+                });
+            }
+        }
+
+        function renderMembers() {
+            const nucleoList = document.getElementById('nucleo-list');
+            const iniciadosList = document.getElementById('iniciados-list');
+            const observadoresList = document.getElementById('observadores-list');
+            
+            if (nucleoList) {
+                nucleoList.innerHTML = '';
+                members.filter(m => m.level === "nucleo").forEach(member => {
+                    const li = document.createElement('li');
+                    li.style.padding = '5px 0';
+                    li.innerHTML = `<i class="fas fa-crown" style="margin-right: 8px; color: var(--accent-gold);"></i>${member.name}${member.name === "Lohan Cunha" ? " (Fundador)" : ""}`;
+                    nucleoList.appendChild(li);
+                });
+            }
+            
+            if (iniciadosList) {
+                iniciadosList.innerHTML = '';
+                const iniciados = members.filter(m => m.level === "iniciado");
+                if (iniciados.length === 0) {
+                    iniciadosList.innerHTML = '<li style="padding: 5px 0;"><i class="fas fa-user-check" style="margin-right: 8px; color: var(--accent-teal);"></i>[Aguardando membros]</li>';
                 } else {
-                    activities.forEach(activity => {
-                        const activityItem = document.createElement('li');
-                        activityItem.className = 'activity-item';
-                        
-                        activityItem.innerHTML = `
-                            <div class="activity-icon"><i class="fas fa-${activity.icon || 'history'}"></i></div>
-                            <div class="activity-content">
-                                <div class="activity-title">${activity.title}</div>
-                                <div class="activity-time">${activity.time}</div>
-                            </div>
-                        `;
-                        
-                        activitiesList.appendChild(activityItem);
+                    iniciados.forEach(member => {
+                        const li = document.createElement('li');
+                        li.style.padding = '5px 0';
+                        li.innerHTML = `<i class="fas fa-user-check" style="margin-right: 8px; color: var(--accent-teal);"></i>${member.name}`;
+                        iniciadosList.appendChild(li);
                     });
                 }
+            }
+            
+            if (observadoresList) {
+                observadoresList.innerHTML = '';
+                const observadores = members.filter(m => m.level === "observador" && m.id !== currentUser?.id);
+                if (observadores.length === 0) {
+                    observadoresList.innerHTML = `<li style="padding: 5px 0;"><i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${currentUser ? currentUser.name : "Você"}</li>`;
+                } else {
+                    observadores.forEach(member => {
+                        const li = document.createElement('li');
+                        li.style.padding = '5px 0';
+                        li.innerHTML = `<i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${member.name}`;
+                        observadoresList.appendChild(li);
+                    });
+                    // Adicionar o usuário atual
+                    if (currentUser && currentUser.level === "observador") {
+                        const li = document.createElement('li');
+                        li.style.padding = '5px 0';
+                        li.innerHTML = `<i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${currentUser.name} (Você)`;
+                        observadoresList.appendChild(li);
+                    }
+                }
+            }
+        }
+
+        function renderGroups() {
+            const groupsList = document.getElementById('groups-list');
+            
+            if (!groupsList) return;
+            
+            groupsList.innerHTML = '';
+            
+            const groupsData = [
+                {
+                    id: 'transfunctoracao',
+                    title: 'Transfunctoração',
+                    members: members.filter(m => m.level === "nucleo").length,
+                    description: 'Estuda a transferência de estruturas entre diferentes domínios matemáticos',
+                    type: 'private',
+                    icon: 'butterfly'
+                },
+                {
+                    id: 'transformacoes',
+                    title: 'Transformações Radicais',
+                    members: members.filter(m => m.level !== "observador").length,
+                    description: 'Explora transformações que não preservam estruturas tradicionais',
+                    type: 'public',
+                    icon: 'exchange-alt'
+                },
+                {
+                    id: 'estruturas',
+                    title: 'Estruturas Não-Convencionais',
+                    members: members.filter(m => m.level === "nucleo" || m.level === "iniciado").length,
+                    description: 'Desenvolve estruturas que violam axiomas fundamentais',
+                    type: 'private',
+                    icon: 'cubes'
+                },
+                {
+                    id: 'algebra_superior',
+                    title: 'Álgebra Superior',
+                    members: members.length,
+                    description: 'Expande os limites da álgebra tradicional',
+                    type: 'public',
+                    icon: 'infinity'
+                },
+                {
+                    id: 'conjecturas',
+                    title: 'Conjecturas e "Caças"',
+                    members: members.filter(m => m.level === "nucleo").length,
+                    description: 'Foca na formulação e resolução de conjecturas complexas',
+                    type: 'restricted',
+                    icon: 'search'
+                },
+                {
+                    id: 'analise',
+                    title: 'Análise Não-Padrão',
+                    members: members.length,
+                    description: 'Desenvolve frameworks analíticos transcendentais',
+                    type: 'public',
+                    icon: 'chart-line'
+                }
+            ];
+            
+            groupsData.forEach(group => {
+                const hasAccess = group.type === "public" || 
+                                 (group.type === "private" && currentUser.level !== "observador") ||
+                                 (group.type === "restricted" && currentUser.level === "nucleo");
+                
+                if (!hasAccess) return;
+                
+                const groupCard = document.createElement('div');
+                groupCard.className = 'group-card';
+                
+                let typeClass = 'type-public';
+                let typeText = 'Público';
+                
+                if (group.type === 'private') {
+                    typeClass = 'type-private';
+                    typeText = 'Privado';
+                } else if (group.type === 'restricted') {
+                    typeClass = 'type-restricted';
+                    typeText = 'Restrito';
+                }
+                
+                groupCard.innerHTML = `
+                    <div class="group-header">
+                        <div>
+                            <h4 class="group-title">${group.title}</h4>
+                            <div class="group-members">${group.members} membro${group.members !== 1 ? 's' : ''}</div>
+                        </div>
+                        <span class="group-type ${typeClass}">${typeText}</span>
+                    </div>
+                    <p class="group-description">${group.description}</p>
+                    <div class="group-meta">
+                        <span><i class="fas fa-${group.icon}"></i> ${group.title}</span>
+                        <span><i class="fas fa-comments"></i> Acessar chat</span>
+                    </div>
+                `;
+                
+                groupCard.addEventListener('click', () => {
+                    // Navegar para o chat do grupo
+                    document.querySelector(`.nav-link[data-section="chat"]`).click();
+                    currentChatGroup = group.id;
+                    document.getElementById('current-chat-title').textContent = group.title;
+                    renderChatGroups();
+                    renderChatMessages(group.id);
+                });
+                
+                groupsList.appendChild(groupCard);
+            });
+        }
+
+        // =============================================
+        // FUNÇÕES DE MODAIS
+        // =============================================
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function openDiscussionModal(item, type) {
+            const modal = document.getElementById('modal-discussion');
+            const title = document.getElementById('discussion-modal-title');
+            const container = document.getElementById('discussion-container');
+            
+            if (!modal || !title || !container) return;
+            
+            // Incrementar views se for tópico
+            if (type === 'forum') {
+                item.views++;
+                saveForumTopics();
+            }
+            
+            title.textContent = item.title;
+            
+            let content = '';
+            
+            if (type === 'theory') {
+                content = `
+                    <div class="discussion-header">
+                        <h1 class="discussion-title">${item.title}</h1>
+                        <div style="color: var(--text-secondary); margin-bottom: 15px;">
+                            <i class="fas fa-user"></i> ${item.author} • 
+                            <i class="fas fa-users"></i> ${item.group} • 
+                            <i class="fas fa-calendar"></i> ${formatDate(item.date)}
+                        </div>
+                        <p style="color: var(--text-primary); margin-bottom: 20px;">${item.description}</p>
+                        <div class="discussion-meta">
+                            <span><i class="fas fa-tags"></i> ${item.tags || 'Sem tags'}</span>
+                            <span><i class="fas fa-code-branch"></i> ${item.version}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="discussion-content">
+                        ${renderLatexInText(item.content || item.description)}
+                    </div>
+                `;
+            } else if (type === 'forum') {
+                content = `
+                    <div class="discussion-header">
+                        <h1 class="discussion-title">${item.title}</h1>
+                        <div style="color: var(--text-secondary); margin-bottom: 15px;">
+                            <i class="fas fa-user"></i> ${item.author} • 
+                            <i class="fas fa-comments"></i> ${item.replies.length} respostas • 
+                            <i class="fas fa-eye"></i> ${item.views} visualizações
+                        </div>
+                        <div class="discussion-meta">
+                            <span><i class="fas fa-tags"></i> ${item.tags || 'Sem tags'}</span>
+                            <span><i class="fas fa-calendar"></i> ${formatDate(item.date)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="discussion-content">
+                        ${renderLatexInText(item.content || item.description)}
+                    </div>
+                `;
+            }
+            
+            // Adicionar seção de respostas
+            content += `
+                <div class="discussion-replies">
+                    <h3 style="color: var(--accent-teal); margin-bottom: 20px;">
+                        ${item.replies.length} Resposta${item.replies.length !== 1 ? 's' : ''}
+                    </h3>
+                    
+                    <div id="replies-list">
+                        ${item.replies.map(reply => `
+                            <div class="reply">
+                                <div class="reply-header">
+                                    <div class="reply-author">${reply.author}</div>
+                                    <div class="reply-time">${formatDate(reply.date)}</div>
+                                </div>
+                                <div class="reply-content">${renderLatexInText(reply.content)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    ${currentUser ? `
+                        <div class="reply-form">
+                            <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Adicionar Resposta</h4>
+                            <textarea id="reply-content" class="form-control" rows="4" placeholder="Escreva sua resposta... Use $ para fórmulas LaTeX"></textarea>
+                            <button id="submit-reply" class="btn btn-primary" style="margin-top: 15px;" data-id="${item.id}" data-type="${type}">
+                                <i class="fas fa-paper-plane"></i> Enviar Resposta
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            container.innerHTML = content;
+            
+            // Adicionar evento ao botão de resposta
+            const submitBtn = document.getElementById('submit-reply');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    const replyContent = document.getElementById('reply-content').value;
+                    if (!replyContent.trim()) {
+                        showToast("Digite uma resposta", "warning");
+                        return;
+                    }
+                    
+                    const reply = {
+                        id: generateId(),
+                        author: currentUser.name,
+                        authorLevel: currentUser.level,
+                        content: replyContent,
+                        date: new Date().toISOString()
+                    };
+                    
+                    item.replies.push(reply);
+                    
+                    if (type === 'theory') {
+                        saveTheories();
+                    } else if (type === 'forum') {
+                        saveForumTopics();
+                    }
+                    
+                    // Adicionar notificação ao autor original
+                    if (item.author !== currentUser.name) {
+                        const authorMember = members.find(m => m.name === item.author);
+                        if (authorMember) {
+                            addNotification(
+                                authorMember.id,
+                                "Nova resposta",
+                                `${currentUser.name} respondeu ao seu ${type === 'theory' ? 'teoria' : 'tópico'}: "${item.title}"`,
+                                type,
+                                item.id
+                            );
+                        }
+                    }
+                    
+                    showToast("Resposta enviada com sucesso!", "success");
+                    
+                    // Fechar e reabrir modal para atualizar
+                    closeModal('modal-discussion');
+                    setTimeout(() => openDiscussionModal(item, type), 100);
+                });
+            }
+            
+            openModal('modal-discussion');
+            
+            // Renderizar MathJax
+            if (window.MathJax) {
+                setTimeout(() => MathJax.typesetPromise([container]).catch(err => console.log(err)), 100);
             }
         }
 
@@ -2147,14 +3314,44 @@
         // FUNÇÕES DE ATUALIZAÇÃO DE UI
         // =============================================
 
+        function updateNotificationBadge() {
+            const notificationCount = document.getElementById('notification-count');
+            const theoryNotif = document.getElementById('theory-notif');
+            const forumNotif = document.getElementById('forum-notif');
+            
+            if (notificationCount) {
+                notificationCount.textContent = unreadNotifications;
+                notificationCount.style.display = unreadNotifications > 0 ? 'flex' : 'none';
+            }
+            
+            // Atualizar badges específicos
+            if (theoryNotif) {
+                const newTheories = theories.filter(t => 
+                    t.date > currentUser?.lastActivity && 
+                    t.author !== currentUser?.name
+                ).length;
+                theoryNotif.textContent = newTheories;
+                theoryNotif.style.display = newTheories > 0 ? 'flex' : 'none';
+            }
+            
+            if (forumNotif) {
+                const newTopics = forumTopics.filter(t => 
+                    t.date > currentUser?.lastActivity && 
+                    t.author !== currentUser?.name
+                ).length;
+                forumNotif.textContent = newTopics;
+                forumNotif.style.display = newTopics > 0 ? 'flex' : 'none';
+            }
+        }
+
         function updateStatistics() {
             if (!currentUser) return;
             
             // Atualizar estatísticas gerais
-            document.getElementById('stat-members').textContent = 1; // Apenas você por enquanto
+            document.getElementById('stat-members').textContent = members.length;
             document.getElementById('stat-theories').textContent = theories.length;
-            document.getElementById('stat-groups').textContent = 6; // Grupos fixos
-            document.getElementById('stat-documents').textContent = 1; // Manifesto apenas
+            document.getElementById('stat-groups').textContent = chatGroups.filter(g => hasAccessToGroup(g)).length;
+            document.getElementById('stat-documents').textContent = files.length;
             document.getElementById('stat-conjectures').textContent = theories.filter(t => 
                 t.title.toLowerCase().includes('conjectura') || 
                 t.description.toLowerCase().includes('conjectura')
@@ -2162,57 +3359,24 @@
             
             // Atualizar estatísticas do perfil
             const userTheories = theories.filter(t => t.author === currentUser.name).length;
-            const userPosts = forumTopics.filter(t => t.author === currentUser.name).length;
+            const userPosts = forumTopics.filter(t => t.author === currentUser.name).length + 
+                            theories.reduce((sum, t) => sum + t.replies.filter(r => r.author === currentUser.name).length, 0) +
+                            forumTopics.reduce((sum, t) => sum + t.replies.filter(r => r.author === currentUser.name).length, 0);
             
             document.getElementById('profile-theories').textContent = userTheories;
             document.getElementById('profile-posts').textContent = userPosts;
-            document.getElementById('profile-groups').textContent = currentUser.level === 'observador' ? 0 : 2;
-            document.getElementById('profile-documents').textContent = 0;
-            
-            // Atualizar contagem de notificações
-            updateNotificationBadges();
-        }
-
-        function updateNotificationBadges() {
-            // Contar teorias novas (criadas hoje)
-            const today = new Date().toLocaleDateString('pt-BR');
-            const newTheories = theories.filter(t => t.date === today).length;
-            
-            // Contar tópicos novos
-            const newTopics = forumTopics.filter(t => t.date === today).length;
-            
-            // Total de notificações
-            const totalNotifications = newTheories + newTopics;
-            
-            // Atualizar badges
-            const theoryNotif = document.getElementById('theory-notif');
-            const forumNotif = document.getElementById('forum-notif');
-            const notificationCount = document.getElementById('notification-count');
-            
-            if (theoryNotif) {
-                theoryNotif.textContent = newTheories;
-                theoryNotif.style.display = newTheories > 0 ? 'flex' : 'none';
-            }
-            
-            if (forumNotif) {
-                forumNotif.textContent = newTopics;
-                forumNotif.style.display = newTopics > 0 ? 'flex' : 'none';
-            }
-            
-            if (notificationCount) {
-                notificationCount.textContent = totalNotifications;
-                notificationCount.style.display = totalNotifications > 0 ? 'flex' : 'none';
-            }
+            document.getElementById('profile-groups').textContent = chatGroups.filter(g => hasAccessToGroup(g)).length;
+            document.getElementById('profile-documents').textContent = files.filter(f => f.uploadedBy === currentUser.name).length;
         }
 
         function updateUserInterface() {
             if (!currentUser) return;
             
-            // Atualizar informações do usuário na sidebar
+            // Atualizar informações do usuário
             document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-avatar').textContent = currentUser.avatar;
+            document.getElementById('user-avatar').textContent = currentUser.avatar || currentUser.name.substring(0, 2).toUpperCase();
             
-            // Atualizar nível com classe correta
+            // Atualizar nível
             const userLevelEl = document.getElementById('user-level');
             userLevelEl.textContent = 
                 currentUser.level === 'observador' ? 'Observador' : 
@@ -2226,32 +3390,128 @@
             // Atualizar nome no chat
             document.getElementById('current-user-chat').textContent = currentUser.name;
             
-            // Atualizar nome no perfil
+            // Atualizar perfil
             document.getElementById('profile-name').value = currentUser.name;
             document.getElementById('profile-level').value = 
                 currentUser.level === 'observador' ? 'Observador' : 
                 currentUser.level === 'iniciado' ? 'Iniciado' : 'Núcleo';
             
+            // Esconder/mostrar botões baseado no nível
+            const newTheoryBtn = document.getElementById('new-theory-btn');
+            if (newTheoryBtn) {
+                newTheoryBtn.style.display = currentUser.level === 'observador' ? 'none' : 'block';
+            }
+            
             // Atualizar lista de membros
-            updateMembersList();
+            renderMembers();
         }
 
-        function updateMembersList() {
-            if (!currentUser) return;
+        // =============================================
+        // FUNÇÕES DE EVENTOS E HANDLERS
+        // =============================================
+
+        function setupLogin() {
+            const loginForm = document.getElementById('login-form');
+            const loginLevel = document.getElementById('login-level');
+            const masterKeyGroup = document.getElementById('master-key-group');
             
-            const observadoresList = document.getElementById('observadores-list');
-            if (observadoresList) {
-                observadoresList.innerHTML = `
-                    <li style="padding: 5px 0;">
-                        <i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${currentUser.name}
-                    </li>
-                `;
+            // Mostrar/ocultar campo da chave mestra
+            loginLevel.addEventListener('change', function() {
+                masterKeyGroup.style.display = this.value === 'nucleo' ? 'block' : 'none';
+            });
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+                const level = document.getElementById('login-level').value;
+                
+                if (!username || !password || !level) {
+                    showToast("Preencha todos os campos", "error");
+                    return;
+                }
+                
+                // Verificação especial para Núcleo
+                if (level === 'nucleo') {
+                    const masterKey = document.getElementById('master-key').value;
+                    if (masterKey !== MASTER_KEY) {
+                        showToast("Chave de acesso do Núcleo incorreta", "error");
+                        return;
+                    }
+                }
+                
+                // Verificar se usuário já existe
+                let user = members.find(m => m.name === username);
+                
+                if (!user) {
+                    // Criar novo usuário
+                    user = {
+                        id: generateId(),
+                        name: username,
+                        level: level,
+                        avatar: username.substring(0, 2).toUpperCase(),
+                        joinDate: new Date().toISOString(),
+                        lastActivity: new Date().toISOString(),
+                        description: "",
+                        expertise: "",
+                        status: "active",
+                        theoriesCount: 0,
+                        postsCount: 0
+                    };
+                    
+                    members.push(user);
+                    saveToStorage(STORAGE_KEYS.MEMBERS, members);
+                    
+                    // Adicionar notificação de boas-vindas
+                    addNotification(user.id, "Bem-vindo ao Algebra Renova!", "Sua jornada matemática começa agora. Explore as teorias e participe das discussões.", "system");
+                }
+                
+                // Atualizar usuário atual
+                currentUser = user;
+                saveUser();
+                
+                // Mostrar toast de boas-vindas
+                showToast(`Bem-vindo, ${username}!`, "success");
+                
+                // Adicionar atividade
+                addActivity(`Login realizado: ${username}`, "sign-in-alt");
+                
+                // Fazer login automático
+                autoLogin();
+            });
+        }
+
+        function autoLogin() {
+            const loginPage = document.getElementById('login-page');
+            const mainSite = document.getElementById('main-site');
+            
+            if (currentUser) {
+                loginPage.style.display = 'none';
+                mainSite.style.display = 'flex';
+                
+                updateUserInterface();
+                renderAllContent();
+                updateStatistics();
+                
+                // Adicionar atividade
+                addActivity(`Sessão restaurada: ${currentUser.name}`, "history");
             }
         }
 
-        // =============================================
-        // FUNÇÕES DE NAVEGAÇÃO E CONTROLE
-        // =============================================
+        function setupLogout() {
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Tem certeza que deseja sair?')) {
+                    // Limpar usuário do localStorage
+                    localStorage.removeItem(STORAGE_KEYS.USER);
+                    
+                    // Recarregar página
+                    location.reload();
+                }
+            });
+        }
 
         function setupNavigation() {
             const navLinks = document.querySelectorAll('.nav-link');
@@ -2262,492 +3522,474 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // Remover classe active de todos os links
-                    navLinks.forEach(l => l.classList.remove('active'));
+                    const sectionId = this.dataset.section;
                     
-                    // Adicionar classe active ao link clicado
+                    // Atualizar navegação ativa
+                    navLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Esconder todas as seções
+                    // Mostrar seção correspondente
                     contentSections.forEach(section => {
                         section.classList.remove('active');
-                    });
-                    
-                    // Mostrar a seção correspondente
-                    const sectionId = this.getAttribute('data-section');
-                    const targetSection = document.getElementById(sectionId);
-                    
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                        
-                        // Atualizar título da página
-                        let titleText = '';
-                        switch(sectionId) {
-                            case 'dashboard': titleText = 'Dashboard'; break;
-                            case 'manifesto': titleText = 'Manifesto'; break;
-                            case 'theories': titleText = 'Teorias'; break;
-                            case 'research-groups': titleText = 'Grupos de Pesquisa'; break;
-                            case 'forum': titleText = 'Fórum de Dúvidas'; break;
-                            case 'chat': titleText = 'Chat Geral'; break;
-                            case 'files': titleText = 'Arquivos'; break;
-                            case 'initiation': titleText = 'Rito de Iniciação'; break;
-                            case 'profile': titleText = 'Perfil'; break;
-                            case 'members': titleText = 'Membros'; break;
-                            default: titleText = 'Dashboard';
+                        if (section.id === sectionId) {
+                            section.classList.add('active');
+                            
+                            // Atualizar título da página
+                            let titleText = '';
+                            switch(sectionId) {
+                                case 'dashboard': titleText = 'Dashboard'; break;
+                                case 'manifesto': titleText = 'Manifesto'; break;
+                                case 'theories': titleText = 'Teorias'; break;
+                                case 'research-groups': titleText = 'Grupos de Pesquisa'; break;
+                                case 'forum': titleText = 'Fórum de Dúvidas'; break;
+                                case 'chat': titleText = 'Chat Geral'; break;
+                                case 'files': titleText = 'Arquivos'; break;
+                                case 'initiation': titleText = 'Rito de Iniciação'; break;
+                                case 'profile': titleText = 'Perfil'; break;
+                                case 'members': titleText = 'Membros'; break;
+                                default: titleText = 'Dashboard';
+                            }
+                            pageTitle.textContent = titleText;
+                            
+                            // Renderizar conteúdo específico se necessário
+                            if (sectionId === 'chat') {
+                                renderChatGroups();
+                                renderChatMessages();
+                            }
                         }
-                        pageTitle.textContent = titleText;
-                    }
+                    });
                 });
             });
             
             // Botões que navegam para seções
             document.querySelectorAll('button[data-section]').forEach(button => {
                 button.addEventListener('click', function() {
-                    const sectionId = this.getAttribute('data-section');
+                    const sectionId = this.dataset.section;
                     const targetLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
                     if (targetLink) targetLink.click();
                 });
             });
         }
 
-        function setupLogin() {
-            const loginForm = document.getElementById('login-form');
-            const loginPage = document.getElementById('login-page');
-            const mainSite = document.getElementById('main-site');
+        function setupModals() {
+            // Fechar modais com botão X
+            document.querySelectorAll('.modal-close').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = this.dataset.modal;
+                    closeModal(modalId);
+                });
+            });
             
-            loginForm.addEventListener('submit', function(e) {
+            // Fechar modais clicando fora
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(this.id);
+                    }
+                });
+            });
+            
+            // Botão Nova Teoria
+            document.getElementById('new-theory-btn')?.addEventListener('click', () => {
+                if (!currentUser) return;
+                if (currentUser.level === 'observador') {
+                    showToast("Apenas membros Iniciados e Núcleo podem criar teorias", "warning");
+                    return;
+                }
+                openModal('modal-new-theory');
+            });
+            
+            // Botão Novo Tópico
+            document.getElementById('new-topic-btn')?.addEventListener('click', () => {
+                openModal('modal-new-topic');
+            });
+            
+            // Botão Notificações
+            document.getElementById('notification-btn')?.addEventListener('click', () => {
+                renderNotifications();
+                openModal('modal-notifications');
+            });
+            
+            // Botão Upload
+            document.getElementById('upload-file-btn')?.addEventListener('click', () => {
+                openModal('modal-upload');
+            });
+            
+            // Botão Info Chat
+            document.getElementById('chat-info-btn')?.addEventListener('click', () => {
+                const group = chatGroups.find(g => g.id === currentChatGroup);
+                if (group) {
+                    const content = document.getElementById('chat-info-content');
+                    content.innerHTML = `
+                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">${group.name}</h4>
+                        <p style="margin-bottom: 15px;">${group.description}</p>
+                        <div style="color: var(--text-secondary);">
+                            <p><i class="fas fa-users"></i> Tipo: ${group.type === 'public' ? 'Público' : group.type === 'private' ? 'Privado' : 'Restrito'}</p>
+                            <p><i class="fas fa-user-shield"></i> Acesso: ${group.members.join(', ')}</p>
+                            <p><i class="fas fa-comments"></i> ${(chatMessages[currentChatGroup] || []).length} mensagens</p>
+                        </div>
+                    `;
+                    openModal('modal-chat-info');
+                }
+            });
+            
+            // Botão Alterar Senha
+            document.getElementById('change-password-btn')?.addEventListener('click', () => {
+                openModal('modal-change-password');
+            });
+            
+            // Botão Solicitar Ingresso em Grupo
+            document.getElementById('join-group-btn')?.addEventListener('click', () => {
+                if (currentUser.level === 'observador') {
+                    showToast("Observadores podem apenas visualizar grupos públicos. Solicite o nível de Iniciado.", "info");
+                } else {
+                    showToast("Solicitação enviada aos administradores do grupo.", "success");
+                    addActivity("Solicitação de ingresso em grupo enviada", "user-plus");
+                }
+            });
+            
+            // Botão Solicitar Iniciação
+            document.getElementById('request-initiation')?.addEventListener('click', () => {
+                if (currentUser.level === 'observador') {
+                    const hasContributions = theories.filter(t => t.author === currentUser.name).length > 0 || 
+                                           forumTopics.filter(t => t.author === currentUser.name).length > 0;
+                    
+                    if (hasContributions) {
+                        showToast("Solicitação enviada ao Núcleo para avaliação.", "success");
+                        
+                        // Notificar membros do Núcleo
+                        members.filter(m => m.level === "nucleo").forEach(member => {
+                            addNotification(
+                                member.id,
+                                "Solicitação de promoção",
+                                `${currentUser.name} solicitou promoção para Iniciado`,
+                                "system"
+                            );
+                        });
+                        
+                        addActivity("Solicitação para Iniciado enviada", "user-check");
+                    } else {
+                        showToast("Contribua com teorias ou discussões antes de solicitar promoção.", "warning");
+                    }
+                } else {
+                    showToast(`Você já é ${currentUser.level === 'iniciado' ? 'Iniciado' : 'membro do Núcleo'}.`, "info");
+                }
+            });
+        }
+
+        function setupForms() {
+            // Formulário de Nova Teoria
+            document.getElementById('theory-form')?.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const username = document.getElementById('login-username').value;
-                const password = document.getElementById('login-password').value;
-                const level = document.getElementById('login-level').value;
+                const theoryData = {
+                    title: document.getElementById('theory-name').value,
+                    group: document.getElementById('theory-group').options[document.getElementById('theory-group').selectedIndex].text,
+                    description: document.getElementById('theory-description').value,
+                    content: document.getElementById('theory-content').value,
+                    visibility: document.getElementById('theory-visibility').value,
+                    status: document.getElementById('theory-status').value,
+                    tags: document.getElementById('theory-tags').value
+                };
                 
-                if (username && password && level) {
-                    // Criar objeto do usuário
-                    currentUser = {
-                        name: username,
-                        level: level,
-                        avatar: username.substring(0, 2).toUpperCase(),
-                        joined: new Date().toISOString()
-                    };
-                    
-                    // Salvar usuário no localStorage
-                    saveUser();
-                    
-                    // Atualizar interface
-                    updateUserInterface();
-                    
-                    // Mostrar site principal
-                    loginPage.style.display = 'none';
-                    mainSite.style.display = 'flex';
-                    
-                    // Adicionar atividade
-                    addActivity(`Login realizado: ${username}`, 'Agora');
-                    
-                    // Renderizar conteúdo
-                    renderAllContent();
-                    
-                    // Atualizar estatísticas
-                    updateStatistics();
-                }
+                createNewTheory(theoryData);
+                closeModal('modal-new-theory');
+                this.reset();
+                
+                // Atualizar exibição
+                renderTheories();
+                updateStatistics();
             });
-        }
-
-        function setupLogout() {
-            const logoutBtn = document.getElementById('logout-btn');
             
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Tem certeza que deseja sair?')) {
-                    // Limpar localStorage
-                    localStorage.removeItem(STORAGE_KEYS.USER);
-                    
-                    // Recarregar a página para voltar ao login
-                    window.location.reload();
-                }
+            // Formulário de Novo Tópico
+            document.getElementById('topic-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const topicData = {
+                    title: document.getElementById('topic-title').value,
+                    description: document.getElementById('topic-description').value,
+                    content: document.getElementById('topic-content').value,
+                    category: document.getElementById('topic-category').value,
+                    tags: document.getElementById('topic-tags').value
+                };
+                
+                createNewTopic(topicData);
+                closeModal('modal-new-topic');
+                this.reset();
+                
+                // Atualizar exibição
+                renderForumTopics();
+                updateStatistics();
             });
-        }
-
-        function setupTheoryForm() {
-            const newTheoryBtn = document.getElementById('new-theory-btn');
-            const newTheoryForm = document.getElementById('new-theory-form');
-            const cancelTheoryBtn = document.getElementById('cancel-theory-btn');
-            const theoryForm = document.getElementById('theory-form');
             
-            if (newTheoryBtn) {
-                newTheoryBtn.addEventListener('click', function() {
-                    if (!currentUser) return;
-                    
-                    if (currentUser.level === 'observador') {
-                        alert('Apenas membros Iniciados ou do Núcleo podem propor novas teorias.');
-                        return;
-                    }
-                    
-                    newTheoryForm.style.display = 'block';
-                    newTheoryForm.scrollIntoView({ behavior: 'smooth' });
-                });
-            }
+            // Formulário de Upload
+            document.getElementById('upload-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const fileData = {
+                    name: document.getElementById('file-name').value,
+                    type: document.getElementById('file-type').value,
+                    size: "1.2 MB", // Simulado
+                    description: document.getElementById('file-description').value,
+                    visibility: document.getElementById('file-visibility').value,
+                    url: "#" // Simulado
+                };
+                
+                addFile(fileData);
+                closeModal('modal-upload');
+                this.reset();
+                
+                // Atualizar exibição
+                renderFiles();
+                updateStatistics();
+            });
             
-            if (cancelTheoryBtn) {
-                cancelTheoryBtn.addEventListener('click', function() {
-                    newTheoryForm.style.display = 'none';
-                    theoryForm.reset();
-                });
-            }
+            // Formulário de Perfil
+            document.getElementById('profile-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!currentUser) return;
+                
+                currentUser.name = document.getElementById('profile-name').value;
+                currentUser.avatar = currentUser.name.substring(0, 2).toUpperCase();
+                currentUser.description = document.getElementById('profile-description').value;
+                currentUser.expertise = document.getElementById('profile-expertise').value;
+                currentUser.status = document.getElementById('profile-status').value;
+                
+                saveUser();
+                updateUserInterface();
+                
+                showToast("Perfil atualizado com sucesso!", "success");
+                addActivity("Perfil atualizado", "user-edit");
+            });
             
-            if (theoryForm) {
-                theoryForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    if (!currentUser) return;
-                    
-                    const theoryName = document.getElementById('theory-name').value;
-                    const theoryGroup = document.getElementById('theory-group').value;
-                    const theoryDescription = document.getElementById('theory-description').value;
-                    const theoryStatus = document.getElementById('theory-status').value;
-                    const theoryVisibility = document.getElementById('theory-visibility').value;
-                    const theoryTags = document.getElementById('theory-tags').value;
-                    
-                    // Criar nova teoria
-                    const newTheory = {
-                        title: theoryName,
-                        author: currentUser.name,
-                        group: document.getElementById('theory-group').options[document.getElementById('theory-group').selectedIndex].text,
-                        description: theoryDescription,
-                        status: theoryStatus,
-                        visibility: theoryVisibility,
-                        tags: theoryTags,
-                        version: 'v0.1.0'
-                    };
-                    
-                    addTheory(newTheory);
-                    
-                    // Resetar formulário
-                    theoryForm.reset();
-                    newTheoryForm.style.display = 'none';
-                    
-                    // Renderizar teorias atualizadas
-                    renderTheories();
-                    
-                    // Atualizar estatísticas
-                    updateStatistics();
-                    
-                    alert('Teoria submetida com sucesso! Será revisada pelos membros do Núcleo.');
-                });
-            }
-        }
-
-        function setupTopicForm() {
-            const newTopicBtn = document.getElementById('new-topic-btn');
-            const newTopicForm = document.getElementById('new-topic-form');
-            const cancelTopicBtn = document.getElementById('cancel-topic-btn');
-            const topicForm = document.getElementById('topic-form');
-            
-            if (newTopicBtn) {
-                newTopicBtn.addEventListener('click', function() {
-                    if (!currentUser) return;
-                    
-                    newTopicForm.style.display = 'block';
-                    newTopicForm.scrollIntoView({ behavior: 'smooth' });
-                });
-            }
-            
-            if (cancelTopicBtn) {
-                cancelTopicBtn.addEventListener('click', function() {
-                    newTopicForm.style.display = 'none';
-                    topicForm.reset();
-                });
-            }
-            
-            if (topicForm) {
-                topicForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    if (!currentUser) return;
-                    
-                    const topicTitle = document.getElementById('topic-title').value;
-                    const topicDescription = document.getElementById('topic-description').value;
-                    const topicCategory = document.getElementById('topic-category').value;
-                    const topicTags = document.getElementById('topic-tags').value;
-                    
-                    // Criar novo tópico
-                    const newTopic = {
-                        title: topicTitle,
-                        author: currentUser.name,
-                        description: topicDescription,
-                        category: topicCategory,
-                        tags: topicTags
-                    };
-                    
-                    addForumTopic(newTopic);
-                    
-                    // Resetar formulário
-                    topicForm.reset();
-                    newTopicForm.style.display = 'none';
-                    
-                    // Renderizar tópicos atualizados
-                    renderForumTopics();
-                    
-                    // Atualizar estatísticas
-                    updateStatistics();
-                    
-                    alert('Tópico criado com sucesso!');
-                });
-            }
+            // Formulário de Alterar Senha
+            document.getElementById('change-password-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (newPassword.length < 8) {
+                    showToast("A nova senha deve ter pelo menos 8 caracteres", "error");
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showToast("As senhas não coincidem", "error");
+                    return;
+                }
+                
+                // Simulação - em app real, verificar senha atual
+                showToast("Senha alterada com sucesso!", "success");
+                closeModal('modal-change-password');
+                this.reset();
+            });
         }
 
         function setupChat() {
             const chatInput = document.getElementById('chat-input');
             const sendMessageBtn = document.getElementById('send-message');
+            const latexToggle = document.getElementById('latex-toggle');
+            const latexPreview = document.getElementById('latex-preview');
             
-            function sendMessage() {
-                if (!currentUser) return;
+            let showLatexPreview = false;
+            
+            // Alternar preview de LaTeX
+            latexToggle?.addEventListener('click', () => {
+                showLatexPreview = !showLatexPreview;
+                latexPreview.classList.toggle('active', showLatexPreview);
+                updateLatexPreview();
+            });
+            
+            // Atualizar preview de LaTeX em tempo real
+            chatInput?.addEventListener('input', () => {
+                if (showLatexPreview) {
+                    updateLatexPreview();
+                }
+            });
+            
+            function updateLatexPreview() {
+                if (!latexPreview) return;
                 
-                const messageText = chatInput.value.trim();
-                if (messageText) {
-                    // Adicionar mensagem
-                    addChatMessage({
-                        sender: currentUser.name,
-                        message: messageText,
-                        type: 'sent'
-                    });
-                    
-                    // Renderizar mensagens atualizadas
-                    renderChatMessages();
-                    
-                    // Limpar input
-                    chatInput.value = '';
-                    
-                    // Simular resposta automática após 1 segundo
-                    setTimeout(function() {
-                        addChatMessage({
-                            sender: "Sistema Algebra Renova",
-                            message: "Mensagem recebida. Em um ambiente com mais membros, você receberia respostas em tempo real.",
-                            type: 'received'
-                        });
-                        
-                        renderChatMessages();
-                    }, 1000);
+                const text = chatInput.value;
+                latexPreview.innerHTML = renderLatexInText(text);
+                
+                if (window.MathJax) {
+                    MathJax.typesetPromise([latexPreview]).catch(err => console.log(err));
                 }
             }
             
-            if (sendMessageBtn) {
-                sendMessageBtn.addEventListener('click', sendMessage);
+            // Enviar mensagem
+            function sendMessage() {
+                if (!chatInput || !chatInput.value.trim()) return;
+                
+                const messageData = {
+                    message: chatInput.value
+                };
+                
+                addChatMessageToGroup(currentChatGroup, messageData);
+                chatInput.value = '';
+                
+                if (showLatexPreview) {
+                    showLatexPreview = false;
+                    latexPreview.classList.remove('active');
+                }
+                
+                // Focar no input novamente
+                chatInput.focus();
             }
             
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-            }
+            sendMessageBtn?.addEventListener('click', sendMessage);
+            
+            chatInput?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
         }
 
-        function setupProfileForm() {
-            const profileForm = document.getElementById('profile-form');
+        function setupAvatarUpload() {
+            const avatar = document.getElementById('user-avatar');
+            const uploadInput = document.getElementById('avatar-upload');
             
-            if (profileForm) {
-                profileForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
+            avatar?.addEventListener('click', () => {
+                uploadInput.click();
+            });
+            
+            uploadInput?.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (!file.type.match('image.*')) {
+                    showToast("Selecione um arquivo de imagem", "error");
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    avatar.innerHTML = `
+                        <img src="${event.target.result}" alt="${currentUser.name}">
+                        <div class="user-avatar-upload">Alterar Foto</div>
+                    `;
                     
-                    if (!currentUser) return;
-                    
-                    const profileName = document.getElementById('profile-name').value;
-                    const profileDescription = document.getElementById('profile-description').value;
-                    const profileExpertise = document.getElementById('profile-expertise').value;
-                    const profileStatus = document.getElementById('profile-status').value;
-                    
-                    // Atualizar dados do usuário
-                    currentUser.name = profileName;
-                    currentUser.avatar = profileName.substring(0, 2).toUpperCase();
-                    currentUser.description = profileDescription;
-                    currentUser.expertise = profileExpertise;
-                    currentUser.status = profileStatus;
-                    
-                    // Salvar alterações
+                    // Salvar no localStorage (simulado)
+                    currentUser.avatarUrl = event.target.result;
                     saveUser();
                     
-                    // Atualizar interface
-                    updateUserInterface();
-                    
-                    // Adicionar atividade
-                    addActivity('Perfil atualizado', 'Agora');
-                    
-                    alert('Perfil atualizado com sucesso!');
-                });
-            }
-        }
-
-        function setupInitiationRequest() {
-            const requestInitiationBtn = document.getElementById('request-initiation');
-            
-            if (requestInitiationBtn) {
-                requestInitiationBtn.addEventListener('click', function() {
-                    if (!currentUser) return;
-                    
-                    if (currentUser.level === 'observador') {
-                        const hasTheories = theories.filter(t => t.author === currentUser.name).length > 0;
-                        const hasPosts = forumTopics.filter(t => t.author === currentUser.name).length > 0;
-                        
-                        if (hasTheories || hasPosts) {
-                            alert('Solicitação enviada aos membros do Núcleo. Sua participação será avaliada e você receberá uma resposta em breve.');
-                            addActivity('Solicitação para Iniciado enviada', 'Agora');
-                        } else {
-                            alert('Para solicitar o nível de Iniciado, você precisa contribuir com pelo menos uma teoria ou participação significativa no fórum.');
-                        }
-                    } else {
-                        alert(`Você já é ${currentUser.level === 'iniciado' ? 'Iniciado' : 'membro do Núcleo'}.`);
-                    }
-                });
-            }
-        }
-
-        function setupGroupJoin() {
-            const joinGroupBtn = document.getElementById('join-group-btn');
-            
-            if (joinGroupBtn) {
-                joinGroupBtn.addEventListener('click', function() {
-                    if (!currentUser) return;
-                    
-                    if (currentUser.level === 'observador') {
-                        alert('Observadores podem apenas visualizar grupos públicos. Para participar de grupos privados, solicite o nível de Iniciado.');
-                    } else {
-                        alert('Solicitação de ingresso em grupo enviada. Um membro do Núcleo avaliará sua solicitação.');
-                        addActivity('Solicitação de ingresso em grupo enviada', 'Agora');
-                    }
-                });
-            }
+                    showToast("Foto de perfil atualizada!", "success");
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
         function setupSearch() {
-            const globalSearch = document.getElementById('global-search');
+            const searchInput = document.getElementById('global-search');
             
-            if (globalSearch) {
-                globalSearch.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        const searchTerm = this.value.trim().toLowerCase();
-                        if (searchTerm) {
-                            // Buscar nas teorias
-                            const theoryResults = theories.filter(theory => 
-                                theory.title.toLowerCase().includes(searchTerm) || 
-                                theory.description.toLowerCase().includes(searchTerm) ||
-                                theory.tags.toLowerCase().includes(searchTerm)
-                            );
-                            
-                            // Buscar nos tópicos do fórum
-                            const forumResults = forumTopics.filter(topic => 
-                                topic.title.toLowerCase().includes(searchTerm) || 
-                                topic.description.toLowerCase().includes(searchTerm) ||
-                                (topic.tags && topic.tags.toLowerCase().includes(searchTerm))
-                            );
-                            
-                            let resultMessage = `Resultados para "${searchTerm}":\n`;
-                            
-                            if (theoryResults.length > 0) {
-                                resultMessage += `\nTeorias (${theoryResults.length}):\n`;
-                                theoryResults.forEach((theory, i) => {
-                                    resultMessage += `${i+1}. ${theory.title}\n`;
-                                });
-                            }
-                            
-                            if (forumResults.length > 0) {
-                                resultMessage += `\nTópicos do fórum (${forumResults.length}):\n`;
-                                forumResults.forEach((topic, i) => {
-                                    resultMessage += `${i+1}. ${topic.title}\n`;
-                                });
-                            }
-                            
-                            if (theoryResults.length === 0 && forumResults.length === 0) {
-                                resultMessage = `Nenhum resultado encontrado para "${searchTerm}".`;
-                            }
-                            
-                            alert(resultMessage);
-                        }
+            searchInput?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const term = this.value.toLowerCase().trim();
+                    if (!term) return;
+                    
+                    // Buscar em teorias
+                    const theoryResults = theories.filter(t => 
+                        t.title.toLowerCase().includes(term) || 
+                        t.description.toLowerCase().includes(term) ||
+                        t.tags.toLowerCase().includes(term) ||
+                        t.author.toLowerCase().includes(term)
+                    );
+                    
+                    // Buscar em tópicos
+                    const topicResults = forumTopics.filter(t => 
+                        t.title.toLowerCase().includes(term) || 
+                        t.description.toLowerCase().includes(term) ||
+                        t.tags.toLowerCase().includes(term) ||
+                        t.author.toLowerCase().includes(term)
+                    );
+                    
+                    // Mostrar resultados
+                    let resultText = `Resultados para "${term}":\n\n`;
+                    
+                    if (theoryResults.length > 0) {
+                        resultText += `Teorias (${theoryResults.length}):\n`;
+                        theoryResults.forEach((t, i) => {
+                            resultText += `${i+1}. ${t.title} - ${t.author}\n`;
+                        });
+                        resultText += '\n';
                     }
-                });
-            }
+                    
+                    if (topicResults.length > 0) {
+                        resultText += `Tópicos (${topicResults.length}):\n`;
+                        topicResults.forEach((t, i) => {
+                            resultText += `${i+1}. ${t.title} - ${t.author}\n`;
+                        });
+                    }
+                    
+                    if (theoryResults.length === 0 && topicResults.length === 0) {
+                        resultText = `Nenhum resultado encontrado para "${term}"`;
+                    }
+                    
+                    alert(resultText);
+                    this.value = '';
+                }
+            });
         }
 
         // =============================================
-        // FUNÇÕES DE INICIALIZAÇÃO
+        // INICIALIZAÇÃO
         // =============================================
 
         function renderAllContent() {
             renderTheories();
             renderForumTopics();
+            renderChatGroups();
             renderChatMessages();
+            renderNotifications();
             renderActivities();
+            renderFiles();
+            renderGroups();
+            renderMembers();
             updateStatistics();
-        }
-
-        function autoLogin() {
-            const loginPage = document.getElementById('login-page');
-            const mainSite = document.getElementById('main-site');
-            
-            if (currentUser) {
-                // Usuário já está logado (dados carregados do localStorage)
-                loginPage.style.display = 'none';
-                mainSite.style.display = 'flex';
-                
-                // Atualizar interface
-                updateUserInterface();
-                
-                // Renderizar conteúdo
-                renderAllContent();
-                
-                // Adicionar atividade de relogin
-                addActivity(`Sessão restaurada: ${currentUser.name}`, 'Agora');
-            }
+            updateNotificationBadge();
         }
 
         function initializeApp() {
+            // Configurar Toastr
+            toastr.options = {
+                positionClass: "toast-top-right",
+                progressBar: true,
+                closeButton: true,
+                timeOut: 3000,
+                extendedTimeOut: 1000
+            };
+            
             // Inicializar localStorage
             initializeStorage();
             
-            // Configurar auto-login
-            autoLogin();
+            // Verificar login automático
+            if (currentUser) {
+                autoLogin();
+            }
             
             // Configurar eventos
             setupLogin();
             setupLogout();
             setupNavigation();
-            setupTheoryForm();
-            setupTopicForm();
+            setupModals();
+            setupForms();
             setupChat();
-            setupProfileForm();
-            setupInitiationRequest();
-            setupGroupJoin();
+            setupAvatarUpload();
             setupSearch();
             
-            // Inicializar botão de upload de arquivos
-            const uploadFileBtn = document.getElementById('upload-file-btn');
-            if (uploadFileBtn) {
-                uploadFileBtn.addEventListener('click', function() {
-                    alert('Funcionalidade de upload de arquivos será implementada em breve.');
-                });
-            }
-            
-            // Inicializar botão de notificações
-            const notificationBtn = document.getElementById('notification-btn');
-            if (notificationBtn) {
-                notificationBtn.addEventListener('click', function() {
-                    alert(`Você tem ${document.getElementById('notification-count').textContent || '0'} notificações.`);
-                });
-            }
-            
-            // Inicializar botão de alterar senha
-            const changePasswordBtn = document.getElementById('change-password-btn');
-            if (changePasswordBtn) {
-                changePasswordBtn.addEventListener('click', function() {
-                    alert('Funcionalidade de alteração de senha será implementada em breve.');
-                });
+            // Configurar MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise();
             }
         }
 
-        // =============================================
-        // INICIALIZAÇÃO DA APLICAÇÃO
-        // =============================================
-
+        // Inicializar quando o DOM estiver pronto
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
