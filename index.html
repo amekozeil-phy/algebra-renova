@@ -70,7 +70,7 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 250px;
+            width: 280px;
             background-color: var(--secondary-dark);
             border-right: 1px solid var(--border-color);
             padding: 20px 0;
@@ -210,6 +210,7 @@
             transition: all 0.3s ease;
             color: var(--text-secondary);
             cursor: pointer;
+            text-decoration: none;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -250,7 +251,7 @@
         /* CONTEÚDO PRINCIPAL */
         .main-content {
             flex: 1;
-            margin-left: 250px;
+            margin-left: 280px;
             padding: 20px;
             overflow-y: auto;
         }
@@ -570,13 +571,13 @@
             color: var(--accent-teal);
         }
 
-        .theories-list, .groups-list, .forum-topics {
+        .theories-list, .groups-list, .forum-topics, .contacts-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 25px;
         }
 
-        .theory-card, .group-card, .topic-card {
+        .theory-card, .group-card, .topic-card, .contact-card {
             background-color: var(--secondary-dark);
             border-radius: 10px;
             border: 1px solid var(--border-color);
@@ -585,32 +586,32 @@
             cursor: pointer;
         }
 
-        .theory-card:hover, .group-card:hover, .topic-card:hover {
+        .theory-card:hover, .group-card:hover, .topic-card:hover, .contact-card:hover {
             border-color: var(--accent-purple);
             box-shadow: 0 5px 15px var(--shadow-color);
             transform: translateY(-3px);
         }
 
-        .theory-header, .group-header, .topic-header {
+        .theory-header, .group-header, .topic-header, .contact-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 15px;
         }
 
-        .theory-title, .group-title, .topic-title {
+        .theory-title, .group-title, .topic-title, .contact-name {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 5px;
         }
 
-        .theory-author, .group-members, .topic-author {
+        .theory-author, .group-members, .topic-author, .contact-status {
             font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
-        .theory-status, .group-type, .topic-status {
+        .theory-status, .group-type, .topic-status, .contact-level {
             display: inline-block;
             padding: 4px 10px;
             border-radius: 12px;
@@ -649,14 +650,14 @@
             color: var(--accent-gold);
         }
 
-        .theory-description, .group-description, .topic-description {
+        .theory-description, .group-description, .topic-description, .contact-bio {
             color: var(--text-secondary);
             margin-bottom: 15px;
             line-height: 1.5;
             font-size: 0.95rem;
         }
 
-        .theory-meta, .group-meta, .topic-meta {
+        .theory-meta, .group-meta, .topic-meta, .contact-meta {
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
@@ -777,19 +778,23 @@
             overflow-y: auto;
         }
 
-        .chat-group {
+        .chat-group, .chat-contact {
             padding: 10px;
             border-radius: 8px;
             margin-bottom: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .chat-group:hover, .chat-group.active {
+        .chat-group:hover, .chat-group.active,
+        .chat-contact:hover, .chat-contact.active {
             background-color: rgba(106, 13, 173, 0.2);
         }
 
-        .chat-group-icon {
+        .chat-group-icon, .contact-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -798,7 +803,13 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            margin-right: 10px;
+        }
+
+        .contact-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .chat-main {
@@ -1020,6 +1031,77 @@
             color: var(--text-secondary);
         }
 
+        /* CONTATOS/AMIGOS */
+        .contacts-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contacts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .contact-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--accent-teal);
+        }
+
+        .contact-last-message {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .contact-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-teal);
+            margin-left: 10px;
+        }
+
+        .offline {
+            background-color: #6c757d;
+        }
+
         /* RESPONSIVIDADE */
         @media (max-width: 1100px) {
             .sidebar {
@@ -1063,7 +1145,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .theories-list, .groups-list, .forum-topics {
+            .theories-list, .groups-list, .forum-topics, .contacts-list {
                 grid-template-columns: 1fr;
             }
             
@@ -1224,6 +1306,75 @@
             padding-top: 20px;
             border-top: 1px solid var(--border-color);
         }
+
+        /* NOVO: LISTA DE MEMBROS NA SIDEBAR */
+        .sidebar-contacts {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .sidebar-contacts-title {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-contact-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-contact-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-contact-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        .sidebar-contact-name {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .sidebar-contact-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-teal);
+        }
+
+        .sidebar-contact-status.offline {
+            background-color: #6c757d;
+        }
+
+        .add-contact-btn {
+            background: none;
+            border: none;
+            color: var(--accent-teal);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -1342,6 +1493,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" data-section="private-chat">
+                        <i class="fas fa-user-friends"></i>
+                        <span class="nav-text">Chat Privado</span>
+                        <span class="notification-badge" id="private-chat-notif">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-section="contacts">
+                        <i class="fas fa-address-book"></i>
+                        <span class="nav-text">Membros da Rede</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-section="files">
                         <i class="fas fa-archive"></i>
                         <span class="nav-text">Arquivos</span>
@@ -1364,10 +1528,23 @@
                 <li class="nav-item">
                     <a class="nav-link" data-section="members">
                         <i class="fas fa-chess-queen"></i>
-                        <span class="nav-text">Membros</span>
+                        <span class="nav-text">Todos os Membros</span>
                     </a>
                 </li>
             </ul>
+            
+            <!-- LISTA DE CONTATOS/AMIGOS NA SIDEBAR -->
+            <div class="sidebar-contacts">
+                <div class="sidebar-contacts-title">
+                    <span>Membros Online</span>
+                    <button class="add-contact-btn" id="sidebar-add-contact" title="Adicionar membro">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </div>
+                <div id="sidebar-contacts-list">
+                    <!-- Contatos serão carregados aqui -->
+                </div>
+            </div>
             
             <div style="padding: 20px 15px; margin-top: 30px; border-top: 1px solid var(--border-color);">
                 <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
@@ -1421,8 +1598,8 @@
                                 <div class="stat-label">Grupos de Pesquisa</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-value" id="stat-documents">0</div>
-                                <div class="stat-label">Documentos</div>
+                                <div class="stat-value" id="stat-contacts">0</div>
+                                <div class="stat-label">Contatos</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-value" id="stat-conjectures">0</div>
@@ -1612,6 +1789,86 @@
                 </div>
             </section>
 
+            <!-- CHAT PRIVADO -->
+            <section id="private-chat" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Chat Privado</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="new-private-chat-btn">
+                            <i class="fas fa-plus"></i> Nova Conversa
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-sidebar" id="private-chat-sidebar">
+                        <!-- Lista de conversas privadas -->
+                    </div>
+                    
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <span id="private-chat-title">Selecione uma conversa</span>
+                            <div id="private-chat-actions" style="display: none;">
+                                <button class="btn btn-small btn-secondary" id="private-chat-info-btn">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-messages" id="private-chat-messages">
+                            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                                <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Chat Privado</h3>
+                                <p>Selecione um contato para iniciar uma conversa privada.</p>
+                                <p style="margin-top: 20px; font-size: 0.9rem;">
+                                    <i class="fas fa-lock"></i> As mensagens são privadas e criptografadas entre você e o contato.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container" id="private-chat-input-container" style="display: none;">
+                            <div class="chat-input">
+                                <textarea id="private-chat-input" placeholder="Digite sua mensagem privada..." autocomplete="off"></textarea>
+                                <div class="chat-input-actions">
+                                    <button class="btn btn-primary btn-small" id="send-private-message">
+                                        <i class="fas fa-paper-plane"></i> Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEMBROS DA REDE (CONTATOS) -->
+            <section id="contacts" class="content-section">
+                <div class="contacts-container">
+                    <div class="contacts-header">
+                        <h2 class="section-title">Membros da Rede</h2>
+                        <div>
+                            <button class="btn btn-primary" id="add-contact-btn">
+                                <i class="fas fa-user-plus"></i> Adicionar Membro
+                            </button>
+                            <button class="btn btn-secondary" id="refresh-contacts-btn">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Meus Contatos</h3>
+                            <div class="card-icon"><i class="fas fa-address-book"></i></div>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div id="contacts-list">
+                                <!-- Contatos serão carregados aqui -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- ARQUIVOS -->
             <section id="files" class="content-section">
                 <div class="section-header">
@@ -1744,8 +2001,8 @@
                                         <div class="stat-label">Posts no Fórum</div>
                                     </div>
                                     <div class="stat-card">
-                                        <div class="stat-value" id="profile-groups">0</div>
-                                        <div class="stat-label">Grupos Participando</div>
+                                        <div class="stat-value" id="profile-contacts">0</div>
+                                        <div class="stat-label">Contatos</div>
                                     </div>
                                     <div class="stat-card">
                                         <div class="stat-value" id="profile-documents">0</div>
@@ -1758,10 +2015,10 @@
                 </div>
             </section>
 
-            <!-- MEMBROS -->
+            <!-- TODOS OS MEMBROS -->
             <section id="members" class="content-section">
                 <div class="section-header">
-                    <h2 class="section-title">Membros da Organização</h2>
+                    <h2 class="section-title">Todos os Membros</h2>
                 </div>
                 
                 <div class="card">
@@ -1933,16 +2190,69 @@
         </div>
     </div>
 
-    <!-- Modal Discussão Detalhada -->
-    <div id="modal-discussion" class="modal">
+    <!-- Modal Adicionar Contato -->
+    <div id="modal-add-contact" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="discussion-modal-title">Discussão</h3>
-                <button class="modal-close" data-modal="modal-discussion">&times;</button>
+                <h3 class="modal-title">Adicionar Membro à Rede</h3>
+                <button class="modal-close" data-modal="modal-add-contact">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="discussion-container" id="discussion-container">
-                    <!-- Conteúdo dinâmico -->
+                <form id="add-contact-form">
+                    <div class="form-group">
+                        <label class="form-label" for="contact-search">Buscar Membro</label>
+                        <input type="text" class="form-control" id="contact-search" placeholder="Digite o nome do membro...">
+                        <div id="contact-search-results" style="margin-top: 10px; max-height: 200px; overflow-y: auto; display: none;">
+                            <!-- Resultados da busca -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="contact-name">Ou adicionar manualmente</label>
+                        <input type="text" class="form-control" id="contact-name" placeholder="Nome do membro">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="contact-level">Nível do Membro</label>
+                        <select class="form-control" id="contact-level">
+                            <option value="observador">Observador</option>
+                            <option value="iniciado">Iniciado</option>
+                            <option value="nucleo">Núcleo</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">Adicionar Contato</button>
+                        <button type="button" class="btn btn-secondary" data-modal="modal-add-contact">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Conversa Privada -->
+    <div id="modal-new-private-chat" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nova Conversa Privada</h3>
+                <button class="modal-close" data-modal="modal-new-private-chat">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Selecionar Contato</label>
+                    <div id="private-chat-contacts-list" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Lista de contatos para iniciar conversa -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="private-chat-message">Mensagem Inicial (opcional)</label>
+                    <textarea class="form-control" id="private-chat-message" placeholder="Digite uma mensagem inicial..." rows="3"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button class="btn btn-primary" id="start-private-chat-btn">Iniciar Conversa</button>
+                    <button type="button" class="btn btn-secondary" data-modal="modal-new-private-chat">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -2018,21 +2328,6 @@
         </div>
     </div>
 
-    <!-- Modal Info Chat -->
-    <div id="modal-chat-info" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="chat-info-title">Informações do Chat</h3>
-                <button class="modal-close" data-modal="modal-chat-info">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="chat-info-content">
-                    <!-- Conteúdo dinâmico -->
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal Alterar Senha -->
     <div id="modal-change-password" class="modal">
         <div class="modal-content">
@@ -2075,183 +2370,19 @@
         // CONSTANTES E CONFIGURAÇÕES
         // =============================================
 
-        const MASTER_KEY = "algebra_renova_nucleo_2024"; // Chave secreta para acesso ao Núcleo
+        const MASTER_KEY = "algebra_renova_nucleo_2024";
         const STORAGE_KEYS = {
             USER: 'algebra_renova_user',
+            USERS: 'algebra_renova_users', // Todos os usuários registrados
             THEORIES: 'algebra_renova_theories',
             FORUM_TOPICS: 'algebra_renova_forum_topics',
             CHAT_MESSAGES: 'algebra_renova_chat_messages',
+            PRIVATE_MESSAGES: 'algebra_renova_private_messages',
             NOTIFICATIONS: 'algebra_renova_notifications',
             FILES: 'algebra_renova_files',
             ACTIVITIES: 'algebra_renova_activities',
-            MEMBERS: 'algebra_renova_members',
-            CHAT_GROUPS: 'algebra_renova_chat_groups'
-        };
-
-        // Dados iniciais
-        const INITIAL_DATA = {
-            theories: [
-                {
-                    id: 1,
-                    title: "Álgebra das Anti-identidades",
-                    author: "Lohan Cunha",
-                    authorLevel: "nucleo",
-                    group: "Transfunctoração",
-                    description: "Explora estruturas algébricas onde as identidades tradicionais são substituídas por seus opostos conceituais.",
-                    content: "Na álgebra tradicional, temos identidades como $a + 0 = a$ e $a \\cdot 1 = a$. Nesta teoria, propomos sistemas onde estas identidades não se mantêm: $$a + 0 \\neq a$$ $$a \\cdot 1 \\neq a$$ Isso permite a criação de estruturas totalmente novas.",
-                    status: "developing",
-                    version: "v1.0.0",
-                    date: new Date().toISOString(),
-                    visibility: "public",
-                    tags: "álgebra, anti-identidades, transfunctoração",
-                    replies: []
-                },
-                {
-                    id: 2,
-                    title: "Transfunctoração Quântica",
-                    author: "Lohan Cunha",
-                    authorLevel: "nucleo",
-                    group: "Transformações Radicais",
-                    description: "Estuda como estruturas algébricas podem ser 'transportadas' entre diferentes domínios matemáticos.",
-                    content: "A transfunctoração quântica permite mover estruturas entre espaços de dimensão diferente mantendo certas propriedades invariantes: $$\\mathcal{F}: \\mathcal{C} \\to \\mathcal{D}$$ onde $\\mathcal{C}$ e $\\mathcal{D}$ são categorias distintas.",
-                    status: "published",
-                    version: "v2.0.0",
-                    date: new Date().toISOString(),
-                    visibility: "public",
-                    tags: "transfunctoração, quântica, transformações",
-                    replies: []
-                }
-            ],
-            forumTopics: [
-                {
-                    id: 1,
-                    title: "Interpretação da Anti-identidade a+0 ≠ a",
-                    author: "Lohan Cunha",
-                    authorLevel: "nucleo",
-                    description: "Como interpretar sistemas onde o elemento neutro aditivo não funciona como neutro?",
-                    content: "Em sistemas tradicionais, o elemento neutro aditivo $0$ satisfaz $a + 0 = a$ para todo $a$. Em nossa teoria das anti-identidades, temos $a + 0 \\neq a$. Qual seria a interpretação física/matemática disso?",
-                    category: "debate",
-                    tags: "álgebra, anti-identidades, interpretação",
-                    replies: [],
-                    status: "active",
-                    date: new Date().toISOString(),
-                    views: 0
-                }
-            ],
-            chatMessages: {
-                geral: [
-                    {
-                        id: 1,
-                        sender: "Sistema Algebra Renova",
-                        senderLevel: "system",
-                        message: "Bem-vindo ao chat. Conecte-se com outros membros para discutir ideias, teorias e conjecturas.",
-                        time: new Date().toISOString(),
-                        type: "received"
-                    }
-                ],
-                transfunctoracao: [],
-                transformacoes: [],
-                estruturas: [],
-                algebra_superior: [],
-                conjecturas: [],
-                analise: []
-            },
-            notifications: [],
-            files: [
-                {
-                    id: 1,
-                    name: "Manifesto_Algebra_Renova.pdf",
-                    type: "pdf",
-                    size: "2.4 MB",
-                    uploadedBy: "Lohan Cunha",
-                    uploadedByLevel: "nucleo",
-                    date: new Date().toISOString(),
-                    description: "Manifesto fundacional da organização",
-                    visibility: "public",
-                    url: "#"
-                }
-            ],
-            activities: [
-                {
-                    id: 1,
-                    title: "Bem-vindo ao Algebra Renova",
-                    time: new Date().toISOString(),
-                    icon: "door-open",
-                    type: "system"
-                }
-            ],
-            members: [
-                {
-                    id: 1,
-                    name: "Lohan Cunha",
-                    level: "nucleo",
-                    avatar: "LC",
-                    joinDate: new Date().toISOString(),
-                    description: "Fundador do Algebra Renova",
-                    expertise: "Álgebra Abstrata, Teoria das Categorias",
-                    status: "active",
-                    theoriesCount: 2,
-                    postsCount: 1
-                }
-            ],
-            chatGroups: [
-                {
-                    id: "geral",
-                    name: "Geral",
-                    description: "Discussões gerais da organização",
-                    type: "public",
-                    icon: "hashtag",
-                    members: ["all"]
-                },
-                {
-                    id: "transfunctoracao",
-                    name: "Transfunctoração",
-                    description: "Discussões sobre transfunctoração",
-                    type: "private",
-                    icon: "butterfly",
-                    members: ["nucleo"]
-                },
-                {
-                    id: "transformacoes",
-                    name: "Transformações Radicais",
-                    description: "Grupo de transformações não-convencionais",
-                    type: "public",
-                    icon: "exchange-alt",
-                    members: ["all"]
-                },
-                {
-                    id: "estruturas",
-                    name: "Estruturas Não-Convencionais",
-                    description: "Estruturas que violam axiomas fundamentais",
-                    type: "private",
-                    icon: "cubes",
-                    members: ["nucleo", "iniciado"]
-                },
-                {
-                    id: "algebra_superior",
-                    name: "Álgebra Superior",
-                    description: "Álgebra além dos limites tradicionais",
-                    type: "public",
-                    icon: "infinity",
-                    members: ["all"]
-                },
-                {
-                    id: "conjecturas",
-                    name: "Conjecturas e Caças",
-                    description: "Caça às conjecturas mais complexas",
-                    type: "restricted",
-                    icon: "search",
-                    members: ["nucleo"]
-                },
-                {
-                    id: "analise",
-                    name: "Análise Não-Padrão",
-                    description: "Análise além do cálculo tradicional",
-                    type: "public",
-                    icon: "chart-line",
-                    members: ["all"]
-                }
-            ]
+            CONTACTS: 'algebra_renova_contacts', // Contatos/amigos do usuário
+            CONVERSATIONS: 'algebra_renova_conversations' // Conversas privadas
         };
 
         // =============================================
@@ -2259,60 +2390,108 @@
         // =============================================
 
         let currentUser = null;
+        let allUsers = []; // Todos os usuários registrados
         let theories = [];
         let forumTopics = [];
         let chatMessages = {};
+        let privateMessages = {}; // Mensagens privadas por conversa
         let notifications = [];
         let files = [];
         let activities = [];
-        let members = [];
-        let chatGroups = [];
+        let contacts = []; // Contatos/amigos do usuário atual
+        let conversations = []; // Conversas privadas
         let currentChatGroup = "geral";
+        let currentPrivateChat = null; // ID da conversa privada atual
         let unreadNotifications = 0;
+        let unreadPrivateMessages = 0;
 
         // =============================================
         // FUNÇÕES DE PERSISTÊNCIA (LOCALSTORAGE)
         // =============================================
 
         function initializeStorage() {
+            // Verificar se é a primeira execução
+            const isFirstRun = !localStorage.getItem(STORAGE_KEYS.USERS);
+            
             // Inicializar todos os dados no localStorage se não existirem
             Object.keys(STORAGE_KEYS).forEach(key => {
                 if (!localStorage.getItem(STORAGE_KEYS[key])) {
-                    localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(INITIAL_DATA[key.toLowerCase()] || []));
+                    let defaultValue = [];
+                    
+                    // Valores padrão específicos
+                    if (key === 'USERS') {
+                        defaultValue = [
+                            {
+                                id: '1',
+                                name: 'Lohan Cunha',
+                                level: 'nucleo',
+                                avatar: 'LC',
+                                password: 'admin123',
+                                joinDate: new Date().toISOString(),
+                                lastSeen: new Date().toISOString(),
+                                status: 'online',
+                                description: 'Fundador do Algebra Renova',
+                                expertise: 'Álgebra Abstrata, Teoria das Categorias'
+                            }
+                        ];
+                    } else if (key === 'PRIVATE_MESSAGES' || key === 'CONVERSATIONS') {
+                        defaultValue = {};
+                    }
+                    
+                    localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(defaultValue));
                 }
             });
             
             // Carregar dados do localStorage
             loadFromStorage();
+            
+            // Se for primeira execução, criar dados iniciais
+            if (isFirstRun) {
+                createInitialData();
+            }
         }
 
         function loadFromStorage() {
             try {
                 theories = JSON.parse(localStorage.getItem(STORAGE_KEYS.THEORIES)) || [];
                 forumTopics = JSON.parse(localStorage.getItem(STORAGE_KEYS.FORUM_TOPICS)) || [];
-                chatMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_MESSAGES)) || INITIAL_DATA.chatMessages;
+                chatMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_MESSAGES)) || {};
+                privateMessages = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRIVATE_MESSAGES)) || {};
                 notifications = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) || [];
                 files = JSON.parse(localStorage.getItem(STORAGE_KEYS.FILES)) || [];
                 activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES)) || [];
-                members = JSON.parse(localStorage.getItem(STORAGE_KEYS.MEMBERS)) || [];
-                chatGroups = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_GROUPS)) || [];
+                contacts = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTACTS)) || [];
+                conversations = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONVERSATIONS)) || [];
+                allUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
+                
+                // Inicializar chatMessages se estiver vazio
+                if (Object.keys(chatMessages).length === 0) {
+                    chatMessages = {
+                        geral: [
+                            {
+                                id: generateId(),
+                                sender: "Sistema Algebra Renova",
+                                senderId: "system",
+                                message: "Bem-vindo ao chat geral! Conecte-se com outros membros para discutir ideias, teorias e conjecturas.",
+                                time: new Date().toISOString(),
+                                type: "received"
+                            }
+                        ]
+                    };
+                    saveToStorage(STORAGE_KEYS.CHAT_MESSAGES, chatMessages);
+                }
                 
                 // Carregar usuário se existir
                 const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
                 if (savedUser) {
                     currentUser = JSON.parse(savedUser);
+                    // Atualizar status do usuário para online
+                    updateUserStatus('online');
                 }
             } catch (error) {
                 console.error("Erro ao carregar do localStorage:", error);
                 // Resetar para dados iniciais em caso de erro
-                theories = INITIAL_DATA.theories;
-                forumTopics = INITIAL_DATA.forumTopics;
-                chatMessages = INITIAL_DATA.chatMessages;
-                notifications = INITIAL_DATA.notifications;
-                files = INITIAL_DATA.files;
-                activities = INITIAL_DATA.activities;
-                members = INITIAL_DATA.members;
-                chatGroups = INITIAL_DATA.chatGroups;
+                resetToDefaultData();
             }
         }
 
@@ -2327,20 +2506,44 @@
 
         function saveUser() {
             if (currentUser) {
-                // Adicionar timestamp de última atividade
+                // Atualizar timestamp de última atividade
                 currentUser.lastActivity = new Date().toISOString();
                 saveToStorage(STORAGE_KEYS.USER, currentUser);
                 
-                // Atualizar na lista de membros
-                const memberIndex = members.findIndex(m => m.id === currentUser.id);
-                if (memberIndex !== -1) {
-                    members[memberIndex] = {...currentUser};
+                // Atualizar na lista de usuários
+                const userIndex = allUsers.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    allUsers[userIndex] = {...currentUser};
                 } else {
-                    // Se não existe, adicionar
-                    members.push({...currentUser});
+                    // Se não existe, adicionar (novo usuário)
+                    allUsers.push({...currentUser});
                 }
-                saveToStorage(STORAGE_KEYS.MEMBERS, members);
+                saveToStorage(STORAGE_KEYS.USERS, allUsers);
             }
+        }
+
+        function updateUserStatus(status) {
+            if (!currentUser) return;
+            
+            currentUser.status = status;
+            currentUser.lastSeen = new Date().toISOString();
+            saveUser();
+            
+            // Notificar contatos sobre mudança de status
+            contacts.forEach(contact => {
+                if (contact.userId) {
+                    const conversationId = getConversationId(currentUser.id, contact.userId);
+                    if (conversations[conversationId]) {
+                        // Atualizar último visto na conversa
+                        conversations[conversationId].lastActivity = new Date().toISOString();
+                        conversations[conversationId].participants = conversations[conversationId].participants.map(p => 
+                            p.userId === currentUser.id ? {...p, status, lastSeen: currentUser.lastSeen} : p
+                        );
+                    }
+                }
+            });
+            
+            saveToStorage(STORAGE_KEYS.CONVERSATIONS, conversations);
         }
 
         function saveTheories() {
@@ -2355,6 +2558,10 @@
             saveToStorage(STORAGE_KEYS.CHAT_MESSAGES, chatMessages);
         }
 
+        function savePrivateMessages() {
+            saveToStorage(STORAGE_KEYS.PRIVATE_MESSAGES, privateMessages);
+        }
+
         function saveNotifications() {
             saveToStorage(STORAGE_KEYS.NOTIFICATIONS, notifications);
         }
@@ -2365,6 +2572,14 @@
 
         function saveActivities() {
             saveToStorage(STORAGE_KEYS.ACTIVITIES, activities);
+        }
+
+        function saveContacts() {
+            saveToStorage(STORAGE_KEYS.CONTACTS, contacts);
+        }
+
+        function saveConversations() {
+            saveToStorage(STORAGE_KEYS.CONVERSATIONS, conversations);
         }
 
         // =============================================
@@ -2409,22 +2624,131 @@
             if (diffHours < 24) return `${diffHours} h atrás`;
             if (diffDays < 7) return `${diffDays} dias atrás`;
             
-            return date.toLocaleDateString('pt-BR');
+            return date.toLocaleDateString('pt-BR', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
 
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        function hasAccessToGroup(group) {
-            if (!currentUser) return false;
+        function getConversationId(userId1, userId2) {
+            // Garante que a conversa tenha o mesmo ID independente da ordem dos usuários
+            const ids = [userId1, userId2].sort();
+            return `conv_${ids[0]}_${ids[1]}`;
+        }
+
+        function renderLatexInText(text) {
+            if (!text) return '';
+            // Converte LaTeX inline ($...$) para MathJax
+            return text.replace(/\$(.*?)\$/g, '\\\\($1\\\\)')
+                      .replace(/\$\$(.*?)\$\$/g, '\\\\[$1\\\\]');
+        }
+
+        // =============================================
+        // FUNÇÕES DE DADOS INICIAIS
+        // =============================================
+
+        function createInitialData() {
+            // Criar dados iniciais para demonstração
+            const initialTheories = [
+                {
+                    id: generateId(),
+                    title: "Álgebra das Anti-identidades",
+                    author: "Lohan Cunha",
+                    authorId: "1",
+                    authorLevel: "nucleo",
+                    group: "Transfunctoração",
+                    description: "Explora estruturas algébricas onde as identidades tradicionais são substituídas por seus opostos conceituais.",
+                    content: "Na álgebra tradicional, temos identidades como $a + 0 = a$ e $a \\cdot 1 = a$. Nesta teoria, propomos sistemas onde estas identidades não se mantêm: $$a + 0 \\neq a$$ $$a \\cdot 1 \\neq a$$ Isso permite a criação de estruturas totalmente novas.",
+                    status: "developing",
+                    version: "v1.0.0",
+                    date: new Date().toISOString(),
+                    visibility: "public",
+                    tags: "álgebra, anti-identidades, transfunctoração",
+                    replies: []
+                },
+                {
+                    id: generateId(),
+                    title: "Transfunctoração Quântica",
+                    author: "Lohan Cunha",
+                    authorId: "1",
+                    authorLevel: "nucleo",
+                    group: "Transformações Radicais",
+                    description: "Estuda como estruturas algébricas podem ser 'transportadas' entre diferentes domínios matemáticos.",
+                    content: "A transfunctoração quântica permite mover estruturas entre espaços de dimensão diferente mantendo certas propriedades invariantes: $$\\mathcal{F}: \\mathcal{C} \\to \\mathcal{D}$$ onde $\\mathcal{C}$ e $\\mathcal{D}$ são categorias distintas.",
+                    status: "published",
+                    version: "v2.0.0",
+                    date: new Date().toISOString(),
+                    visibility: "public",
+                    tags: "transfunctoração, quântica, transformações",
+                    replies: []
+                }
+            ];
+
+            const initialForumTopics = [
+                {
+                    id: generateId(),
+                    title: "Interpretação da Anti-identidade a+0 ≠ a",
+                    author: "Lohan Cunha",
+                    authorId: "1",
+                    authorLevel: "nucleo",
+                    description: "Como interpretar sistemas onde o elemento neutro aditivo não funciona como neutro?",
+                    content: "Em sistemas tradicionais, o elemento neutro aditivo $0$ satisfaz $a + 0 = a$ para todo $a$. Em nossa teoria das anti-identidades, temos $a + 0 \\neq a$. Qual seria a interpretação física/matemática disso?",
+                    category: "debate",
+                    tags: "álgebra, anti-identidades, interpretação",
+                    replies: [],
+                    status: "active",
+                    date: new Date().toISOString(),
+                    views: 0
+                }
+            ];
+
+            const initialFiles = [
+                {
+                    id: generateId(),
+                    name: "Manifesto_Algebra_Renova.pdf",
+                    type: "pdf",
+                    size: "2.4 MB",
+                    uploadedBy: "Lohan Cunha",
+                    uploadedById: "1",
+                    uploadedByLevel: "nucleo",
+                    date: new Date().toISOString(),
+                    description: "Manifesto fundacional da organização",
+                    visibility: "public",
+                    url: "#"
+                }
+            ];
+
+            // Salvar dados iniciais
+            theories = initialTheories;
+            forumTopics = initialForumTopics;
+            files = initialFiles;
+
+            saveTheories();
+            saveForumTopics();
+            saveFiles();
+        }
+
+        function resetToDefaultData() {
+            // Resetar para dados padrão em caso de erro
+            theories = [];
+            forumTopics = [];
+            chatMessages = {};
+            privateMessages = {};
+            notifications = [];
+            files = [];
+            activities = [];
+            contacts = [];
+            conversations = [];
+            allUsers = [];
             
-            if (group.type === "public") return true;
-            if (group.type === "restricted") return currentUser.level === "nucleo";
-            if (group.type === "private") {
-                return group.members.includes(currentUser.level) || group.members.includes("all");
-            }
-            return false;
+            createInitialData();
         }
 
         // =============================================
@@ -2436,6 +2760,7 @@
                 id: generateId(),
                 ...theoryData,
                 author: currentUser.name,
+                authorId: currentUser.id,
                 authorLevel: currentUser.level,
                 date: new Date().toISOString(),
                 replies: [],
@@ -2450,7 +2775,7 @@
             
             // Adicionar notificação para membros do Núcleo
             if (currentUser.level !== "nucleo") {
-                members.filter(m => m.level === "nucleo").forEach(member => {
+                allUsers.filter(u => u.level === "nucleo").forEach(member => {
                     addNotification(member.id, "Nova teoria para revisão", `${currentUser.name} criou a teoria "${theoryData.title}"`, "theory", newTheory.id);
                 });
             }
@@ -2464,6 +2789,7 @@
                 id: generateId(),
                 ...topicData,
                 author: currentUser.name,
+                authorId: currentUser.id,
                 authorLevel: currentUser.level,
                 date: new Date().toISOString(),
                 replies: [],
@@ -2490,21 +2816,55 @@
                 id: generateId(),
                 ...messageData,
                 sender: currentUser.name,
+                senderId: currentUser.id,
                 senderLevel: currentUser.level,
                 time: new Date().toISOString(),
                 type: "sent"
             };
+                        // Enviar cópias para outros usuários online (simulação)
+            chatMessages[groupId].push({
+                ...newMessage,
+                type: "received"
+            });
             
-            chatMessages[groupId].push(newMessage);
             saveChatMessages();
-            
-            // Renderizar mensagem imediatamente
-            renderChatMessages(groupId);
             
             return newMessage;
         }
 
-        function addNotification(userId, title, message, type, referenceId) {
+        function addPrivateMessage(conversationId, messageData) {
+            if (!privateMessages[conversationId]) {
+                privateMessages[conversationId] = [];
+            }
+            
+            const newMessage = {
+                id: generateId(),
+                ...messageData,
+                sender: currentUser.name,
+                senderId: currentUser.id,
+                senderLevel: currentUser.level,
+                time: new Date().toISOString(),
+                read: false
+            };
+            
+            privateMessages[conversationId].push(newMessage);
+            savePrivateMessages();
+            
+            // Atualizar última mensagem na conversa
+            if (conversations[conversationId]) {
+                conversations[conversationId].lastMessage = {
+                    text: messageData.message,
+                    senderId: currentUser.id,
+                    time: new Date().toISOString()
+                };
+                conversations[conversationId].lastActivity = new Date().toISOString();
+                saveConversations();
+            }
+            
+            return newMessage;
+        }
+
+        function addNotification(userId, title, message, type = "info", referenceId = null) {
             const notification = {
                 id: generateId(),
                 userId,
@@ -2519,28 +2879,26 @@
             notifications.push(notification);
             saveNotifications();
             
-            // Se for para o usuário atual, atualizar contador
-            if (currentUser && userId === currentUser.id) {
-                updateNotificationBadge();
+            if (userId === currentUser?.id) {
+                updateUnreadNotifications();
             }
             
             return notification;
         }
 
-        function addActivity(title, icon) {
+        function addActivity(text, icon = "info") {
             const activity = {
                 id: generateId(),
-                title,
+                text,
                 icon,
-                time: new Date().toISOString(),
-                userId: currentUser?.id
+                date: new Date().toISOString()
             };
             
             activities.unshift(activity);
-            if (activities.length > 10) activities.pop();
+            if (activities.length > 20) activities.length = 20; // Manter apenas 20 atividades
             saveActivities();
             
-            renderActivities();
+            return activity;
         }
 
         function addFile(fileData) {
@@ -2548,437 +2906,782 @@
                 id: generateId(),
                 ...fileData,
                 uploadedBy: currentUser.name,
+                uploadedById: currentUser.id,
                 uploadedByLevel: currentUser.level,
                 date: new Date().toISOString()
             };
             
-            files.push(newFile);
+            files.unshift(newFile);
             saveFiles();
             
-            addActivity(`Novo arquivo enviado: "${fileData.name}"`, "file-upload");
-            showToast("Arquivo enviado com sucesso!", "success");
+            // Adicionar atividade
+            addActivity(`Novo arquivo enviado: "${fileData.name}"`, "archive");
             
+            showToast("Arquivo enviado com sucesso!", "success");
             return newFile;
+        }
+
+        function addContact(contactUserId) {
+            if (!contactUserId || contacts.some(c => c.userId === contactUserId)) {
+                showToast("Contato já existe ou ID inválido", "warning");
+                return null;
+            }
+            
+            const userToAdd = allUsers.find(u => u.id === contactUserId);
+            if (!userToAdd) {
+                showToast("Usuário não encontrado", "error");
+                return null;
+            }
+            
+            const newContact = {
+                id: generateId(),
+                userId: contactUserId,
+                name: userToAdd.name,
+                level: userToAdd.level,
+                avatar: userToAdd.avatar,
+                status: userToAdd.status,
+                lastSeen: userToAdd.lastSeen,
+                addedDate: new Date().toISOString()
+            };
+            
+            contacts.push(newContact);
+            saveContacts();
+            
+            // Criar conversa automaticamente
+            const conversationId = getConversationId(currentUser.id, contactUserId);
+            if (!conversations[conversationId]) {
+                conversations[conversationId] = {
+                    id: conversationId,
+                    participants: [
+                        { userId: currentUser.id, name: currentUser.name, level: currentUser.level },
+                        { userId: contactUserId, name: userToAdd.name, level: userToAdd.level }
+                    ],
+                    lastMessage: null,
+                    lastActivity: new Date().toISOString(),
+                    unreadCount: 0
+                };
+                saveConversations();
+            }
+            
+            // Adicionar atividade
+            addActivity(`Contato adicionado: ${userToAdd.name}`, "user-friends");
+            
+            // Adicionar notificação para o usuário adicionado (se for do nível Núcleo)
+            if (userToAdd.level === "nucleo") {
+                addNotification(contactUserId, "Novo contato", `${currentUser.name} adicionou você como contato`, "contact", currentUser.id);
+            }
+            
+            showToast(`${userToAdd.name} adicionado aos contatos!`, "success");
+            return newContact;
+        }
+
+        function updateUnreadNotifications() {
+            if (!currentUser) return;
+            
+            unreadNotifications = notifications.filter(n => 
+                n.userId === currentUser.id && !n.read
+            ).length;
+            
+            document.getElementById('notification-count').textContent = unreadNotifications;
+        }
+
+        function updateUnreadPrivateMessages() {
+            if (!currentUser) return;
+            
+            let totalUnread = 0;
+            Object.keys(conversations).forEach(convId => {
+                const conv = conversations[convId];
+                if (conv.participants.some(p => p.userId === currentUser.id)) {
+                    // Verificar se há mensagens não lidas
+                    const messages = privateMessages[convId] || [];
+                    const unread = messages.filter(m => 
+                        m.senderId !== currentUser.id && !m.read
+                    ).length;
+                    conv.unreadCount = unread;
+                    totalUnread += unread;
+                }
+            });
+            
+            unreadPrivateMessages = totalUnread;
+            document.getElementById('private-chat-notif').textContent = totalUnread > 0 ? totalUnread : "0";
+            saveConversations();
         }
 
         // =============================================
         // FUNÇÕES DE RENDERIZAÇÃO
         // =============================================
 
-        function renderTheories() {
-            const theoriesList = document.getElementById('theories-list');
-            const featuredTheories = document.getElementById('featured-theories');
+        function renderDashboard() {
+            // Atualizar estatísticas
+            document.getElementById('stat-members').textContent = allUsers.length;
+            document.getElementById('stat-theories').textContent = theories.length;
+            document.getElementById('stat-groups').textContent = '6'; // Fixo por enquanto
+            document.getElementById('stat-contacts').textContent = contacts.length;
+            document.getElementById('stat-conjectures').textContent = theories.filter(t => 
+                t.title.toLowerCase().includes('conjectura') || 
+                t.tags?.toLowerCase().includes('conjectura')
+            ).length;
             
-            if (!theoriesList) return;
+            // Atualizar estatísticas do perfil
+            document.getElementById('profile-theories').textContent = 
+                theories.filter(t => t.authorId === currentUser.id).length;
+            document.getElementById('profile-posts').textContent = 
+                forumTopics.filter(t => t.authorId === currentUser.id).length;
+            document.getElementById('profile-contacts').textContent = contacts.length;
+            document.getElementById('profile-documents').textContent = 
+                files.filter(f => f.uploadedById === currentUser.id).length;
             
-            theoriesList.innerHTML = '';
+            // Renderizar atividades recentes
+            const activitiesList = document.getElementById('recent-activities');
+            activitiesList.innerHTML = '';
             
-            if (theories.length === 0) {
-                theoriesList.innerHTML = `
-                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhuma teoria ainda</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 20px;">Seja o primeiro a propor uma nova teoria matemática!</p>
-                        ${currentUser && currentUser.level !== "observador" ? 
-                            '<button class="btn btn-primary" id="create-first-theory">Criar Primeira Teoria</button>' : 
-                            '<p style="color: var(--accent-red);">Apenas membros Iniciados e Núcleo podem criar teorias</p>'}
+            activities.slice(0, 5).forEach(activity => {
+                const activityEl = document.createElement('li');
+                activityEl.className = 'activity-item';
+                activityEl.innerHTML = `
+                    <div class="activity-icon"><i class="fas fa-${activity.icon}"></i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.text}</div>
+                        <div class="activity-time">${formatDate(activity.date)}</div>
                     </div>
                 `;
-                
-                document.getElementById('create-first-theory')?.addEventListener('click', () => {
-                    openModal('modal-new-theory');
-                });
+                activitiesList.appendChild(activityEl);
+            });
+            
+            // Renderizar teorias em destaque
+            const featuredTheoriesEl = document.getElementById('featured-theories');
+            featuredTheoriesEl.innerHTML = '';
+            
+            const featuredTheories = theories
+                .filter(t => t.visibility !== 'restricted' || currentUser.level === 'nucleo')
+                .slice(0, 3);
+            
+            if (featuredTheories.length === 0) {
+                featuredTheoriesEl.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                        <i class="fas fa-atom" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Nenhuma teoria pública ainda. Seja o primeiro a criar uma!</p>
+                    </div>
+                `;
             } else {
-                theories.forEach(theory => {
-                    const hasAccess = theory.visibility === "public" || 
-                                     (theory.visibility === "private" && currentUser?.level === theory.authorLevel) ||
-                                     (theory.visibility === "restricted" && currentUser?.level === "nucleo");
-                    
-                    if (!hasAccess) return;
-                    
-                    const theoryCard = document.createElement('div');
-                    theoryCard.className = 'theory-card';
-                    theoryCard.dataset.id = theory.id;
-                    
-                    let statusClass = 'status-developing';
-                    let statusText = 'Em desenvolvimento';
-                    
-                    if (theory.status === 'published') {
-                        statusClass = 'status-published';
-                        statusText = 'Publicada';
-                    } else if (theory.status === 'proposal') {
-                        statusClass = 'status-developing';
-                        statusText = 'Proposta';
-                    }
-                    
-                    theoryCard.innerHTML = `
+                featuredTheories.forEach(theory => {
+                    const theoryEl = document.createElement('div');
+                    theoryEl.className = 'theory-card';
+                    theoryEl.innerHTML = `
                         <div class="theory-header">
                             <div>
                                 <h4 class="theory-title">${theory.title}</h4>
-                                <div class="theory-author">Por ${theory.author} • Grupo: ${theory.group}</div>
+                                <div class="theory-author">Por ${theory.author} • ${formatDate(theory.date)}</div>
                             </div>
-                            <span class="theory-status ${statusClass}">${statusText}</span>
+                            <div class="theory-status status-${theory.status}">${theory.status}</div>
                         </div>
-                        <p class="theory-description">${theory.description}</p>
+                        <div class="theory-description">${theory.description}</div>
                         <div class="theory-meta">
-                            <span><i class="fas fa-calendar"></i> ${formatDate(theory.date)}</span>
+                            <span><i class="fas fa-users"></i> ${theory.group}</span>
                             <span><i class="fas fa-code-branch"></i> ${theory.version}</span>
                         </div>
                     `;
-                    
-                    theoryCard.addEventListener('click', () => openDiscussionModal(theory, 'theory'));
-                    theoriesList.appendChild(theoryCard);
+                    theoryEl.addEventListener('click', () => {
+                        // Em uma versão completa, isso abriria um modal com detalhes
+                        showToast(`Abrindo teoria: ${theory.title}`, "info");
+                    });
+                    featuredTheoriesEl.appendChild(theoryEl);
                 });
             }
             
-            // Teorias em destaque
-            if (featuredTheories) {
-                featuredTheories.innerHTML = '';
-                const featured = theories
-                    .filter(t => t.visibility === "public")
-                    .slice(-2)
-                    .reverse();
-                
-                featured.forEach(theory => {
-                    const theoryCard = document.createElement('div');
-                    theoryCard.className = 'theory-card';
-                    theoryCard.dataset.id = theory.id;
-                    
-                    let statusClass = 'status-developing';
-                    let statusText = 'Em desenvolvimento';
-                    
-                    if (theory.status === 'published') {
-                        statusClass = 'status-published';
-                        statusText = 'Publicada';
-                    }
-                    
-                    theoryCard.innerHTML = `
-                        <div class="theory-header">
-                            <div>
-                                <h4 class="theory-title">${theory.title}</h4>
-                                <div class="theory-author">Por ${theory.author}</div>
-                            </div>
-                            <span class="theory-status ${statusClass}">${statusText}</span>
-                        </div>
-                        <p class="theory-description">${theory.description.substring(0, 100)}${theory.description.length > 100 ? '...' : ''}</p>
-                        <div class="theory-meta">
-                            <span><i class="fas fa-calendar"></i> ${formatDate(theory.date)}</span>
-                            <span><i class="fas fa-eye"></i> Ver detalhes</span>
-                        </div>
-                    `;
-                    
-                    theoryCard.addEventListener('click', () => openDiscussionModal(theory, 'theory'));
-                    featuredTheories.appendChild(theoryCard);
-                });
-            }
-            
-            updateNotificationBadge();
+            // Atualizar notificações
+            updateUnreadNotifications();
+            updateUnreadPrivateMessages();
         }
 
-        function renderForumTopics() {
-            const forumTopicsContainer = document.getElementById('forum-topics');
+        function renderTheories() {
+            const theoriesListEl = document.getElementById('theories-list');
+            theoriesListEl.innerHTML = '';
             
-            if (!forumTopicsContainer) return;
+            const filteredTheories = theories.filter(t => {
+                if (t.visibility === 'public') return true;
+                if (t.visibility === 'private') return true; // Todos os membros veem privadas por enquanto
+                if (t.visibility === 'restricted') return currentUser.level === 'nucleo';
+                return true;
+            });
             
-            forumTopicsContainer.innerHTML = '';
-            
-            if (forumTopics.length === 0) {
-                forumTopicsContainer.innerHTML = `
-                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Nenhum tópico ainda</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 20px;">Inicie uma discussão sobre matemática avançada!</p>
-                        <button class="btn btn-primary" id="create-first-topic">Criar Primeiro Tópico</button>
+            if (filteredTheories.length === 0) {
+                theoriesListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-atom" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Nenhuma Teoria</h3>
+                        <p>Nenhuma teoria foi criada ainda. Seja o primeiro a propor uma nova estrutura matemática!</p>
+                        <button class="btn btn-primary" style="margin-top: 20px;" id="new-theory-empty">
+                            <i class="fas fa-plus"></i> Criar Primeira Teoria
+                        </button>
                     </div>
                 `;
                 
-                document.getElementById('create-first-topic')?.addEventListener('click', () => {
+                document.getElementById('new-theory-empty')?.addEventListener('click', () => {
+                    openModal('modal-new-theory');
+                });
+            } else {
+                filteredTheories.forEach(theory => {
+                    const theoryEl = document.createElement('div');
+                    theoryEl.className = 'theory-card';
+                    theoryEl.innerHTML = `
+                        <div class="theory-header">
+                            <div>
+                                <h4 class="theory-title">${theory.title}</h4>
+                                <div class="theory-author">Por ${theory.author} • ${theory.authorLevel.toUpperCase()} • ${formatDate(theory.date)}</div>
+                            </div>
+                            <div class="theory-status status-${theory.status}">${theory.status}</div>
+                        </div>
+                        <div class="theory-description">${theory.description}</div>
+                        <div class="theory-meta">
+                            <span><i class="fas fa-users"></i> ${theory.group}</span>
+                            <span><i class="fas fa-code-branch"></i> ${theory.version}</span>
+                            <span><i class="fas fa-eye"></i> ${theory.visibility === 'public' ? 'Pública' : 
+                                theory.visibility === 'private' ? 'Privada' : 'Restrita'}</span>
+                        </div>
+                    `;
+                    theoryEl.addEventListener('click', () => {
+                        // Em uma versão completa, isso abriria um modal com detalhes
+                        showTheoryDetails(theory);
+                    });
+                    theoriesListEl.appendChild(theoryEl);
+                });
+            }
+            
+            // Atualizar contador de notificações de teorias
+            const theoryNotifications = notifications.filter(n => 
+                n.userId === currentUser.id && !n.read && n.type === 'theory'
+            ).length;
+            document.getElementById('theory-notif').textContent = theoryNotifications > 0 ? theoryNotifications : "0";
+        }
+
+        function showTheoryDetails(theory) {
+            // Em uma implementação completa, isso abriria um modal
+            alert(`Detalhes da teoria:\n\nTítulo: ${theory.title}\nAutor: ${theory.author}\nStatus: ${theory.status}\n\n${theory.description}`);
+        }
+
+        function renderForumTopics() {
+            const forumTopicsEl = document.getElementById('forum-topics');
+            forumTopicsEl.innerHTML = '';
+            
+            if (forumTopics.length === 0) {
+                forumTopicsEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Nenhum Tópico</h3>
+                        <p>Nenhum tópico de discussão foi criado ainda. Inicie um debate!</p>
+                        <button class="btn btn-primary" style="margin-top: 20px;" id="new-topic-empty">
+                            <i class="fas fa-plus"></i> Criar Primeiro Tópico
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('new-topic-empty')?.addEventListener('click', () => {
                     openModal('modal-new-topic');
                 });
             } else {
                 forumTopics.forEach(topic => {
-                    const topicCard = document.createElement('div');
-                    topicCard.className = 'topic-card';
-                    topicCard.dataset.id = topic.id;
-                    
-                    topicCard.innerHTML = `
+                    const topicEl = document.createElement('div');
+                    topicEl.className = 'topic-card';
+                    topicEl.innerHTML = `
                         <div class="topic-header">
                             <div>
                                 <h4 class="topic-title">${topic.title}</h4>
-                                <div class="topic-author">Por ${topic.author} • ${formatDate(topic.date)}</div>
+                                <div class="topic-author">Por ${topic.author} • ${topic.authorLevel.toUpperCase()} • ${formatDate(topic.date)}</div>
                             </div>
-                            <span class="topic-status status-developing">${topic.status === 'active' ? 'Ativo' : 'Fechado'}</span>
+                            <div class="topic-status">${topic.category === 'duvida' ? 'Dúvida' : 
+                                topic.category === 'debate' ? 'Debate' : 
+                                topic.category === 'desafio' ? 'Desafio' : 'Discussão'}</div>
                         </div>
-                        <p class="topic-description">${topic.description}</p>
+                        <div class="topic-description">${topic.description}</div>
                         <div class="topic-meta">
-                            <span><i class="fas fa-comment"></i> ${topic.replies.length} resposta${topic.replies.length !== 1 ? 's' : ''}</span>
-                            <span><i class="fas fa-eye"></i> ${topic.views} visualizações</span>
+                            <span><i class="fas fa-reply"></i> ${topic.replies?.length || 0} respostas</span>
+                            <span><i class="fas fa-eye"></i> ${topic.views || 0} visualizações</span>
+                            <span><i class="fas fa-tags"></i> ${topic.tags || 'Sem tags'}</span>
                         </div>
                     `;
-                    
-                    topicCard.addEventListener('click', () => openDiscussionModal(topic, 'forum'));
-                    forumTopicsContainer.appendChild(topicCard);
+                    topicEl.addEventListener('click', () => {
+                        showTopicDetails(topic);
+                    });
+                    forumTopicsEl.appendChild(topicEl);
                 });
             }
-            
-            updateNotificationBadge();
         }
 
-        function renderChatGroups() {
-            const chatSidebar = document.getElementById('chat-sidebar');
+        function renderGroups() {
+            const groupsListEl = document.getElementById('groups-list');
             
-            if (!chatSidebar) return;
+            const groups = [
+                {
+                    id: 'transfunctoracao',
+                    name: 'Transfunctoração',
+                    description: 'Estudo das transformações radicais entre estruturas matemáticas.',
+                    type: 'public',
+                    members: 12,
+                    theories: 5,
+                    leader: 'Lohan Cunha'
+                },
+                {
+                    id: 'transformacoes',
+                    name: 'Transformações Radicais',
+                    description: 'Desenvolvimento de operações que alteram fundamentalmente a natureza dos objetos matemáticos.',
+                    type: 'public',
+                    members: 8,
+                    theories: 3,
+                    leader: 'Lohan Cunha'
+                },
+                {
+                    id: 'estruturas',
+                    name: 'Estruturas Não-Convencionais',
+                    description: 'Criação de estruturas algébricas que violam axiomas tradicionais.',
+                    type: 'private',
+                    members: 6,
+                    theories: 4,
+                    leader: 'Lohan Cunha'
+                },
+                {
+                    id: 'algebra-superior',
+                    name: 'Álgebra Superior',
+                    description: 'Álgebras de ordem superior e sistemas algébricos aninhados.',
+                    type: 'public',
+                    members: 10,
+                    theories: 2,
+                    leader: 'Lohan Cunha'
+                },
+                {
+                    id: 'conjecturas',
+                    name: 'Conjecturas e "Caças"',
+                    description: 'Formulação e resolução de conjecturas matemáticas radicais.',
+                    type: 'restricted',
+                    members: 4,
+                    theories: 7,
+                    leader: 'Lohan Cunha'
+                },
+                {
+                    id: 'analise',
+                    name: 'Análise Não-Padrão',
+                    description: 'Análise matemática em estruturas não-arquimedianas e infinitésimos.',
+                    type: 'private',
+                    members: 5,
+                    theories: 3,
+                    leader: 'Lohan Cunha'
+                }
+            ];
             
-            chatSidebar.innerHTML = '';
+            groupsListEl.innerHTML = '';
             
-            chatGroups.forEach(group => {
-                if (!hasAccessToGroup(group)) return;
+            groups.forEach(group => {
+                // Verificar acesso
+                if (group.type === 'restricted' && currentUser.level !== 'nucleo') return;
                 
-                const groupElement = document.createElement('div');
-                groupElement.className = `chat-group ${currentChatGroup === group.id ? 'active' : ''}`;
-                groupElement.dataset.group = group.id;
-                
-                groupElement.innerHTML = `
-                    <div style="display: flex; align-items: center;">
-                        <div class="chat-group-icon">
-                            <i class="fas fa-${group.icon}"></i>
-                        </div>
+                const groupEl = document.createElement('div');
+                groupEl.className = 'group-card';
+                groupEl.innerHTML = `
+                    <div class="group-header">
                         <div>
-                            <div style="font-weight: 600;">${group.name}</div>
-                            <small style="color: var(--text-secondary);">${group.description}</small>
+                            <h4 class="group-title">${group.name}</h4>
+                            <div class="group-members">${group.members} membros • ${group.theories} teorias</div>
                         </div>
+                        <div class="group-type type-${group.type}">${group.type === 'public' ? 'Público' : 
+                            group.type === 'private' ? 'Privado' : 'Restrito'}</div>
+                    </div>
+                    <div class="group-description">${group.description}</div>
+                    <div class="group-meta">
+                        <span><i class="fas fa-crown"></i> Líder: ${group.leader}</span>
+                        <button class="btn btn-small ${currentUser.level === 'observador' ? 'btn-secondary' : 'btn-primary'}" 
+                                data-group="${group.id}">
+                            ${currentUser.level === 'observador' ? 'Acesso Restrito' : 'Entrar no Grupo'}
+                        </button>
                     </div>
                 `;
                 
-                groupElement.addEventListener('click', () => {
-                    currentChatGroup = group.id;
-                    document.getElementById('current-chat-title').textContent = group.name;
-                    renderChatGroups();
-                    renderChatMessages(group.id);
+                const joinBtn = groupEl.querySelector('button');
+                if (currentUser.level !== 'observador') {
+                    joinBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const groupId = e.target.dataset.group;
+                        if (group.type === 'restricted' && currentUser.level !== 'nucleo') {
+                            showToast('Este grupo é restrito ao Núcleo', 'warning');
+                        } else {
+                            showToast(`Entrando no grupo: ${group.name}`, 'success');
+                            // Em uma implementação completa, isso adicionaria o usuário ao grupo
+                        }
+                    });
+                }
+                
+                groupEl.addEventListener('click', () => {
+                    showGroupDetails(group);
                 });
                 
-                chatSidebar.appendChild(groupElement);
+                groupsListEl.appendChild(groupEl);
             });
         }
 
-        function renderChatMessages(groupId = currentChatGroup) {
-            const chatMessagesContainer = document.getElementById('chat-messages');
+        function renderChat() {
+            const chatSidebarEl = document.getElementById('chat-sidebar');
+            const chatMessagesEl = document.getElementById('chat-messages');
+            const currentChatTitleEl = document.getElementById('current-chat-title');
             
-            if (!chatMessagesContainer) return;
+            // Renderizar canais
+            const channels = [
+                { id: 'geral', name: 'Geral', icon: 'globe', unread: 0 },
+                { id: 'transfunctoracao', name: 'Transfunctoração', icon: 'butterfly', unread: 0 },
+                { id: 'transformacoes', name: 'Transformações', icon: 'exchange-alt', unread: 0 },
+                { id: 'estruturas', name: 'Estruturas', icon: 'cubes', unread: 0 },
+                { id: 'algebra-superior', name: 'Álgebra Superior', icon: 'layer-group', unread: 0 }
+            ];
             
-            chatMessagesContainer.innerHTML = '';
+            chatSidebarEl.innerHTML = '';
+            channels.forEach(channel => {
+                // Verificar acesso para canais restritos
+                if (channel.id === 'conjecturas' && currentUser.level !== 'nucleo') return;
+                
+                const channelEl = document.createElement('div');
+                channelEl.className = `chat-group ${currentChatGroup === channel.id ? 'active' : ''}`;
+                channelEl.dataset.channel = channel.id;
+                channelEl.innerHTML = `
+                    <div class="chat-group-icon">
+                        <i class="fas fa-${channel.icon}"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;">${channel.name}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            ${chatMessages[channel.id]?.length || 0} mensagens
+                        </div>
+                    </div>
+                    ${channel.unread > 0 ? `<div class="notification-badge">${channel.unread}</div>` : ''}
+                `;
+                
+                channelEl.addEventListener('click', () => {
+                    switchChatGroup(channel.id);
+                });
+                
+                chatSidebarEl.appendChild(channelEl);
+            });
             
+            // Renderizar mensagens do canal atual
+            renderChatMessages(currentChatGroup);
+            currentChatTitleEl.textContent = channels.find(c => c.id === currentChatGroup)?.name || 'Geral';
+            
+            // Atualizar contagem online
+            const onlineCount = allUsers.filter(u => u.status === 'online').length;
+            document.getElementById('online-count').textContent = `Online: ${onlineCount}`;
+        }
+
+        function renderChatMessages(groupId) {
+            const chatMessagesEl = document.getElementById('chat-messages');
             const messages = chatMessages[groupId] || [];
             
+            chatMessagesEl.innerHTML = '';
+            
             if (messages.length === 0) {
-                chatMessagesContainer.innerHTML = `
+                chatMessagesEl.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 15px;"></i>
-                        <p>Nenhuma mensagem ainda. Seja o primeiro a enviar uma mensagem!</p>
+                        <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Nenhuma Mensagem</h3>
+                        <p>Seja o primeiro a enviar uma mensagem neste canal!</p>
                     </div>
                 `;
             } else {
-                messages.forEach(msg => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = `message message-${msg.type}`;
-                    
-                    const levelClass = msg.senderLevel === "nucleo" ? "level-nucleo" : 
-                                      msg.senderLevel === "iniciado" ? "level-iniciado" : 
-                                      msg.senderLevel === "system" ? "level-observador" : "level-observador";
-                    
-                    const levelText = msg.senderLevel === "nucleo" ? "Núcleo" : 
-                                     msg.senderLevel === "iniciado" ? "Iniciado" : 
-                                     msg.senderLevel === "system" ? "Sistema" : "Observador";
-                    
-                    messageDiv.innerHTML = `
+                messages.forEach(message => {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = `message ${message.type === 'sent' ? 'message-sent' : 'message-received'}`;
+                    messageEl.innerHTML = `
                         <div class="message-sender">
-                            ${msg.sender}
-                            ${msg.senderLevel !== "system" ? `<span class="message-sender-level ${levelClass}">${levelText}</span>` : ''}
+                            ${message.sender}
+                            ${message.senderLevel !== 'system' ? 
+                                `<span class="message-sender-level level-${message.senderLevel}">${message.senderLevel.toUpperCase()}</span>` : 
+                                ''}
                         </div>
-                        <div class="message-content">${renderLatexInText(msg.message)}</div>
-                        <div class="message-time">${formatDate(msg.time)}</div>
+                        <div class="message-content">${renderLatexInText(message.message)}</div>
+                        <div class="message-time">${formatDate(message.time)}</div>
                     `;
-                    
-                    chatMessagesContainer.appendChild(messageDiv);
+                    chatMessagesEl.appendChild(messageEl);
                 });
+                
+                // Rolar para o final
+                chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
             }
             
-            // Scroll para o final
-            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-            
-            // Renderizar MathJax
+            // Reconfigurar MathJax para renderizar fórmulas
             if (window.MathJax) {
-                MathJax.typesetPromise([chatMessagesContainer]).catch(err => console.log(err));
+                MathJax.typesetPromise([chatMessagesEl]).catch(err => console.log('MathJax error:', err));
             }
         }
 
-        function renderLatexInText(text) {
-            // Converte LaTeX inline ($...$) para MathJax
-            return text.replace(/\$(.*?)\$/g, '\\\\($1\\\\)')
-                      .replace(/\$\$(.*?)\$\$/g, '\\\\[$1\\\\]');
-        }
-
-        function renderNotifications() {
-            const notificationsList = document.getElementById('notifications-list');
+        function renderPrivateChat() {
+            const chatSidebarEl = document.getElementById('private-chat-sidebar');
+            const chatMessagesEl = document.getElementById('private-chat-messages');
+            const chatInputContainer = document.getElementById('private-chat-input-container');
+            const chatActions = document.getElementById('private-chat-actions');
             
-            if (!notificationsList) return;
+            // Renderizar conversas
+            chatSidebarEl.innerHTML = '';
             
-            notificationsList.innerHTML = '';
+            // Filtrar conversas do usuário atual
+            const userConversations = Object.values(conversations).filter(conv => 
+                conv.participants.some(p => p.userId === currentUser.id)
+            );
             
-            const userNotifications = notifications.filter(n => n.userId === currentUser.id);
-            unreadNotifications = userNotifications.filter(n => !n.read).length;
-            
-            if (userNotifications.length === 0) {
-                notificationsList.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 15px;"></i>
-                        <p>Nenhuma notificação</p>
+            if (userConversations.length === 0) {
+                chatSidebarEl.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                        <i class="fas fa-user-friends" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Nenhuma conversa</p>
+                        <p style="font-size: 0.8rem;">Adicione contatos para iniciar conversas</p>
                     </div>
                 `;
             } else {
-                userNotifications.slice().reverse().forEach(notification => {
-                    const notificationElement = document.createElement('div');
-                    notificationElement.className = `notification-item ${notification.read ? '' : 'unread'}`;
-                    notificationElement.dataset.id = notification.id;
+                userConversations.forEach(conversation => {
+                    const otherParticipant = conversation.participants.find(p => p.userId !== currentUser.id);
+                    if (!otherParticipant) return;
                     
-                    let icon = 'bell';
-                    if (notification.type === 'theory') icon = 'atom';
-                    if (notification.type === 'forum') icon = 'comment';
-                    if (notification.type === 'system') icon = 'info-circle';
+                    const user = allUsers.find(u => u.id === otherParticipant.userId);
+                    if (!user) return;
                     
-                    notificationElement.innerHTML = `
-                        <div style="display: flex; align-items: flex-start; gap: 15px;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--tertiary-dark); display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-${icon}" style="color: var(--accent-teal);"></i>
-                            </div>
-                            <div style="flex: 1;">
-                                <div class="notification-title">${notification.title}</div>
-                                <div style="color: var(--text-secondary); margin: 5px 0;">${notification.message}</div>
-                                <div class="notification-time">${formatDate(notification.date)}</div>
-                            </div>
-                            ${!notification.read ? '<div style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-red);"></div>' : ''}
+                    const conversationEl = document.createElement('div');
+                    conversationEl.className = `chat-contact ${currentPrivateChat === conversation.id ? 'active' : ''}`;
+                    conversationEl.dataset.conversation = conversation.id;
+                    conversationEl.innerHTML = `
+                        <div class="contact-avatar">
+                            ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<span>${user.name.charAt(0)}</span>`}
                         </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; display: flex; align-items: center;">
+                                ${user.name}
+                                <div class="online-dot ${user.status === 'online' ? '' : 'offline'}"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                ${conversation.lastMessage ? 
+                                    (conversation.lastMessage.senderId === currentUser.id ? 'Você: ' : '') + 
+                                    (conversation.lastMessage.text?.substring(0, 30) || '') + 
+                                    (conversation.lastMessage.text?.length > 30 ? '...' : '') : 
+                                    'Sem mensagens'}
+                            </div>
+                        </div>
+                        ${conversation.unreadCount > 0 ? 
+                            `<div class="notification-badge">${conversation.unreadCount}</div>` : ''}
                     `;
                     
-                    notificationElement.addEventListener('click', () => {
-                        // Marcar como lida
-                        notification.read = true;
-                        saveNotifications();
-                        updateNotificationBadge();
-                        
-                        // Navegar para o conteúdo relacionado
-                        if (notification.type === 'theory') {
-                            const theory = theories.find(t => t.id === notification.referenceId);
-                            if (theory) {
-                                openDiscussionModal(theory, 'theory');
-                                closeModal('modal-notifications');
-                            }
-                        } else if (notification.type === 'forum') {
-                            const topic = forumTopics.find(t => t.id === notification.referenceId);
-                            if (topic) {
-                                openDiscussionModal(topic, 'forum');
-                                closeModal('modal-notifications');
-                            }
-                        }
+                    conversationEl.addEventListener('click', () => {
+                        switchPrivateChat(conversation.id);
                     });
                     
-                    notificationsList.appendChild(notificationElement);
+                    chatSidebarEl.appendChild(conversationEl);
                 });
             }
             
-            updateNotificationBadge();
+            // Renderizar mensagens da conversa atual
+            if (currentPrivateChat) {
+                const messages = privateMessages[currentPrivateChat] || [];
+                const conversation = conversations[currentPrivateChat];
+                
+                if (conversation) {
+                    const otherParticipant = conversation.participants.find(p => p.userId !== currentUser.id);
+                    const user = allUsers.find(u => u.id === otherParticipant.userId);
+                    
+                    document.getElementById('private-chat-title').textContent = user?.name || 'Conversa';
+                    chatInputContainer.style.display = 'flex';
+                    chatActions.style.display = 'block';
+                    
+                    chatMessagesEl.innerHTML = '';
+                    
+                    if (messages.length === 0) {
+                        chatMessagesEl.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                                <i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Conversa com ${user?.name}</h3>
+                                <p>Nenhuma mensagem ainda. Envie a primeira mensagem!</p>
+                            </div>
+                        `;
+                    } else {
+                        messages.forEach(message => {
+                            const messageEl = document.createElement('div');
+                            messageEl.className = `message ${message.senderId === currentUser.id ? 'message-sent' : 'message-received'}`;
+                            messageEl.innerHTML = `
+                                <div class="message-sender">
+                                    ${message.sender}
+                                    ${message.senderLevel !== 'system' ? 
+                                        `<span class="message-sender-level level-${message.senderLevel}">${message.senderLevel.toUpperCase()}</span>` : 
+                                        ''}
+                                </div>
+                                <div class="message-content">${renderLatexInText(message.message)}</div>
+                                <div class="message-time">${formatDate(message.time)}</div>
+                            `;
+                            chatMessagesEl.appendChild(messageEl);
+                        });
+                        
+                        // Rolar para o final
+                        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+                    }
+                    
+                    // Marcar mensagens como lidas
+                    markPrivateMessagesAsRead(currentPrivateChat);
+                }
+            } else {
+                // Tela inicial
+                chatInputContainer.style.display = 'none';
+                chatActions.style.display = 'none';
+            }
+            
+            // Reconfigurar MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([chatMessagesEl]).catch(err => console.log('MathJax error:', err));
+            }
         }
 
-        function renderActivities() {
-            const activitiesList = document.getElementById('recent-activities');
+        function renderContacts() {
+            const contactsListEl = document.getElementById('contacts-list');
+            const sidebarContactsList = document.getElementById('sidebar-contacts-list');
             
-            if (!activitiesList) return;
+            // Renderizar lista principal de contatos
+            contactsListEl.innerHTML = '';
             
-            activitiesList.innerHTML = '';
-            
-            const recentActivities = activities.slice(0, 5);
-            
-            if (recentActivities.length === 0) {
-                activitiesList.innerHTML = `
-                    <li class="activity-item">
-                        <div class="activity-icon"><i class="fas fa-info-circle"></i></div>
-                        <div class="activity-content">
-                            <div class="activity-title">Nenhuma atividade recente</div>
-                            <div class="activity-time">Comece a explorar o site</div>
-                        </div>
-                    </li>
+            if (contacts.length === 0) {
+                contactsListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-user-friends" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Nenhum Contato</h3>
+                        <p>Você ainda não adicionou nenhum membro aos seus contatos.</p>
+                        <button class="btn btn-primary" style="margin-top: 20px;" id="add-contact-empty">
+                            <i class="fas fa-user-plus"></i> Adicionar Primeiro Contato
+                        </button>
+                    </div>
                 `;
+                
+                document.getElementById('add-contact-empty')?.addEventListener('click', () => {
+                    openModal('modal-add-contact');
+                });
             } else {
-                recentActivities.forEach(activity => {
-                    const activityItem = document.createElement('li');
-                    activityItem.className = 'activity-item';
+                contacts.forEach(contact => {
+                    const user = allUsers.find(u => u.id === contact.userId);
+                    if (!user) return;
                     
-                    activityItem.innerHTML = `
-                        <div class="activity-icon"><i class="fas fa-${activity.icon}"></i></div>
-                        <div class="activity-content">
-                            <div class="activity-title">${activity.title}</div>
-                            <div class="activity-time">${formatDate(activity.time)}</div>
+                    const contactEl = document.createElement('div');
+                    contactEl.className = 'contact-item';
+                    contactEl.dataset.contactId = contact.userId;
+                    contactEl.innerHTML = `
+                        <div class="contact-avatar-small">
+                            ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<span>${user.name.charAt(0)}</span>`}
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-name">${user.name}</div>
+                            <div class="contact-last-message">${user.description || 'Membro do Algebra Renova'}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="contact-time">${formatDate(user.lastSeen)}</div>
+                            <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 5px;">
+                                <span class="user-level level-${user.level}">${user.level.toUpperCase()}</span>
+                                <div class="online-dot ${user.status === 'online' ? '' : 'offline'}" style="margin-left: 10px;"></div>
+                            </div>
                         </div>
                     `;
                     
-                    activitiesList.appendChild(activityItem);
+                    contactEl.addEventListener('click', () => {
+                        // Em uma implementação completa, isso abriria o perfil ou iniciaria chat
+                        const conversationId = getConversationId(currentUser.id, contact.userId);
+                        switchPrivateChat(conversationId);
+                        switchSection('private-chat');
+                    });
+                    
+                    contactsListEl.appendChild(contactEl);
+                });
+            }
+            
+            // Renderizar contatos na sidebar (apenas online)
+            renderSidebarContacts();
+        }
+
+        function renderSidebarContacts() {
+            const sidebarContactsList = document.getElementById('sidebar-contacts-list');
+            const onlineContacts = contacts.filter(contact => {
+                const user = allUsers.find(u => u.id === contact.userId);
+                return user && user.status === 'online';
+            }).slice(0, 5); // Limitar a 5 contatos online na sidebar
+            
+            sidebarContactsList.innerHTML = '';
+            
+            if (onlineContacts.length === 0) {
+                sidebarContactsList.innerHTML = `
+                    <div style="text-align: center; padding: 10px; color: var(--text-secondary); font-size: 0.8rem;">
+                        Nenhum contato online
+                    </div>
+                `;
+            } else {
+                onlineContacts.forEach(contact => {
+                    const user = allUsers.find(u => u.id === contact.userId);
+                    if (!user) return;
+                    
+                    const contactEl = document.createElement('div');
+                    contactEl.className = 'sidebar-contact-item';
+                    contactEl.title = user.name;
+                    contactEl.innerHTML = `
+                        <div class="sidebar-contact-avatar">
+                            ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<span>${user.name.charAt(0)}</span>`}
+                        </div>
+                        <div class="sidebar-contact-name">${user.name}</div>
+                        <div class="sidebar-contact-status ${user.status === 'online' ? '' : 'offline'}"></div>
+                    `;
+                    
+                    contactEl.addEventListener('click', () => {
+                        const conversationId = getConversationId(currentUser.id, contact.userId);
+                        switchPrivateChat(conversationId);
+                        switchSection('private-chat');
+                    });
+                    
+                    sidebarContactsList.appendChild(contactEl);
                 });
             }
         }
 
         function renderFiles() {
-            const filesTable = document.getElementById('files-table');
+            const filesTableEl = document.getElementById('files-table');
             
-            if (!filesTable) return;
+            filesTableEl.innerHTML = '';
             
-            filesTable.innerHTML = '';
-            
-            const userFiles = files.filter(file => 
-                file.visibility === "public" || 
-                (file.visibility === "private" && file.uploadedBy === currentUser.name) ||
-                (file.visibility === "restricted" && currentUser.level === "nucleo")
-            );
-            
-            if (userFiles.length === 0) {
-                filesTable.innerHTML = `
+            if (files.length === 0) {
+                filesTableEl.innerHTML = `
                     <tr>
                         <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                            Nenhum arquivo disponível
+                            <i class="fas fa-archive" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                            <p>Nenhum arquivo enviado ainda.</p>
                         </td>
                     </tr>
                 `;
             } else {
-                userFiles.forEach(file => {
-                    let icon = 'file';
-                    let iconColor = '#6c757d';
-                    
-                    if (file.type === 'pdf') {
-                        icon = 'file-pdf';
-                        iconColor = '#e74c3c';
-                    } else if (file.type === 'tex') {
-                        icon = 'code';
-                        iconColor = '#3498db';
-                    } else if (file.type === 'image') {
-                        icon = 'file-image';
-                        iconColor = '#2ecc71';
-                    }
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td><i class="fas fa-${icon}" style="color: ${iconColor}; margin-right: 8px;"></i> ${file.name}</td>
+                files.forEach(file => {
+                    const fileEl = document.createElement('tr');
+                    fileEl.innerHTML = `
+                        <td>
+                            <i class="fas fa-file-${file.type === 'pdf' ? 'pdf' : 
+                                file.type === 'tex' ? 'code' : 
+                                file.type === 'md' ? 'markdown' : 
+                                file.type === 'txt' ? 'file-alt' : 
+                                file.type === 'image' ? 'image' : 'file'}"></i>
+                            ${file.name}
+                        </td>
                         <td>${file.type.toUpperCase()}</td>
                         <td>${file.size}</td>
-                        <td>${file.uploadedBy}</td>
+                        <td>
+                            <span class="user-level level-${file.uploadedByLevel}">${file.uploadedByLevel.toUpperCase()}</span>
+                            ${file.uploadedBy}
+                        </td>
                         <td>${formatDate(file.date)}</td>
                         <td>
-                            <button class="btn btn-secondary btn-small" data-file-id="${file.id}">
+                            <button class="btn btn-small btn-secondary" data-file="${file.id}" title="Download">
                                 <i class="fas fa-download"></i>
                             </button>
-                            ${file.description ? `<button class="btn btn-secondary btn-small" title="${file.description}">
-                                <i class="fas fa-eye"></i>
-                            </button>` : ''}
+                            ${currentUser.level === 'nucleo' || file.uploadedById === currentUser.id ? 
+                                `<button class="btn btn-small btn-secondary" data-file-delete="${file.id}" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>` : ''}
                         </td>
                     `;
                     
-                    filesTable.appendChild(row);
+                    filesTableEl.appendChild(fileEl);
                 });
             }
         }
@@ -2988,170 +3691,237 @@
             const iniciadosList = document.getElementById('iniciados-list');
             const observadoresList = document.getElementById('observadores-list');
             
-            if (nucleoList) {
-                nucleoList.innerHTML = '';
-                members.filter(m => m.level === "nucleo").forEach(member => {
-                    const li = document.createElement('li');
-                    li.style.padding = '5px 0';
-                    li.innerHTML = `<i class="fas fa-crown" style="margin-right: 8px; color: var(--accent-gold);"></i>${member.name}${member.name === "Lohan Cunha" ? " (Fundador)" : ""}`;
-                    nucleoList.appendChild(li);
-                });
-            }
+            // Limpar listas
+            nucleoList.innerHTML = '<li style="padding: 5px 0;"><i class="fas fa-crown" style="margin-right: 8px; color: var(--accent-gold);"></i>Lohan Cunha (Fundador)</li>';
+            iniciadosList.innerHTML = '';
+            observadoresList.innerHTML = '';
             
-            if (iniciadosList) {
-                iniciadosList.innerHTML = '';
-                const iniciados = members.filter(m => m.level === "iniciado");
-                if (iniciados.length === 0) {
-                    iniciadosList.innerHTML = '<li style="padding: 5px 0;"><i class="fas fa-user-check" style="margin-right: 8px; color: var(--accent-teal);"></i>[Aguardando membros]</li>';
-                } else {
-                    iniciados.forEach(member => {
-                        const li = document.createElement('li');
-                        li.style.padding = '5px 0';
-                        li.innerHTML = `<i class="fas fa-user-check" style="margin-right: 8px; color: var(--accent-teal);"></i>${member.name}`;
-                        iniciadosList.appendChild(li);
-                    });
-                }
-            }
+            // Agrupar usuários por nível
+            const nucleoMembers = allUsers.filter(u => u.level === 'nucleo' && u.id !== '1'); // Excluir fundador já listado
+            const iniciadoMembers = allUsers.filter(u => u.level === 'iniciado');
+            const observadorMembers = allUsers.filter(u => u.level === 'observador');
             
-            if (observadoresList) {
-                observadoresList.innerHTML = '';
-                const observadores = members.filter(m => m.level === "observador" && m.id !== currentUser?.id);
-                if (observadores.length === 0) {
-                    observadoresList.innerHTML = `<li style="padding: 5px 0;"><i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${currentUser ? currentUser.name : "Você"}</li>`;
-                } else {
-                    observadores.forEach(member => {
-                        const li = document.createElement('li');
-                        li.style.padding = '5px 0';
-                        li.innerHTML = `<i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${member.name}`;
-                        observadoresList.appendChild(li);
-                    });
-                    // Adicionar o usuário atual
-                    if (currentUser && currentUser.level === "observador") {
-                        const li = document.createElement('li');
-                        li.style.padding = '5px 0';
-                        li.innerHTML = `<i class="fas fa-user" style="margin-right: 8px; color: #6c757d;"></i>${currentUser.name} (Você)`;
-                        observadoresList.appendChild(li);
-                    }
-                }
+            // Adicionar membros do Núcleo
+            nucleoMembers.forEach(user => {
+                const li = document.createElement('li');
+                li.style.padding = '5px 0';
+                li.innerHTML = `<i class="fas fa-crown" style="margin-right: 8px; color: var(--accent-gold);"></i>${user.name}`;
+                nucleoList.appendChild(li);
+            });
+            
+            // Adicionar Iniciados
+            iniciadoMembers.forEach(user => {
+                const li = document.createElement('li');
+                li.style.padding = '5px 0';
+                li.innerHTML = `<i class="fas fa-star" style="margin-right: 8px; color: var(--accent-teal);"></i>${user.name}`;
+                iniciadosList.appendChild(li);
+            });
+            
+            // Adicionar Observadores
+            observadorMembers.forEach(user => {
+                const li = document.createElement('li');
+                li.style.padding = '5px 0';
+                li.innerHTML = `<i class="fas fa-eye" style="margin-right: 8px; color: #6c757d;"></i>${user.name}`;
+                observadoresList.appendChild(li);
+            });
+            
+            // Adicionar o usuário atual se não estiver listado
+            if (currentUser && !allUsers.find(u => u.id === currentUser.id)) {
+                const list = currentUser.level === 'nucleo' ? nucleoList :
+                            currentUser.level === 'iniciado' ? iniciadosList : observadoresList;
+                const icon = currentUser.level === 'nucleo' ? 'crown' :
+                            currentUser.level === 'iniciado' ? 'star' : 'eye';
+                const color = currentUser.level === 'nucleo' ? 'var(--accent-gold)' :
+                            currentUser.level === 'iniciado' ? 'var(--accent-teal)' : '#6c757d';
+                
+                const li = document.createElement('li');
+                li.style.padding = '5px 0';
+                li.innerHTML = `<i class="fas fa-${icon}" style="margin-right: 8px; color: ${color};"></i>${currentUser.name} (Você)`;
+                list.appendChild(li);
             }
         }
 
-        function renderGroups() {
-            const groupsList = document.getElementById('groups-list');
+        function renderNotifications() {
+            const notificationsListEl = document.getElementById('notifications-list');
+            const userNotifications = notifications.filter(n => n.userId === currentUser.id);
             
-            if (!groupsList) return;
+            notificationsListEl.innerHTML = '';
             
-            groupsList.innerHTML = '';
-            
-            const groupsData = [
-                {
-                    id: 'transfunctoracao',
-                    title: 'Transfunctoração',
-                    members: members.filter(m => m.level === "nucleo").length,
-                    description: 'Estuda a transferência de estruturas entre diferentes domínios matemáticos',
-                    type: 'private',
-                    icon: 'butterfly'
-                },
-                {
-                    id: 'transformacoes',
-                    title: 'Transformações Radicais',
-                    members: members.filter(m => m.level !== "observador").length,
-                    description: 'Explora transformações que não preservam estruturas tradicionais',
-                    type: 'public',
-                    icon: 'exchange-alt'
-                },
-                {
-                    id: 'estruturas',
-                    title: 'Estruturas Não-Convencionais',
-                    members: members.filter(m => m.level === "nucleo" || m.level === "iniciado").length,
-                    description: 'Desenvolve estruturas que violam axiomas fundamentais',
-                    type: 'private',
-                    icon: 'cubes'
-                },
-                {
-                    id: 'algebra_superior',
-                    title: 'Álgebra Superior',
-                    members: members.length,
-                    description: 'Expande os limites da álgebra tradicional',
-                    type: 'public',
-                    icon: 'infinity'
-                },
-                {
-                    id: 'conjecturas',
-                    title: 'Conjecturas e "Caças"',
-                    members: members.filter(m => m.level === "nucleo").length,
-                    description: 'Foca na formulação e resolução de conjecturas complexas',
-                    type: 'restricted',
-                    icon: 'search'
-                },
-                {
-                    id: 'analise',
-                    title: 'Análise Não-Padrão',
-                    members: members.length,
-                    description: 'Desenvolve frameworks analíticos transcendentais',
-                    type: 'public',
-                    icon: 'chart-line'
-                }
-            ];
-            
-            groupsData.forEach(group => {
-                const hasAccess = group.type === "public" || 
-                                 (group.type === "private" && currentUser.level !== "observador") ||
-                                 (group.type === "restricted" && currentUser.level === "nucleo");
-                
-                if (!hasAccess) return;
-                
-                const groupCard = document.createElement('div');
-                groupCard.className = 'group-card';
-                
-                let typeClass = 'type-public';
-                let typeText = 'Público';
-                
-                if (group.type === 'private') {
-                    typeClass = 'type-private';
-                    typeText = 'Privado';
-                } else if (group.type === 'restricted') {
-                    typeClass = 'type-restricted';
-                    typeText = 'Restrito';
-                }
-                
-                groupCard.innerHTML = `
-                    <div class="group-header">
-                        <div>
-                            <h4 class="group-title">${group.title}</h4>
-                            <div class="group-members">${group.members} membro${group.members !== 1 ? 's' : ''}</div>
-                        </div>
-                        <span class="group-type ${typeClass}">${typeText}</span>
-                    </div>
-                    <p class="group-description">${group.description}</p>
-                    <div class="group-meta">
-                        <span><i class="fas fa-${group.icon}"></i> ${group.title}</span>
-                        <span><i class="fas fa-comments"></i> Acessar chat</span>
+            if (userNotifications.length === 0) {
+                notificationsListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-bell-slash" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: var(--accent-teal); margin-bottom: 10px;">Sem Notificações</h3>
+                        <p>Você não tem notificações no momento.</p>
                     </div>
                 `;
-                
-                groupCard.addEventListener('click', () => {
-                    // Navegar para o chat do grupo
-                    document.querySelector(`.nav-link[data-section="chat"]`).click();
-                    currentChatGroup = group.id;
-                    document.getElementById('current-chat-title').textContent = group.title;
-                    renderChatGroups();
-                    renderChatMessages(group.id);
+            } else {
+                userNotifications.forEach(notification => {
+                    const notificationEl = document.createElement('div');
+                    notificationEl.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                    notificationEl.dataset.notificationId = notification.id;
+                    notificationEl.innerHTML = `
+                        <div class="notification-title">
+                            <i class="fas fa-${notification.type === 'theory' ? 'atom' : 
+                                notification.type === 'contact' ? 'user-friends' : 
+                                notification.type === 'system' ? 'cog' : 'info-circle'}"></i>
+                            ${notification.title}
+                        </div>
+                        <div style="color: var(--text-secondary); margin-bottom: 5px;">${notification.message}</div>
+                        <div class="notification-time">${formatDate(notification.date)}</div>
+                    `;
+                    
+                    notificationEl.addEventListener('click', () => {
+                        markNotificationAsRead(notification.id);
+                        
+                        // Navegar para seção relevante baseada no tipo
+                        if (notification.type === 'theory') {
+                            switchSection('theories');
+                            showToast(`Navegando para teoria relacionada`, 'info');
+                        } else if (notification.type === 'contact') {
+                            switchSection('contacts');
+                        }
+                        
+                        closeModal('modal-notifications');
+                    });
+                    
+                    notificationsListEl.appendChild(notificationEl);
                 });
-                
-                groupsList.appendChild(groupCard);
-            });
+            }
         }
 
         // =============================================
-        // FUNÇÕES DE MODAIS
+        // FUNÇÕES DE CONTROLE DE INTERFACE
         // =============================================
+
+        function switchSection(sectionId) {
+            // Esconder todas as seções
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar seção selecionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Atualizar título da página
+                const pageTitle = document.getElementById('page-title');
+                pageTitle.textContent = targetSection.querySelector('.section-title')?.textContent || 'Dashboard';
+                
+                // Atualizar menu ativo
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Renderizar conteúdo específico da seção
+                switch(sectionId) {
+                    case 'dashboard':
+                        renderDashboard();
+                        break;
+                    case 'theories':
+                        renderTheories();
+                        break;
+                    case 'research-groups':
+                        renderGroups();
+                        break;
+                    case 'forum':
+                        renderForumTopics();
+                        break;
+                    case 'chat':
+                        renderChat();
+                        break;
+                    case 'private-chat':
+                        renderPrivateChat();
+                        break;
+                    case 'contacts':
+                        renderContacts();
+                        break;
+                    case 'files':
+                        renderFiles();
+                        break;
+                    case 'profile':
+                        // Preencher formulário de perfil
+                        document.getElementById('profile-name').value = currentUser.name;
+                        document.getElementById('profile-level').value = currentUser.level === 'observador' ? 'Observador' :
+                                                                        currentUser.level === 'iniciado' ? 'Iniciado' : 'Núcleo';
+                        document.getElementById('profile-description').value = currentUser.description || '';
+                        document.getElementById('profile-expertise').value = currentUser.expertise || '';
+                        document.getElementById('profile-status').value = currentUser.status || 'active';
+                        renderDashboard(); // Para atualizar estatísticas do perfil
+                        break;
+                    case 'members':
+                        renderMembers();
+                        break;
+                }
+                
+                // Scroll para o topo
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function switchChatGroup(groupId) {
+            currentChatGroup = groupId;
+            renderChat();
+        }
+
+        function switchPrivateChat(conversationId) {
+            currentPrivateChat = conversationId;
+            renderPrivateChat();
+        }
+
+        function markPrivateMessagesAsRead(conversationId) {
+            if (!privateMessages[conversationId]) return;
+            
+            let updated = false;
+            privateMessages[conversationId].forEach(message => {
+                if (message.senderId !== currentUser.id && !message.read) {
+                    message.read = true;
+                    updated = true;
+                }
+            });
+            
+            if (updated) {
+                savePrivateMessages();
+                updateUnreadPrivateMessages();
+                renderPrivateChat();
+            }
+        }
+
+        function markNotificationAsRead(notificationId) {
+            const notificationIndex = notifications.findIndex(n => n.id === notificationId);
+            if (notificationIndex !== -1 && !notifications[notificationIndex].read) {
+                notifications[notificationIndex].read = true;
+                saveNotifications();
+                updateUnreadNotifications();
+                renderNotifications();
+            }
+        }
 
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                
+                // Renderizar conteúdo específico do modal
+                if (modalId === 'modal-add-contact') {
+                    renderAddContactModal();
+                } else if (modalId === 'modal-new-private-chat') {
+                    renderNewPrivateChatModal();
+                } else if (modalId === 'modal-notifications') {
+                    renderNotifications();
+                    // Marcar todas as notificações como lidas ao abrir o modal
+                    notifications.forEach(n => {
+                        if (n.userId === currentUser.id && !n.read) {
+                            n.read = true;
+                        }
+                    });
+                    saveNotifications();
+                    updateUnreadNotifications();
+                }
             }
         }
 
@@ -3159,549 +3929,411 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
             }
         }
 
-        function openDiscussionModal(item, type) {
-            const modal = document.getElementById('modal-discussion');
-            const title = document.getElementById('discussion-modal-title');
-            const container = document.getElementById('discussion-container');
+        function renderAddContactModal() {
+            const searchResultsEl = document.getElementById('contact-search-results');
+            const contactSearch = document.getElementById('contact-search');
             
-            if (!modal || !title || !container) return;
-            
-            // Incrementar views se for tópico
-            if (type === 'forum') {
-                item.views++;
-                saveForumTopics();
-            }
-            
-            title.textContent = item.title;
-            
-            let content = '';
-            
-            if (type === 'theory') {
-                content = `
-                    <div class="discussion-header">
-                        <h1 class="discussion-title">${item.title}</h1>
-                        <div style="color: var(--text-secondary); margin-bottom: 15px;">
-                            <i class="fas fa-user"></i> ${item.author} • 
-                            <i class="fas fa-users"></i> ${item.group} • 
-                            <i class="fas fa-calendar"></i> ${formatDate(item.date)}
-                        </div>
-                        <p style="color: var(--text-primary); margin-bottom: 20px;">${item.description}</p>
-                        <div class="discussion-meta">
-                            <span><i class="fas fa-tags"></i> ${item.tags || 'Sem tags'}</span>
-                            <span><i class="fas fa-code-branch"></i> ${item.version}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="discussion-content">
-                        ${renderLatexInText(item.content || item.description)}
-                    </div>
-                `;
-            } else if (type === 'forum') {
-                content = `
-                    <div class="discussion-header">
-                        <h1 class="discussion-title">${item.title}</h1>
-                        <div style="color: var(--text-secondary); margin-bottom: 15px;">
-                            <i class="fas fa-user"></i> ${item.author} • 
-                            <i class="fas fa-comments"></i> ${item.replies.length} respostas • 
-                            <i class="fas fa-eye"></i> ${item.views} visualizações
-                        </div>
-                        <div class="discussion-meta">
-                            <span><i class="fas fa-tags"></i> ${item.tags || 'Sem tags'}</span>
-                            <span><i class="fas fa-calendar"></i> ${formatDate(item.date)}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="discussion-content">
-                        ${renderLatexInText(item.content || item.description)}
-                    </div>
-                `;
-            }
-            
-            // Adicionar seção de respostas
-            content += `
-                <div class="discussion-replies">
-                    <h3 style="color: var(--accent-teal); margin-bottom: 20px;">
-                        ${item.replies.length} Resposta${item.replies.length !== 1 ? 's' : ''}
-                    </h3>
-                    
-                    <div id="replies-list">
-                        ${item.replies.map(reply => `
-                            <div class="reply">
-                                <div class="reply-header">
-                                    <div class="reply-author">${reply.author}</div>
-                                    <div class="reply-time">${formatDate(reply.date)}</div>
-                                </div>
-                                <div class="reply-content">${renderLatexInText(reply.content)}</div>
+            contactSearch.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                if (searchTerm.length < 2) {
+                    searchResultsEl.style.display = 'none';
+                    return;
+                }
+                
+                // Filtrar usuários que não são o usuário atual e não são já contatos
+                const filteredUsers = allUsers.filter(user => 
+                    user.id !== currentUser.id &&
+                    !contacts.some(c => c.userId === user.id) &&
+                    (user.name.toLowerCase().includes(searchTerm) || 
+                     user.description?.toLowerCase().includes(searchTerm))
+                );
+                
+                if (filteredUsers.length === 0) {
+                    searchResultsEl.innerHTML = '<div style="padding: 10px; color: var(--text-secondary); text-align: center;">Nenhum membro encontrado</div>';
+                } else {
+                    searchResultsEl.innerHTML = '';
+                    filteredUsers.forEach(user => {
+                        const userEl = document.createElement('div');
+                        userEl.className = 'sidebar-contact-item';
+                        userEl.style.cursor = 'pointer';
+                        userEl.innerHTML = `
+                            <div class="sidebar-contact-avatar">
+                                ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : 
+                                    `<span>${user.name.charAt(0)}</span>`}
                             </div>
-                        `).join('')}
+                            <div class="sidebar-contact-name">${user.name}</div>
+                            <span class="user-level level-${user.level}" style="font-size: 0.7rem;">${user.level.toUpperCase()}</span>
+                        `;
+                        
+                        userEl.addEventListener('click', () => {
+                            document.getElementById('contact-name').value = user.name;
+                            document.getElementById('contact-level').value = user.level;
+                            searchResultsEl.style.display = 'none';
+                        });
+                        
+                        searchResultsEl.appendChild(userEl);
+                    });
+                }
+                
+                searchResultsEl.style.display = 'block';
+            });
+        }
+
+        function renderNewPrivateChatModal() {
+            const contactsListEl = document.getElementById('private-chat-contacts-list');
+            const userContacts = contacts.filter(contact => {
+                const user = allUsers.find(u => u.id === contact.userId);
+                return user && user.id !== currentUser.id;
+            });
+            
+            contactsListEl.innerHTML = '';
+            
+            if (userContacts.length === 0) {
+                contactsListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-user-friends" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Você não tem contatos ainda.</p>
+                        <button class="btn btn-primary btn-small" style="margin-top: 15px;" onclick="closeModal('modal-new-private-chat'); openModal('modal-add-contact');">
+                            <i class="fas fa-user-plus"></i> Adicionar Contatos
+                        </button>
                     </div>
+                `;
+            } else {
+                userContacts.forEach(contact => {
+                    const user = allUsers.find(u => u.id === contact.userId);
+                    if (!user) return;
                     
-                    ${currentUser ? `
-                        <div class="reply-form">
-                            <h4 style="color: var(--accent-teal); margin-bottom: 15px;">Adicionar Resposta</h4>
-                            <textarea id="reply-content" class="form-control" rows="4" placeholder="Escreva sua resposta... Use $ para fórmulas LaTeX"></textarea>
-                            <button id="submit-reply" class="btn btn-primary" style="margin-top: 15px;" data-id="${item.id}" data-type="${type}">
-                                <i class="fas fa-paper-plane"></i> Enviar Resposta
-                            </button>
+                    const contactEl = document.createElement('div');
+                    contactEl.className = 'sidebar-contact-item';
+                    contactEl.style.cursor = 'pointer';
+                    contactEl.dataset.userId = user.id;
+                    contactEl.innerHTML = `
+                        <div class="sidebar-contact-avatar">
+                            ${user.avatar ? `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<span>${user.name.charAt(0)}</span>`}
                         </div>
-                    ` : ''}
-                </div>
-            `;
-            
-            container.innerHTML = content;
-            
-            // Adicionar evento ao botão de resposta
-            const submitBtn = document.getElementById('submit-reply');
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function() {
-                    const replyContent = document.getElementById('reply-content').value;
-                    if (!replyContent.trim()) {
-                        showToast("Digite uma resposta", "warning");
-                        return;
-                    }
+                        <div class="sidebar-contact-name">${user.name}</div>
+                        <div class="sidebar-contact-status ${user.status === 'online' ? '' : 'offline'}"></div>
+                    `;
                     
-                    const reply = {
-                        id: generateId(),
-                        author: currentUser.name,
-                        authorLevel: currentUser.level,
-                        content: replyContent,
-                        date: new Date().toISOString()
-                    };
+                    contactEl.addEventListener('click', () => {
+                        // Selecionar/deselecionar contato
+                        document.querySelectorAll('#private-chat-contacts-list .sidebar-contact-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        contactEl.classList.add('active');
+                    });
                     
-                    item.replies.push(reply);
-                    
-                    if (type === 'theory') {
-                        saveTheories();
-                    } else if (type === 'forum') {
-                        saveForumTopics();
-                    }
-                    
-                    // Adicionar notificação ao autor original
-                    if (item.author !== currentUser.name) {
-                        const authorMember = members.find(m => m.name === item.author);
-                        if (authorMember) {
-                            addNotification(
-                                authorMember.id,
-                                "Nova resposta",
-                                `${currentUser.name} respondeu ao seu ${type === 'theory' ? 'teoria' : 'tópico'}: "${item.title}"`,
-                                type,
-                                item.id
-                            );
-                        }
-                    }
-                    
-                    showToast("Resposta enviada com sucesso!", "success");
-                    
-                    // Fechar e reabrir modal para atualizar
-                    closeModal('modal-discussion');
-                    setTimeout(() => openDiscussionModal(item, type), 100);
+                    contactsListEl.appendChild(contactEl);
                 });
             }
-            
-            openModal('modal-discussion');
-            
-            // Renderizar MathJax
-            if (window.MathJax) {
-                setTimeout(() => MathJax.typesetPromise([container]).catch(err => console.log(err)), 100);
-            }
         }
 
         // =============================================
-        // FUNÇÕES DE ATUALIZAÇÃO DE UI
+        // FUNÇÕES DE AUTENTICAÇÃO E LOGIN
         // =============================================
 
-        function updateNotificationBadge() {
-            const notificationCount = document.getElementById('notification-count');
-            const theoryNotif = document.getElementById('theory-notif');
-            const forumNotif = document.getElementById('forum-notif');
+        function handleLogin(event) {
+            event.preventDefault();
             
-            if (notificationCount) {
-                notificationCount.textContent = unreadNotifications;
-                notificationCount.style.display = unreadNotifications > 0 ? 'flex' : 'none';
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const level = document.getElementById('login-level').value;
+            const masterKey = document.getElementById('master-key')?.value;
+            
+            if (!username || !password || !level) {
+                showToast("Preencha todos os campos obrigatórios", "error");
+                return;
             }
             
-            // Atualizar badges específicos
-            if (theoryNotif) {
-                const newTheories = theories.filter(t => 
-                    t.date > currentUser?.lastActivity && 
-                    t.author !== currentUser?.name
-                ).length;
-                theoryNotif.textContent = newTheories;
-                theoryNotif.style.display = newTheories > 0 ? 'flex' : 'none';
+            // Verificar chave mestre se for nível Núcleo
+            if (level === 'nucleo' && masterKey !== MASTER_KEY) {
+                showToast("Chave do Núcleo incorreta", "error");
+                return;
             }
             
-            if (forumNotif) {
-                const newTopics = forumTopics.filter(t => 
-                    t.date > currentUser?.lastActivity && 
-                    t.author !== currentUser?.name
-                ).length;
-                forumNotif.textContent = newTopics;
-                forumNotif.style.display = newTopics > 0 ? 'flex' : 'none';
+            // Verificar se usuário já existe
+            let user = allUsers.find(u => u.name.toLowerCase() === username.toLowerCase());
+            
+            if (user) {
+                // Login existente - verificar senha
+                if (user.password !== password) {
+                    showToast("Senha incorreta", "error");
+                    return;
+                }
+                
+                // Atualizar nível se mudou
+                if (user.level !== level) {
+                    // Verificar se pode mudar para Núcleo
+                    if (level === 'nucleo' && masterKey !== MASTER_KEY) {
+                        showToast("Não autorizado para nível Núcleo", "error");
+                        return;
+                    }
+                    user.level = level;
+                }
+            } else {
+                // Novo usuário - criar
+                user = {
+                    id: generateId(),
+                    name: username,
+                    password: password,
+                    level: level,
+                    avatar: username.charAt(0).toUpperCase(),
+                    joinDate: new Date().toISOString(),
+                    lastSeen: new Date().toISOString(),
+                    status: 'online',
+                    description: '',
+                    expertise: '',
+                    lastActivity: new Date().toISOString()
+                };
+                
+                allUsers.push(user);
+                saveToStorage(STORAGE_KEYS.USERS, allUsers);
+                
+                // Adicionar notificação para o fundador
+                const founder = allUsers.find(u => u.id === '1');
+                if (founder) {
+                    addNotification(founder.id, "Novo membro", `${username} se juntou ao Algebra Renova como ${level === 'observador' ? 'Observador' : level === 'iniciado' ? 'Iniciado' : 'Núcleo'}`, "system");
+                }
             }
+            
+            // Fazer login
+            currentUser = user;
+            currentUser.status = 'online';
+            currentUser.lastSeen = new Date().toISOString();
+            
+            saveUser();
+            
+            // Adicionar atividade
+            addActivity(`${username} fez login como ${level}`, "door-open");
+            
+            // Mostrar mensagem de boas-vindas
+            showToast(`Bem-vindo, ${username}! Nível: ${level.toUpperCase()}`, "success");
+            
+            // Inicializar dados do usuário
+            initializeUserData();
+            
+            // Mudar para a interface principal
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-site').style.display = 'flex';
+            
+            // Renderizar interface
+            renderDashboard();
+            switchSection('dashboard');
+            
+            // Atualizar interface do usuário
+            updateUserInterface();
         }
 
-        function updateStatistics() {
+        function initializeUserData() {
             if (!currentUser) return;
             
-            // Atualizar estatísticas gerais
-            document.getElementById('stat-members').textContent = members.length;
-            document.getElementById('stat-theories').textContent = theories.length;
-            document.getElementById('stat-groups').textContent = chatGroups.filter(g => hasAccessToGroup(g)).length;
-            document.getElementById('stat-documents').textContent = files.length;
-            document.getElementById('stat-conjectures').textContent = theories.filter(t => 
-                t.title.toLowerCase().includes('conjectura') || 
-                t.description.toLowerCase().includes('conjectura')
-            ).length;
+            // Verificar se já tem contato com o fundador (para novos usuários)
+            if (!contacts.some(c => c.userId === '1')) {
+                const founderContact = {
+                    id: generateId(),
+                    userId: '1',
+                    name: 'Lohan Cunha',
+                    level: 'nucleo',
+                    avatar: 'LC',
+                    status: allUsers.find(u => u.id === '1')?.status || 'online',
+                    lastSeen: allUsers.find(u => u.id === '1')?.lastSeen || new Date().toISOString(),
+                    addedDate: new Date().toISOString()
+                };
+                
+                contacts.push(founderContact);
+                saveContacts();
+                
+                // Criar conversa com o fundador
+                const conversationId = getConversationId(currentUser.id, '1');
+                if (!conversations[conversationId]) {
+                    conversations[conversationId] = {
+                        id: conversationId,
+                        participants: [
+                            { userId: currentUser.id, name: currentUser.name, level: currentUser.level },
+                            { userId: '1', name: 'Lohan Cunha', level: 'nucleo' }
+                        ],
+                        lastMessage: null,
+                        lastActivity: new Date().toISOString(),
+                        unreadCount: 0
+                    };
+                    saveConversations();
+                    
+                    // Mensagem de boas-vindas do sistema
+                    const welcomeMessage = {
+                        id: generateId(),
+                        sender: "Sistema Algebra Renova",
+                        senderId: "system",
+                        senderLevel: "system",
+                        message: `Bem-vindo ao Algebra Renova, ${currentUser.name}! Eu sou Lohan Cunha, fundador da organização. Fique à vontade para explorar as teorias e participar das discussões.`,
+                        time: new Date().toISOString(),
+                        read: false
+                    };
+                    
+                    if (!privateMessages[conversationId]) {
+                        privateMessages[conversationId] = [];
+                    }
+                    privateMessages[conversationId].push(welcomeMessage);
+                    savePrivateMessages();
+                }
+            }
             
-            // Atualizar estatísticas do perfil
-            const userTheories = theories.filter(t => t.author === currentUser.name).length;
-            const userPosts = forumTopics.filter(t => t.author === currentUser.name).length + 
-                            theories.reduce((sum, t) => sum + t.replies.filter(r => r.author === currentUser.name).length, 0) +
-                            forumTopics.reduce((sum, t) => sum + t.replies.filter(r => r.author === currentUser.name).length, 0);
-            
-            document.getElementById('profile-theories').textContent = userTheories;
-            document.getElementById('profile-posts').textContent = userPosts;
-            document.getElementById('profile-groups').textContent = chatGroups.filter(g => hasAccessToGroup(g)).length;
-            document.getElementById('profile-documents').textContent = files.filter(f => f.uploadedBy === currentUser.name).length;
+            // Adicionar notificação de boas-vindas
+            addNotification(currentUser.id, "Bem-vindo ao Algebra Renova", 
+                "Explore as teorias, participe dos grupos e conecte-se com outros membros. Sua jornada matemática começa agora.", 
+                "system");
         }
 
         function updateUserInterface() {
             if (!currentUser) return;
             
-            // Atualizar informações do usuário
+            // Atualizar informações do usuário na sidebar
             document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-avatar').textContent = currentUser.avatar || currentUser.name.substring(0, 2).toUpperCase();
-            
-            // Atualizar nível
-            const userLevelEl = document.getElementById('user-level');
-            userLevelEl.textContent = 
-                currentUser.level === 'observador' ? 'Observador' : 
+            document.getElementById('user-level').textContent = 
+                currentUser.level === 'observador' ? 'Observador' :
                 currentUser.level === 'iniciado' ? 'Iniciado' : 'Núcleo';
             
-            userLevelEl.className = 'user-level';
-            if (currentUser.level === 'observador') userLevelEl.classList.add('level-observador');
-            else if (currentUser.level === 'iniciado') userLevelEl.classList.add('level-iniciado');
-            else userLevelEl.classList.add('level-nucleo');
+            document.getElementById('user-level').className = `user-level level-${currentUser.level}`;
             
-            // Atualizar nome no chat
-            document.getElementById('current-user-chat').textContent = currentUser.name;
-            
-            // Atualizar perfil
-            document.getElementById('profile-name').value = currentUser.name;
-            document.getElementById('profile-level').value = 
-                currentUser.level === 'observador' ? 'Observador' : 
-                currentUser.level === 'iniciado' ? 'Iniciado' : 'Núcleo';
-            
-            // Esconder/mostrar botões baseado no nível
-            const newTheoryBtn = document.getElementById('new-theory-btn');
-            if (newTheoryBtn) {
-                newTheoryBtn.style.display = currentUser.level === 'observador' ? 'none' : 'block';
+            // Atualizar avatar
+            const userAvatar = document.getElementById('user-avatar');
+            userAvatar.innerHTML = `
+                <span>${currentUser.avatar}</span>
+                <div class="user-avatar-upload">Alterar Foto</div>
+            `;
+        }
+
+        function handleLogout() {
+            if (currentUser) {
+                // Atualizar status para offline
+                updateUserStatus('offline');
+                
+                // Adicionar atividade
+                addActivity(`${currentUser.name} saiu do sistema`, "sign-out-alt");
+                
+                showToast(`Até logo, ${currentUser.name}!`, "info");
             }
             
-            // Atualizar lista de membros
-            renderMembers();
+            // Limpar usuário atual
+            currentUser = null;
+            localStorage.removeItem(STORAGE_KEYS.USER);
+            
+            // Voltar para tela de login
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('main-site').style.display = 'none';
+            
+            // Limpar formulário de login
+            document.getElementById('login-form').reset();
+            document.getElementById('master-key-group').style.display = 'none';
         }
 
         // =============================================
-        // FUNÇÕES DE EVENTOS E HANDLERS
+        // EVENT LISTENERS E INICIALIZAÇÃO
         // =============================================
 
-        function setupLogin() {
-            const loginForm = document.getElementById('login-form');
-            const loginLevel = document.getElementById('login-level');
-            const masterKeyGroup = document.getElementById('master-key-group');
-            
-            // Mostrar/ocultar campo da chave mestra
-            loginLevel.addEventListener('change', function() {
+        function initializeEventListeners() {
+            // Login
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('login-level').addEventListener('change', function() {
+                const masterKeyGroup = document.getElementById('master-key-group');
                 masterKeyGroup.style.display = this.value === 'nucleo' ? 'block' : 'none';
             });
             
-            loginForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const username = document.getElementById('login-username').value;
-                const password = document.getElementById('login-password').value;
-                const level = document.getElementById('login-level').value;
-                
-                if (!username || !password || !level) {
-                    showToast("Preencha todos os campos", "error");
-                    return;
-                }
-                
-                // Verificação especial para Núcleo
-                if (level === 'nucleo') {
-                    const masterKey = document.getElementById('master-key').value;
-                    if (masterKey !== MASTER_KEY) {
-                        showToast("Chave de acesso do Núcleo incorreta", "error");
-                        return;
-                    }
-                }
-                
-                // Verificar se usuário já existe
-                let user = members.find(m => m.name === username);
-                
-                if (!user) {
-                    // Criar novo usuário
-                    user = {
-                        id: generateId(),
-                        name: username,
-                        level: level,
-                        avatar: username.substring(0, 2).toUpperCase(),
-                        joinDate: new Date().toISOString(),
-                        lastActivity: new Date().toISOString(),
-                        description: "",
-                        expertise: "",
-                        status: "active",
-                        theoriesCount: 0,
-                        postsCount: 0
-                    };
-                    
-                    members.push(user);
-                    saveToStorage(STORAGE_KEYS.MEMBERS, members);
-                    
-                    // Adicionar notificação de boas-vindas
-                    addNotification(user.id, "Bem-vindo ao Algebra Renova!", "Sua jornada matemática começa agora. Explore as teorias e participe das discussões.", "system");
-                }
-                
-                // Atualizar usuário atual
-                currentUser = user;
-                saveUser();
-                
-                // Mostrar toast de boas-vindas
-                showToast(`Bem-vindo, ${username}!`, "success");
-                
-                // Adicionar atividade
-                addActivity(`Login realizado: ${username}`, "sign-in-alt");
-                
-                // Fazer login automático
-                autoLogin();
-            });
-        }
-
-        function autoLogin() {
-            const loginPage = document.getElementById('login-page');
-            const mainSite = document.getElementById('main-site');
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
             
-            if (currentUser) {
-                loginPage.style.display = 'none';
-                mainSite.style.display = 'flex';
-                
-                updateUserInterface();
-                renderAllContent();
-                updateStatistics();
-                
-                // Adicionar atividade
-                addActivity(`Sessão restaurada: ${currentUser.name}`, "history");
-            }
-        }
-
-        function setupLogout() {
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Tem certeza que deseja sair?')) {
-                    // Limpar usuário do localStorage
-                    localStorage.removeItem(STORAGE_KEYS.USER);
-                    
-                    // Recarregar página
-                    location.reload();
-                }
-            });
-        }
-
-        function setupNavigation() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            const pageTitle = document.getElementById('page-title');
-            
-            navLinks.forEach(link => {
+            // Navegação do menu
+            document.querySelectorAll('.nav-link[data-section]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
                     const sectionId = this.dataset.section;
-                    
-                    // Atualizar navegação ativa
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Mostrar seção correspondente
-                    contentSections.forEach(section => {
-                        section.classList.remove('active');
-                        if (section.id === sectionId) {
-                            section.classList.add('active');
-                            
-                            // Atualizar título da página
-                            let titleText = '';
-                            switch(sectionId) {
-                                case 'dashboard': titleText = 'Dashboard'; break;
-                                case 'manifesto': titleText = 'Manifesto'; break;
-                                case 'theories': titleText = 'Teorias'; break;
-                                case 'research-groups': titleText = 'Grupos de Pesquisa'; break;
-                                case 'forum': titleText = 'Fórum de Dúvidas'; break;
-                                case 'chat': titleText = 'Chat Geral'; break;
-                                case 'files': titleText = 'Arquivos'; break;
-                                case 'initiation': titleText = 'Rito de Iniciação'; break;
-                                case 'profile': titleText = 'Perfil'; break;
-                                case 'members': titleText = 'Membros'; break;
-                                default: titleText = 'Dashboard';
-                            }
-                            pageTitle.textContent = titleText;
-                            
-                            // Renderizar conteúdo específico se necessário
-                            if (sectionId === 'chat') {
-                                renderChatGroups();
-                                renderChatMessages();
-                            }
-                        }
-                    });
+                    switchSection(sectionId);
                 });
             });
             
-            // Botões que navegam para seções
+            // Botões que alternam seções
             document.querySelectorAll('button[data-section]').forEach(button => {
                 button.addEventListener('click', function() {
                     const sectionId = this.dataset.section;
-                    const targetLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
-                    if (targetLink) targetLink.click();
+                    switchSection(sectionId);
                 });
             });
-        }
-
-        function setupModals() {
-            // Fechar modais com botão X
-            document.querySelectorAll('.modal-close').forEach(button => {
+            
+            // Busca global
+            document.getElementById('global-search').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                if (searchTerm.length > 2) {
+                    // Em uma implementação completa, isso filtraria o conteúdo
+                    showToast(`Buscando por: ${searchTerm}`, "info");
+                }
+            });
+            
+            // Notificações
+            document.getElementById('notification-btn').addEventListener('click', () => {
+                openModal('modal-notifications');
+            });
+            
+            // Modais - abrir
+            document.getElementById('new-theory-btn')?.addEventListener('click', () => openModal('modal-new-theory'));
+            document.getElementById('new-topic-btn')?.addEventListener('click', () => openModal('modal-new-topic'));
+            document.getElementById('add-contact-btn')?.addEventListener('click', () => openModal('modal-add-contact'));
+            document.getElementById('sidebar-add-contact')?.addEventListener('click', () => openModal('modal-add-contact'));
+            document.getElementById('new-private-chat-btn')?.addEventListener('click', () => openModal('modal-new-private-chat'));
+            document.getElementById('upload-file-btn')?.addEventListener('click', () => openModal('modal-upload'));
+            document.getElementById('change-password-btn')?.addEventListener('click', () => openModal('modal-change-password'));
+            document.getElementById('request-initiation')?.addEventListener('click', () => {
+                if (currentUser.level === 'observador') {
+                    showToast("Solicitação enviada para avaliação do Núcleo", "info");
+                    addNotification('1', "Solicitação de iniciação", 
+                        `${currentUser.name} solicitou avanço para nível Iniciado`, "system", currentUser.id);
+                } else {
+                    showToast("Você já é um Iniciado ou membro do Núcleo", "info");
+                }
+            });
+            
+            // Modais - fechar
+            document.querySelectorAll('.modal-close, button[data-modal]').forEach(button => {
                 button.addEventListener('click', function() {
                     const modalId = this.dataset.modal;
                     closeModal(modalId);
                 });
             });
             
-            // Fechar modais clicando fora
+            // Fechar modal ao clicar fora
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
-                        closeModal(this.id);
+                        this.classList.remove('active');
                     }
                 });
             });
             
-            // Botão Nova Teoria
-            document.getElementById('new-theory-btn')?.addEventListener('click', () => {
-                if (!currentUser) return;
-                if (currentUser.level === 'observador') {
-                    showToast("Apenas membros Iniciados e Núcleo podem criar teorias", "warning");
-                    return;
-                }
-                openModal('modal-new-theory');
-            });
-            
-            // Botão Novo Tópico
-            document.getElementById('new-topic-btn')?.addEventListener('click', () => {
-                openModal('modal-new-topic');
-            });
-            
-            // Botão Notificações
-            document.getElementById('notification-btn')?.addEventListener('click', () => {
-                renderNotifications();
-                openModal('modal-notifications');
-            });
-            
-            // Botão Upload
-            document.getElementById('upload-file-btn')?.addEventListener('click', () => {
-                openModal('modal-upload');
-            });
-            
-            // Botão Info Chat
-            document.getElementById('chat-info-btn')?.addEventListener('click', () => {
-                const group = chatGroups.find(g => g.id === currentChatGroup);
-                if (group) {
-                    const content = document.getElementById('chat-info-content');
-                    content.innerHTML = `
-                        <h4 style="color: var(--accent-teal); margin-bottom: 15px;">${group.name}</h4>
-                        <p style="margin-bottom: 15px;">${group.description}</p>
-                        <div style="color: var(--text-secondary);">
-                            <p><i class="fas fa-users"></i> Tipo: ${group.type === 'public' ? 'Público' : group.type === 'private' ? 'Privado' : 'Restrito'}</p>
-                            <p><i class="fas fa-user-shield"></i> Acesso: ${group.members.join(', ')}</p>
-                            <p><i class="fas fa-comments"></i> ${(chatMessages[currentChatGroup] || []).length} mensagens</p>
-                        </div>
-                    `;
-                    openModal('modal-chat-info');
-                }
-            });
-            
-            // Botão Alterar Senha
-            document.getElementById('change-password-btn')?.addEventListener('click', () => {
-                openModal('modal-change-password');
-            });
-            
-            // Botão Solicitar Ingresso em Grupo
-            document.getElementById('join-group-btn')?.addEventListener('click', () => {
-                if (currentUser.level === 'observador') {
-                    showToast("Observadores podem apenas visualizar grupos públicos. Solicite o nível de Iniciado.", "info");
-                } else {
-                    showToast("Solicitação enviada aos administradores do grupo.", "success");
-                    addActivity("Solicitação de ingresso em grupo enviada", "user-plus");
-                }
-            });
-            
-            // Botão Solicitar Iniciação
-            document.getElementById('request-initiation')?.addEventListener('click', () => {
-                if (currentUser.level === 'observador') {
-                    const hasContributions = theories.filter(t => t.author === currentUser.name).length > 0 || 
-                                           forumTopics.filter(t => t.author === currentUser.name).length > 0;
-                    
-                    if (hasContributions) {
-                        showToast("Solicitação enviada ao Núcleo para avaliação.", "success");
-                        
-                        // Notificar membros do Núcleo
-                        members.filter(m => m.level === "nucleo").forEach(member => {
-                            addNotification(
-                                member.id,
-                                "Solicitação de promoção",
-                                `${currentUser.name} solicitou promoção para Iniciado`,
-                                "system"
-                            );
-                        });
-                        
-                        addActivity("Solicitação para Iniciado enviada", "user-check");
-                    } else {
-                        showToast("Contribua com teorias ou discussões antes de solicitar promoção.", "warning");
-                    }
-                } else {
-                    showToast(`Você já é ${currentUser.level === 'iniciado' ? 'Iniciado' : 'membro do Núcleo'}.`, "info");
-                }
-            });
-        }
-
-        function setupForms() {
-            // Formulário de Nova Teoria
+            // Formulário Nova Teoria
             document.getElementById('theory-form')?.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 const theoryData = {
                     title: document.getElementById('theory-name').value,
-                    group: document.getElementById('theory-group').options[document.getElementById('theory-group').selectedIndex].text,
+                    group: document.getElementById('theory-group').value,
                     description: document.getElementById('theory-description').value,
                     content: document.getElementById('theory-content').value,
-                    visibility: document.getElementById('theory-visibility').value,
                     status: document.getElementById('theory-status').value,
+                    visibility: document.getElementById('theory-visibility').value,
                     tags: document.getElementById('theory-tags').value
                 };
                 
                 createNewTheory(theoryData);
                 closeModal('modal-new-theory');
                 this.reset();
-                
-                // Atualizar exibição
                 renderTheories();
-                updateStatistics();
+                switchSection('theories');
             });
             
-            // Formulário de Novo Tópico
+            // Formulário Novo Tópico
             document.getElementById('topic-form')?.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -3716,54 +4348,161 @@
                 createNewTopic(topicData);
                 closeModal('modal-new-topic');
                 this.reset();
-                
-                // Atualizar exibição
                 renderForumTopics();
-                updateStatistics();
+                switchSection('forum');
             });
             
-            // Formulário de Upload
+            // Formulário Adicionar Contato
+            document.getElementById('add-contact-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const contactName = document.getElementById('contact-name').value;
+                const contactLevel = document.getElementById('contact-level').value;
+                
+                // Buscar usuário pelo nome
+                const userToAdd = allUsers.find(u => 
+                    u.name.toLowerCase() === contactName.toLowerCase() && 
+                    u.id !== currentUser.id
+                );
+                
+                if (userToAdd) {
+                    addContact(userToAdd.id);
+                } else {
+                    // Criar usuário fictício (para demonstração)
+                    const newUserId = generateId();
+                    const newUser = {
+                        id: newUserId,
+                        name: contactName,
+                        level: contactLevel,
+                        avatar: contactName.charAt(0).toUpperCase(),
+                        status: 'offline',
+                        lastSeen: new Date().toISOString(),
+                        description: 'Membro adicionado manualmente',
+                        joinDate: new Date().toISOString()
+                    };
+                    
+                    allUsers.push(newUser);
+                    saveToStorage(STORAGE_KEYS.USERS, allUsers);
+                    
+                    addContact(newUserId);
+                }
+                
+                closeModal('modal-add-contact');
+                this.reset();
+                renderContacts();
+            });
+            
+            // Nova Conversa Privada
+            document.getElementById('start-private-chat-btn')?.addEventListener('click', function() {
+                const selectedContact = document.querySelector('#private-chat-contacts-list .sidebar-contact-item.active');
+                const initialMessage = document.getElementById('private-chat-message').value;
+                
+                if (!selectedContact) {
+                    showToast("Selecione um contato", "warning");
+                    return;
+                }
+                
+                const userId = selectedContact.dataset.userId;
+                const conversationId = getConversationId(currentUser.id, userId);
+                
+                // Garantir que a conversa existe
+                if (!conversations[conversationId]) {
+                    const user = allUsers.find(u => u.id === userId);
+                    conversations[conversationId] = {
+                        id: conversationId,
+                        participants: [
+                            { userId: currentUser.id, name: currentUser.name, level: currentUser.level },
+                            { userId: userId, name: user.name, level: user.level }
+                        ],
+                        lastMessage: null,
+                        lastActivity: new Date().toISOString(),
+                        unreadCount: 0
+                    };
+                    saveConversations();
+                }
+                
+                // Enviar mensagem inicial se fornecida
+                if (initialMessage.trim()) {
+                    addPrivateMessage(conversationId, {
+                        message: initialMessage
+                    });
+                }
+                
+                closeModal('modal-new-private-chat');
+                switchPrivateChat(conversationId);
+                switchSection('private-chat');
+            });
+            
+            // Chat Geral - Enviar mensagem
+            document.getElementById('send-message')?.addEventListener('click', sendChatMessage);
+            document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendChatMessage();
+                }
+            });
+            
+            // Chat Privado - Enviar mensagem
+            document.getElementById('send-private-message')?.addEventListener('click', sendPrivateMessage);
+            document.getElementById('private-chat-input')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendPrivateMessage();
+                }
+            });
+            
+            // LaTeX preview toggle
+            document.getElementById('latex-toggle')?.addEventListener('click', function() {
+                const preview = document.getElementById('latex-preview');
+                const textarea = document.getElementById('chat-input');
+                
+                if (preview.classList.contains('active')) {
+                    preview.classList.remove('active');
+                    this.innerHTML = '<i class="fas fa-square-root-alt"></i> LaTeX';
+                } else {
+                    preview.classList.add('active');
+                    updateLatexPreview();
+                    this.innerHTML = '<i class="fas fa-times"></i> Fechar';
+                }
+            });
+            
+            // Atualizar preview LaTeX
+            document.getElementById('chat-input')?.addEventListener('input', updateLatexPreview);
+            
+            // Upload de arquivo
             document.getElementById('upload-form')?.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                const fileName = document.getElementById('file-name').value;
+                const fileType = document.getElementById('file-type').value;
+                const fileVisibility = document.getElementById('file-visibility').value;
+                const fileDescription = document.getElementById('file-description').value;
+                const fileInput = document.getElementById('file-upload');
+                
+                if (!fileName || !fileInput.files.length) {
+                    showToast("Preencha todos os campos obrigatórios", "error");
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                const fileSize = (file.size / (1024*1024)).toFixed(2) + ' MB';
+                
                 const fileData = {
-                    name: document.getElementById('file-name').value,
-                    type: document.getElementById('file-type').value,
-                    size: "1.2 MB", // Simulado
-                    description: document.getElementById('file-description').value,
-                    visibility: document.getElementById('file-visibility').value,
-                    url: "#" // Simulado
+                    name: fileName,
+                    type: fileType,
+                    size: fileSize,
+                    description: fileDescription,
+                    visibility: fileVisibility
                 };
                 
                 addFile(fileData);
                 closeModal('modal-upload');
                 this.reset();
-                
-                // Atualizar exibição
                 renderFiles();
-                updateStatistics();
+                switchSection('files');
             });
             
-            // Formulário de Perfil
-            document.getElementById('profile-form')?.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (!currentUser) return;
-                
-                currentUser.name = document.getElementById('profile-name').value;
-                currentUser.avatar = currentUser.name.substring(0, 2).toUpperCase();
-                currentUser.description = document.getElementById('profile-description').value;
-                currentUser.expertise = document.getElementById('profile-expertise').value;
-                currentUser.status = document.getElementById('profile-status').value;
-                
-                saveUser();
-                updateUserInterface();
-                
-                showToast("Perfil atualizado com sucesso!", "success");
-                addActivity("Perfil atualizado", "user-edit");
-            });
-            
-            // Formulário de Alterar Senha
+            // Alterar senha
             document.getElementById('change-password-form')?.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -3771,8 +4510,13 @@
                 const newPassword = document.getElementById('new-password').value;
                 const confirmPassword = document.getElementById('confirm-password').value;
                 
+                if (currentPassword !== currentUser.password) {
+                    showToast("Senha atual incorreta", "error");
+                    return;
+                }
+                
                 if (newPassword.length < 8) {
-                    showToast("A nova senha deve ter pelo menos 8 caracteres", "error");
+                    showToast("Nova senha deve ter pelo menos 8 caracteres", "error");
                     return;
                 }
                 
@@ -3781,179 +4525,134 @@
                     return;
                 }
                 
-                // Simulação - em app real, verificar senha atual
+                currentUser.password = newPassword;
+                saveUser();
+                
                 showToast("Senha alterada com sucesso!", "success");
                 closeModal('modal-change-password');
                 this.reset();
             });
-        }
-
-        function setupChat() {
-            const chatInput = document.getElementById('chat-input');
-            const sendMessageBtn = document.getElementById('send-message');
-            const latexToggle = document.getElementById('latex-toggle');
-            const latexPreview = document.getElementById('latex-preview');
             
-            let showLatexPreview = false;
-            
-            // Alternar preview de LaTeX
-            latexToggle?.addEventListener('click', () => {
-                showLatexPreview = !showLatexPreview;
-                latexPreview.classList.toggle('active', showLatexPreview);
-                updateLatexPreview();
+            // Perfil
+            document.getElementById('profile-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                currentUser.name = document.getElementById('profile-name').value;
+                currentUser.description = document.getElementById('profile-description').value;
+                currentUser.expertise = document.getElementById('profile-expertise').value;
+                currentUser.status = document.getElementById('profile-status').value;
+                
+                saveUser();
+                updateUserInterface();
+                showToast("Perfil atualizado com sucesso!", "success");
+                
+                // Atualizar em todas as conversas
+                Object.keys(conversations).forEach(convId => {
+                    const conv = conversations[convId];
+                    const participantIndex = conv.participants.findIndex(p => p.userId === currentUser.id);
+                    if (participantIndex !== -1) {
+                        conv.participants[participantIndex].name = currentUser.name;
+                        conv.participants[participantIndex].level = currentUser.level;
+                    }
+                });
+                saveConversations();
             });
             
-            // Atualizar preview de LaTeX em tempo real
-            chatInput?.addEventListener('input', () => {
-                if (showLatexPreview) {
-                    updateLatexPreview();
+            // Upload de avatar
+            document.getElementById('avatar-upload')?.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        // Em uma implementação real, enviaria para servidor
+                        // Aqui apenas simulamos
+                        currentUser.avatar = e.target.result;
+                        saveUser();
+                        updateUserInterface();
+                        showToast("Avatar atualizado!", "success");
+                    };
+                    
+                    reader.readAsDataURL(this.files[0]);
                 }
             });
             
-            function updateLatexPreview() {
-                if (!latexPreview) return;
+            document.getElementById('user-avatar')?.addEventListener('click', function() {
+                document.getElementById('avatar-upload').click();
+            });
+            
+            // Solicitar ingresso em grupo
+            document.getElementById('join-group-btn')?.addEventListener('click', function() {
+                if (currentUser.level === 'observador') {
+                    showToast("Observadores não podem ingressar em grupos. Torne-se um Iniciado primeiro.", "warning");
+                } else {
+                    showToast("Solicitação enviada aos líderes dos grupos", "info");
+                }
+            });
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) {
+                showToast("Digite uma mensagem", "warning");
+                return;
+            }
+            
+            addChatMessageToGroup(currentChatGroup, {
+                message: message
+            });
+            
+            input.value = '';
+            renderChatMessages(currentChatGroup);
+            
+            // Atualizar preview LaTeX
+            updateLatexPreview();
+        }
+
+        function sendPrivateMessage() {
+            if (!currentPrivateChat) {
+                showToast("Selecione uma conversa primeiro", "warning");
+                return;
+            }
+            
+            const input = document.getElementById('private-chat-input');
+            const message = input.value.trim();
+            
+            if (!message) {
+                showToast("Digite uma mensagem", "warning");
+                return;
+            }
+            
+            addPrivateMessage(currentPrivateChat, {
+                message: message
+            });
+            
+            input.value = '';
+            renderPrivateChat();
+        }
+
+        function updateLatexPreview() {
+            const preview = document.getElementById('latex-preview');
+            const textarea = document.getElementById('chat-input');
+            
+            if (textarea.value.includes('$')) {
+                preview.innerHTML = renderLatexInText(textarea.value);
+                preview.classList.add('active');
                 
-                const text = chatInput.value;
-                latexPreview.innerHTML = renderLatexInText(text);
-                
+                // Reconfigurar MathJax
                 if (window.MathJax) {
-                    MathJax.typesetPromise([latexPreview]).catch(err => console.log(err));
+                    MathJax.typesetPromise([preview]).catch(err => console.log('MathJax error:', err));
                 }
+            } else {
+                preview.innerHTML = '';
+                preview.classList.remove('active');
             }
-            
-            // Enviar mensagem
-            function sendMessage() {
-                if (!chatInput || !chatInput.value.trim()) return;
-                
-                const messageData = {
-                    message: chatInput.value
-                };
-                
-                addChatMessageToGroup(currentChatGroup, messageData);
-                chatInput.value = '';
-                
-                if (showLatexPreview) {
-                    showLatexPreview = false;
-                    latexPreview.classList.remove('active');
-                }
-                
-                // Focar no input novamente
-                chatInput.focus();
-            }
-            
-            sendMessageBtn?.addEventListener('click', sendMessage);
-            
-            chatInput?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-        }
-
-        function setupAvatarUpload() {
-            const avatar = document.getElementById('user-avatar');
-            const uploadInput = document.getElementById('avatar-upload');
-            
-            avatar?.addEventListener('click', () => {
-                uploadInput.click();
-            });
-            
-            uploadInput?.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                if (!file.type.match('image.*')) {
-                    showToast("Selecione um arquivo de imagem", "error");
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    avatar.innerHTML = `
-                        <img src="${event.target.result}" alt="${currentUser.name}">
-                        <div class="user-avatar-upload">Alterar Foto</div>
-                    `;
-                    
-                    // Salvar no localStorage (simulado)
-                    currentUser.avatarUrl = event.target.result;
-                    saveUser();
-                    
-                    showToast("Foto de perfil atualizada!", "success");
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('global-search');
-            
-            searchInput?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const term = this.value.toLowerCase().trim();
-                    if (!term) return;
-                    
-                    // Buscar em teorias
-                    const theoryResults = theories.filter(t => 
-                        t.title.toLowerCase().includes(term) || 
-                        t.description.toLowerCase().includes(term) ||
-                        t.tags.toLowerCase().includes(term) ||
-                        t.author.toLowerCase().includes(term)
-                    );
-                    
-                    // Buscar em tópicos
-                    const topicResults = forumTopics.filter(t => 
-                        t.title.toLowerCase().includes(term) || 
-                        t.description.toLowerCase().includes(term) ||
-                        t.tags.toLowerCase().includes(term) ||
-                        t.author.toLowerCase().includes(term)
-                    );
-                    
-                    // Mostrar resultados
-                    let resultText = `Resultados para "${term}":\n\n`;
-                    
-                    if (theoryResults.length > 0) {
-                        resultText += `Teorias (${theoryResults.length}):\n`;
-                        theoryResults.forEach((t, i) => {
-                            resultText += `${i+1}. ${t.title} - ${t.author}\n`;
-                        });
-                        resultText += '\n';
-                    }
-                    
-                    if (topicResults.length > 0) {
-                        resultText += `Tópicos (${topicResults.length}):\n`;
-                        topicResults.forEach((t, i) => {
-                            resultText += `${i+1}. ${t.title} - ${t.author}\n`;
-                        });
-                    }
-                    
-                    if (theoryResults.length === 0 && topicResults.length === 0) {
-                        resultText = `Nenhum resultado encontrado para "${term}"`;
-                    }
-                    
-                    alert(resultText);
-                    this.value = '';
-                }
-            });
         }
 
         // =============================================
-        // INICIALIZAÇÃO
+        // INICIALIZAÇÃO DA APLICAÇÃO
         // =============================================
-
-        function renderAllContent() {
-            renderTheories();
-            renderForumTopics();
-            renderChatGroups();
-            renderChatMessages();
-            renderNotifications();
-            renderActivities();
-            renderFiles();
-            renderGroups();
-            renderMembers();
-            updateStatistics();
-            updateNotificationBadge();
-        }
 
         function initializeApp() {
             // Configurar Toastr
@@ -3961,36 +4660,73 @@
                 positionClass: "toast-top-right",
                 progressBar: true,
                 closeButton: true,
-                timeOut: 3000,
-                extendedTimeOut: 1000
+                timeOut: 3000
             };
             
-            // Inicializar localStorage
+            // Inicializar armazenamento
             initializeStorage();
             
-            // Verificar login automático
-            if (currentUser) {
-                autoLogin();
-            }
+            // Configurar event listeners
+            initializeEventListeners();
             
-            // Configurar eventos
-            setupLogin();
-            setupLogout();
-            setupNavigation();
-            setupModals();
-            setupForms();
-            setupChat();
-            setupAvatarUpload();
-            setupSearch();
+            // Verificar se há usuário logado
+            if (currentUser) {
+                // Usuário já logado
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-site').style.display = 'flex';
+                updateUserInterface();
+                renderDashboard();
+                switchSection('dashboard');
+            } else {
+                // Mostrar tela de login
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('main-site').style.display = 'none';
+            }
             
             // Configurar MathJax
             if (window.MathJax) {
                 MathJax.typesetPromise();
             }
+            
+            // Atualizar status periodicamente
+            setInterval(() => {
+                if (currentUser) {
+                    updateUserStatus('online');
+                    renderSidebarContacts(); // Atualizar status dos contatos
+                    
+                    // Se estiver na seção de chat, atualizar
+                    if (document.getElementById('chat').classList.contains('active')) {
+                        renderChat();
+                    }
+                    if (document.getElementById('private-chat').classList.contains('active')) {
+                        renderPrivateChat();
+                    }
+                }
+            }, 30000); // A cada 30 segundos
+            
+            // Mostrar mensagem de boas-vindas
+            console.log(`
+            =============================================
+            ALGEBRA RENOVA - SISTEMA INICIALIZADO
+            =============================================
+            Sistema de gerenciamento de comunidade matemática
+            
+            Dados de demonstração:
+            - Usuário fundador: Lohan Cunha (Núcleo)
+            - Senha padrão: admin123
+            - Chave do Núcleo: algebra_renova_nucleo_2024
+            
+            Para testar diferentes níveis:
+            - Observador: qualquer usuário/senha
+            - Iniciado: qualquer usuário/senha
+            - Núcleo: precisa da chave correta
+            =============================================
+            `);
         }
 
-        // Inicializar quando o DOM estiver pronto
+        // Iniciar aplicação quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
+            
