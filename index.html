@@ -115,6 +115,8 @@
             margin-right: 15px;
             position: relative;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
         }
 
         /* Cores dos níveis */
@@ -126,9 +128,27 @@
             box-shadow: 0 0 20px var(--accent-gold), inset 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
+        .avatar.bot::after {
+            content: "🤖";
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            font-size: 16px;
+            background: var(--secondary-dark);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .user-info h3 {
             font-size: 18px;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .user-info.observer h3 { color: var(--accent-observer); }
@@ -152,6 +172,15 @@
             padding: 3px 8px;
             border-radius: 4px;
             font-size: 12px;
+        }
+
+        .bot-badge {
+            background: rgba(155, 89, 182, 0.2);
+            color: var(--accent-renovated);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
         }
 
         /* Navegação */
@@ -190,6 +219,16 @@
         .tab-btn i {
             margin-right: 10px;
             font-size: 18px;
+        }
+
+        .tab-badge {
+            background: var(--accent-neon);
+            color: var(--primary-dark);
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: bold;
         }
 
         /* Lista de Amigos */
@@ -237,6 +276,8 @@
             justify-content: center;
             font-size: 14px;
             margin-right: 10px;
+            background-size: cover;
+            background-position: center;
         }
 
         .friend-name {
@@ -335,11 +376,16 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            background-size: cover;
+            background-position: center;
         }
 
         .author-info h4 {
             font-size: 16px;
             margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .author-info p {
@@ -357,6 +403,19 @@
         .theory-content p {
             margin-bottom: 15px;
         }
+
+        .theory-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .status-pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .status-approved { background: rgba(46, 204, 113, 0.2); color: var(--success); }
+        .status-rejected { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
 
         /* Botões */
         .btn {
@@ -509,6 +568,47 @@
             margin-top: 25px;
         }
 
+        /* Upload de Foto */
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3a3a4a, #2a2a3a);
+            margin-bottom: 15px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview:hover::after {
+            content: "Alterar";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .avatar-input {
+            display: none;
+        }
+
         /* Comentários */
         .comments-section {
             margin-top: 30px;
@@ -559,6 +659,8 @@
             justify-content: center;
             font-size: 12px;
             font-weight: bold;
+            background-size: cover;
+            background-position: center;
         }
 
         .comment-content {
@@ -637,6 +739,111 @@
             align-items: center;
         }
 
+        /* Chat do Grupo */
+        .group-chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .group-chat-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .group-chat-back-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .group-chat-info h4 {
+            font-size: 18px;
+            color: var(--accent-neon);
+        }
+
+        .group-chat-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .group-chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .group-message {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .group-message.sent {
+            align-self: flex-end;
+            background-color: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-bottom-right-radius: 5px;
+        }
+
+        .group-message.received {
+            align-self: flex-start;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 5px;
+        }
+
+        .group-message-author {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .group-message-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .group-chat-input-area {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .group-chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .group-chat-input:focus {
+            outline: none;
+            border-color: var(--accent-neon);
+        }
+
         /* Desafios */
         .challenges-grid {
             display: grid;
@@ -706,7 +913,7 @@
         .badge-renovated { background: rgba(155, 89, 182, 0.2); color: var(--accent-renovated); }
         .badge-core { background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); }
 
-        /* Chat */
+        /* Chat Privado */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -803,6 +1010,56 @@
             border-color: var(--accent-neon);
         }
 
+        /* Solicitações de Amizade */
+        .requests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .request-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .request-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .request-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .request-info h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .request-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .request-actions .btn-small {
+            flex: 1;
+        }
+
         /* LaTeX Preview */
         .latex-preview {
             background-color: rgba(0, 0, 0, 0.3);
@@ -869,7 +1126,7 @@
                 padding: 15px;
             }
             
-            .groups-grid, .challenges-grid {
+            .groups-grid, .challenges-grid, .requests-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -904,6 +1161,26 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Ações do Núcleo */
+        .nucleus-actions {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .nucleus-actions h4 {
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
     </style>
     <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -916,6 +1193,11 @@
                 <h2 class="modal-title">Algebra Renova - Acesso</h2>
             </div>
             <form id="loginForm">
+                <div class="avatar-upload">
+                    <div class="avatar-preview" id="avatarPreviewLogin" style="background-image: url('https://api.dicebear.com/7.x/identicon/svg?seed=AlgebraRenova')"></div>
+                    <input type="file" id="avatarUploadLogin" class="avatar-input" accept="image/*">
+                </div>
+                
                 <div class="form-group">
                     <label class="form-label" for="username">Nome de Usuário</label>
                     <input type="text" id="username" class="form-input" placeholder="Digite seu nome de usuário" required>
@@ -927,7 +1209,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="initialLevel">Nível Inicial (Todos começam como Observadores)</label>
+                    <label class="form-label">Nível Inicial (Todos começam como Observadores)</label>
                     <select id="initialLevel" class="form-input" disabled>
                         <option value="observer">Observador</option>
                     </select>
@@ -964,10 +1246,10 @@
             <!-- Perfil do Usuário -->
             <div class="user-profile">
                 <div class="avatar" id="userAvatar">
-                    <span>AR</span>
+                    <!-- Avatar será carregado via JS -->
                 </div>
                 <div class="user-info" id="userInfo">
-                    <h3 id="userName">Anônimo</h3>
+                    <h3 id="userName">Anônimo <span id="userBotBadge" class="bot-badge" style="display: none;">BOT</span></h3>
                     <p id="userSpecialty">Observador</p>
                     <div class="user-stats">
                         <div class="stat" id="contributionPoints">0 pontos</div>
@@ -983,6 +1265,7 @@
                 </button>
                 <button class="tab-btn" data-tab="theories">
                     <i class="fas fa-atom"></i> Teorias
+                    <span class="tab-badge" id="pendingTheoriesBadge" style="display: none;">0</span>
                 </button>
                 <button class="tab-btn" data-tab="groups">
                     <i class="fas fa-users"></i> Grupos
@@ -992,6 +1275,7 @@
                 </button>
                 <button class="tab-btn" data-tab="members">
                     <i class="fas fa-user-friends"></i> Membros
+                    <span class="tab-badge" id="friendRequestsBadge" style="display: none;">0</span>
                 </button>
                 <button class="tab-btn" data-tab="hierarchy">
                     <i class="fas fa-sitemap"></i> Hierarquia
@@ -1125,6 +1409,18 @@
             <div class="tab-content" id="membersContent">
                 <div class="page-header">
                     <h1 class="page-title">Membros da Comunidade</h1>
+                    <button class="btn btn-primary" id="manageRequestsBtn" style="display: none;">
+                        <i class="fas fa-user-plus"></i> Gerenciar Solicitações
+                    </button>
+                </div>
+                
+                <!-- Solicitações de Amizade (visível apenas para usuários reais) -->
+                <div id="friendRequestsSection" style="display: none;">
+                    <h2 style="margin-bottom: 15px; color: var(--accent-neon);">Solicitações de Amizade</h2>
+                    <div class="requests-grid" id="friendRequestsGrid">
+                        <!-- Solicitações serão carregadas aqui -->
+                    </div>
+                    <hr style="margin: 25px 0; border-color: var(--border-color);">
                 </div>
                 
                 <div id="membersGrid" class="members-grid">
@@ -1162,20 +1458,20 @@
                             </tr>
                             <tr>
                                 <td><span class="level-badge badge-initiate">Iniciado</span></td>
-                                <td>100 pontos</td>
+                                <td>500 pontos</td>
                                 <td>Criar teorias, liderar grupos, responder desafios</td>
                                 <td><span style="color: var(--accent-neon);">●</span> Azul Neon</td>
                             </tr>
                             <tr>
                                 <td><span class="level-badge badge-renovated">Renovado</span></td>
-                                <td>500 pontos</td>
+                                <td>1500 pontos</td>
                                 <td>Aprovar teorias de iniciados, criar grupos avançados</td>
                                 <td><span style="color: var(--accent-renovated);">●</span> Roxo</td>
                             </tr>
                             <tr>
                                 <td><span class="level-badge badge-core">Núcleo</span></td>
-                                <td>Chave Especial</td>
-                                <td>Aprovar teorias extremas, moderar tudo, acesso total</td>
+                                <td>Chave Especial OU 15000 pontos</td>
+                                <td>Aprovar/rejeitar teorias, moderar tudo, acesso total</td>
                                 <td><span style="color: var(--accent-gold);">●</span> Dourado</td>
                             </tr>
                         </tbody>
@@ -1184,12 +1480,13 @@
                     <div style="margin-top: 30px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
                         <h3 style="margin-bottom: 15px; color: var(--accent-neon);">Como Ganhar Pontos</h3>
                         <ul style="color: var(--text-secondary); line-height: 1.8;">
-                            <li>Publicar uma teoria: <strong>+50 pontos</strong></li>
-                            <li>Resolver um desafio: <strong>+30 pontos</strong></li>
-                            <li>Comentar em teoria: <strong>+5 pontos</strong></li>
-                            <li>Criar grupo: <strong>+20 pontos</strong></li>
-                            <li>Participar de grupo ativamente: <strong>+10 pontos/semana</strong></li>
-                            <li>Ajudar em dúvida: <strong>+15 pontos</strong></li>
+                            <li>Publicar uma teoria aprovada: <strong>+100 pontos</strong></li>
+                            <li>Resolver um desafio: <strong>+50 pontos</strong></li>
+                            <li>Comentar em teoria: <strong>+10 pontos</strong></li>
+                            <li>Criar grupo: <strong>+30 pontos</strong></li>
+                            <li>Participar ativamente em grupos: <strong>+5 pontos/dia</strong></li>
+                            <li>Ajudar em dúvida: <strong>+20 pontos</strong></li>
+                            <li>Ter teoria aprovada pelo Núcleo: <strong>+200 pontos</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -1211,6 +1508,12 @@
                 <div class="content-card">
                     <h2 class="card-title">Editar Perfil</h2>
                     <form id="profileForm">
+                        <div class="avatar-upload">
+                            <div class="avatar-preview" id="avatarPreview" style="background-image: url('https://api.dicebear.com/7.x/identicon/svg?seed=AlgebraRenova')"></div>
+                            <input type="file" id="avatarUpload" class="avatar-input" accept="image/*">
+                            <small style="color: var(--text-secondary); margin-top: 10px;">Clique na imagem para alterar sua foto</small>
+                        </div>
+                        
                         <div class="form-group">
                             <label class="form-label" for="codename">Codinome Simbólico</label>
                             <input type="text" id="codename" class="form-input" placeholder="Ex: 'Transfunctor' ou 'Anti-Identidade'" required>
@@ -1299,7 +1602,7 @@
                 
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelTheoryBtn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Publicar Teoria</button>
+                    <button type="submit" class="btn btn-primary">Enviar para Aprovação</button>
                 </div>
             </form>
         </div>
@@ -1432,6 +1735,67 @@
         </div>
     </div>
 
+    <!-- Modal para Chat do Grupo -->
+    <div class="modal" id="groupChatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="groupChatTitle">Chat do Grupo</h2>
+                <button class="close-btn" id="closeGroupChatModal">&times;</button>
+            </div>
+            <div class="group-chat-container">
+                <div class="group-chat-header">
+                    <button class="group-chat-back-btn" id="groupChatBackBtn">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="group-chat-info">
+                        <h4 id="groupChatName">Carregando...</h4>
+                        <p id="groupChatInfo">0 membros</p>
+                    </div>
+                </div>
+                <div class="group-chat-messages" id="groupChatMessages">
+                    <!-- Mensagens do grupo serão carregadas aqui -->
+                </div>
+                <div class="group-chat-input-area">
+                    <input type="text" class="group-chat-input" id="groupChatInput" placeholder="Digite sua mensagem para o grupo...">
+                    <button class="btn btn-primary" id="sendGroupMessageBtn">
+                        <i class="fas fa-paper-plane"></i> Enviar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Enviar Solicitação de Amizade -->
+    <div class="modal" id="friendRequestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Enviar Solicitação de Amizade</h2>
+                <button class="close-btn" id="closeFriendRequestModal">&times;</button>
+            </div>
+            <form id="friendRequestForm">
+                <input type="hidden" id="requestMemberId">
+                
+                <div class="form-group">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div class="avatar" id="requestMemberAvatar" style="width: 80px; height: 80px; margin: 0 auto 15px;"></div>
+                        <h3 id="requestMemberName">Carregando...</h3>
+                        <p id="requestMemberSpecialty" style="color: var(--text-secondary);"></p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="requestMessage">Mensagem (opcional)</label>
+                    <textarea id="requestMessage" class="form-textarea" placeholder="Escreva uma mensagem para acompanhar sua solicitação..." rows="3"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelFriendRequestBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // ============================================
         // ESTADO GLOBAL DA APLICAÇÃO
@@ -1443,16 +1807,19 @@
             groups: [],
             challenges: [],
             privateMessages: {},
+            groupMessages: {},
             comments: {},
             solutions: {},
+            friendRequests: {},
+            notifications: {},
             
             // Inicializar estado
             init() {
                 this.loadState();
                 
-                // Se não houver usuários, criar alguns de exemplo
+                // Se não houver usuários, criar alguns de exemplo (BOTS)
                 if (this.allMembers.length === 0) {
-                    this.createSampleData();
+                    this.createSampleBots();
                 }
                 
                 // Se não houver teorias, criar algumas de exemplo
@@ -1484,6 +1851,9 @@
                 
                 // Atualizar data atual
                 this.updateCurrentDate();
+                
+                // Configurar upload de avatar
+                this.setupAvatarUpload();
             },
             
             // Carregar estado do localStorage
@@ -1497,8 +1867,11 @@
                         this.groups = parsed.groups || [];
                         this.challenges = parsed.challenges || [];
                         this.privateMessages = parsed.privateMessages || {};
+                        this.groupMessages = parsed.groupMessages || {};
                         this.comments = parsed.comments || {};
                         this.solutions = parsed.solutions || {};
+                        this.friendRequests = parsed.friendRequests || {};
+                        this.notifications = parsed.notifications || {};
                     }
                 } catch (e) {
                     console.error('Erro ao carregar estado:', e);
@@ -1514,8 +1887,11 @@
                         groups: this.groups,
                         challenges: this.challenges,
                         privateMessages: this.privateMessages,
+                        groupMessages: this.groupMessages,
                         comments: this.comments,
-                        solutions: this.solutions
+                        solutions: this.solutions,
+                        friendRequests: this.friendRequests,
+                        notifications: this.notifications
                     };
                     localStorage.setItem('algebraRenovaState', JSON.stringify(state));
                     
@@ -1530,92 +1906,97 @@
                 }
             },
             
-            // Criar dados de exemplo
-            createSampleData() {
-                const sampleMembers = [
+            // Criar BOTS de exemplo
+            createSampleBots() {
+                const bots = [
                     {
-                        id: '1',
+                        id: 'bot001',
                         username: 'Transfunctor',
                         email: 'transfunctor@algebrarenova.com',
                         codename: 'Transfunctor',
                         specialty: 'Teoria das Categorias',
                         level: 'core',
-                        avatar: 'TR',
-                        bio: 'Especialista em transfunctoração e estruturas não-convencionais.',
-                        friends: ['2', '3'],
-                        points: 1250,
+                        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Transfunctor',
+                        bio: 'BOT 001: Especialista em transfunctoração e estruturas não-convencionais.',
+                        friends: ['bot002', 'bot003'],
+                        points: 15200,
                         theories: 8,
                         solutions: 12,
-                        online: false,
-                        joinDate: '2023-01-15'
+                        online: true,
+                        joinDate: '2023-01-15',
+                        isBot: true
                     },
                     {
-                        id: '2',
+                        id: 'bot002',
                         username: 'AntiIdentidade',
                         email: 'anti@algebrarenova.com',
                         codename: 'Anti-Identidade',
                         specialty: 'Álgebra Não-Associativa',
                         level: 'renovated',
-                        avatar: 'AI',
-                        bio: 'Pesquisador em estruturas algébricas sem elemento identidade.',
-                        friends: ['1', '4'],
-                        points: 680,
+                        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=AntiIdentidade',
+                        bio: 'BOT 002: Pesquisador em estruturas algébricas sem elemento identidade.',
+                        friends: ['bot001', 'bot004'],
+                        points: 1680,
                         theories: 5,
                         solutions: 8,
-                        online: false,
-                        joinDate: '2023-03-10'
+                        online: true,
+                        joinDate: '2023-03-10',
+                        isBot: true
                     },
                     {
-                        id: '3',
+                        id: 'bot003',
                         username: 'Borboleta',
                         email: 'borboleta@algebrarenova.com',
                         codename: 'Borboleta Metamórfica',
                         specialty: 'Topologia Algébrica',
                         level: 'initiate',
-                        avatar: 'BM',
-                        bio: 'Interessada em transformações radicais de estruturas matemáticas.',
-                        friends: ['1'],
-                        points: 150,
+                        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Borboleta',
+                        bio: 'BOT 003: Interessada em transformações radicais de estruturas matemáticas.',
+                        friends: ['bot001'],
+                        points: 650,
                         theories: 2,
                         solutions: 3,
-                        online: false,
-                        joinDate: '2023-05-22'
+                        online: true,
+                        joinDate: '2023-05-22',
+                        isBot: true
                     },
                     {
-                        id: '4',
+                        id: 'bot004',
                         username: 'EspadaOlho',
                         email: 'espada@algebrarenova.com',
                         codename: 'Espada do Olho Chorão',
                         specialty: 'Lógica Não-Clássica',
                         level: 'initiate',
-                        avatar: 'EO',
-                        bio: 'Estudante de lógicas alternativas e fundamentos da matemática.',
-                        friends: ['2'],
-                        points: 120,
+                        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=EspadaOlho',
+                        bio: 'BOT 004: Estudante de lógicas alternativas e fundamentos da matemática.',
+                        friends: ['bot002'],
+                        points: 520,
                         theories: 1,
                         solutions: 2,
-                        online: false,
-                        joinDate: '2023-06-18'
+                        online: true,
+                        joinDate: '2023-06-18',
+                        isBot: true
                     },
                     {
-                        id: '5',
+                        id: 'bot005',
                         username: 'Observador',
                         email: 'obs@algebrarenova.com',
                         codename: 'Observador Curioso',
                         specialty: 'Matemática Geral',
                         level: 'observer',
-                        avatar: 'OC',
-                        bio: 'Aprendendo sobre as novas fronteiras da matemática.',
+                        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Observador',
+                        bio: 'BOT 005: Aprendendo sobre as novas fronteiras da matemática.',
                         friends: [],
-                        points: 30,
+                        points: 80,
                         theories: 0,
                         solutions: 1,
-                        online: false,
-                        joinDate: '2023-08-01'
+                        online: true,
+                        joinDate: '2023-08-01',
+                        isBot: true
                     }
                 ];
                 
-                this.allMembers = sampleMembers;
+                this.allMembers = bots;
                 this.saveState();
             },
             
@@ -1623,7 +2004,7 @@
             createSampleTheories() {
                 const sampleTheories = [
                     {
-                        id: '1',
+                        id: 'theory001',
                         title: 'Teoria da Transfunctoração',
                         content: `A transfunctoração é o processo pelo qual uma estrutura algébrica emerge em outro domínio com regras totalmente novas. 
 
@@ -1642,15 +2023,16 @@ a \\dagger a^{\\sharp} = \\varepsilon(a)
 $$
 
 onde $\\varepsilon$ é um operador de deformação categórica.`,
-                        authorId: '1',
+                        authorId: 'bot001',
                         category: 'category',
                         status: 'approved',
+                        approvedBy: 'bot001',
                         date: '2023-10-15',
                         likes: 5,
                         comments: 3
                     },
                     {
-                        id: '2',
+                        id: 'theory002',
                         title: 'Álgebra dos Espaços Anti-Identitários',
                         content: `Exploramos estruturas onde o elemento identidade não existe, mas é substituído por uma família de pseudo-identidades que dependem do contexto operacional.
 
@@ -1667,32 +2049,12 @@ $$
 Porém, $\\phi$ não é único e pode não pertencer a $\\Phi(b)$ para $b \\neq a$.
 
 Esta estrutura desafia o Teorema de Cayley e exige uma reformulação completa da teoria de grupos.`,
-                        authorId: '2',
+                        authorId: 'bot002',
                         category: 'algebra',
                         status: 'pending',
                         date: '2023-10-10',
                         likes: 3,
                         comments: 1
-                    },
-                    {
-                        id: '3',
-                        title: 'Topologias Não-Hausdorff em Espaços de Dimensão Fractal',
-                        content: `Investigamos espaços topológicos onde o axioma de separação $T_2$ é deliberadamente violado para permitir estruturas mais ricas.
-
-Seja $X$ um conjunto com uma topologia $\\tau$ tal que para alguns $x, y \\in X$, toda vizinhança de $x$ intercepta toda vizinhança de $y$. 
-
-Definimos uma nova classe de invariantes topológicos:
-$$
-\\mathcal{F}(X) = \\{ f: X \\rightarrow \\mathbb{R} \\mid f \\text{ é contínua e } f(x) = f(y) \\text{ para todo par não-separável } (x,y) \\}
-$$
-
-Esses espaços possuem aplicações na teoria de sistemas dinâmicos não-convencionais.`,
-                        authorId: '3',
-                        category: 'topology',
-                        status: 'approved',
-                        date: '2023-09-28',
-                        likes: 2,
-                        comments: 0
                     }
                 ];
                 
@@ -1700,27 +2062,27 @@ Esses espaços possuem aplicações na teoria de sistemas dinâmicos não-conven
                 
                 // Comentários de exemplo
                 this.comments = {
-                    '1': [
+                    'theory001': [
                         {
-                            id: 'c1',
-                            theoryId: '1',
-                            authorId: '2',
+                            id: 'c001',
+                            theoryId: 'theory001',
+                            authorId: 'bot002',
                             content: 'Excelente trabalho! Você poderia elaborar sobre como o operador $\\varepsilon$ se comporta em relação à composição de transfunctors?',
                             date: '2023-10-16'
                         },
                         {
-                            id: 'c2',
-                            theoryId: '1',
-                            authorId: '3',
+                            id: 'c002',
+                            theoryId: 'theory001',
+                            authorId: 'bot003',
                             content: 'Achei fascinante a conexão com anti-identidades. Isso me lembra algumas construções em $\\infty$-categories. Poderia explorar essa relação?',
                             date: '2023-10-17'
                         }
                     ],
-                    '2': [
+                    'theory002': [
                         {
-                            id: 'c3',
-                            theoryId: '2',
-                            authorId: '1',
+                            id: 'c003',
+                            theoryId: 'theory002',
+                            authorId: 'bot001',
                             content: 'Interessante abordagem. Como você definiria morfismos entre espaços anti-identitários?',
                             date: '2023-10-12'
                         }
@@ -1734,38 +2096,49 @@ Esses espaços possuem aplicações na teoria de sistemas dinâmicos não-conven
             createSampleGroups() {
                 const sampleGroups = [
                     {
-                        id: '1',
+                        id: 'group001',
                         name: 'Grupo de Transfunctoração',
                         description: 'Estudo de transfunctors e transformações radicais entre categorias matemáticas.',
                         tags: ['transfunctoração', 'categorias', 'álgebra'],
                         privacy: 'restricted',
-                        creatorId: '1',
-                        members: ['1', '2', '3'],
+                        creatorId: 'bot001',
+                        members: ['bot001', 'bot002', 'bot003'],
                         createdDate: '2023-09-01'
                     },
                     {
-                        id: '2',
+                        id: 'group002',
                         name: 'Álgebra Não-Convencional',
                         description: 'Pesquisa em estruturas algébricas que violam axiomas tradicionais.',
                         tags: ['álgebra', 'não-associativa', 'anti-identidades'],
                         privacy: 'public',
-                        creatorId: '2',
-                        members: ['2', '4'],
+                        creatorId: 'bot002',
+                        members: ['bot002', 'bot004'],
                         createdDate: '2023-09-15'
-                    },
-                    {
-                        id: '3',
-                        name: 'Topologia Radical',
-                        description: 'Exploração de espaços topológicos com propriedades não-convencionais.',
-                        tags: ['topologia', 'não-hausdorff', 'fractal'],
-                        privacy: 'restricted',
-                        creatorId: '3',
-                        members: ['3', '1'],
-                        createdDate: '2023-10-01'
                     }
                 ];
                 
                 this.groups = sampleGroups;
+                
+                // Mensagens de grupo de exemplo
+                this.groupMessages = {
+                    'group001': [
+                        {
+                            id: 'gm001',
+                            groupId: 'group001',
+                            authorId: 'bot001',
+                            content: 'Bem-vindos ao grupo de Transfunctoração! Vamos discutir as implicações radicais dessa nova estrutura.',
+                            timestamp: '2023-10-01T10:00:00'
+                        },
+                        {
+                            id: 'gm002',
+                            groupId: 'group001',
+                            authorId: 'bot002',
+                            content: 'Tenho uma pergunta: como a transfunctoração se relaciona com as anti-identidades que estudo?',
+                            timestamp: '2023-10-01T10:05:00'
+                        }
+                    ]
+                };
+                
                 this.saveState();
             },
             
@@ -1773,69 +2146,73 @@ Esses espaços possuem aplicações na teoria de sistemas dinâmicos não-conven
             createSampleChallenges() {
                 const sampleChallenges = [
                     {
-                        id: '1',
+                        id: 'challenge001',
                         title: 'Prove que todo functor admite uma extensão transfunctorial',
                         description: `Dado um functor $F: \\mathcal{C} \\rightarrow \\mathcal{D}$ entre categorias, prove que existe pelo menos uma extensão transfunctorial $\\tilde{F}: \\mathcal{C} \\rightarrow \\mathcal{E}$ onde $\\mathcal{E}$ é uma categoria com operação não-convencional $\\star$.
 
 Dica: Considere a construção do completamento livre.`,
                         difficulty: 'hard',
-                        creatorId: '1',
-                        points: 30,
+                        creatorId: 'bot001',
+                        points: 50,
                         deadline: '2023-11-15',
                         createdDate: '2023-10-01',
                         solutions: 2
-                    },
-                    {
-                        id: '2',
-                        title: 'Construa um espaço anti-identitário finito não-trivial',
-                        description: `Encontre um exemplo explícito de espaço anti-identitário finito com pelo menos 4 elementos, onde a operação $\\bullet$ não é comutativa e $\\Phi(a)$ tem cardinalidade diferente para diferentes $a$.`,
-                        difficulty: 'medium',
-                        creatorId: '2',
-                        points: 20,
-                        deadline: '2023-11-10',
-                        createdDate: '2023-10-05',
-                        solutions: 1
-                    },
-                    {
-                        id: '3',
-                        title: 'Classifique topologias não-Hausdorff em conjuntos com 3 elementos',
-                        description: `Determine todas as topologias não-Hausdorff possíveis em um conjunto com 3 elementos, a menos de homeomorfismo.`,
-                        difficulty: 'easy',
-                        creatorId: '3',
-                        points: 15,
-                        deadline: '2023-11-01',
-                        createdDate: '2023-10-10',
-                        solutions: 0
                     }
                 ];
                 
                 this.challenges = sampleChallenges;
                 
-                // Soluções de exemplo
-                this.solutions = {
-                    '1': [
-                        {
-                            id: 's1',
-                            challengeId: '1',
-                            authorId: '2',
-                            content: 'Aqui está minha tentativa de prova: considere a categoria livre gerada por...',
-                            date: '2023-10-05',
-                            status: 'pending'
-                        }
-                    ],
-                    '2': [
-                        {
-                            id: 's2',
-                            challengeId: '2',
-                            authorId: '4',
-                            content: 'Exemplo: seja $A = \\{a,b,c,d\\}$ com operação definida por...',
-                            date: '2023-10-08',
-                            status: 'approved'
-                        }
-                    ]
-                };
-                
                 this.saveState();
+            },
+            
+            // Configurar upload de avatar
+            setupAvatarUpload() {
+                // Avatar no login
+                const avatarPreviewLogin = document.getElementById('avatarPreviewLogin');
+                const avatarUploadLogin = document.getElementById('avatarUploadLogin');
+                
+                if (avatarUploadLogin && avatarPreviewLogin) {
+                    avatarUploadLogin.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                avatarPreviewLogin.style.backgroundImage = `url(${e.target.result})`;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                    
+                    avatarPreviewLogin.addEventListener('click', function() {
+                        avatarUploadLogin.click();
+                    });
+                }
+                
+                // Avatar no perfil
+                const avatarPreview = document.getElementById('avatarPreview');
+                const avatarUpload = document.getElementById('avatarUpload');
+                
+                if (avatarUpload && avatarPreview) {
+                    avatarUpload.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                avatarPreview.style.backgroundImage = `url(${e.target.result})`;
+                                // Salvar no usuário atual
+                                if (AppState.currentUser) {
+                                    AppState.currentUser.avatar = e.target.result;
+                                    AppState.updateUserProfile();
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                    
+                    avatarPreview.addEventListener('click', function() {
+                        avatarUpload.click();
+                    });
+                }
             },
             
             // Atualizar data atual
@@ -1864,6 +2241,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateChallengesList();
                 this.updateHierarchyInfo();
                 this.updateHomeStats();
+                this.updateNotifications();
             },
             
             // Atualizar perfil do usuário
@@ -1876,16 +2254,24 @@ Dica: Considere a construção do completamento livre.`,
                 const userSpecialty = document.getElementById('userSpecialty');
                 const contributionPoints = document.getElementById('contributionPoints');
                 const theoriesCount = document.getElementById('theoriesCount');
+                const userBotBadge = document.getElementById('userBotBadge');
                 
-                // Atualizar avatar com classe de nível
-                userAvatar.className = `avatar ${this.currentUser.level}`;
-                userAvatar.innerHTML = `<span>${this.currentUser.avatar}</span>`;
+                // Atualizar avatar
+                if (this.currentUser.avatar) {
+                    userAvatar.style.backgroundImage = `url(${this.currentUser.avatar})`;
+                }
+                userAvatar.className = `avatar ${this.currentUser.level} ${this.currentUser.isBot ? 'bot' : ''}`;
                 
                 // Atualizar informações do usuário
                 userName.textContent = this.currentUser.codename || this.currentUser.username;
                 userSpecialty.textContent = this.currentUser.specialty || 'Matemática Geral';
                 contributionPoints.textContent = `${this.currentUser.points || 0} pontos`;
                 theoriesCount.textContent = `${this.currentUser.theories || 0} teorias`;
+                
+                // Mostrar badge de BOT se for bot
+                if (userBotBadge) {
+                    userBotBadge.style.display = this.currentUser.isBot ? 'inline-block' : 'none';
+                }
                 
                 // Aplicar classe de nível ao contêiner de informações
                 userInfo.className = `user-info ${this.currentUser.level}`;
@@ -1918,8 +2304,16 @@ Dica: Considere a construção do completamento livre.`,
                             const friendItem = document.createElement('div');
                             friendItem.className = 'friend-item';
                             friendItem.dataset.friendId = friend.id;
+                            
+                            let avatarStyle = '';
+                            if (friend.avatar && friend.avatar.startsWith('http')) {
+                                avatarStyle = `background-image: url('${friend.avatar}')`;
+                            }
+                            
                             friendItem.innerHTML = `
-                                <div class="friend-avatar ${friend.level}">${friend.avatar}</div>
+                                <div class="friend-avatar ${friend.level} ${friend.isBot ? 'bot' : ''}" style="${avatarStyle}">
+                                    ${friend.avatar && friend.avatar.startsWith('http') ? '' : friend.avatar || 'AR'}
+                                </div>
                                 <div class="friend-name">${friend.codename || friend.username}</div>
                                 <div class="friend-level ${friend.level}-badge">${this.getLevelName(friend.level)}</div>
                             `;
@@ -1941,8 +2335,23 @@ Dica: Considere a construção do completamento livre.`,
             // Atualizar lista de membros
             updateMembersList() {
                 const membersGrid = document.getElementById('membersGrid');
+                const friendRequestsSection = document.getElementById('friendRequestsSection');
+                const manageRequestsBtn = document.getElementById('manageRequestsBtn');
                 
                 if (!membersGrid) return;
+                
+                // Mostrar/ocultar seção de solicitações (apenas para usuários reais)
+                if (friendRequestsSection && manageRequestsBtn && this.currentUser && !this.currentUser.isBot) {
+                    const pendingRequests = this.getPendingFriendRequests();
+                    if (pendingRequests.length > 0) {
+                        friendRequestsSection.style.display = 'block';
+                        manageRequestsBtn.style.display = 'inline-flex';
+                        this.updateFriendRequestsList();
+                    } else {
+                        friendRequestsSection.style.display = 'none';
+                        manageRequestsBtn.style.display = 'none';
+                    }
+                }
                 
                 membersGrid.innerHTML = '';
                 
@@ -1963,13 +2372,34 @@ Dica: Considere a construção do completamento livre.`,
                                     this.currentUser.friends && 
                                     this.currentUser.friends.includes(member.id);
                     
+                    const hasSentRequest = this.currentUser && 
+                                         this.friendRequests[member.id] && 
+                                         this.friendRequests[member.id].some(r => 
+                                             r.from === this.currentUser.id && r.status === 'pending'
+                                         );
+                    
+                    const hasReceivedRequest = this.currentUser && 
+                                             this.friendRequests[this.currentUser.id] && 
+                                             this.friendRequests[this.currentUser.id].some(r => 
+                                                 r.from === member.id && r.status === 'pending'
+                                             );
+                    
+                    let avatarStyle = '';
+                    if (member.avatar && member.avatar.startsWith('http')) {
+                        avatarStyle = `background-image: url('${member.avatar}')`;
+                    }
+                    
                     const memberCard = document.createElement('div');
                     memberCard.className = 'member-card';
                     memberCard.innerHTML = `
                         <div class="member-header">
-                            <div class="member-avatar ${member.level}">${member.avatar}</div>
+                            <div class="member-avatar ${member.level} ${member.isBot ? 'bot' : ''}" style="${avatarStyle}">
+                                ${member.avatar && member.avatar.startsWith('http') ? '' : member.avatar || 'AR'}
+                            </div>
                             <div class="member-info">
-                                <h4>${member.codename || member.username}</h4>
+                                <h4>${member.codename || member.username} 
+                                    ${member.isBot ? '<span class="bot-badge">BOT ' + member.id.substring(3) + '</span>' : ''}
+                                </h4>
                                 <p>${member.specialty || 'Matemática Geral'}</p>
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
                                     <span class="level-badge badge-${member.level}">${this.getLevelName(member.level)}</span>
@@ -1978,29 +2408,169 @@ Dica: Considere a construção do completamento livre.`,
                             </div>
                         </div>
                         <div class="member-actions">
-                            <button class="btn btn-small ${isFriend ? 'btn-secondary' : 'btn-primary'}" data-member-id="${member.id}" style="width: 100%;">
-                                <i class="fas fa-${isFriend ? 'check' : 'user-plus'}"></i>
-                                ${isFriend ? 'Contacto Adicionado' : 'Adicionar Contacto'}
+                            ${isFriend ? `
+                            <button class="btn btn-small btn-secondary" disabled style="width: 100%;">
+                                <i class="fas fa-check"></i> Já é contacto
                             </button>
+                            ` : hasSentRequest ? `
+                            <button class="btn btn-small btn-secondary" disabled style="width: 100%;">
+                                <i class="fas fa-clock"></i> Solicitação Enviada
+                            </button>
+                            ` : hasReceivedRequest ? `
+                            <div style="display: flex; gap: 5px; width: 100%;">
+                                <button class="btn btn-small btn-success accept-request-btn" data-member-id="${member.id}" style="flex: 1;">
+                                    <i class="fas fa-check"></i> Aceitar
+                                </button>
+                                <button class="btn btn-small btn-danger reject-request-btn" data-member-id="${member.id}" style="flex: 1;">
+                                    <i class="fas fa-times"></i> Recusar
+                                </button>
+                            </div>
+                            ` : !member.isBot ? `
+                            <button class="btn btn-small btn-primary send-request-btn" data-member-id="${member.id}" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Enviar Solicitação
+                            </button>
+                            ` : `
+                            <button class="btn btn-small btn-secondary add-friend-btn" data-member-id="${member.id}" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Adicionar BOT
+                            </button>
+                            `}
                         </div>
                     `;
                     
                     membersGrid.appendChild(memberCard);
                 });
                 
-                // Adicionar event listeners aos botões de adicionar amigo
-                document.querySelectorAll('.member-actions .btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const memberId = e.currentTarget.dataset.memberId;
-                        this.addFriend(memberId);
+                // Adicionar event listeners
+                setTimeout(() => {
+                    // Botões de enviar solicitação
+                    document.querySelectorAll('.send-request-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const memberId = e.currentTarget.dataset.memberId;
+                            this.openFriendRequestModal(memberId);
+                        });
                     });
+                    
+                    // Botões de adicionar BOT
+                    document.querySelectorAll('.add-friend-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const memberId = e.currentTarget.dataset.memberId;
+                            this.addFriend(memberId);
+                        });
+                    });
+                    
+                    // Botões de aceitar solicitação
+                    document.querySelectorAll('.accept-request-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const memberId = e.currentTarget.dataset.memberId;
+                            this.acceptFriendRequest(memberId);
+                        });
+                    });
+                    
+                    // Botões de recusar solicitação
+                    document.querySelectorAll('.reject-request-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const memberId = e.currentTarget.dataset.memberId;
+                            this.rejectFriendRequest(memberId);
+                        });
+                    });
+                }, 100);
+            },
+            
+            // Atualizar lista de solicitações de amizade
+            updateFriendRequestsList() {
+                const friendRequestsGrid = document.getElementById('friendRequestsGrid');
+                if (!friendRequestsGrid || !this.currentUser) return;
+                
+                const pendingRequests = this.getPendingFriendRequests();
+                
+                if (pendingRequests.length === 0) {
+                    friendRequestsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--text-secondary);">
+                            Nenhuma solicitação pendente
+                        </div>
+                    `;
+                    return;
+                }
+                
+                friendRequestsGrid.innerHTML = '';
+                
+                pendingRequests.forEach(request => {
+                    const member = this.allMembers.find(m => m.id === request.from);
+                    if (!member) return;
+                    
+                    let avatarStyle = '';
+                    if (member.avatar && member.avatar.startsWith('http')) {
+                        avatarStyle = `background-image: url('${member.avatar}')`;
+                    }
+                    
+                    const requestCard = document.createElement('div');
+                    requestCard.className = 'request-card';
+                    requestCard.innerHTML = `
+                        <div class="request-header">
+                            <div class="request-avatar ${member.level}" style="${avatarStyle}">
+                                ${member.avatar && member.avatar.startsWith('http') ? '' : member.avatar || 'AR'}
+                            </div>
+                            <div class="request-info">
+                                <h4>${member.codename || member.username}</h4>
+                                <p>${member.specialty || 'Matemática Geral'}</p>
+                                <p style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">
+                                    ${request.message || 'Sem mensagem'}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-small btn-success accept-request-btn" data-request-id="${request.id}" style="flex: 1;">
+                                <i class="fas fa-check"></i> Aceitar
+                            </button>
+                            <button class="btn btn-small btn-danger reject-request-btn" data-request-id="${request.id}" style="flex: 1;">
+                                <i class="fas fa-times"></i> Recusar
+                            </button>
+                        </div>
+                    `;
+                    
+                    friendRequestsGrid.appendChild(requestCard);
                 });
+                
+                // Adicionar event listeners
+                setTimeout(() => {
+                    document.querySelectorAll('.accept-request-btn[data-request-id]').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const requestId = e.currentTarget.dataset.requestId;
+                            this.acceptFriendRequestById(requestId);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.reject-request-btn[data-request-id]').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const requestId = e.currentTarget.dataset.requestId;
+                            this.rejectFriendRequestById(requestId);
+                        });
+                    });
+                }, 100);
+            },
+            
+            // Obter solicitações pendentes
+            getPendingFriendRequests() {
+                if (!this.currentUser || !this.friendRequests[this.currentUser.id]) return [];
+                return this.friendRequests[this.currentUser.id].filter(r => r.status === 'pending');
             },
             
             // Atualizar lista de teorias
             updateTheoriesList() {
                 const theoriesList = document.getElementById('theoriesList');
                 const recentTheories = document.getElementById('recentTheories');
+                const pendingTheoriesBadge = document.getElementById('pendingTheoriesBadge');
+                
+                // Atualizar badge de teorias pendentes (apenas para Núcleo)
+                if (pendingTheoriesBadge && this.currentUser && this.currentUser.level === 'core') {
+                    const pendingCount = this.theories.filter(t => t.status === 'pending').length;
+                    if (pendingCount > 0) {
+                        pendingTheoriesBadge.textContent = pendingCount;
+                        pendingTheoriesBadge.style.display = 'inline-block';
+                    } else {
+                        pendingTheoriesBadge.style.display = 'none';
+                    }
+                }
                 
                 if (theoriesList) {
                     theoriesList.innerHTML = '';
@@ -2024,6 +2594,14 @@ Dica: Considere a construção do completamento livre.`,
                                               this.currentUser.level === 'renovated' || 
                                               this.currentUser.level === 'core');
                             
+                            const isAuthor = this.currentUser && this.currentUser.id === theory.authorId;
+                            const canApprove = this.currentUser && this.currentUser.level === 'core' && theory.status === 'pending';
+                            
+                            let avatarStyle = '';
+                            if (author && author.avatar && author.avatar.startsWith('http')) {
+                                avatarStyle = `background-image: url('${author.avatar}')`;
+                            }
+                            
                             const theoryCard = document.createElement('div');
                             theoryCard.className = 'content-card theory-card';
                             theoryCard.dataset.theoryId = theory.id;
@@ -2032,16 +2610,55 @@ Dica: Considere a construção do completamento livre.`,
                                     <h3 class="card-title">${theory.title}</h3>
                                     <div class="card-date">${this.formatDate(theory.date)}</div>
                                 </div>
+                                
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <span class="theory-status status-${theory.status}">
+                                        ${theory.status === 'pending' ? '⏳ Aguardando Aprovação' : 
+                                          theory.status === 'approved' ? '✅ Aprovada pelo Núcleo' : 
+                                          '❌ Rejeitada'}
+                                    </span>
+                                    ${theory.approvedBy ? `
+                                    <span style="margin-left: 10px; font-size: 12px; color: var(--text-secondary);">
+                                        Aprovada por: ${this.allMembers.find(m => m.id === theory.approvedBy)?.codename || 'Núcleo'}
+                                    </span>
+                                    ` : ''}
+                                </div>
+                                
                                 <div class="card-author">
-                                    <div class="author-avatar ${author ? author.level : ''}">${author ? author.avatar : 'AR'}</div>
+                                    <div class="author-avatar ${author ? author.level : ''} ${author?.isBot ? 'bot' : ''}" style="${avatarStyle}">
+                                        ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
+                                    </div>
                                     <div class="author-info">
-                                        <h4>${author ? author.codename || author.username : 'Autor Desconhecido'}</h4>
+                                        <h4>${author ? author.codename || author.username : 'Autor Desconhecido'}
+                                            ${author?.isBot ? '<span class="bot-badge">BOT ' + author.id.substring(3) + '</span>' : ''}
+                                        </h4>
                                         <p>${this.getCategoryName(theory.category)} • ${this.getLevelName(author ? author.level : 'observer')}</p>
                                     </div>
                                 </div>
                                 <div class="theory-content">
                                     ${this.formatTheoryContent(theory.content)}
                                 </div>
+                                
+                                ${canApprove ? `
+                                <div class="nucleus-actions">
+                                    <h4><i class="fas fa-crown"></i> Ações do Núcleo</h4>
+                                    <p style="color: var(--text-secondary); margin-bottom: 10px; font-size: 14px;">
+                                        Como membro do Núcleo, você pode aprovar ou rejeitar esta teoria.
+                                    </p>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-small btn-success approve-theory-btn" data-theory-id="${theory.id}">
+                                            <i class="fas fa-check"></i> Aprovar Teoria
+                                        </button>
+                                        <button class="btn btn-small btn-danger reject-theory-btn" data-theory-id="${theory.id}">
+                                            <i class="fas fa-times"></i> Rejeitar Teoria
+                                        </button>
+                                        <button class="btn btn-small btn-primary request-changes-btn" data-theory-id="${theory.id}">
+                                            <i class="fas fa-edit"></i> Solicitar Alterações
+                                        </button>
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
                                 <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
                                     <div>
                                         <span style="color: var(--text-secondary); margin-right: 15px;">
@@ -2051,23 +2668,31 @@ Dica: Considere a construção do completamento livre.`,
                                             <i class="fas fa-comment"></i> ${theoryComments.length} respostas
                                         </span>
                                     </div>
-                                    ${canComment ? `
+                                    ${canComment && theory.status === 'approved' ? `
                                     <button class="btn btn-small btn-primary reply-theory-btn" data-theory-id="${theory.id}">
                                         <i class="fas fa-reply"></i> Responder
                                     </button>
                                     ` : ''}
                                 </div>
-                                ${theoryComments.length > 0 ? `
+                                
+                                ${theoryComments.length > 0 && theory.status === 'approved' ? `
                                 <div class="comments-section">
                                     <h4 style="margin-bottom: 15px; color: var(--accent-neon);">Respostas (${theoryComments.length})</h4>
                                     <div class="comments-list">
                                         ${theoryComments.slice(0, 2).map(comment => {
                                             const commentAuthor = this.allMembers.find(m => m.id === comment.authorId);
+                                            let commentAvatarStyle = '';
+                                            if (commentAuthor && commentAuthor.avatar && commentAuthor.avatar.startsWith('http')) {
+                                                commentAvatarStyle = `background-image: url('${commentAuthor.avatar}')`;
+                                            }
+                                            
                                             return `
                                                 <div class="comment">
                                                     <div class="comment-header">
                                                         <div class="comment-author">
-                                                            <div class="comment-author-avatar ${commentAuthor ? commentAuthor.level : ''}">${commentAuthor ? commentAuthor.avatar : 'AR'}</div>
+                                                            <div class="comment-author-avatar ${commentAuthor ? commentAuthor.level : ''} ${commentAuthor?.isBot ? 'bot' : ''}" style="${commentAvatarStyle}">
+                                                                ${commentAvatarStyle ? '' : (commentAuthor ? commentAuthor.avatar : 'AR')}
+                                                            </div>
                                                             <div>
                                                                 <strong>${commentAuthor ? commentAuthor.codename || commentAuthor.username : 'Anônimo'}</strong>
                                                                 <div class="comment-date">${this.formatDate(comment.date)}</div>
@@ -2101,8 +2726,9 @@ Dica: Considere a construção do completamento livre.`,
                 if (recentTheories) {
                     recentTheories.innerHTML = '';
                     
-                    // Pegar as 3 teorias mais recentes
+                    // Pegar as 3 teorias mais recentes APROVADAS
                     const recent = [...this.theories]
+                        .filter(t => t.status === 'approved')
                         .sort((a, b) => new Date(b.date) - new Date(a.date))
                         .slice(0, 3);
                     
@@ -2115,6 +2741,11 @@ Dica: Considere a construção do completamento livre.`,
                     } else {
                         recent.forEach(theory => {
                             const author = this.allMembers.find(m => m.id === theory.authorId);
+                            let avatarStyle = '';
+                            if (author && author.avatar && author.avatar.startsWith('http')) {
+                                avatarStyle = `background-image: url('${author.avatar}')`;
+                            }
+                            
                             const theoryItem = document.createElement('div');
                             theoryItem.className = 'content-card';
                             theoryItem.style.padding = '15px';
@@ -2122,7 +2753,9 @@ Dica: Considere a construção do completamento livre.`,
                             theoryItem.innerHTML = `
                                 <h3 style="font-size: 18px; margin-bottom: 10px;">${theory.title}</h3>
                                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                                    <div class="author-avatar ${author ? author.level : ''}" style="width: 30px; height: 30px; font-size: 12px;">${author ? author.avatar : 'AR'}</div>
+                                    <div class="author-avatar ${author ? author.level : ''} ${author?.isBot ? 'bot' : ''}" style="width: 30px; height: 30px; font-size: 12px; ${avatarStyle}">
+                                        ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
+                                    </div>
                                     <div style="margin-left: 10px;">
                                         <div style="font-size: 14px;">${author ? author.codename || author.username : 'Anônimo'}</div>
                                         <div style="font-size: 12px; color: var(--text-secondary);">${this.formatDate(theory.date)}</div>
@@ -2148,6 +2781,28 @@ Dica: Considere a construção do completamento livre.`,
                         btn.addEventListener('click', (e) => {
                             const theoryId = e.currentTarget.dataset.theoryId;
                             this.openCommentModal(theoryId);
+                        });
+                    });
+                    
+                    // Botões de aprovar/rejeitar (Núcleo)
+                    document.querySelectorAll('.approve-theory-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.approveTheory(theoryId);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.reject-theory-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.rejectTheory(theoryId);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.request-changes-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.requestTheoryChanges(theoryId);
                         });
                     });
                     
@@ -2209,6 +2864,12 @@ Dica: Considere a construção do completamento livre.`,
                         const creator = this.allMembers.find(m => m.id === group.creatorId);
                         const isMember = group.members && group.members.includes(this.currentUser.id);
                         const canJoin = this.canUserJoinGroup(group);
+                        const groupMessages = this.groupMessages[group.id] || [];
+                        
+                        let avatarStyle = '';
+                        if (creator && creator.avatar && creator.avatar.startsWith('http')) {
+                            avatarStyle = `background-image: url('${creator.avatar}')`;
+                        }
                         
                         const groupCard = document.createElement('div');
                         groupCard.className = 'group-card';
@@ -2230,34 +2891,50 @@ Dica: Considere a construção do completamento livre.`,
                             <div class="group-actions">
                                 <div>
                                     <span style="font-size: 12px; color: var(--text-secondary);">
-                                        Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                        <i class="fas fa-user"></i> ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                    </span>
+                                    <br>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">
+                                        <i class="fas fa-comment"></i> ${groupMessages.length} mensagens
                                     </span>
                                 </div>
-                                ${isMember ? `
-                                <button class="btn btn-small btn-secondary" disabled>
-                                    <i class="fas fa-check"></i> Já é membro
-                                </button>
-                                ` : canJoin ? `
-                                <button class="btn btn-small btn-primary join-group-btn" data-group-id="${group.id}">
-                                    <i class="fas fa-sign-in-alt"></i> Entrar no Grupo
-                                </button>
-                                ` : `
-                                <button class="btn btn-small btn-secondary" disabled title="Nível insuficiente ou grupo privado">
-                                    <i class="fas fa-lock"></i> Acesso Restrito
-                                </button>
-                                `}
+                                <div style="display: flex; gap: 5px;">
+                                    ${isMember ? `
+                                    <button class="btn btn-small btn-primary open-group-chat-btn" data-group-id="${group.id}">
+                                        <i class="fas fa-comments"></i> Chat
+                                    </button>
+                                    <button class="btn btn-small btn-secondary" disabled>
+                                        <i class="fas fa-check"></i> Membro
+                                    </button>
+                                    ` : canJoin ? `
+                                    <button class="btn btn-small btn-primary join-group-btn" data-group-id="${group.id}">
+                                        <i class="fas fa-sign-in-alt"></i> Entrar
+                                    </button>
+                                    ` : `
+                                    <button class="btn btn-small btn-secondary" disabled title="Nível insuficiente ou grupo privado">
+                                        <i class="fas fa-lock"></i> Restrito
+                                    </button>
+                                    `}
+                                </div>
                             </div>
                         `;
                         
                         groupsGrid.appendChild(groupCard);
                     });
                     
-                    // Adicionar event listeners aos botões de entrar no grupo
+                    // Adicionar event listeners aos botões
                     setTimeout(() => {
                         document.querySelectorAll('.join-group-btn').forEach(btn => {
                             btn.addEventListener('click', (e) => {
                                 const groupId = e.currentTarget.dataset.groupId;
                                 this.joinGroup(groupId);
+                            });
+                        });
+                        
+                        document.querySelectorAll('.open-group-chat-btn').forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                const groupId = e.currentTarget.dataset.groupId;
+                                this.openGroupChat(groupId);
                             });
                         });
                     }, 100);
@@ -2300,6 +2977,11 @@ Dica: Considere a construção do completamento livre.`,
                                             this.currentUser.level === 'renovated' || 
                                             this.currentUser.level === 'core');
                             
+                            let avatarStyle = '';
+                            if (creator && creator.avatar && creator.avatar.startsWith('http')) {
+                                avatarStyle = `background-image: url('${creator.avatar}')`;
+                            }
+                            
                             const challengeCard = document.createElement('div');
                             challengeCard.className = 'challenge-card';
                             challengeCard.innerHTML = `
@@ -2314,10 +2996,13 @@ Dica: Considere a construção do completamento livre.`,
                                 </div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                                     <div>
-                                        <div style="font-size: 12px; color: var(--text-secondary);">
-                                            <i class="fas fa-user"></i> ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                        <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px;">
+                                            <div class="author-avatar ${creator ? creator.level : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
+                                                ${avatarStyle ? '' : (creator ? creator.avatar : 'AR')}
+                                            </div>
+                                            ${creator ? creator.codename || creator.username : 'Desconhecido'}
                                         </div>
-                                        <div style="font-size: 12px; color: var(--text-secondary);">
+                                        <div style="font-size: 12px; color: var(--accent-neon); margin-top: 3px;">
                                             <i class="fas fa-trophy"></i> ${challenge.points} pontos
                                         </div>
                                     </div>
@@ -2464,7 +3149,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Contribuições do usuário
                 if (userContributions) {
-                    const userTheories = this.theories.filter(t => t.authorId === this.currentUser.id).length;
+                    const userTheories = this.theories.filter(t => t.authorId === this.currentUser.id && t.status === 'approved').length;
                     const userGroups = this.groups.filter(g => g.creatorId === this.currentUser.id).length;
                     const userChallenges = this.challenges.filter(c => c.creatorId === this.currentUser.id).length;
                     
@@ -2484,7 +3169,7 @@ Dica: Considere a construção do completamento livre.`,
                         <div class="contributions">
                             <div class="contribution-item">
                                 <div class="contribution-value">${userTheories}</div>
-                                <div class="contribution-label">Teorias</div>
+                                <div class="contribution-label">Teorias Aprovadas</div>
                             </div>
                             <div class="contribution-item">
                                 <div class="contribution-value">${userComments}</div>
@@ -2509,9 +3194,25 @@ Dica: Considere a construção do completamento livre.`,
             
             // Atualizar estatísticas da home
             updateHomeStats() {
-                document.getElementById('totalTheoriesHome').textContent = this.theories.length;
+                const approvedTheories = this.theories.filter(t => t.status === 'approved').length;
+                document.getElementById('totalTheoriesHome').textContent = approvedTheories;
                 document.getElementById('totalChallengesHome').textContent = this.challenges.length;
                 document.getElementById('totalGroupsHome').textContent = this.groups.length;
+            },
+            
+            // Atualizar notificações
+            updateNotifications() {
+                const friendRequestsBadge = document.getElementById('friendRequestsBadge');
+                
+                if (friendRequestsBadge && this.currentUser && !this.currentUser.isBot) {
+                    const pendingRequests = this.getPendingFriendRequests();
+                    if (pendingRequests.length > 0) {
+                        friendRequestsBadge.textContent = pendingRequests.length;
+                        friendRequestsBadge.style.display = 'inline-block';
+                    } else {
+                        friendRequestsBadge.style.display = 'none';
+                    }
+                }
             },
             
             // ============================================
@@ -2520,15 +3221,23 @@ Dica: Considere a construção do completamento livre.`,
             
             // Manipular login
             handleLogin(username, email, nucleusKey) {
+                // Processar avatar do login
+                const avatarPreview = document.getElementById('avatarPreviewLogin');
+                let avatarUrl = avatarPreview.style.backgroundImage;
+                avatarUrl = avatarUrl.replace('url("', '').replace('")', '');
+                
                 // Verificar chave do núcleo
                 let initialLevel = 'observer';
+                let initialPoints = 0;
+                
                 if (nucleusKey === 'Renova, O Not Trad') {
                     initialLevel = 'core';
+                    initialPoints = 1000;
                 }
                 
                 // Verificar se o usuário já existe
                 let user = this.allMembers.find(m => 
-                    m.email === email
+                    m.email === email && !m.isBot
                 );
                 
                 if (user) {
@@ -2537,7 +3246,7 @@ Dica: Considere a construção do completamento livre.`,
                     user.online = true;
                 } else {
                     // Criar novo usuário
-                    const userId = Date.now().toString();
+                    const userId = 'user_' + Date.now().toString();
                     user = {
                         id: userId,
                         username: username,
@@ -2546,17 +3255,31 @@ Dica: Considere a construção do completamento livre.`,
                         specialty: 'Matemática Geral',
                         bio: '',
                         level: initialLevel,
-                        avatar: this.generateAvatar(username),
+                        avatar: avatarUrl || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(username)}`,
                         friends: [],
-                        points: initialLevel === 'core' ? 1000 : 0,
+                        points: initialPoints,
                         theories: 0,
                         solutions: 0,
                         online: true,
-                        joinDate: new Date().toISOString().split('T')[0]
+                        joinDate: new Date().toISOString().split('T')[0],
+                        isBot: false
                     };
                     
                     this.allMembers.push(user);
                     this.currentUser = user;
+                    
+                    // Adicionar automaticamente alguns BOTS como amigos
+                    const botIds = ['bot001', 'bot002', 'bot003'];
+                    botIds.forEach(botId => {
+                        if (!user.friends.includes(botId)) {
+                            user.friends.push(botId);
+                            // Também adicionar o usuário aos amigos do BOT
+                            const bot = this.allMembers.find(m => m.id === botId);
+                            if (bot && !bot.friends.includes(userId)) {
+                                bot.friends.push(userId);
+                            }
+                        }
+                    });
                 }
                 
                 this.saveState();
@@ -2602,10 +3325,19 @@ Dica: Considere a construção do completamento livre.`,
                     document.getElementById('codename').value = this.currentUser.codename || this.currentUser.username;
                     document.getElementById('specialty').value = this.currentUser.specialty || '';
                     document.getElementById('bio').value = this.currentUser.bio || '';
+                    const avatarPreview = document.getElementById('avatarPreview');
+                    if (avatarPreview && this.currentUser.avatar) {
+                        avatarPreview.style.backgroundImage = `url(${this.currentUser.avatar})`;
+                    }
+                }
+                
+                // Se for a aba de membros, atualizar solicitações
+                if (tabName === 'members') {
+                    this.updateMembersList();
                 }
             },
             
-            // Adicionar amigo
+            // Adicionar amigo (para BOTs ou aceitação de solicitação)
             addFriend(memberId) {
                 if (!this.currentUser) return;
                 
@@ -2622,8 +3354,15 @@ Dica: Considere a construção do completamento livre.`,
                 
                 this.currentUser.friends.push(memberId);
                 
+                // Adicionar ao amigo também (se for BOT)
+                const member = this.allMembers.find(m => m.id === memberId);
+                if (member && !member.friends.includes(this.currentUser.id)) {
+                    if (!member.friends) member.friends = [];
+                    member.friends.push(this.currentUser.id);
+                }
+                
                 // Adicionar pontos
-                this.addPoints(5, 'Adicionar contacto');
+                this.addPoints(10, 'Adicionar contacto');
                 
                 // Atualizar interface
                 this.updateFriendsList();
@@ -2633,8 +3372,220 @@ Dica: Considere a construção do completamento livre.`,
                 this.saveState();
                 
                 // Mostrar notificação
+                this.showNotification(`${member.codename || member.username} adicionado aos seus contactos. +10 pontos`);
+            },
+            
+            // Enviar solicitação de amizade
+            sendFriendRequest(memberId, message) {
+                if (!this.currentUser || this.currentUser.isBot) return;
+                
                 const member = this.allMembers.find(m => m.id === memberId);
-                this.showNotification(`${member.codename || member.username} adicionado aos seus contactos. +5 pontos`);
+                if (!member || member.isBot) return;
+                
+                // Verificar se já é amigo
+                if (this.currentUser.friends && this.currentUser.friends.includes(memberId)) {
+                    this.showNotification('Este membro já está na sua lista de contactos.');
+                    return;
+                }
+                
+                // Verificar se já existe solicitação pendente
+                if (!this.friendRequests[memberId]) {
+                    this.friendRequests[memberId] = [];
+                }
+                
+                const existingRequest = this.friendRequests[memberId].find(r => 
+                    r.from === this.currentUser.id && r.status === 'pending'
+                );
+                
+                if (existingRequest) {
+                    this.showNotification('Você já enviou uma solicitação para este membro.');
+                    return;
+                }
+                
+                // Criar solicitação
+                const request = {
+                    id: 'req_' + Date.now().toString(),
+                    from: this.currentUser.id,
+                    to: memberId,
+                    message: message || '',
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'pending'
+                };
+                
+                this.friendRequests[memberId].push(request);
+                
+                // Adicionar notificação para o membro
+                if (!this.notifications[memberId]) {
+                    this.notifications[memberId] = [];
+                }
+                
+                this.notifications[memberId].push({
+                    id: 'notif_' + Date.now().toString(),
+                    type: 'friend_request',
+                    from: this.currentUser.id,
+                    message: `${this.currentUser.codename} enviou uma solicitação de amizade.`,
+                    date: new Date().toISOString(),
+                    read: false
+                });
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateMembersList();
+                
+                // Mostrar notificação
+                this.showNotification(`Solicitação enviada para ${member.codename || member.username}.`);
+            },
+            
+            // Aceitar solicitação de amizade
+            acceptFriendRequest(memberId) {
+                if (!this.currentUser) return;
+                
+                // Encontrar a solicitação
+                if (!this.friendRequests[this.currentUser.id]) return;
+                
+                const requestIndex = this.friendRequests[this.currentUser.id].findIndex(r => 
+                    r.from === memberId && r.status === 'pending'
+                );
+                
+                if (requestIndex === -1) return;
+                
+                // Atualizar status da solicitação
+                this.friendRequests[this.currentUser.id][requestIndex].status = 'accepted';
+                
+                // Adicionar como amigo
+                this.addFriend(memberId);
+                
+                // Adicionar notificação para o remetente
+                const member = this.allMembers.find(m => m.id === memberId);
+                if (member && !member.isBot) {
+                    if (!this.notifications[memberId]) {
+                        this.notifications[memberId] = [];
+                    }
+                    
+                    this.notifications[memberId].push({
+                        id: 'notif_' + Date.now().toString(),
+                        type: 'friend_request_accepted',
+                        from: this.currentUser.id,
+                        message: `${this.currentUser.codename} aceitou sua solicitação de amizade.`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                }
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateMembersList();
+                this.updateNotifications();
+                
+                // Mostrar notificação
+                this.showNotification(`Solicitação de ${member.codename || member.username} aceita.`);
+            },
+            
+            // Aceitar solicitação por ID
+            acceptFriendRequestById(requestId) {
+                if (!this.currentUser) return;
+                
+                // Encontrar a solicitação
+                if (!this.friendRequests[this.currentUser.id]) return;
+                
+                const requestIndex = this.friendRequests[this.currentUser.id].findIndex(r => r.id === requestId);
+                if (requestIndex === -1) return;
+                
+                const request = this.friendRequests[this.currentUser.id][requestIndex];
+                const memberId = request.from;
+                
+                // Atualizar status da solicitação
+                this.friendRequests[this.currentUser.id][requestIndex].status = 'accepted';
+                
+                // Adicionar como amigo
+                this.addFriend(memberId);
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateMembersList();
+                this.updateNotifications();
+                
+                // Mostrar notificação
+                const member = this.allMembers.find(m => m.id === memberId);
+                this.showNotification(`Solicitação de ${member.codename || member.username} aceita.`);
+            },
+            
+            // Rejeitar solicitação de amizade
+            rejectFriendRequest(memberId) {
+                if (!this.currentUser) return;
+                
+                // Encontrar a solicitação
+                if (!this.friendRequests[this.currentUser.id]) return;
+                
+                const requestIndex = this.friendRequests[this.currentUser.id].findIndex(r => 
+                    r.from === memberId && r.status === 'pending'
+                );
+                
+                if (requestIndex === -1) return;
+                
+                // Atualizar status da solicitação
+                this.friendRequests[this.currentUser.id][requestIndex].status = 'rejected';
+                
+                // Adicionar notificação para o remetente
+                const member = this.allMembers.find(m => m.id === memberId);
+                if (member && !member.isBot) {
+                    if (!this.notifications[memberId]) {
+                        this.notifications[memberId] = [];
+                    }
+                    
+                    this.notifications[memberId].push({
+                        id: 'notif_' + Date.now().toString(),
+                        type: 'friend_request_rejected',
+                        from: this.currentUser.id,
+                        message: `${this.currentUser.codename} recusou sua solicitação de amizade.`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                }
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateMembersList();
+                this.updateNotifications();
+                
+                // Mostrar notificação
+                this.showNotification(`Solicitação de ${member.codename || member.username} recusada.`);
+            },
+            
+            // Rejeitar solicitação por ID
+            rejectFriendRequestById(requestId) {
+                if (!this.currentUser) return;
+                
+                // Encontrar a solicitação
+                if (!this.friendRequests[this.currentUser.id]) return;
+                
+                const requestIndex = this.friendRequests[this.currentUser.id].findIndex(r => r.id === requestId);
+                if (requestIndex === -1) return;
+                
+                const request = this.friendRequests[this.currentUser.id][requestIndex];
+                const memberId = request.from;
+                
+                // Atualizar status da solicitação
+                this.friendRequests[this.currentUser.id][requestIndex].status = 'rejected';
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateMembersList();
+                this.updateNotifications();
+                
+                // Mostrar notificação
+                const member = this.allMembers.find(m => m.id === memberId);
+                this.showNotification(`Solicitação de ${member.codename || member.username} recusada.`);
             },
             
             // Enviar mensagem
@@ -2679,24 +3630,24 @@ Dica: Considere a construção do completamento livre.`,
                 return message;
             },
             
-            // Salvar teoria
+            // Salvar teoria (aguardando aprovação do Núcleo)
             saveTheory(title, content, category) {
                 if (!this.currentUser || !title.trim() || !content.trim()) return;
                 
                 // Verificar permissão
                 if (this.currentUser.level === 'observer') {
-                    this.showNotification('Apenas Iniciados ou superiores podem publicar teorias.');
+                    this.showNotification('Apenas Iniciados ou superiores podem enviar teorias para aprovação.');
                     return;
                 }
                 
                 // Criar nova teoria
                 const theory = {
-                    id: Date.now().toString(),
+                    id: 'theory_' + Date.now().toString(),
                     title: title,
                     content: content,
                     category: category,
                     authorId: this.currentUser.id,
-                    status: this.currentUser.level === 'core' ? 'approved' : 'pending',
+                    status: 'pending',
                     date: new Date().toISOString().split('T')[0],
                     likes: 0,
                     comments: 0
@@ -2704,9 +3655,6 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Adicionar à lista de teorias
                 this.theories.unshift(theory);
-                
-                // Adicionar pontos
-                this.addPoints(50, 'Publicar teoria');
                 
                 // Atualizar contador do usuário
                 this.currentUser.theories = (this.currentUser.theories || 0) + 1;
@@ -2718,10 +3666,130 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateUI();
                 
                 // Mostrar notificação
-                const statusMsg = theory.status === 'approved' ? 'aprovada' : 'aguardando aprovação';
-                this.showNotification(`Teoria publicada com sucesso! ${statusMsg}. +50 pontos`);
+                this.showNotification(`Teoria enviada para aprovação do Núcleo! Aguarde a avaliação.`);
                 
                 return theory;
+            },
+            
+            // Aprovar teoria (apenas Núcleo)
+            approveTheory(theoryId) {
+                if (!this.currentUser || this.currentUser.level !== 'core') {
+                    this.showNotification('Apenas membros do Núcleo podem aprovar teorias.');
+                    return;
+                }
+                
+                const theory = this.theories.find(t => t.id === theoryId);
+                if (!theory) return;
+                
+                // Atualizar status
+                theory.status = 'approved';
+                theory.approvedBy = this.currentUser.id;
+                
+                // Adicionar pontos ao autor
+                const author = this.allMembers.find(m => m.id === theory.authorId);
+                if (author) {
+                    author.points = (author.points || 0) + 200; // Bônus por aprovação
+                    
+                    // Verificar promoção
+                    this.checkMemberPromotion(author);
+                }
+                
+                // Adicionar notificação para o autor
+                if (!author.isBot) {
+                    if (!this.notifications[author.id]) {
+                        this.notifications[author.id] = [];
+                    }
+                    
+                    this.notifications[author.id].push({
+                        id: 'notif_' + Date.now().toString(),
+                        type: 'theory_approved',
+                        from: this.currentUser.id,
+                        message: `Sua teoria "${theory.title}" foi aprovada pelo Núcleo! +200 pontos`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                }
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateUI();
+                
+                // Mostrar notificação
+                this.showNotification(`Teoria "${theory.title}" aprovada! +200 pontos para o autor.`);
+            },
+            
+            // Rejeitar teoria (apenas Núcleo)
+            rejectTheory(theoryId) {
+                if (!this.currentUser || this.currentUser.level !== 'core') {
+                    this.showNotification('Apenas membros do Núcleo podem rejeitar teorias.');
+                    return;
+                }
+                
+                const theory = this.theories.find(t => t.id === theoryId);
+                if (!theory) return;
+                
+                // Atualizar status
+                theory.status = 'rejected';
+                theory.approvedBy = this.currentUser.id;
+                
+                // Adicionar notificação para o autor
+                const author = this.allMembers.find(m => m.id === theory.authorId);
+                if (author && !author.isBot) {
+                    if (!this.notifications[author.id]) {
+                        this.notifications[author.id] = [];
+                    }
+                    
+                    this.notifications[author.id].push({
+                        id: 'notif_' + Date.now().toString(),
+                        type: 'theory_rejected',
+                        from: this.currentUser.id,
+                        message: `Sua teoria "${theory.title}" foi rejeitada pelo Núcleo.`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                }
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateUI();
+                
+                // Mostrar notificação
+                this.showNotification(`Teoria "${theory.title}" rejeitada.`);
+            },
+            
+            // Solicitar alterações na teoria (apenas Núcleo)
+            requestTheoryChanges(theoryId) {
+                if (!this.currentUser || this.currentUser.level !== 'core') {
+                    this.showNotification('Apenas membros do Núcleo podem solicitar alterações.');
+                    return;
+                }
+                
+                const theory = this.theories.find(t => t.id === theoryId);
+                if (!theory) return;
+                
+                // Adicionar notificação para o autor
+                const author = this.allMembers.find(m => m.id === theory.authorId);
+                if (author && !author.isBot) {
+                    if (!this.notifications[author.id]) {
+                        this.notifications[author.id] = [];
+                    }
+                    
+                    this.notifications[author.id].push({
+                        id: 'notif_' + Date.now().toString(),
+                        type: 'theory_changes_requested',
+                        from: this.currentUser.id,
+                        message: `O Núcleo solicitou alterações na sua teoria "${theory.title}".`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                }
+                
+                // Mostrar notificação
+                this.showNotification(`Solicitação de alterações enviada para o autor.`);
             },
             
             // Adicionar comentário à teoria
@@ -2734,6 +3802,12 @@ Dica: Considere a construção do completamento livre.`,
                     return;
                 }
                 
+                const theory = this.theories.find(t => t.id === theoryId);
+                if (!theory || theory.status !== 'approved') {
+                    this.showNotification('Esta teoria não está disponível para comentários.');
+                    return;
+                }
+                
                 // Inicializar array de comentários se não existir
                 if (!this.comments[theoryId]) {
                     this.comments[theoryId] = [];
@@ -2741,7 +3815,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Criar comentário
                 const comment = {
-                    id: Date.now().toString(),
+                    id: 'comment_' + Date.now().toString(),
                     theoryId: theoryId,
                     authorId: this.currentUser.id,
                     content: content,
@@ -2752,13 +3826,10 @@ Dica: Considere a construção do completamento livre.`,
                 this.comments[theoryId].push(comment);
                 
                 // Atualizar contador na teoria
-                const theory = this.theories.find(t => t.id === theoryId);
-                if (theory) {
-                    theory.comments = (theory.comments || 0) + 1;
-                }
+                theory.comments = (theory.comments || 0) + 1;
                 
                 // Adicionar pontos
-                this.addPoints(5, 'Comentar em teoria');
+                this.addPoints(10, 'Comentar em teoria');
                 
                 // Salvar estado
                 this.saveState();
@@ -2767,7 +3838,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateTheoriesList();
                 
                 // Mostrar notificação
-                this.showNotification('Resposta publicada com sucesso! +5 pontos');
+                this.showNotification('Resposta publicada com sucesso! +10 pontos');
                 
                 return comment;
             },
@@ -2784,7 +3855,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Criar novo grupo
                 const group = {
-                    id: Date.now().toString(),
+                    id: 'group_' + Date.now().toString(),
                     name: name,
                     description: description,
                     tags: tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [],
@@ -2798,7 +3869,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.groups.push(group);
                 
                 // Adicionar pontos
-                this.addPoints(20, 'Criar grupo');
+                this.addPoints(30, 'Criar grupo');
                 
                 // Salvar estado
                 this.saveState();
@@ -2807,7 +3878,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateGroupsList();
                 
                 // Mostrar notificação
-                this.showNotification(`Grupo "${name}" criado com sucesso! +20 pontos`);
+                this.showNotification(`Grupo "${name}" criado com sucesso! +30 pontos`);
                 
                 return group;
             },
@@ -2848,6 +3919,140 @@ Dica: Considere a construção do completamento livre.`,
                 this.showNotification(`Você entrou no grupo "${group.name}"! +10 pontos`);
             },
             
+            // Enviar mensagem no grupo
+            sendGroupMessage(groupId, messageText) {
+                if (!this.currentUser || !messageText.trim()) return;
+                
+                const group = this.groups.find(g => g.id === groupId);
+                if (!group || !group.members.includes(this.currentUser.id)) {
+                    this.showNotification('Você não é membro deste grupo.');
+                    return;
+                }
+                
+                // Inicializar array de mensagens se não existir
+                if (!this.groupMessages[groupId]) {
+                    this.groupMessages[groupId] = [];
+                }
+                
+                // Criar mensagem
+                const message = {
+                    id: 'gm_' + Date.now().toString(),
+                    groupId: groupId,
+                    authorId: this.currentUser.id,
+                    content: messageText,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Adicionar à lista de mensagens
+                this.groupMessages[groupId].push(message);
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface do chat do grupo
+                this.updateGroupChatMessages(groupId);
+                
+                // Rolagem para a última mensagem
+                setTimeout(() => {
+                    const chatMessages = document.getElementById('groupChatMessages');
+                    if (chatMessages) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }, 100);
+                
+                return message;
+            },
+            
+            // Abrir chat do grupo
+            openGroupChat(groupId) {
+                const group = this.groups.find(g => g.id === groupId);
+                if (!group) return;
+                
+                // Atualizar modal
+                document.getElementById('groupChatTitle').textContent = group.name;
+                document.getElementById('groupChatName').textContent = group.name;
+                document.getElementById('groupChatInfo').textContent = `${group.members.length} membros`;
+                
+                // Mostrar modal
+                document.getElementById('groupChatModal').classList.add('active');
+                
+                // Carregar mensagens
+                this.updateGroupChatMessages(groupId);
+                
+                // Configurar envio de mensagens
+                const sendBtn = document.getElementById('sendGroupMessageBtn');
+                const input = document.getElementById('groupChatInput');
+                
+                const sendMessage = () => {
+                    const message = input.value.trim();
+                    if (message) {
+                        this.sendGroupMessage(groupId, message);
+                        input.value = '';
+                        input.focus();
+                    }
+                };
+                
+                sendBtn.onclick = sendMessage;
+                input.onkeypress = (e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                };
+            },
+            
+            // Atualizar mensagens do chat do grupo
+            updateGroupChatMessages(groupId) {
+                const chatMessages = document.getElementById('groupChatMessages');
+                if (!chatMessages) return;
+                
+                const messages = this.groupMessages[groupId] || [];
+                
+                chatMessages.innerHTML = '';
+                
+                if (messages.length === 0) {
+                    chatMessages.innerHTML = `
+                        <div style="text-align: center; color: var(--text-secondary); padding: 40px;">
+                            <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>Nenhuma mensagem ainda. Seja o primeiro a falar!</p>
+                        </div>
+                    `;
+                } else {
+                    messages.forEach(msg => {
+                        const author = this.allMembers.find(m => m.id === msg.authorId);
+                        const isSent = msg.authorId === this.currentUser.id;
+                        const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        let avatarStyle = '';
+                        if (author && author.avatar && author.avatar.startsWith('http')) {
+                            avatarStyle = `background-image: url('${author.avatar}')`;
+                        }
+                        
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = `group-message ${isSent ? 'sent' : 'received'}`;
+                        messageDiv.innerHTML = `
+                            <div class="group-message-author">
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <div class="comment-author-avatar ${author ? author.level : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
+                                        ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
+                                    </div>
+                                    ${author ? author.codename || author.username : 'Anônimo'}
+                                    ${author?.isBot ? '<span class="bot-badge" style="font-size: 8px;">BOT</span>' : ''}
+                                </div>
+                            </div>
+                            <div>${this.formatMessageText(msg.content)}</div>
+                            <div class="group-message-time">${time}</div>
+                        `;
+                        
+                        chatMessages.appendChild(messageDiv);
+                    });
+                    
+                    // Rolagem para a última mensagem
+                    setTimeout(() => {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 100);
+                }
+            },
+            
             // Criar desafio
             createChallenge(title, description, difficulty, deadlineDays) {
                 if (!this.currentUser || !title.trim() || !description.trim()) return;
@@ -2863,12 +4068,12 @@ Dica: Considere a construção do completamento livre.`,
                 deadline.setDate(deadline.getDate() + parseInt(deadlineDays));
                 
                 // Pontos baseados na dificuldade
-                const pointsMap = { 'easy': 15, 'medium': 20, 'hard': 30, 'extreme': 50 };
-                const points = pointsMap[difficulty] || 20;
+                const pointsMap = { 'easy': 15, 'medium': 25, 'hard': 40, 'extreme': 60 };
+                const points = pointsMap[difficulty] || 25;
                 
                 // Criar novo desafio
                 const challenge = {
-                    id: Date.now().toString(),
+                    id: 'challenge_' + Date.now().toString(),
                     title: title,
                     description: description,
                     difficulty: difficulty,
@@ -2921,7 +4126,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Criar solução
                 const solution = {
-                    id: Date.now().toString(),
+                    id: 'solution_' + Date.now().toString(),
                     challengeId: challengeId,
                     authorId: this.currentUser.id,
                     content: content,
@@ -2939,7 +4144,7 @@ Dica: Considere a construção do completamento livre.`,
                 }
                 
                 // Adicionar pontos
-                this.addPoints(30, 'Resolver desafio');
+                this.addPoints(50, 'Resolver desafio');
                 
                 // Atualizar contador do usuário
                 this.currentUser.solutions = (this.currentUser.solutions || 0) + 1;
@@ -2952,7 +4157,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateHierarchyInfo();
                 
                 // Mostrar notificação
-                this.showNotification('Solução enviada com sucesso! Aguarde aprovação. +30 pontos');
+                this.showNotification('Solução enviada com sucesso! Aguarde aprovação. +50 pontos');
                 
                 return solution;
             },
@@ -2965,7 +4170,11 @@ Dica: Considere a construção do completamento livre.`,
                 this.currentUser.codename = codename || this.currentUser.username;
                 this.currentUser.specialty = specialty || 'Matemática Geral';
                 this.currentUser.bio = bio || '';
-                this.currentUser.avatar = this.generateAvatar(codename || this.currentUser.username);
+                
+                // Se não tiver avatar personalizado, gerar um baseado no codename
+                if (!this.currentUser.avatar || this.currentUser.avatar.includes('dicebear')) {
+                    this.currentUser.avatar = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(codename || this.currentUser.username)}`;
+                }
                 
                 // Salvar estado
                 this.saveState();
@@ -2981,7 +4190,7 @@ Dica: Considere a construção do completamento livre.`,
             // FUNÇÕES AUXILIARES
             // ============================================
             
-            // Abrir chat com um amigo
+            // Abrir chat privado com um amigo
             openChat(friend) {
                 // Mostrar container do chat
                 document.getElementById('chatSelection').style.display = 'none';
@@ -2995,7 +4204,7 @@ Dica: Considere a construção do completamento livre.`,
                             <i class="fas fa-arrow-left"></i>
                         </button>
                         <div class="chat-friend-info">
-                            <h4>${friend.codename || friend.username}</h4>
+                            <h4>${friend.codename || friend.username} ${friend.isBot ? '<span class="bot-badge">BOT</span>' : ''}</h4>
                             <p>${friend.specialty || 'Matemática Geral'} • ${this.getLevelName(friend.level)}</p>
                         </div>
                     </div>
@@ -3039,7 +4248,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateChatMessages(friend.id);
             },
             
-            // Atualizar mensagens do chat
+            // Atualizar mensagens do chat privado
             updateChatMessages(friendId) {
                 const chatMessages = document.getElementById('chatMessages');
                 if (!chatMessages) return;
@@ -3100,6 +4309,32 @@ Dica: Considere a construção do completamento livre.`,
                 document.getElementById('solutionContent').focus();
             },
             
+            // Abrir modal de solicitação de amizade
+            openFriendRequestModal(memberId) {
+                const member = this.allMembers.find(m => m.id === memberId);
+                if (!member) return;
+                
+                document.getElementById('requestMemberId').value = memberId;
+                
+                let avatarStyle = '';
+                if (member.avatar && member.avatar.startsWith('http')) {
+                    avatarStyle = `background-image: url('${member.avatar}')`;
+                }
+                
+                const avatarEl = document.getElementById('requestMemberAvatar');
+                if (avatarEl) {
+                    avatarEl.style.backgroundImage = avatarStyle ? `url('${member.avatar}')` : '';
+                    avatarEl.innerHTML = avatarStyle ? '' : (member.avatar || 'AR');
+                    avatarEl.className = `avatar ${member.level}`;
+                }
+                
+                document.getElementById('requestMemberName').textContent = member.codename || member.username;
+                document.getElementById('requestMemberSpecialty').textContent = member.specialty || 'Matemática Geral';
+                
+                document.getElementById('friendRequestModal').classList.add('active');
+                document.getElementById('requestMessage').focus();
+            },
+            
             // Mostrar todos os comentários
             showAllComments(theoryId) {
                 const theory = this.theories.find(t => t.id === theoryId);
@@ -3108,11 +4343,19 @@ Dica: Considere a construção do completamento livre.`,
                 let commentsHTML = '';
                 comments.forEach(comment => {
                     const author = this.allMembers.find(m => m.id === comment.authorId);
+                    
+                    let avatarStyle = '';
+                    if (author && author.avatar && author.avatar.startsWith('http')) {
+                        avatarStyle = `background-image: url('${author.avatar}')`;
+                    }
+                    
                     commentsHTML += `
                         <div class="comment">
                             <div class="comment-header">
                                 <div class="comment-author">
-                                    <div class="comment-author-avatar ${author ? author.level : ''}">${author ? author.avatar : 'AR'}</div>
+                                    <div class="comment-author-avatar ${author ? author.level : ''} ${author?.isBot ? 'bot' : ''}" style="${avatarStyle}">
+                                        ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
+                                    </div>
                                     <div>
                                         <strong>${author ? author.codename || author.username : 'Anônimo'}</strong>
                                         <div class="comment-date">${this.formatDate(comment.date)}</div>
@@ -3177,6 +4420,11 @@ Dica: Considere a construção do completamento livre.`,
                 
                 if (!challenge) return;
                 
+                let avatarStyle = '';
+                if (creator && creator.avatar && creator.avatar.startsWith('http')) {
+                    avatarStyle = `background-image: url('${creator.avatar}')`;
+                }
+                
                 // Criar modal temporário
                 const modal = document.createElement('div');
                 modal.className = 'modal active';
@@ -3197,8 +4445,11 @@ Dica: Considere a construção do completamento livre.`,
                         </div>
                         
                         <div style="margin-bottom: 20px;">
-                            <div style="color: var(--text-secondary); margin-bottom: 10px;">
-                                <i class="fas fa-user"></i> Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                            <div style="color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                <div class="author-avatar ${creator ? creator.level : ''}" style="width: 30px; height: 30px; font-size: 12px; ${avatarStyle}">
+                                    ${avatarStyle ? '' : (creator ? creator.avatar : 'AR')}
+                                </div>
+                                Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
                             </div>
                             <div style="color: var(--text-secondary);">
                                 <i class="fas fa-clock"></i> Prazo: ${this.formatDate(challenge.deadline)}
@@ -3217,11 +4468,18 @@ Dica: Considere a construção do completamento livre.`,
                                 '<p style="color: var(--text-secondary); text-align: center;">Nenhuma solução enviada ainda.</p>' :
                                 solutions.map(sol => {
                                     const solAuthor = this.allMembers.find(m => m.id === sol.authorId);
+                                    let solAvatarStyle = '';
+                                    if (solAuthor && solAuthor.avatar && solAuthor.avatar.startsWith('http')) {
+                                        solAvatarStyle = `background-image: url('${solAuthor.avatar}')`;
+                                    }
+                                    
                                     return `
                                         <div class="comment" style="margin-bottom: 15px;">
                                             <div class="comment-header">
                                                 <div class="comment-author">
-                                                    <div class="comment-author-avatar ${solAuthor ? solAuthor.level : ''}">${solAuthor ? solAuthor.avatar : 'AR'}</div>
+                                                    <div class="comment-author-avatar ${solAuthor ? solAuthor.level : ''}" style="${solAvatarStyle}">
+                                                        ${solAvatarStyle ? '' : (solAuthor ? solAuthor.avatar : 'AR')}
+                                                    </div>
                                                     <div>
                                                         <strong>${solAuthor ? solAuthor.codename || solAuthor.username : 'Anônimo'}</strong>
                                                         <div class="comment-date">${this.formatDate(sol.date)} • Status: ${sol.status === 'approved' ? '✅ Aprovada' : '⏳ Pendente'}</div>
@@ -3298,26 +4556,69 @@ Dica: Considere a construção do completamento livre.`,
                 console.log(`+${points} pontos para ${this.currentUser.codename}: ${reason}`);
             },
             
-            // Verificar promoção automática
+            // Verificar promoção automática do usuário atual
             checkPromotion() {
                 if (!this.currentUser) return;
                 
                 const currentPoints = this.currentUser.points || 0;
                 const currentLevel = this.currentUser.level;
                 
+                // Pontos necessários para cada nível (ajustados)
+                const pointsNeeded = {
+                    'observer': 500,      // Para Iniciado
+                    'initiate': 1500,     // Para Renovado  
+                    'renovated': 15000,   // Para Núcleo (apenas por pontos)
+                    'core': Infinity      // Nível máximo
+                };
+                
                 // Promoção para Iniciado
-                if (currentLevel === 'observer' && currentPoints >= 100) {
+                if (currentLevel === 'observer' && currentPoints >= pointsNeeded.observer) {
                     this.currentUser.level = 'initiate';
                     this.showNotification(`🎉 Parabéns! Você foi promovido a Iniciado!`);
                 }
                 
                 // Promoção para Renovado
-                if (currentLevel === 'initiate' && currentPoints >= 500) {
+                if (currentLevel === 'initiate' && currentPoints >= pointsNeeded.initiate) {
                     this.currentUser.level = 'renovated';
                     this.showNotification(`🎉 Parabéns! Você foi promovido a Renovado!`);
                 }
                 
-                // Núcleo só com chave especial, não por pontos
+                // Promoção para Núcleo (apenas por pontos - muito difícil)
+                if (currentLevel === 'renovated' && currentPoints >= pointsNeeded.renovated) {
+                    this.currentUser.level = 'core';
+                    this.showNotification(`🏆 INCRÍVEL! Você alcançou o Núcleo por mérito próprio!`);
+                }
+            },
+            
+            // Verificar promoção de outro membro
+            checkMemberPromotion(member) {
+                if (!member) return;
+                
+                const currentPoints = member.points || 0;
+                const currentLevel = member.level;
+                
+                // Pontos necessários para cada nível
+                const pointsNeeded = {
+                    'observer': 500,
+                    'initiate': 1500,
+                    'renovated': 15000,
+                    'core': Infinity
+                };
+                
+                // Promoção para Iniciado
+                if (currentLevel === 'observer' && currentPoints >= pointsNeeded.observer) {
+                    member.level = 'initiate';
+                }
+                
+                // Promoção para Renovado
+                if (currentLevel === 'initiate' && currentPoints >= pointsNeeded.initiate) {
+                    member.level = 'renovated';
+                }
+                
+                // Promoção para Núcleo (apenas por pontos)
+                if (currentLevel === 'renovated' && currentPoints >= pointsNeeded.renovated) {
+                    member.level = 'core';
+                }
             },
             
             // Verificar se usuário pode entrar no grupo
@@ -3334,6 +4635,11 @@ Dica: Considere a construção do completamento livre.`,
                     return this.currentUser.level === 'initiate' || 
                            this.currentUser.level === 'renovated' || 
                            this.currentUser.level === 'core';
+                }
+                
+                // Grupos privados precisam de convite
+                if (group.privacy === 'private') {
+                    return false; // Por enquanto, sem sistema de convites
                 }
                 
                 return true;
@@ -3381,17 +4687,66 @@ Dica: Considere a construção do completamento livre.`,
                 }
             },
             
-            // Gerar avatar a partir do nome
-            generateAvatar(username) {
-                if (!username) return 'AR';
-                
-                // Pegar as duas primeiras letras em maiúsculas
-                const parts = username.split(' ');
-                if (parts.length >= 2) {
-                    return (parts[0][0] + parts[1][0]).toUpperCase();
-                } else {
-                    return username.substring(0, 2).toUpperCase();
-                }
+            // Obter nome do nível
+            getLevelName(level) {
+                const names = {
+                    'observer': 'Observador',
+                    'initiate': 'Iniciado',
+                    'renovated': 'Renovado',
+                    'core': 'Núcleo'
+                };
+                return names[level] || 'Desconhecido';
+            },
+            
+            // Obter próximo nível
+            getNextLevel(currentLevel) {
+                const order = ['observer', 'initiate', 'renovated', 'core'];
+                const currentIndex = order.indexOf(currentLevel);
+                return currentIndex < order.length - 1 ? order[currentIndex + 1] : null;
+            },
+            
+            // Obter pontos necessários para próximo nível
+            getPointsForNextLevel(currentLevel) {
+                const pointsMap = {
+                    'observer': 500,
+                    'initiate': 1500,
+                    'renovated': 15000,
+                    'core': 0
+                };
+                return pointsMap[currentLevel] || 0;
+            },
+            
+            // Obter nome da categoria
+            getCategoryName(category) {
+                const names = {
+                    'algebra': 'Álgebra Abstrata',
+                    'topology': 'Topologia',
+                    'category': 'Teoria das Categorias',
+                    'logic': 'Lógica Matemática',
+                    'geometry': 'Geometria Não-Euclidiana',
+                    'other': 'Outra'
+                };
+                return names[category] || 'Geral';
+            },
+            
+            // Obter nome da dificuldade
+            getDifficultyName(difficulty) {
+                const names = {
+                    'easy': 'Fácil',
+                    'medium': 'Médio',
+                    'hard': 'Difícil',
+                    'extreme': 'Extremo'
+                };
+                return names[difficulty] || 'Desconhecido';
+            },
+            
+            // Verificar se prazo está próximo
+            isDeadlineNear(deadlineString) {
+                const deadline = new Date(deadlineString);
+                const now = new Date();
+                const diffTime = deadline - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 3 && diffDays >= 0;
             },
             
             // Mostrar notificação
@@ -3444,68 +4799,6 @@ Dica: Considere a construção do completamento livre.`,
                 document.head.appendChild(style);
             },
             
-            // Obter nome do nível
-            getLevelName(level) {
-                const names = {
-                    'observer': 'Observador',
-                    'initiate': 'Iniciado',
-                    'renovated': 'Renovado',
-                    'core': 'Núcleo'
-                };
-                return names[level] || 'Desconhecido';
-            },
-            
-            // Obter próximo nível
-            getNextLevel(currentLevel) {
-                const order = ['observer', 'initiate', 'renovated', 'core'];
-                const currentIndex = order.indexOf(currentLevel);
-                return currentIndex < order.length - 1 ? order[currentIndex + 1] : null;
-            },
-            
-            // Obter pontos necessários para próximo nível
-            getPointsForNextLevel(currentLevel) {
-                const pointsMap = {
-                    'observer': 100,
-                    'initiate': 500,
-                    'renovated': 1000, // Mas núcleo precisa de chave especial
-                    'core': 0
-                };
-                return pointsMap[currentLevel] || 0;
-            },
-            
-            // Obter nome da categoria
-            getCategoryName(category) {
-                const names = {
-                    'algebra': 'Álgebra Abstrata',
-                    'topology': 'Topologia',
-                    'category': 'Teoria das Categorias',
-                    'logic': 'Lógica Matemática',
-                    'geometry': 'Geometria Não-Euclidiana',
-                    'other': 'Outra'
-                };
-                return names[category] || 'Geral';
-            },
-            
-            // Obter nome da dificuldade
-            getDifficultyName(difficulty) {
-                const names = {
-                    'easy': 'Fácil',
-                    'medium': 'Médio',
-                    'hard': 'Difícil',
-                    'extreme': 'Extremo'
-                };
-                return names[difficulty] || 'Desconhecido';
-            },
-            
-            // Verificar se prazo está próximo
-            isDeadlineNear(deadlineString) {
-                const deadline = new Date(deadlineString);
-                const now = new Date();
-                const diffTime = deadline - now;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return diffDays <= 3 && diffDays >= 0;
-            },
-            
             // Fazer logout
             logout() {
                 if (this.currentUser) {
@@ -3522,6 +4815,12 @@ Dica: Considere a construção do completamento livre.`,
                     // Mostrar modal de login
                     document.getElementById('loginModal').classList.add('active');
                     document.getElementById('loginForm').reset();
+                    
+                    // Resetar avatar de login
+                    const avatarPreviewLogin = document.getElementById('avatarPreviewLogin');
+                    if (avatarPreviewLogin) {
+                        avatarPreviewLogin.style.backgroundImage = 'url(\'https://api.dicebear.com/7.x/identicon/svg?seed=AlgebraRenova\')';
+                    }
                     
                     this.showNotification('Você saiu da plataforma.');
                 }
@@ -3570,6 +4869,11 @@ Dica: Considere a construção do completamento livre.`,
             // Botões de novo desafio
             document.getElementById('newChallengeBtn').addEventListener('click', openChallengeModal);
             document.getElementById('newChallengeBtn2').addEventListener('click', openChallengeModal);
+            
+            // Botão gerenciar solicitações
+            document.getElementById('manageRequestsBtn')?.addEventListener('click', function() {
+                AppState.switchTab('members');
+            });
             
             // Modal de teoria
             document.getElementById('closeTheoryModal').addEventListener('click', closeTheoryModal);
@@ -3662,6 +4966,25 @@ Dica: Considere a construção do completamento livre.`,
                     AppState.submitSolution(challengeId, content);
                     closeSolutionModal();
                 }
+            });
+            
+            // Modal de chat do grupo
+            document.getElementById('closeGroupChatModal').addEventListener('click', closeGroupChatModal);
+            document.getElementById('groupChatBackBtn').addEventListener('click', closeGroupChatModal);
+            
+            // Modal de solicitação de amizade
+            document.getElementById('closeFriendRequestModal').addEventListener('click', closeFriendRequestModal);
+            document.getElementById('cancelFriendRequestBtn').addEventListener('click', closeFriendRequestModal);
+            
+            // Formulário de solicitação de amizade
+            document.getElementById('friendRequestForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const memberId = document.getElementById('requestMemberId').value;
+                const message = document.getElementById('requestMessage').value.trim();
+                
+                AppState.sendFriendRequest(memberId, message);
+                closeFriendRequestModal();
             });
             
             // Pré-visualização LaTeX
@@ -3763,6 +5086,19 @@ Dica: Considere a construção do completamento livre.`,
             function closeSolutionModal() {
                 document.getElementById('solutionModal').classList.remove('active');
                 document.getElementById('solutionForm').reset();
+            }
+            
+            function closeGroupChatModal() {
+                document.getElementById('groupChatModal').classList.remove('active');
+            }
+            
+            function openFriendRequestModal() {
+                document.getElementById('friendRequestModal').classList.add('active');
+            }
+            
+            function closeFriendRequestModal() {
+                document.getElementById('friendRequestModal').classList.remove('active');
+                document.getElementById('friendRequestForm').reset();
             }
             
             // Fechar modais ao clicar fora
