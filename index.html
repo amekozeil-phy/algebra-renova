@@ -2614,365 +2614,6 @@
         </div>
     </div>
 
-async function renderSettingsPage() {
-    return `
-        <div class="content-header">
-            <h1>Configurações do Sistema</h1>
-            <p class="subtitle">Personalize sua experiência no Renova</p>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">Preferências</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="systemSettingsForm">
-                            <div class="form-group">
-                                <label class="form-label">Tema</label>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    <div class="theme-option theme-dark ${AppState.theme === 'dark' ? 'active' : ''}" 
-                                         onclick="setTheme('dark')" title="Tema Escuro"></div>
-                                    <div class="theme-option theme-blue ${AppState.theme === 'blue' ? 'active' : ''}" 
-                                         onclick="setTheme('blue')" title="Tema Azul"></div>
-                                    <div class="theme-option theme-green ${AppState.theme === 'green' ? 'active' : ''}" 
-                                         onclick="setTheme('green')" title="Tema Verde"></div>
-                                    <div class="theme-option theme-purple ${AppState.theme === 'purple' ? 'active' : ''}" 
-                                         onclick="setTheme('purple')" title="Tema Roxo"></div>
-                                    <div class="theme-option theme-matrix ${AppState.theme === 'matrix' ? 'active' : ''}" 
-                                         onclick="setTheme('matrix')" title="Tema Matrix"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="systemAutosave" 
-                                       ${AppState.settings.autosave !== false ? 'checked' : ''}>
-                                <label class="form-check-label" for="systemAutosave">
-                                    Auto-salvar dados
-                                </label>
-                            </div>
-                            
-                            <div class="form-group mb-3">
-                                <label class="form-label">Intervalo de Auto-salvamento (segundos)</label>
-                                <input type="number" class="form-control" id="autosaveInterval" 
-                                       value="${RENOVA_CONFIG.AUTO_SAVE_INTERVAL / 1000}" min="10" max="300">
-                            </div>
-                            
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="systemNotifications" 
-                                       ${AppState.settings.notifications !== false ? 'checked' : ''}>
-                                <label class="form-check-label" for="systemNotifications">
-                                    Notificações do sistema
-                                </label>
-                            </div>
-                            
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">
-                                    <i class="fas fa-save"></i> Salvar Configurações
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h3 class="mb-0">Gerenciamento de Dados</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-3">
-                            <button class="btn btn-primary" onclick="StorageSystem.exportData()">
-                                <i class="fas fa-download"></i> Exportar Dados
-                            </button>
-                            <button class="btn btn-secondary" onclick="importData()">
-                                <i class="fas fa-upload"></i> Importar Dados
-                            </button>
-                            <button class="btn btn-warning" onclick="StorageSystem.createBackup()">
-                                <i class="fas fa-copy"></i> Criar Backup
-                            </button>
-                            <button class="btn btn-danger" onclick="StorageSystem.clearAllData()">
-                                <i class="fas fa-trash"></i> Limpar Todos os Dados
-                            </button>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <h5>Informações do Sistema</h5>
-                            <ul class="list-unstyled">
-                                <li>Versão: ${RENOVA_CONFIG.VERSION}</li>
-                                <li>Usuários: ${Object.keys(AppState.users).length}</li>
-                                <li>Teorias: ${AppState.theories.length}</li>
-                                <li>Posts no Fórum: ${AppState.forumPosts.length}</li>
-                                <li>Armazenamento usado: calculando...</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">Ajuda</h3>
-                    </div>
-                    <div class="card-body">
-                        <h5>Atalhos de Teclado</h5>
-                        <ul class="list-unstyled small">
-                            <li><kbd>Ctrl + Enter</kbd>: Enviar mensagem</li>
-                            <li><kbd>Ctrl + S</kbd>: Salvar teoria</li>
-                            <li><kbd>Ctrl + F</kbd>: Buscar</li>
-                            <li><kbd>Esc</kbd>: Fechar modal</li>
-                        </ul>
-                        
-                        <h5 class="mt-4">Suporte</h5>
-                        <p class="small">
-                            Problemas ou sugestões?<br>
-                            O sistema é 100% local - seus dados são armazenados no seu navegador.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function importData() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    
-    input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            try {
-                await StorageSystem.importData(file);
-                ToastSystem.success('Dados importados com sucesso! Recarregando...');
-                setTimeout(() => location.reload(), 1000);
-            } catch (error) {
-                ToastSystem.error('Erro ao importar dados');
-            }
-        }
-    };
-    
-    input.click();
-}
-
-switch (section) {
-    case 'dashboard-home':
-        content = await renderDashboardHome();
-        break;
-    case 'theories':
-        content = await renderTheoriesPage();
-        break;
-    case 'chat':
-        content = await renderChatPage();
-        break;
-    case 'forum':
-        content = await renderForumPage();
-        break;
-    case 'groups':
-        content = await renderGroupsPage(); // NOVO
-        break;
-    case 'friends':
-        content = await renderFriendsPage();
-        break;
-    case 'messages':
-        content = await renderMessagesPage(); // NOVO
-        break;
-    case 'profile':
-        content = await renderProfilePage(); // NOVO
-        break;
-    case 'settings':
-        content = await renderSettingsPage(); // Você precisará implementar esta
-        break;
-    case 'admin':
-        content = await renderAdminPage(); // Você precisará implementar esta
-        break;
-    default:
-        content = await renderDashboardHome();
-}
-
-  let AppState = {
-    // ... código existente ...
-    currentConversation: null, // ADICIONE ESTA LINHA
-    // ... resto do código ...
-};
-
-    window.insertLatex = function() {
-    const input = document.getElementById('chatInput');
-    if (input) {
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const selectedText = input.value.substring(start, end);
-        
-        input.value = input.value.substring(0, start) + 
-                     `$${selectedText || 'equação'}$` + 
-                     input.value.substring(end);
-        
-        input.focus();
-        input.setSelectionRange(start + 1, start + 1 + (selectedText || 'equação').length);
-    }
-};
-
-window.insertCode = function() {
-    const input = document.getElementById('chatInput');
-    if (input) {
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const selectedText = input.value.substring(start, end);
-        
-        input.value = input.value.substring(0, start) + 
-                     "```\n" + (selectedText || 'código') + "\n```" + 
-                     input.value.substring(end);
-        
-        input.focus();
-        input.setSelectionRange(start + 4, start + 4 + (selectedText || 'código').length);
-    }
-};
-
-    async function renderSettingsPage() {
-    return `
-        <div class="content-header">
-            <h1>Configurações do Sistema</h1>
-            <p class="subtitle">Personalize sua experiência no Renova</p>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">Preferências</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="systemSettingsForm">
-                            <div class="form-group">
-                                <label class="form-label">Tema</label>
-                                <div class="d-flex gap-3 flex-wrap">
-                                    <div class="theme-option theme-dark ${AppState.theme === 'dark' ? 'active' : ''}" 
-                                         onclick="setTheme('dark')" title="Tema Escuro"></div>
-                                    <div class="theme-option theme-blue ${AppState.theme === 'blue' ? 'active' : ''}" 
-                                         onclick="setTheme('blue')" title="Tema Azul"></div>
-                                    <div class="theme-option theme-green ${AppState.theme === 'green' ? 'active' : ''}" 
-                                         onclick="setTheme('green')" title="Tema Verde"></div>
-                                    <div class="theme-option theme-purple ${AppState.theme === 'purple' ? 'active' : ''}" 
-                                         onclick="setTheme('purple')" title="Tema Roxo"></div>
-                                    <div class="theme-option theme-matrix ${AppState.theme === 'matrix' ? 'active' : ''}" 
-                                         onclick="setTheme('matrix')" title="Tema Matrix"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="systemAutosave" 
-                                       ${AppState.settings.autosave !== false ? 'checked' : ''}>
-                                <label class="form-check-label" for="systemAutosave">
-                                    Auto-salvar dados
-                                </label>
-                            </div>
-                            
-                            <div class="form-group mb-3">
-                                <label class="form-label">Intervalo de Auto-salvamento (segundos)</label>
-                                <input type="number" class="form-control" id="autosaveInterval" 
-                                       value="${RENOVA_CONFIG.AUTO_SAVE_INTERVAL / 1000}" min="10" max="300">
-                            </div>
-                            
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="systemNotifications" 
-                                       ${AppState.settings.notifications !== false ? 'checked' : ''}>
-                                <label class="form-check-label" for="systemNotifications">
-                                    Notificações do sistema
-                                </label>
-                            </div>
-                            
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">
-                                    <i class="fas fa-save"></i> Salvar Configurações
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h3 class="mb-0">Gerenciamento de Dados</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-3">
-                            <button class="btn btn-primary" onclick="StorageSystem.exportData()">
-                                <i class="fas fa-download"></i> Exportar Dados
-                            </button>
-                            <button class="btn btn-secondary" onclick="importData()">
-                                <i class="fas fa-upload"></i> Importar Dados
-                            </button>
-                            <button class="btn btn-warning" onclick="StorageSystem.createBackup()">
-                                <i class="fas fa-copy"></i> Criar Backup
-                            </button>
-                            <button class="btn btn-danger" onclick="StorageSystem.clearAllData()">
-                                <i class="fas fa-trash"></i> Limpar Todos os Dados
-                            </button>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <h5>Informações do Sistema</h5>
-                            <ul class="list-unstyled">
-                                <li>Versão: ${RENOVA_CONFIG.VERSION}</li>
-                                <li>Usuários: ${Object.keys(AppState.users).length}</li>
-                                <li>Teorias: ${AppState.theories.length}</li>
-                                <li>Posts no Fórum: ${AppState.forumPosts.length}</li>
-                                <li>Armazenamento usado: calculando...</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">Ajuda</h3>
-                    </div>
-                    <div class="card-body">
-                        <h5>Atalhos de Teclado</h5>
-                        <ul class="list-unstyled small">
-                            <li><kbd>Ctrl + Enter</kbd>: Enviar mensagem</li>
-                            <li><kbd>Ctrl + S</kbd>: Salvar teoria</li>
-                            <li><kbd>Ctrl + F</kbd>: Buscar</li>
-                            <li><kbd>Esc</kbd>: Fechar modal</li>
-                        </ul>
-                        
-                        <h5 class="mt-4">Suporte</h5>
-                        <p class="small">
-                            Problemas ou sugestões?<br>
-                            O sistema é 100% local - seus dados são armazenados no seu navegador.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function importData() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    
-    input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            try {
-                await StorageSystem.importData(file);
-                ToastSystem.success('Dados importados com sucesso! Recarregando...');
-                setTimeout(() => location.reload(), 1000);
-            } catch (error) {
-                ToastSystem.error('Erro ao importar dados');
-            }
-        }
-    };
-    
-    input.click();
-}
-    
     <script>
         // ============================================
         // SISTEMA RENOVA - CÓDIGO JAVASCRIPT COMPLETO
@@ -2998,6 +2639,7 @@ function importData() {
             userStatus: 'online',
             currentSection: 'dashboard-home',
             currentModal: null,
+            currentConversation: null, // ← ADICIONADO PARA MENSAGENS
             theme: RENOVA_CONFIG.DEFAULT_THEME,
             
             // Dados persistentes
@@ -5525,7 +5167,11 @@ function importData() {
             }
         };
 
-        // Renderização das páginas
+        // ============================================
+        // FUNÇÕES DE RENDERIZAÇÃO DAS PÁGINAS
+        // ============================================
+
+        // 1. DASHBOARD HOME (Já existe)
         async function renderDashboardHome() {
             const user = AppState.users[AppState.currentUser];
             const theories = TheorySystem.getUserTheories(AppState.currentUser);
@@ -5744,6 +5390,7 @@ function importData() {
             `;
         }
 
+        // 2. PÁGINA DE TEORIAS (Já existe)
         async function renderTheoriesPage() {
             const theories = TheorySystem.getUserTheories(AppState.currentUser);
             const publicTheories = TheorySystem.getPublicTheories();
@@ -5786,8 +5433,7 @@ function importData() {
                                         <div class="theory-content">
                                             ${theory.content.substring(0, 150)}...
                                         </div>
-
-                                                                              <div class="theory-actions">
+                                        <div class="theory-actions">
                                             <button class="btn btn-sm btn-primary" onclick="viewTheory('${theory.id}')">
                                                 <i class="fas fa-eye"></i> Ver
                                             </button>
@@ -5810,6 +5456,7 @@ function importData() {
             `;
         }
 
+        // 3. PÁGINA DE CHAT (Já existe)
         async function renderChatPage() {
             const channels = ChatSystem.getChannels();
             
@@ -5905,6 +5552,7 @@ function importData() {
             `;
         }
 
+        // 4. PÁGINA DE FÓRUM (Já existe)
         async function renderForumPage() {
             const categories = ForumSystem.getCategories();
             const posts = ForumSystem.getPosts();
@@ -5993,6 +5641,7 @@ function importData() {
             `;
         }
 
+        // 5. PÁGINA DE AMIGOS (Já existe)
         async function renderFriendsPage() {
             const friends = FriendSystem.getFriends(AppState.currentUser);
             const requests = FriendSystem.getFriendRequests(AppState.currentUser);
@@ -6129,7 +5778,370 @@ function importData() {
             `;
         }
 
-        // Funções de manipulação do chat
+        // 6. PÁGINA DE MENSAGENS PRIVADAS (NOVA)
+        window.renderMessagesPage = async function() {
+            const conversations = ChatSystem.getPrivateConversations();
+            
+            return `
+                <div class="content-header">
+                    <h1>Mensagens Privadas</h1>
+                    <p class="subtitle">Conversas diretas com outros cientistas</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">Conversas</h3>
+                                <button class="btn btn-primary btn-sm" onclick="startNewConversation()">
+                                    <i class="fas fa-plus"></i> Nova
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="conversationsList" style="max-height: 500px; overflow-y: auto;">
+                                    ${conversations.length > 0 ? conversations.map(conv => {
+                                        const user = AppState.users[conv.userId];
+                                        if (!user) return '';
+                                        
+                                        return `
+                                            <div class="conversation-item ${conv.id === AppState.currentConversation ? 'active' : ''}" 
+                                                 onclick="loadConversation('${conv.id}')"
+                                                 style="padding: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; align-items: center; gap: 12px;">
+                                                <img src="${user.profile.avatar}" 
+                                                     style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent-primary);"
+                                                     alt="${user.username}">
+                                                <div style="flex: 1; overflow: hidden;">
+                                                    <div style="font-weight: 600; margin-bottom: 2px;">${user.username}</div>
+                                                    <div style="font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        ${conv.lastMessage.substring(0, 50)}${conv.lastMessage.length > 50 ? '...' : ''}
+                                                    </div>
+                                                </div>
+                                                <div style="text-align: right;">
+                                                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">
+                                                        ${UISystem.formatDate(conv.lastMessageTime)}
+                                                    </div>
+                                                    ${conv.unreadCount > 0 ? `
+                                                        <div style="background: var(--accent-danger); color: white; font-size: 0.7rem; 
+                                                             padding: 2px 6px; border-radius: 10px; text-align: center;">
+                                                            ${conv.unreadCount}
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('') : `
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                                            <p class="text-muted">Nenhuma conversa</p>
+                                        </div>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h3 class="mb-0" id="currentConversationName">
+                                    ${conversations.length > 0 ? 'Selecione uma conversa' : 'Nenhuma conversa'}
+                                </h3>
+                            </div>
+                            <div class="card-body" style="height: 500px; overflow-y: auto; padding: 20px;" id="messagesContainer">
+                                ${conversations.length > 0 ? '' : `
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-comment-dots fa-3x text-muted mb-3"></i>
+                                        <h4 class="text-muted">Nenhuma conversa selecionada</h4>
+                                        <p class="text-muted">Selecione uma conversa ou inicie uma nova</p>
+                                    </div>
+                                `}
+                            </div>
+                            <div class="card-footer ${conversations.length > 0 ? '' : 'hidden'}" id="messageInputContainer">
+                                <div class="input-group">
+                                    <textarea class="form-control" id="privateMessageInput" 
+                                              placeholder="Digite sua mensagem..." rows="2"></textarea>
+                                    <button class="btn btn-primary" onclick="sendPrivateMessage()" style="border-radius: 0 8px 8px 0;">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // 7. PÁGINA DE PERFIL (NOVA)
+        window.renderProfilePage = async function() {
+            const user = AppState.users[AppState.currentUser];
+            const theories = TheorySystem.getUserTheories(AppState.currentUser);
+            
+            return `
+                <div class="content-header">
+                    <h1>Meu Perfil</h1>
+                    <p class="subtitle">Gerencie suas informações pessoais</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <img src="${user.profile.avatar}" 
+                                     style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--accent-primary); object-fit: cover; margin-bottom: 20px;"
+                                     alt="${user.username}">
+                                <h3>${user.username}</h3>
+                                <p class="text-muted">${user.profile.specialization || 'Sem especialização'}</p>
+                                <div class="badge ${AppState.isNucleo ? 'badge-primary' : 'badge-secondary'} mb-2">
+                                    ${AppState.isNucleo ? 'Núcleo' : 'Membro'}
+                                </div>
+                                <p class="small">Reputação: ${user.stats.reputation || 0}</p>
+                            </div>
+                            
+                            <div class="col-md-8">
+                                <div class="profile-tabs mb-4" style="display: flex; border-bottom: 2px solid var(--border-color);">
+                                    <button class="profile-tab active" onclick="switchProfileTab('info')" 
+                                            style="padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; 
+                                                   color: var(--text-secondary); cursor: pointer; font-weight: 600;">
+                                        Informações
+                                    </button>
+                                    <button class="profile-tab" onclick="switchProfileTab('stats')"
+                                            style="padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; 
+                                                   color: var(--text-secondary); cursor: pointer; font-weight: 600;">
+                                        Estatísticas
+                                    </button>
+                                    <button class="profile-tab" onclick="switchProfileTab('preferences')"
+                                            style="padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; 
+                                                   color: var(--text-secondary); cursor: pointer; font-weight: 600;">
+                                        Preferências
+                                    </button>
+                                </div>
+                                
+                                <div id="profileInfoContent">
+                                    <h4>Informações Básicas</h4>
+                                    <div class="mb-3">
+                                        <strong>Email:</strong> ${user.email}
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Biografia:</strong><br>
+                                        ${user.profile.bio || 'Nenhuma biografia adicionada.'}
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Localização:</strong> ${user.profile.location || 'Não informada'}
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Website:</strong> ${user.profile.website ? `<a href="${user.profile.website}" target="_blank">${user.profile.website}</a>` : 'Não informado'}
+                                    </div>
+                                    
+                                    <button class="btn btn-primary" onclick="editProfile()">
+                                        <i class="fas fa-edit"></i> Editar Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // 8. PÁGINA DE GRUPOS (NOVA)
+        window.renderGroupsPage = async function() {
+            const userGroups = GroupSystem.getUserGroups(AppState.currentUser);
+            const publicGroups = GroupSystem.getGroups({ privacy: 'public' });
+            
+            return `
+                <div class="content-header">
+                    <h1>Grupos de Pesquisa</h1>
+                    <p class="subtitle">Colabore em grupos especializados</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">Meus Grupos</h3>
+                                <button class="btn btn-primary" onclick="showNewGroupModal()">
+                                    <i class="fas fa-plus"></i> Criar Grupo
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                ${userGroups.length > 0 ? `
+                                    <div class="groups-grid">
+                                        ${userGroups.map(group => `
+                                            <div class="group-card">
+                                                <div class="group-banner"></div>
+                                                <div class="group-info">
+                                                    <h4 class="group-title">${group.name}</h4>
+                                                    <p class="group-description">${group.description}</p>
+                                                    <div class="group-meta">
+                                                        <span>
+                                                            <i class="fas fa-users"></i> 
+                                                            ${group.members.length} membros
+                                                        </span>
+                                                        <span class="badge ${group.privacy === 'public' ? 'badge-success' : group.privacy === 'private' ? 'badge-warning' : 'badge-secondary'}">
+                                                            ${group.privacy === 'public' ? 'Público' : group.privacy === 'private' ? 'Privado' : 'Oculto'}
+                                                        </span>
+                                                    </div>
+                                                    <div class="group-actions">
+                                                        <button class="btn btn-sm btn-primary" onclick="viewGroup('${group.id}')">
+                                                            <i class="fas fa-eye"></i> Ver
+                                                        </button>
+                                                        ${group.owner === AppState.currentUser ? `
+                                                            <button class="btn btn-sm btn-secondary" onclick="editGroup('${group.id}')">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                        ` : `
+                                                            <button class="btn btn-sm btn-danger" onclick="leaveGroup('${group.id}')">
+                                                                <i class="fas fa-sign-out-alt"></i> Sair
+                                                            </button>
+                                                        `}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : `
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                                        <h4 class="text-muted">Você não está em nenhum grupo</h4>
+                                        <p class="text-muted">Junte-se a um grupo público ou crie o seu próprio</p>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="mb-0">Grupos Públicos</h3>
+                            </div>
+                            <div class="card-body">
+                                ${publicGroups.length > 0 ? `
+                                    <div class="list-group">
+                                        ${publicGroups.slice(0, 5).map(group => {
+                                            const isMember = group.members.includes(AppState.currentUser);
+                                            return `
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <div class="font-weight-bold">${group.name}</div>
+                                                        <small class="text-muted">${group.members.length} membros</small>
+                                                    </div>
+                                                    ${!isMember ? `
+                                                        <button class="btn btn-sm btn-primary" onclick="joinGroup('${group.id}')">
+                                                            <i class="fas fa-user-plus"></i> Entrar
+                                                        </button>
+                                                    ` : `
+                                                        <span class="badge badge-success">Membro</span>
+                                                    `}
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                    ${publicGroups.length > 5 ? `
+                                        <div class="text-center mt-3">
+                                            <button class="btn btn-sm btn-secondary" onclick="viewAllPublicGroups()">
+                                                Ver todos (${publicGroups.length})
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                ` : `
+                                    <div class="text-center py-4">
+                                        <p class="text-muted">Nenhum grupo público disponível</p>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // 9. PÁGINA DE CONFIGURAÇÕES (BASIC)
+        window.renderSettingsPage = async function() {
+            return `
+                <div class="content-header">
+                    <h1>Configurações</h1>
+                    <p class="subtitle">Personalize sua experiência no Renova</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center py-5">
+                            <i class="fas fa-cogs fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Configurações do Sistema</h4>
+                            <p class="text-muted">Em desenvolvimento</p>
+                            
+                            <div class="alert alert-info mt-4">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Configurações disponíveis:</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li>Tema (já disponível no menu de login)</li>
+                                    <li>Notificações</li>
+                                    <li>Privacidade</li>
+                                    <li>Exportar/Importar dados</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // 10. PÁGINA DE ADMINISTRAÇÃO (BASIC)
+        window.renderAdminPage = async function() {
+            if (!AppState.isNucleo) {
+                return `
+                    <div class="content-header">
+                        <h1>Acesso Negado</h1>
+                        <p class="subtitle">Área restrita ao Núcleo Científico</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center py-5">
+                                <i class="fas fa-shield-alt fa-3x text-danger mb-3"></i>
+                                <h4 class="text-danger">Acesso Restrito</h4>
+                                <p class="text-muted">Esta área é exclusiva para membros do Núcleo Científico.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="content-header">
+                    <h1>Administração</h1>
+                    <p class="subtitle">Painel de controle do Núcleo Científico</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center py-5">
+                            <i class="fas fa-user-shield fa-3x text-primary mb-3"></i>
+                            <h4 class="text-primary">Painel de Administração</h4>
+                            <p class="text-muted">Em desenvolvimento</p>
+                            
+                            <div class="alert alert-warning mt-4">
+                                <i class="fas fa-tools"></i>
+                                <strong>Funcionalidades em desenvolvimento:</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li>Moderação de teorias</li>
+                                    <li>Gerenciamento de usuários</li>
+                                    <li>Relatórios do sistema</li>
+                                    <li>Configurações avançadas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // ============================================
+        // FUNÇÕES AUXILIARES PARA AS PÁGINAS
+        // ============================================
+
+        // Funções para o chat
         window.selectChannel = function(channelId) {
             const channels = ChatSystem.getChannels();
             const channel = channels.find(c => c.id === channelId);
@@ -6197,7 +6209,7 @@ function importData() {
                 // Focar no input
                 chatInput.focus();
             }
-        }
+        };
 
         window.sendChatMessage = function() {
             const input = document.getElementById('chatInput');
@@ -6219,9 +6231,189 @@ function importData() {
             }
         };
 
-        // Funções de manipulação do fórum
+        // Funções para mensagens privadas
+        window.loadConversation = function(conversationId) {
+            AppState.currentConversation = conversationId;
+            
+            // Extrair o ID do outro usuário
+            const participantIds = conversationId.split('_');
+            const otherUserId = participantIds.find(id => id !== AppState.currentUser);
+            const otherUser = AppState.users[otherUserId];
+            
+            // Atualizar nome da conversa
+            document.getElementById('currentConversationName').textContent = otherUser?.username || 'Conversa';
+            
+            // Mostrar input
+            document.getElementById('messageInputContainer').classList.remove('hidden');
+            
+            // Carregar mensagens
+            const messages = ChatSystem.getPrivateMessages(conversationId);
+            const container = document.getElementById('messagesContainer');
+            
+            if (!container) return;
+            
+            container.innerHTML = messages.length > 0 ? messages.map(msg => `
+                <div class="message ${msg.sender === AppState.currentUser ? 'own' : ''}" style="margin-bottom: 15px;">
+                    <div class="message-header" style="margin-bottom: 5px;">
+                        <span class="message-author" style="font-weight: 600;">
+                            ${AppState.users[msg.sender]?.username || 'Desconhecido'}
+                        </span>
+                        <span class="message-time" style="font-size: 0.8rem; color: #666;">
+                            ${UISystem.formatDate(msg.timestamp)}
+                        </span>
+                    </div>
+                    <div class="message-content" style="background: ${msg.sender === AppState.currentUser ? 'rgba(0, 212, 255, 0.1)' : 'var(--bg-tertiary)'}; 
+                                                        border: 1px solid ${msg.sender === AppState.currentUser ? 'var(--accent-primary)' : 'var(--border-color)'}; 
+                                                        border-radius: 8px; padding: 10px 15px;">
+                        <div class="message-text">${msg.content}</div>
+                    </div>
+                </div>
+            `).join('') : `
+                <div class="text-center py-5">
+                    <p class="text-muted">Nenhuma mensagem nesta conversa</p>
+                </div>
+            `;
+            
+            // Marcar como lida
+            ChatSystem.markAsRead(conversationId);
+            
+            // Rolar para baixo
+            container.scrollTop = container.scrollHeight;
+            
+            // Configurar input
+            const input = document.getElementById('privateMessageInput');
+            if (input) {
+                input.focus();
+                input.onkeydown = function(e) {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        sendPrivateMessage();
+                    }
+                };
+            }
+        };
+
+        window.sendPrivateMessage = function() {
+            const input = document.getElementById('privateMessageInput');
+            if (!input || !input.value.trim()) return;
+            
+            if (!AppState.currentConversation) {
+                ToastSystem.error('Selecione uma conversa primeiro');
+                return;
+            }
+            
+            // Extrair o ID do outro usuário
+            const participantIds = AppState.currentConversation.split('_');
+            const otherUserId = participantIds.find(id => id !== AppState.currentUser);
+            
+            try {
+                ChatSystem.createPrivateMessage(otherUserId, input.value.trim());
+                input.value = '';
+                
+                // Recarregar conversa
+                loadConversation(AppState.currentConversation);
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        window.startNewConversation = function() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-backdrop';
+            modal.id = 'newConversationModal';
+            modal.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header">
+                        <div class="modal-title">Nova Conversa</div>
+                        <button class="modal-close" onclick="ModalSystem.hide('newConversationModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">Buscar Usuário</label>
+                            <input type="text" class="form-control" id="userSearchInput" 
+                                   placeholder="Digite nome de usuário ou email" 
+                                   onkeyup="searchUsersForChat(this.value)">
+                        </div>
+                        <div id="userSearchResults" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                            <div class="text-center text-muted py-3">
+                                Digite para buscar usuários
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            ModalSystem.show('newConversationModal');
+            
+            // Focar no input
+            setTimeout(() => {
+                document.getElementById('userSearchInput')?.focus();
+            }, 100);
+        };
+
+        window.searchUsersForChat = function(query) {
+            if (!query || query.length < 2) {
+                document.getElementById('userSearchResults').innerHTML = `
+                    <div class="text-center text-muted py-3">
+                        Digite pelo menos 2 caracteres
+                    </div>
+                `;
+                return;
+            }
+            
+            const results = FriendSystem.searchUsers(query, false);
+            const container = document.getElementById('userSearchResults');
+            
+            if (!container) return;
+            
+            container.innerHTML = results.length > 0 ? `
+                <div class="list-group">
+                    ${results.slice(0, 10).map(user => `
+                        <div class="list-group-item d-flex justify-content-between align-items-center" 
+                             style="cursor: pointer;"
+                             onclick="startChatWithUser('${user.id}')">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="${user.profile.avatar}" 
+                                     style="width: 40px; height: 40px; border-radius: 50%;" 
+                                     alt="${user.username}">
+                                <div>
+                                    <div class="font-weight-bold">${user.username}</div>
+                                    <small class="text-muted">${user.profile.specialization || 'Sem especialização'}</small>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : `
+                <div class="text-center py-4">
+                    <p class="text-muted">Nenhum usuário encontrado</p>
+                </div>
+            `;
+        };
+
+        window.startChatWithUser = function(userId) {
+            // Criar ID de conversa
+            const conversationId = [AppState.currentUser, userId].sort().join('_');
+            
+            // Fechar modal
+            ModalSystem.hide('newConversationModal');
+            
+            // Carregar a página de mensagens
+            loadSection('messages');
+            
+            // Aguardar um momento e carregar a conversa
+            setTimeout(() => {
+                if (typeof loadConversation === 'function') {
+                    loadConversation(conversationId);
+                }
+            }, 300);
+        };
+
+        // Funções para o fórum
         window.selectForumCategory = function(categoryId) {
-            // Implementar filtragem por categoria
             ToastSystem.info(`Filtrando por categoria: ${categoryId}`);
         };
 
@@ -6313,105 +6505,181 @@ function importData() {
             ModalSystem.show('forumPostModal');
         };
 
-        // Inicialização do sistema
-        document.addEventListener('DOMContentLoaded', async () => {
-            Logger.log('Sistema Renova iniciando...');
+        window.addPostComment = function(postId) {
+            const commentInput = document.getElementById('postComment');
+            if (!commentInput || !commentInput.value.trim()) {
+                ToastSystem.error('Digite um comentário');
+                return;
+            }
             
             try {
-                // Carregar dados persistentes
-                StorageSystem.load();
+                ForumSystem.addComment(postId, commentInput.value.trim());
+                commentInput.value = '';
                 
-                // Configurar tema salvo
-                const savedTheme = AppState.settings.theme || RENOVA_CONFIG.DEFAULT_THEME;
-                UISystem.setTheme(savedTheme);
-                
-                // Configurar menu mobile
-                const mobileToggle = document.getElementById('mobileMenuToggle');
-                if (mobileToggle) {
-                    mobileToggle.onclick = UISystem.toggleSidebar;
+                // Atualizar comentários
+                const post = AppState.forumPosts.find(p => p.id === postId);
+                if (post) {
+                    const commentsContainer = document.getElementById('postComments');
+                    if (commentsContainer) {
+                        const lastComment = post.comments[post.comments.length - 1];
+                        commentsContainer.innerHTML += `
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <img src="${AppState.users[lastComment.author]?.profile?.avatar || ''}" 
+                                             class="online-user-avatar" 
+                                             alt="${AppState.users[lastComment.author]?.username || 'Desconhecido'}">
+                                        <div>
+                                            <div class="font-weight-bold">${AppState.users[lastComment.author]?.username || 'Desconhecido'}</div>
+                                            <div class="text-muted small">${UISystem.formatDate(lastComment.timestamp)}</div>
+                                        </div>
+                                    </div>
+                                    <div>${lastComment.content}</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Rolar para o novo comentário
+                        commentsContainer.scrollTop = commentsContainer.scrollHeight;
+                    }
                 }
                 
-                // Configurar seletor de status
-                const statusSelector = document.getElementById('statusSelector');
-                if (statusSelector) {
-                    statusSelector.onchange = (e) => {
-                        AuthSystem.updateUserStatus(e.target.value);
-                    };
-                }
-                
-                // Auto-atualizar usuários online
-                setInterval(() => {
-                    UISystem.updateOnlineUsers();
-                }, 10000);
-                
-                Logger.log('Sistema Renova pronto!');
-                
-                // Verificar se há usuário logado
-                if (AppState.currentUser && AppState.users[AppState.currentUser]) {
-                    // Restaurar sessão
-                    document.getElementById('authScreen').classList.add('hidden');
-                    document.getElementById('dashboard').classList.remove('hidden');
-                    document.getElementById('mobileMenuToggle').classList.remove('hidden');
-                    
-                    AuthSystem.updateUserUI();
-                    loadSection('dashboard-home');
-                    UISystem.updateOnlineUsers();
-                    
-                    ToastSystem.info(`Bem-vindo de volta, ${AppState.users[AppState.currentUser].username}!`);
-                }
-            } catch (error) {
-                Logger.error('Erro na inicialização:', error);
-                ToastSystem.error('Erro ao iniciar o sistema');
-            }
-        });
-
-        // Prevenir fechamento acidental
-        window.addEventListener('beforeunload', (e) => {
-            if (AppState.currentUser && AppState.settings.autosave) {
-                StorageSystem.save();
-                
-                // Criação de backup
-                StorageSystem.createBackup();
-                
-                // Em produção, mostrar aviso
-                // e.preventDefault();
-                // e.returnValue = 'Tem certeza que deseja sair? Seus dados serão salvos automaticamente.';
-            }
-        });
-
-        // Exportar funções globais
-        window.viewTheory = function(theoryId) {
-            // Implementar visualização de teoria
-            ToastSystem.info(`Visualizando teoria: ${theoryId}`);
-        };
-
-        window.editTheory = function(theoryId) {
-            // Implementar edição de teoria
-            ToastSystem.info(`Editando teoria: ${theoryId}`);
-        };
-
-        window.deleteTheory = function(theoryId) {
-            if (confirm('Tem certeza que deseja excluir esta teoria? Esta ação não pode ser desfeita.')) {
-                try {
-                    TheorySystem.deleteTheory(theoryId);
-                    ToastSystem.success('Teoria excluída com sucesso');
-                    loadSection('theories');
-                } catch (error) {
-                    ToastSystem.error(error.message);
-                }
-            }
-        };
-
-        window.approveTheory = function(theoryId) {
-            try {
-                TheorySystem.approveTheory(theoryId);
-                ToastSystem.success('Teoria aprovada com sucesso');
-                loadSection('theories');
+                ToastSystem.success('Comentário adicionado!');
             } catch (error) {
                 ToastSystem.error(error.message);
             }
         };
 
+        // Funções para os grupos
+        window.showNewGroupModal = function() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-backdrop';
+            modal.id = 'newGroupModal';
+            modal.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header">
+                        <div class="modal-title">Criar Novo Grupo</div>
+                        <button class="modal-close" onclick="ModalSystem.hide('newGroupModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="groupForm">
+                            <div class="form-group">
+                                <label class="form-label">Nome do Grupo*</label>
+                                <input type="text" class="form-control" id="groupName" 
+                                       placeholder="Ex: Grupo de Pesquisa em Topologia" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Descrição*</label>
+                                <textarea class="form-control" id="groupDescription" 
+                                          rows="3" 
+                                          placeholder="Descreva os objetivos e temas do grupo..." 
+                                          required></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Categoria</label>
+                                    <select class="form-control" id="groupCategory">
+                                        <option value="geral">Geral</option>
+                                        <option value="mathematics">Matemática</option>
+                                        <option value="physics">Física</option>
+                                        <option value="computer">Computação</option>
+                                        <option value="biology">Biologia</option>
+                                        <option value="engineering">Engenharia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Privacidade</label>
+                                    <select class="form-control" id="groupPrivacy">
+                                        <option value="public">Público</option>
+                                        <option value="private">Privado</option>
+                                        <option value="hidden">Oculto</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Tags</label>
+                                <input type="text" class="form-control" id="groupTags" 
+                                       placeholder="Separe tags por vírgula">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="ModalSystem.hide('newGroupModal')">
+                            Cancelar
+                        </button>
+                        <button class="btn btn-primary" onclick="createNewGroup()">
+                            <i class="fas fa-users"></i> Criar Grupo
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            ModalSystem.show('newGroupModal');
+        };
+
+        window.createNewGroup = async function() {
+            const name = document.getElementById('groupName')?.value;
+            const description = document.getElementById('groupDescription')?.value;
+            const category = document.getElementById('groupCategory')?.value;
+            const privacy = document.getElementById('groupPrivacy')?.value;
+            const tags = document.getElementById('groupTags')?.value;
+            
+            try {
+                const groupData = {
+                    name: name,
+                    description: description,
+                    category: category,
+                    privacy: privacy,
+                    tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+                };
+                
+                const group = await GroupSystem.createGroup(groupData);
+                
+                ModalSystem.hide('newGroupModal');
+                ToastSystem.success(`Grupo "${group.name}" criado com sucesso!`);
+                
+                loadSection('groups');
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        window.joinGroup = async function(groupId) {
+            try {
+                await GroupSystem.joinGroup(groupId);
+                ToastSystem.success('Você entrou no grupo!');
+                loadSection('groups');
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        window.viewGroup = function(groupId) {
+            const group = AppState.groups[groupId];
+            if (!group) {
+                ToastSystem.error('Grupo não encontrado');
+                return;
+            }
+            
+            ToastSystem.info(`Visualizando grupo: ${group.name}`);
+        };
+
+        // Funções para o perfil
+        window.switchProfileTab = function(tab) {
+            ToastSystem.info(`Mudando para aba: ${tab}`);
+        };
+
+        window.editProfile = function() {
+            ToastSystem.info('Editor de perfil em desenvolvimento');
+        };
+
+        // Funções para novas teorias
         window.showNewTheoryModal = function() {
             const modal = document.createElement('div');
             modal.className = 'modal-backdrop';
@@ -6547,6 +6815,135 @@ function importData() {
             }
         };
 
+        window.saveTheoryDraft = function() {
+            ToastSystem.info('Rascunho salvo automaticamente');
+        };
+
+        window.formatTheoryText = function(format) {
+            const textarea = document.getElementById('theoryContent');
+            if (!textarea) return;
+            
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = '';
+            
+            switch(format) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    break;
+                case 'latex':
+                    formattedText = `$${selectedText}$`;
+                    break;
+                case 'code':
+                    formattedText = "```\n" + selectedText + "\n```";
+                    break;
+                case 'heading':
+                    formattedText = `# ${selectedText}`;
+                    break;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + 
+                             formattedText + 
+                             textarea.value.substring(end);
+            
+            textarea.focus();
+            textarea.setSelectionRange(start, start + formattedText.length);
+        };
+
+        // Funções para novas discussões no fórum
+        window.showNewPostModal = function() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-backdrop';
+            modal.id = 'newPostModal';
+            modal.innerHTML = `
+                <div class="modal modal-lg">
+                    <div class="modal-header">
+                        <div class="modal-title">Nova Discussão no Fórum</div>
+                        <button class="modal-close" onclick="ModalSystem.hide('newPostModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="postForm">
+                            <div class="form-group">
+                                <label class="form-label">Título*</label>
+                                <input type="text" class="form-control" id="postTitle" 
+                                       placeholder="Qual é o tópico da sua discussão?" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Categoria*</label>
+                                <select class="form-control" id="postCategory" required>
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="matematica">Matemática</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="computacao">Computação</option>
+                                    <option value="geral">Geral</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Tags</label>
+                                <input type="text" class="form-control" id="postTags" 
+                                       placeholder="Separe tags por vírgula">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Conteúdo*</label>
+                                <textarea class="form-control" id="postContent" 
+                                          rows="10" 
+                                          placeholder="Descreva sua discussão em detalhes..." 
+                                          required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="ModalSystem.hide('newPostModal')">
+                            Cancelar
+                        </button>
+                        <button class="btn btn-primary" onclick="createNewPost()">
+                            <i class="fas fa-paper-plane"></i> Publicar Discussão
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            ModalSystem.show('newPostModal');
+        };
+
+        window.createNewPost = async function() {
+            const title = document.getElementById('postTitle')?.value;
+            const category = document.getElementById('postCategory')?.value;
+            const tags = document.getElementById('postTags')?.value;
+            const content = document.getElementById('postContent')?.value;
+            
+            try {
+                const postData = {
+                    title: title,
+                    category: category,
+                    content: content,
+                    tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+                };
+                
+                const post = await ForumSystem.createPost(postData);
+                
+                ModalSystem.hide('newPostModal');
+                ToastSystem.success('Discussão publicada com sucesso!');
+                
+                // Recarregar página do fórum
+                loadSection('forum');
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        // Funções para amizades
         window.acceptFriendRequest = function(requestId) {
             try {
                 FriendSystem.acceptRequest(requestId);
@@ -6621,6 +7018,129 @@ function importData() {
                 </div>
             `;
         };
+
+        // Funções para teorias
+        window.viewTheory = function(theoryId) {
+            ToastSystem.info(`Visualizando teoria: ${theoryId}`);
+        };
+
+        window.approveTheory = function(theoryId) {
+            try {
+                TheorySystem.approveTheory(theoryId);
+                ToastSystem.success('Teoria aprovada com sucesso');
+                loadSection('theories');
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        window.voteTheory = function(theoryId, vote) {
+            try {
+                TheorySystem.voteTheory(theoryId, vote);
+                ToastSystem.success(`Voto ${vote === 'up' ? 'positivo' : 'negativo'} registrado`);
+                loadSection('theories');
+            } catch (error) {
+                ToastSystem.error(error.message);
+            }
+        };
+
+        // Funções para o editor
+        window.insertLatex = function() {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const selectedText = input.value.substring(start, end);
+                
+                input.value = input.value.substring(0, start) + 
+                             `$${selectedText || 'equação'}$` + 
+                             input.value.substring(end);
+                
+                input.focus();
+                input.setSelectionRange(start + 1, start + 1 + (selectedText || 'equação').length);
+            }
+        };
+
+        window.insertCode = function() {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const selectedText = input.value.substring(start, end);
+                
+                input.value = input.value.substring(0, start) + 
+                             "```\n" + (selectedText || 'código') + "\n```" + 
+                             input.value.substring(end);
+                
+                input.focus();
+                input.setSelectionRange(start + 4, start + 4 + (selectedText || 'código').length);
+            }
+        };
+
+        // ============================================
+        // INICIALIZAÇÃO DO SISTEMA
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            Logger.log('Sistema Renova iniciando...');
+            
+            try {
+                // Carregar dados persistentes
+                StorageSystem.load();
+                
+                // Configurar tema salvo
+                const savedTheme = AppState.settings.theme || RENOVA_CONFIG.DEFAULT_THEME;
+                UISystem.setTheme(savedTheme);
+                
+                // Configurar menu mobile
+                const mobileToggle = document.getElementById('mobileMenuToggle');
+                if (mobileToggle) {
+                    mobileToggle.onclick = UISystem.toggleSidebar;
+                }
+                
+                // Configurar seletor de status
+                const statusSelector = document.getElementById('statusSelector');
+                if (statusSelector) {
+                    statusSelector.onchange = (e) => {
+                        AuthSystem.updateUserStatus(e.target.value);
+                    };
+                }
+                
+                // Auto-atualizar usuários online
+                setInterval(() => {
+                    UISystem.updateOnlineUsers();
+                }, 10000);
+                
+                Logger.log('Sistema Renova pronto!');
+                
+                // Verificar se há usuário logado
+                if (AppState.currentUser && AppState.users[AppState.currentUser]) {
+                    // Restaurar sessão
+                    document.getElementById('authScreen').classList.add('hidden');
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    document.getElementById('mobileMenuToggle').classList.remove('hidden');
+                    
+                    AuthSystem.updateUserUI();
+                    loadSection('dashboard-home');
+                    UISystem.updateOnlineUsers();
+                    
+                    ToastSystem.info(`Bem-vindo de volta, ${AppState.users[AppState.currentUser].username}!`);
+                }
+            } catch (error) {
+                Logger.error('Erro na inicialização:', error);
+                ToastSystem.error('Erro ao iniciar o sistema');
+            }
+        });
+
+        // Prevenir fechamento acidental
+        window.addEventListener('beforeunload', (e) => {
+            if (AppState.currentUser && AppState.settings.autosave) {
+                StorageSystem.save();
+                
+                // Criação de backup
+                StorageSystem.createBackup();
+            }
+        });
 
     </script>
 </body>
