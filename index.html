@@ -13,12 +13,16 @@
             --secondary-dark: #12121a;
             --accent-gold: #d4af37;
             --accent-neon: #00ffff;
+            --accent-renovated: #9b59b6;
+            --accent-observer: #7f8c8d;
             --text-primary: #e0e0e0;
             --text-secondary: #a0a0a0;
             --border-color: #2a2a3a;
             --card-bg: #161622;
             --success: #2ecc71;
+            --warning: #f39c12;
             --danger: #e74c3c;
+            --info: #3498db;
         }
 
         * {
@@ -44,7 +48,7 @@
 
         /* Barra Lateral */
         .sidebar {
-            width: 280px;
+            width: 300px;
             background-color: var(--secondary-dark);
             border-right: 1px solid var(--border-color);
             padding: 20px;
@@ -113,18 +117,13 @@
             overflow: hidden;
         }
 
-        .avatar.core {
+        /* Cores dos níveis */
+        .avatar.observer { border: 2px solid var(--accent-observer); }
+        .avatar.initiate { border: 2px solid var(--accent-neon); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+        .avatar.renovated { border: 2px solid var(--accent-renovated); box-shadow: 0 0 10px rgba(155, 89, 182, 0.3); }
+        .avatar.core { 
+            border: 2px solid var(--accent-gold); 
             box-shadow: 0 0 20px var(--accent-gold), inset 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .avatar.initiate {
-            box-shadow: 0 0 20px var(--accent-neon), inset 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         .user-info h3 {
@@ -132,17 +131,27 @@
             margin-bottom: 5px;
         }
 
-        .user-info.core h3 {
-            color: var(--accent-gold);
-        }
-
-        .user-info.initiate h3 {
-            color: var(--accent-neon);
-        }
+        .user-info.observer h3 { color: var(--accent-observer); }
+        .user-info.initiate h3 { color: var(--accent-neon); }
+        .user-info.renovated h3 { color: var(--accent-renovated); }
+        .user-info.core h3 { color: var(--accent-gold); }
 
         .user-info p {
             font-size: 14px;
             color: var(--text-secondary);
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
         }
 
         /* Navegação */
@@ -232,6 +241,14 @@
 
         .friend-name {
             font-size: 14px;
+            flex: 1;
+        }
+
+        .friend-level {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Conteúdo Principal */
@@ -282,7 +299,7 @@
         }
 
         .content-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
@@ -314,14 +331,15 @@
             height: 40px;
             border-radius: 50%;
             margin-right: 10px;
-            background: linear-gradient(45deg, #3a3a4a, #2a2a3a);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
         }
 
         .author-info h4 {
             font-size: 16px;
+            margin-bottom: 3px;
         }
 
         .author-info p {
@@ -333,6 +351,7 @@
             line-height: 1.6;
             font-size: 16px;
             color: var(--text-primary);
+            margin-bottom: 20px;
         }
 
         .theory-content p {
@@ -348,6 +367,9 @@
             font-weight: 600;
             transition: all 0.3s;
             font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary {
@@ -376,9 +398,19 @@
             color: white;
         }
 
+        .btn-warning {
+            background: linear-gradient(45deg, #d35400, #f39c12);
+            color: white;
+        }
+
         .btn-danger {
             background: linear-gradient(45deg, #c0392b, #e74c3c);
             color: white;
+        }
+
+        .btn-small {
+            padding: 5px 12px;
+            font-size: 12px;
         }
 
         /* Modal */
@@ -407,6 +439,8 @@
             padding: 30px;
             border: 1px solid var(--border-color);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -445,7 +479,7 @@
             font-size: 14px;
         }
 
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, .form-select {
             width: 100%;
             padding: 12px 15px;
             background-color: rgba(255, 255, 255, 0.05);
@@ -456,15 +490,15 @@
             resize: vertical;
         }
 
-        .form-input:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none;
             border-color: var(--accent-neon);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
         }
 
         .form-textarea {
-            min-height: 200px;
-            font-family: monospace;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
             line-height: 1.5;
         }
 
@@ -475,14 +509,77 @@
             margin-top: 25px;
         }
 
-        /* Lista de Membros */
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+        /* Comentários */
+        .comments-section {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
 
-        .member-card {
+        .comment-form {
+            margin-bottom: 25px;
+        }
+
+        .comment-form textarea {
+            min-height: 100px;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comment {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comment-author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .comment-content {
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Grupos */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .group-card {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 20px;
@@ -490,65 +587,124 @@
             transition: all 0.3s;
         }
 
-        .member-card:hover {
+        .group-card:hover {
             border-color: var(--accent-neon);
             transform: translateY(-5px);
         }
 
-        .member-header {
+        .group-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
 
-        .member-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-            background: linear-gradient(45deg, #3a3a4a, #2a2a3a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .group-name {
             font-size: 18px;
+            color: var(--accent-neon);
         }
 
-        .member-info h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .member-info p {
-            font-size: 14px;
+        .group-members {
+            font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .member-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
+        .group-description {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        .add-friend-btn {
-            padding: 8px 15px;
-            background-color: rgba(46, 204, 113, 0.1);
-            color: var(--success);
-            border: 1px solid var(--success);
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
+        .group-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--accent-neon);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .group-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Desafios */
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .challenge-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
             transition: all 0.3s;
         }
 
-        .add-friend-btn:hover {
-            background-color: rgba(46, 204, 113, 0.2);
+        .challenge-card:hover {
+            border-color: var(--accent-warning);
+            transform: translateY(-5px);
         }
 
-        .add-friend-btn.added {
-            background-color: rgba(52, 152, 219, 0.1);
-            color: #3498db;
-            border-color: #3498db;
+        .challenge-difficulty {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
+
+        .difficulty-easy { background: rgba(46, 204, 113, 0.2); color: var(--success); }
+        .difficulty-medium { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .difficulty-hard { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
+        .difficulty-extreme { background: rgba(155, 89, 182, 0.2); color: var(--accent-renovated); }
+
+        /* Tabela de Hierarquia */
+        .hierarchy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hierarchy-table th, .hierarchy-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hierarchy-table th {
+            color: var(--accent-neon);
+            font-weight: 600;
+        }
+
+        .hierarchy-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .level-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-observer { background: rgba(127, 140, 141, 0.2); color: var(--accent-observer); }
+        .badge-initiate { background: rgba(0, 255, 255, 0.2); color: var(--accent-neon); }
+        .badge-renovated { background: rgba(155, 89, 182, 0.2); color: var(--accent-renovated); }
+        .badge-core { background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); }
 
         /* Chat */
         .chat-container {
@@ -647,22 +803,6 @@
             border-color: var(--accent-neon);
         }
 
-        .send-btn {
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #2a2a3a, #1a1a2a);
-            color: var(--accent-neon);
-            border: 1px solid var(--accent-neon);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .send-btn:hover {
-            background: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-        }
-
         /* LaTeX Preview */
         .latex-preview {
             background-color: rgba(0, 0, 0, 0.3);
@@ -679,6 +819,39 @@
             margin-bottom: 10px;
         }
 
+        /* Badges e Status */
+        .status-online {
+            color: var(--success);
+            font-size: 12px;
+        }
+
+        .status-offline {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Contribuições */
+        .contributions {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .contribution-item {
+            text-align: center;
+        }
+
+        .contribution-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-neon);
+        }
+
+        .contribution-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
         /* Responsividade */
         @media (max-width: 1024px) {
             .app-container {
@@ -687,11 +860,7 @@
             
             .sidebar {
                 width: 100%;
-                max-height: 300px;
-            }
-            
-            .friends-section {
-                margin-top: 20px;
+                max-height: 400px;
             }
         }
 
@@ -700,27 +869,91 @@
                 padding: 15px;
             }
             
-            .members-grid {
+            .groups-grid, .challenges-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .hierarchy-table {
+                display: block;
+                overflow-x: auto;
             }
         }
 
-        /* Animações especiais */
-        .pulse {
-            animation: pulse 2s infinite;
+        /* Animações */
+        .pulse-gold {
+            animation: pulseGold 2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes pulseGold {
             0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
             100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* Loader */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-neon);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
     <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
+    <!-- Modal de Login -->
+    <div class="modal active" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Algebra Renova - Acesso</h2>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Nome de Usuário</label>
+                    <input type="text" id="username" class="form-input" placeholder="Digite seu nome de usuário" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="userEmail">Email</label>
+                    <input type="email" id="userEmail" class="form-input" placeholder="seu@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="initialLevel">Nível Inicial (Todos começam como Observadores)</label>
+                    <select id="initialLevel" class="form-input" disabled>
+                        <option value="observer">Observador</option>
+                    </select>
+                    <small style="color: var(--text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                        Todos iniciam como Observadores. Suba de nível contribuindo!
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Chave Especial do Núcleo (opcional)</label>
+                    <input type="password" id="nucleusKey" class="form-input" placeholder="Digite apenas se tiver a chave especial">
+                    <small style="color: var(--text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                        Apenas para membros do Núcleo: "Renova, O Not Trad"
+                    </small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Entrar na Revolução
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container" style="display: none;" id="mainApp">
         <!-- Barra Lateral -->
         <aside class="sidebar">
             <div class="logo-container">
@@ -735,8 +968,11 @@
                 </div>
                 <div class="user-info" id="userInfo">
                     <h3 id="userName">Anônimo</h3>
-                    <p id="userSpecialty">Não especializado</p>
-                    <p id="userLevel">Nível: Desconhecido</p>
+                    <p id="userSpecialty">Observador</p>
+                    <div class="user-stats">
+                        <div class="stat" id="contributionPoints">0 pontos</div>
+                        <div class="stat" id="theoriesCount">0 teorias</div>
+                    </div>
                 </div>
             </div>
 
@@ -748,8 +984,17 @@
                 <button class="tab-btn" data-tab="theories">
                     <i class="fas fa-atom"></i> Teorias
                 </button>
+                <button class="tab-btn" data-tab="groups">
+                    <i class="fas fa-users"></i> Grupos
+                </button>
+                <button class="tab-btn" data-tab="challenges">
+                    <i class="fas fa-puzzle-piece"></i> Desafios
+                </button>
                 <button class="tab-btn" data-tab="members">
-                    <i class="fas fa-users"></i> Membros
+                    <i class="fas fa-user-friends"></i> Membros
+                </button>
+                <button class="tab-btn" data-tab="hierarchy">
+                    <i class="fas fa-sitemap"></i> Hierarquia
                 </button>
                 <button class="tab-btn" data-tab="profile">
                     <i class="fas fa-user-edit"></i> Perfil
@@ -785,43 +1030,51 @@
             <div class="tab-content active" id="homeContent">
                 <div class="page-header">
                     <h1 class="page-title">Algebra Renova</h1>
-                    <button class="btn btn-primary" id="newTheoryBtn">
-                        <i class="fas fa-plus"></i> Nova Teoria
-                    </button>
+                    <div>
+                        <button class="btn btn-primary" id="newTheoryBtn">
+                            <i class="fas fa-plus"></i> Nova Teoria
+                        </button>
+                        <button class="btn btn-warning" id="newChallengeBtn">
+                            <i class="fas fa-puzzle-piece"></i> Novo Desafio
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="content-card">
                     <h2 class="card-title">Bem-vindo à Revolução</h2>
-                    <div class="card-date">Sistema Online</div>
+                    <div class="card-date" id="currentDate">Carregando data...</div>
                     <div class="theory-content">
                         <p>"Algebra Renova é mais do que um grupo de pesquisa. É uma rebelião matemática. Uma revolução intelectual. Uma reconstrução dos próprios fundamentos do pensamento estrutural e algébrico."</p>
                         <p>Aqui, desenvolvemos novas teorias rigorosas e fundamos subcampos dentro da álgebra e matemática abstrata que a própria matemática não consegue tratar mesmo com áreas técnicas.</p>
-                        <p>Se você sente que a matemática que conhece é apenas a casca de algo muito mais profundo, Algebra Renova te chama.</p>
                         
-                        <div style="margin-top: 20px; padding: 15px; background-color: rgba(0, 0, 0, 0.3); border-radius: 8px; border-left: 3px solid var(--accent-neon);">
-                            <h3 style="margin-bottom: 10px; color: var(--accent-neon);">Estatísticas da Plataforma</h3>
-                            <div style="display: flex; gap: 20px;">
-                                <div>
-                                    <h4 id="totalMembers">0</h4>
-                                    <p style="font-size: 14px; color: var(--text-secondary);">Membros</p>
-                                </div>
-                                <div>
-                                    <h4 id="totalTheories">0</h4>
-                                    <p style="font-size: 14px; color: var(--text-secondary);">Teorias</p>
-                                </div>
-                                <div>
-                                    <h4 id="totalMessages">0</h4>
-                                    <p style="font-size: 14px; color: var(--text-secondary);">Mensagens</p>
-                                </div>
+                        <div class="contributions">
+                            <div class="contribution-item">
+                                <div class="contribution-value" id="totalTheoriesHome">0</div>
+                                <div class="contribution-label">Teorias Publicadas</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value" id="totalChallengesHome">0</div>
+                                <div class="contribution-label">Desafios Ativos</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value" id="totalGroupsHome">0</div>
+                                <div class="contribution-label">Grupos de Pesquisa</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <h2 class="card-title">Últimas Teorias</h2>
+                    <h2 class="card-title">Teorias Recentes</h2>
                     <div id="recentTheories">
                         <!-- Teorias recentes serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2 class="card-title">Desafios Ativos</h2>
+                    <div id="recentChallenges">
+                        <!-- Desafios recentes serão carregadas aqui -->
                     </div>
                 </div>
             </div>
@@ -840,17 +1093,112 @@
                 </div>
             </div>
 
+            <!-- Grupos -->
+            <div class="tab-content" id="groupsContent">
+                <div class="page-header">
+                    <h1 class="page-title">Grupos de Pesquisa</h1>
+                    <button class="btn btn-primary" id="newGroupBtn">
+                        <i class="fas fa-plus"></i> Novo Grupo
+                    </button>
+                </div>
+                
+                <div id="groupsList">
+                    <!-- Lista de grupos será preenchida via JS -->
+                </div>
+            </div>
+
+            <!-- Desafios -->
+            <div class="tab-content" id="challengesContent">
+                <div class="page-header">
+                    <h1 class="page-title">Desafios Matemáticos</h1>
+                    <button class="btn btn-warning" id="newChallengeBtn2">
+                        <i class="fas fa-plus"></i> Novo Desafio
+                    </button>
+                </div>
+                
+                <div id="challengesList">
+                    <!-- Lista de desafios será preenchida via JS -->
+                </div>
+            </div>
+
             <!-- Membros -->
             <div class="tab-content" id="membersContent">
                 <div class="page-header">
                     <h1 class="page-title">Membros da Comunidade</h1>
-                    <div style="color: var(--text-secondary); font-size: 14px;">
-                        <span id="onlineMembers">0</span> online
+                </div>
+                
+                <div id="membersGrid" class="members-grid">
+                    <!-- Membros serão carregados aqui -->
+                </div>
+            </div>
+
+            <!-- Hierarquia -->
+            <div class="tab-content" id="hierarchyContent">
+                <div class="page-header">
+                    <h1 class="page-title">Hierarquia do Algebra Renova</h1>
+                </div>
+                
+                <div class="content-card">
+                    <h2 class="card-title">Sistema de Níveis</h2>
+                    <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                        A hierarquia é baseada em contribuições. Cada interação ganha pontos que podem levar à promoção.
+                    </p>
+                    
+                    <table class="hierarchy-table">
+                        <thead>
+                            <tr>
+                                <th>Nível</th>
+                                <th>Pontos Necessários</th>
+                                <th>Privilégios</th>
+                                <th>Cor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="level-badge badge-observer">Observador</span></td>
+                                <td>0</td>
+                                <td>Visualizar teorias, participar de grupos básicos</td>
+                                <td><span style="color: var(--accent-observer);">●</span> Cinza</td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-badge badge-initiate">Iniciado</span></td>
+                                <td>100 pontos</td>
+                                <td>Criar teorias, liderar grupos, responder desafios</td>
+                                <td><span style="color: var(--accent-neon);">●</span> Azul Neon</td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-badge badge-renovated">Renovado</span></td>
+                                <td>500 pontos</td>
+                                <td>Aprovar teorias de iniciados, criar grupos avançados</td>
+                                <td><span style="color: var(--accent-renovated);">●</span> Roxo</td>
+                            </tr>
+                            <tr>
+                                <td><span class="level-badge badge-core">Núcleo</span></td>
+                                <td>Chave Especial</td>
+                                <td>Aprovar teorias extremas, moderar tudo, acesso total</td>
+                                <td><span style="color: var(--accent-gold);">●</span> Dourado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
+                        <h3 style="margin-bottom: 15px; color: var(--accent-neon);">Como Ganhar Pontos</h3>
+                        <ul style="color: var(--text-secondary); line-height: 1.8;">
+                            <li>Publicar uma teoria: <strong>+50 pontos</strong></li>
+                            <li>Resolver um desafio: <strong>+30 pontos</strong></li>
+                            <li>Comentar em teoria: <strong>+5 pontos</strong></li>
+                            <li>Criar grupo: <strong>+20 pontos</strong></li>
+                            <li>Participar de grupo ativamente: <strong>+10 pontos/semana</strong></li>
+                            <li>Ajudar em dúvida: <strong>+15 pontos</strong></li>
+                        </ul>
                     </div>
                 </div>
                 
-                <div class="members-grid" id="membersGrid">
-                    <!-- Membros serão carregados aqui -->
+                <div class="content-card">
+                    <h2 class="card-title">Seu Progresso</h2>
+                    <div id="userProgress">
+                        <!-- Progresso será carregado aqui -->
+                    </div>
                 </div>
             </div>
 
@@ -865,27 +1213,30 @@
                     <form id="profileForm">
                         <div class="form-group">
                             <label class="form-label" for="codename">Codinome Simbólico</label>
-                            <input type="text" id="codename" class="form-input" placeholder="Ex: 'Transfunctor' ou 'Anti-Identidade'">
+                            <input type="text" id="codename" class="form-input" placeholder="Ex: 'Transfunctor' ou 'Anti-Identidade'" required>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label" for="specialty">Especialidade Matemática</label>
-                            <input type="text" id="specialty" class="form-input" placeholder="Ex: 'Topologia Algébrica' ou 'Teoria das Categorias'">
+                            <input type="text" id="specialty" class="form-input" placeholder="Ex: 'Topologia Algébrica' ou 'Teoria das Categorias'" required>
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label" for="level">Nível na Hierarquia</label>
-                            <select id="level" class="form-input">
-                                <option value="initiate">Iniciado</option>
-                                <option value="core">Núcleo</option>
-                            </select>
+                            <label class="form-label" for="bio">Biografia</label>
+                            <textarea id="bio" class="form-textarea" placeholder="Fale sobre seu interesse matemático..." rows="3"></textarea>
                         </div>
                         
                         <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" id="cancelProfileBtn">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                         </div>
                     </form>
+                </div>
+                
+                <div class="content-card">
+                    <h2 class="card-title">Suas Contribuições</h2>
+                    <div id="userContributions">
+                        <!-- Contribuições serão carregadas aqui -->
+                    </div>
                 </div>
             </div>
 
@@ -921,12 +1272,24 @@
             <form id="theoryForm">
                 <div class="form-group">
                     <label class="form-label" for="theoryTitle">Título da Teoria</label>
-                    <input type="text" id="theoryTitle" class="form-input" placeholder="Ex: 'Teoria da Transfunctoração'">
+                    <input type="text" id="theoryTitle" class="form-input" placeholder="Ex: 'Teoria da Transfunctoração'" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="theoryCategory">Categoria</label>
+                    <select id="theoryCategory" class="form-select">
+                        <option value="algebra">Álgebra Abstrata</option>
+                        <option value="topology">Topologia</option>
+                        <option value="category">Teoria das Categorias</option>
+                        <option value="logic">Lógica Matemática</option>
+                        <option value="geometry">Geometria Não-Euclidiana</option>
+                        <option value="other">Outra</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="theoryContent">Conteúdo (LaTeX suportado)</label>
-                    <textarea id="theoryContent" class="form-textarea" placeholder="Escreva sua teoria aqui... Use $$...$$ para fórmulas LaTeX"></textarea>
+                    <textarea id="theoryContent" class="form-textarea" placeholder="Escreva sua teoria aqui... Use $$...$$ para fórmulas LaTeX" required rows="10"></textarea>
                     
                     <div class="latex-preview">
                         <div class="latex-preview-title">Pré-visualização LaTeX:</div>
@@ -942,33 +1305,128 @@
         </div>
     </div>
 
-    <!-- Modal de Login -->
-    <div class="modal active" id="loginModal">
+    <!-- Modal para Novo Grupo -->
+    <div class="modal" id="groupModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Algebra Renova - Acesso</h2>
+                <h2 class="modal-title">Novo Grupo de Pesquisa</h2>
+                <button class="close-btn" id="closeGroupModal">&times;</button>
             </div>
-            <form id="loginForm">
+            <form id="groupForm">
                 <div class="form-group">
-                    <label class="form-label" for="username">Nome de Usuário</label>
-                    <input type="text" id="username" class="form-input" placeholder="Digite seu nome de usuário" required>
+                    <label class="form-label" for="groupName">Nome do Grupo</label>
+                    <input type="text" id="groupName" class="form-input" placeholder="Ex: 'Grupo de Transfunctoração'" required>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="userEmail">Email</label>
-                    <input type="email" id="userEmail" class="form-input" placeholder="seu@email.com" required>
+                    <label class="form-label" for="groupDescription">Descrição</label>
+                    <textarea id="groupDescription" class="form-textarea" placeholder="Descreva o foco do grupo..." required rows="4"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="initialLevel">Nível Inicial</label>
-                    <select id="initialLevel" class="form-input">
-                        <option value="initiate">Iniciado</option>
-                        <option value="core">Núcleo</option>
+                    <label class="form-label" for="groupTags">Tags (separadas por vírgula)</label>
+                    <input type="text" id="groupTags" class="form-input" placeholder="Ex: álgebra, topologia, categorias">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="groupPrivacy">Privacidade</label>
+                    <select id="groupPrivacy" class="form-select">
+                        <option value="public">Público (qualquer um pode entrar)</option>
+                        <option value="private">Privado (apenas por convite)</option>
+                        <option value="restricted">Restrito (apenas Iniciados+)</option>
                     </select>
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Entrar na Revolução</button>
+                    <button type="button" class="btn btn-secondary" id="cancelGroupBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar Grupo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Novo Desafio -->
+    <div class="modal" id="challengeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Novo Desafio Matemático</h2>
+                <button class="close-btn" id="closeChallengeModal">&times;</button>
+            </div>
+            <form id="challengeForm">
+                <div class="form-group">
+                    <label class="form-label" for="challengeTitle">Título do Desafio</label>
+                    <input type="text" id="challengeTitle" class="form-input" placeholder="Ex: 'Prove que todo functor admite...'" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="challengeDescription">Descrição do Problema</label>
+                    <textarea id="challengeDescription" class="form-textarea" placeholder="Descreva o problema em detalhes..." required rows="6"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="challengeDifficulty">Dificuldade</label>
+                    <select id="challengeDifficulty" class="form-select">
+                        <option value="easy">Fácil</option>
+                        <option value="medium">Médio</option>
+                        <option value="hard">Difícil</option>
+                        <option value="extreme">Extremo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="challengeDeadline">Prazo (dias)</label>
+                    <input type="number" id="challengeDeadline" class="form-input" value="7" min="1" max="30">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelChallengeBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">Criar Desafio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Comentário -->
+    <div class="modal" id="commentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Responder à Teoria</h2>
+                <button class="close-btn" id="closeCommentModal">&times;</button>
+            </div>
+            <form id="commentForm">
+                <input type="hidden" id="commentTheoryId">
+                
+                <div class="form-group">
+                    <label class="form-label" for="commentContent">Sua Resposta (LaTeX suportado)</label>
+                    <textarea id="commentContent" class="form-textarea" placeholder="Escreva sua resposta aqui... Use $$...$$ para fórmulas LaTeX" required rows="8"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelCommentBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Publicar Resposta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Resolver Desafio -->
+    <div class="modal" id="solutionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Enviar Solução</h2>
+                <button class="close-btn" id="closeSolutionModal">&times;</button>
+            </div>
+            <form id="solutionForm">
+                <input type="hidden" id="solutionChallengeId">
+                
+                <div class="form-group">
+                    <label class="form-label" for="solutionContent">Sua Solução (LaTeX suportado)</label>
+                    <textarea id="solutionContent" class="form-textarea" placeholder="Descreva sua solução em detalhes..." required rows="10"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelSolutionBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Enviar Solução</button>
                 </div>
             </form>
         </div>
@@ -982,7 +1440,11 @@
             currentUser: null,
             allMembers: [],
             theories: [],
+            groups: [],
+            challenges: [],
             privateMessages: {},
+            comments: {},
+            solutions: {},
             
             // Inicializar estado
             init() {
@@ -998,7 +1460,30 @@
                     this.createSampleTheories();
                 }
                 
-                this.updateUI();
+                // Se não houver grupos, criar alguns de exemplo
+                if (this.groups.length === 0) {
+                    this.createSampleGroups();
+                }
+                
+                // Se não houver desafios, criar alguns de exemplo
+                if (this.challenges.length === 0) {
+                    this.createSampleChallenges();
+                }
+                
+                // Verificar se há usuário logado
+                const savedUser = localStorage.getItem('algebraRenovaCurrentUser');
+                if (savedUser) {
+                    const userId = JSON.parse(savedUser);
+                    this.currentUser = this.allMembers.find(m => m.id === userId);
+                    if (this.currentUser) {
+                        this.currentUser.online = true;
+                        this.showMainApp();
+                        this.updateUI();
+                    }
+                }
+                
+                // Atualizar data atual
+                this.updateCurrentDate();
             },
             
             // Carregar estado do localStorage
@@ -1007,10 +1492,13 @@
                     const savedState = localStorage.getItem('algebraRenovaState');
                     if (savedState) {
                         const parsed = JSON.parse(savedState);
-                        this.currentUser = parsed.currentUser;
                         this.allMembers = parsed.allMembers || [];
                         this.theories = parsed.theories || [];
+                        this.groups = parsed.groups || [];
+                        this.challenges = parsed.challenges || [];
                         this.privateMessages = parsed.privateMessages || {};
+                        this.comments = parsed.comments || {};
+                        this.solutions = parsed.solutions || {};
                     }
                 } catch (e) {
                     console.error('Erro ao carregar estado:', e);
@@ -1021,12 +1509,22 @@
             saveState() {
                 try {
                     const state = {
-                        currentUser: this.currentUser,
                         allMembers: this.allMembers,
                         theories: this.theories,
-                        privateMessages: this.privateMessages
+                        groups: this.groups,
+                        challenges: this.challenges,
+                        privateMessages: this.privateMessages,
+                        comments: this.comments,
+                        solutions: this.solutions
                     };
                     localStorage.setItem('algebraRenovaState', JSON.stringify(state));
+                    
+                    // Salvar usuário atual separadamente
+                    if (this.currentUser) {
+                        localStorage.setItem('algebraRenovaCurrentUser', JSON.stringify(this.currentUser.id));
+                    } else {
+                        localStorage.removeItem('algebraRenovaCurrentUser');
+                    }
                 } catch (e) {
                     console.error('Erro ao salvar estado:', e);
                 }
@@ -1043,8 +1541,13 @@
                         specialty: 'Teoria das Categorias',
                         level: 'core',
                         avatar: 'TR',
-                        friends: [],
-                        online: true
+                        bio: 'Especialista em transfunctoração e estruturas não-convencionais.',
+                        friends: ['2', '3'],
+                        points: 1250,
+                        theories: 8,
+                        solutions: 12,
+                        online: false,
+                        joinDate: '2023-01-15'
                     },
                     {
                         id: '2',
@@ -1052,10 +1555,15 @@
                         email: 'anti@algebrarenova.com',
                         codename: 'Anti-Identidade',
                         specialty: 'Álgebra Não-Associativa',
-                        level: 'core',
+                        level: 'renovated',
                         avatar: 'AI',
-                        friends: [],
-                        online: true
+                        bio: 'Pesquisador em estruturas algébricas sem elemento identidade.',
+                        friends: ['1', '4'],
+                        points: 680,
+                        theories: 5,
+                        solutions: 8,
+                        online: false,
+                        joinDate: '2023-03-10'
                     },
                     {
                         id: '3',
@@ -1065,8 +1573,13 @@
                         specialty: 'Topologia Algébrica',
                         level: 'initiate',
                         avatar: 'BM',
-                        friends: [],
-                        online: false
+                        bio: 'Interessada em transformações radicais de estruturas matemáticas.',
+                        friends: ['1'],
+                        points: 150,
+                        theories: 2,
+                        solutions: 3,
+                        online: false,
+                        joinDate: '2023-05-22'
                     },
                     {
                         id: '4',
@@ -1076,8 +1589,29 @@
                         specialty: 'Lógica Não-Clássica',
                         level: 'initiate',
                         avatar: 'EO',
+                        bio: 'Estudante de lógicas alternativas e fundamentos da matemática.',
+                        friends: ['2'],
+                        points: 120,
+                        theories: 1,
+                        solutions: 2,
+                        online: false,
+                        joinDate: '2023-06-18'
+                    },
+                    {
+                        id: '5',
+                        username: 'Observador',
+                        email: 'obs@algebrarenova.com',
+                        codename: 'Observador Curioso',
+                        specialty: 'Matemática Geral',
+                        level: 'observer',
+                        avatar: 'OC',
+                        bio: 'Aprendendo sobre as novas fronteiras da matemática.',
                         friends: [],
-                        online: true
+                        points: 30,
+                        theories: 0,
+                        solutions: 1,
+                        online: false,
+                        joinDate: '2023-08-01'
                     }
                 ];
                 
@@ -1093,53 +1627,231 @@
                         title: 'Teoria da Transfunctoração',
                         content: `A transfunctoração é o processo pelo qual uma estrutura algébrica emerge em outro domínio com regras totalmente novas. 
 
-                        Seja $\\mathcal{C}$ uma categoria. Um transfunctor $\\mathcal{T}: \\mathcal{C} \\rightarrow \\mathcal{D}$ não é simplesmente um functor, mas uma transformação radical que obedece a:
+Seja $\\mathcal{C}$ uma categoria. Um transfunctor $\\mathcal{T}: \\mathcal{C} \\rightarrow \\mathcal{D}$ não é simplesmente um functor, mas uma transformação radical que obedece a:
 
-                        $$
-                        \\mathcal{T}(f \\circ g) = \\mathcal{T}(f) \\star \\mathcal{T}(g)
-                        $$
+$$
+\\mathcal{T}(f \\circ g) = \\mathcal{T}(f) \\star \\mathcal{T}(g)
+$$
 
-                        onde $\\star$ é uma operação não convencional definida no contexto de $\\mathcal{D}$.
+onde $\\star$ é uma operação não convencional definida no contexto de $\\mathcal{D}$.
 
-                        Esta teoria permite a construção de espaços onde identidades tradicionais como $a \\cdot a^{-1} = 1$ são substituídas por anti-identidades do tipo:
-                        
-                        $$
-                        a \\dagger a^{\\sharp} = \\varepsilon(a)
-                        $$
+Esta teoria permite a construção de espaços onde identidades tradicionais como $a \\cdot a^{-1} = 1$ são substituídas por anti-identidades do tipo:
 
-                        onde $\\varepsilon$ é um operador de deformação categórica.`,
+$$
+a \\dagger a^{\\sharp} = \\varepsilon(a)
+$$
+
+onde $\\varepsilon$ é um operador de deformação categórica.`,
                         authorId: '1',
-                        authorName: 'Transfunctor',
+                        category: 'category',
+                        status: 'approved',
                         date: '2023-10-15',
-                        likes: 12
+                        likes: 5,
+                        comments: 3
                     },
                     {
                         id: '2',
                         title: 'Álgebra dos Espaços Anti-Identitários',
                         content: `Exploramos estruturas onde o elemento identidade não existe, mas é substituído por uma família de pseudo-identidades que dependem do contexto operacional.
 
-                        Definição: Um espaço anti-identitário é uma tripla $(A, \\bullet, \\Phi)$ onde:
-                        - $A$ é um conjunto
-                        - $\\bullet: A \\times A \\rightarrow A$ é uma operação binária
-                        - $\\Phi: A \\rightarrow \\mathcal{P}(A)$ associa a cada elemento um conjunto de pseudo-identidades
+Definição: Um espaço anti-identitário é uma tripla $(A, \\bullet, \\Phi)$ onde:
+- $A$ é um conjunto
+- $\\bullet: A \\times A \\rightarrow A$ é uma operação binária
+- $\\Phi: A \\rightarrow \\mathcal{P}(A)$ associa a cada elemento um conjunto de pseudo-identidades
 
-                        A condição fundamental é:
-                        $$
-                        \\forall a \\in A, \\exists \\phi \\in \\Phi(a) : a \\bullet \\phi = \\phi \\bullet a = a
-                        $$
+A condição fundamental é:
+$$
+\\forall a \\in A, \\exists \\phi \\in \\Phi(a) : a \\bullet \\phi = \\phi \\bullet a = a
+$$
 
-                        Porém, $\\phi$ não é único e pode não pertencer a $\\Phi(b)$ para $b \\neq a$.
+Porém, $\\phi$ não é único e pode não pertencer a $\\Phi(b)$ para $b \\neq a$.
 
-                        Esta estrutura desafia o Teorema de Cayley e exige uma reformulação completa da teoria de grupos.`,
+Esta estrutura desafia o Teorema de Cayley e exige uma reformulação completa da teoria de grupos.`,
                         authorId: '2',
-                        authorName: 'Anti-Identidade',
+                        category: 'algebra',
+                        status: 'pending',
                         date: '2023-10-10',
-                        likes: 8
+                        likes: 3,
+                        comments: 1
+                    },
+                    {
+                        id: '3',
+                        title: 'Topologias Não-Hausdorff em Espaços de Dimensão Fractal',
+                        content: `Investigamos espaços topológicos onde o axioma de separação $T_2$ é deliberadamente violado para permitir estruturas mais ricas.
+
+Seja $X$ um conjunto com uma topologia $\\tau$ tal que para alguns $x, y \\in X$, toda vizinhança de $x$ intercepta toda vizinhança de $y$. 
+
+Definimos uma nova classe de invariantes topológicos:
+$$
+\\mathcal{F}(X) = \\{ f: X \\rightarrow \\mathbb{R} \\mid f \\text{ é contínua e } f(x) = f(y) \\text{ para todo par não-separável } (x,y) \\}
+$$
+
+Esses espaços possuem aplicações na teoria de sistemas dinâmicos não-convencionais.`,
+                        authorId: '3',
+                        category: 'topology',
+                        status: 'approved',
+                        date: '2023-09-28',
+                        likes: 2,
+                        comments: 0
                     }
                 ];
                 
                 this.theories = sampleTheories;
+                
+                // Comentários de exemplo
+                this.comments = {
+                    '1': [
+                        {
+                            id: 'c1',
+                            theoryId: '1',
+                            authorId: '2',
+                            content: 'Excelente trabalho! Você poderia elaborar sobre como o operador $\\varepsilon$ se comporta em relação à composição de transfunctors?',
+                            date: '2023-10-16'
+                        },
+                        {
+                            id: 'c2',
+                            theoryId: '1',
+                            authorId: '3',
+                            content: 'Achei fascinante a conexão com anti-identidades. Isso me lembra algumas construções em $\\infty$-categories. Poderia explorar essa relação?',
+                            date: '2023-10-17'
+                        }
+                    ],
+                    '2': [
+                        {
+                            id: 'c3',
+                            theoryId: '2',
+                            authorId: '1',
+                            content: 'Interessante abordagem. Como você definiria morfismos entre espaços anti-identitários?',
+                            date: '2023-10-12'
+                        }
+                    ]
+                };
+                
                 this.saveState();
+            },
+            
+            // Criar grupos de exemplo
+            createSampleGroups() {
+                const sampleGroups = [
+                    {
+                        id: '1',
+                        name: 'Grupo de Transfunctoração',
+                        description: 'Estudo de transfunctors e transformações radicais entre categorias matemáticas.',
+                        tags: ['transfunctoração', 'categorias', 'álgebra'],
+                        privacy: 'restricted',
+                        creatorId: '1',
+                        members: ['1', '2', '3'],
+                        createdDate: '2023-09-01'
+                    },
+                    {
+                        id: '2',
+                        name: 'Álgebra Não-Convencional',
+                        description: 'Pesquisa em estruturas algébricas que violam axiomas tradicionais.',
+                        tags: ['álgebra', 'não-associativa', 'anti-identidades'],
+                        privacy: 'public',
+                        creatorId: '2',
+                        members: ['2', '4'],
+                        createdDate: '2023-09-15'
+                    },
+                    {
+                        id: '3',
+                        name: 'Topologia Radical',
+                        description: 'Exploração de espaços topológicos com propriedades não-convencionais.',
+                        tags: ['topologia', 'não-hausdorff', 'fractal'],
+                        privacy: 'restricted',
+                        creatorId: '3',
+                        members: ['3', '1'],
+                        createdDate: '2023-10-01'
+                    }
+                ];
+                
+                this.groups = sampleGroups;
+                this.saveState();
+            },
+            
+            // Criar desafios de exemplo
+            createSampleChallenges() {
+                const sampleChallenges = [
+                    {
+                        id: '1',
+                        title: 'Prove que todo functor admite uma extensão transfunctorial',
+                        description: `Dado um functor $F: \\mathcal{C} \\rightarrow \\mathcal{D}$ entre categorias, prove que existe pelo menos uma extensão transfunctorial $\\tilde{F}: \\mathcal{C} \\rightarrow \\mathcal{E}$ onde $\\mathcal{E}$ é uma categoria com operação não-convencional $\\star$.
+
+Dica: Considere a construção do completamento livre.`,
+                        difficulty: 'hard',
+                        creatorId: '1',
+                        points: 30,
+                        deadline: '2023-11-15',
+                        createdDate: '2023-10-01',
+                        solutions: 2
+                    },
+                    {
+                        id: '2',
+                        title: 'Construa um espaço anti-identitário finito não-trivial',
+                        description: `Encontre um exemplo explícito de espaço anti-identitário finito com pelo menos 4 elementos, onde a operação $\\bullet$ não é comutativa e $\\Phi(a)$ tem cardinalidade diferente para diferentes $a$.`,
+                        difficulty: 'medium',
+                        creatorId: '2',
+                        points: 20,
+                        deadline: '2023-11-10',
+                        createdDate: '2023-10-05',
+                        solutions: 1
+                    },
+                    {
+                        id: '3',
+                        title: 'Classifique topologias não-Hausdorff em conjuntos com 3 elementos',
+                        description: `Determine todas as topologias não-Hausdorff possíveis em um conjunto com 3 elementos, a menos de homeomorfismo.`,
+                        difficulty: 'easy',
+                        creatorId: '3',
+                        points: 15,
+                        deadline: '2023-11-01',
+                        createdDate: '2023-10-10',
+                        solutions: 0
+                    }
+                ];
+                
+                this.challenges = sampleChallenges;
+                
+                // Soluções de exemplo
+                this.solutions = {
+                    '1': [
+                        {
+                            id: 's1',
+                            challengeId: '1',
+                            authorId: '2',
+                            content: 'Aqui está minha tentativa de prova: considere a categoria livre gerada por...',
+                            date: '2023-10-05',
+                            status: 'pending'
+                        }
+                    ],
+                    '2': [
+                        {
+                            id: 's2',
+                            challengeId: '2',
+                            authorId: '4',
+                            content: 'Exemplo: seja $A = \\{a,b,c,d\\}$ com operação definida por...',
+                            date: '2023-10-08',
+                            status: 'approved'
+                        }
+                    ]
+                };
+                
+                this.saveState();
+            },
+            
+            // Atualizar data atual
+            updateCurrentDate() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateElement = document.getElementById('currentDate');
+                if (dateElement) {
+                    dateElement.textContent = now.toLocaleDateString('pt-BR', options);
+                }
+            },
+            
+            // Mostrar aplicação principal
+            showMainApp() {
+                document.getElementById('mainApp').style.display = 'flex';
+                document.getElementById('loginModal').classList.remove('active');
             },
             
             // Atualizar a interface com base no estado
@@ -1148,7 +1860,10 @@
                 this.updateFriendsList();
                 this.updateMembersList();
                 this.updateTheoriesList();
-                this.updateStats();
+                this.updateGroupsList();
+                this.updateChallengesList();
+                this.updateHierarchyInfo();
+                this.updateHomeStats();
             },
             
             // Atualizar perfil do usuário
@@ -1159,7 +1874,8 @@
                 const userInfo = document.getElementById('userInfo');
                 const userName = document.getElementById('userName');
                 const userSpecialty = document.getElementById('userSpecialty');
-                const userLevel = document.getElementById('userLevel');
+                const contributionPoints = document.getElementById('contributionPoints');
+                const theoriesCount = document.getElementById('theoriesCount');
                 
                 // Atualizar avatar com classe de nível
                 userAvatar.className = `avatar ${this.currentUser.level}`;
@@ -1167,17 +1883,18 @@
                 
                 // Atualizar informações do usuário
                 userName.textContent = this.currentUser.codename || this.currentUser.username;
-                userSpecialty.textContent = this.currentUser.specialty || 'Não especializado';
-                userLevel.textContent = `Nível: ${this.currentUser.level === 'core' ? 'Núcleo' : 'Iniciado'}`;
+                userSpecialty.textContent = this.currentUser.specialty || 'Matemática Geral';
+                contributionPoints.textContent = `${this.currentUser.points || 0} pontos`;
+                theoriesCount.textContent = `${this.currentUser.theories || 0} teorias`;
                 
                 // Aplicar classe de nível ao contêiner de informações
                 userInfo.className = `user-info ${this.currentUser.level}`;
                 
                 // Se for nível Núcleo, adicionar efeito de pulso
                 if (this.currentUser.level === 'core') {
-                    userAvatar.classList.add('pulse');
+                    userAvatar.classList.add('pulse-gold');
                 } else {
-                    userAvatar.classList.remove('pulse');
+                    userAvatar.classList.remove('pulse-gold');
                 }
             },
             
@@ -1202,8 +1919,9 @@
                             friendItem.className = 'friend-item';
                             friendItem.dataset.friendId = friend.id;
                             friendItem.innerHTML = `
-                                <div class="friend-avatar">${friend.avatar}</div>
+                                <div class="friend-avatar ${friend.level}">${friend.avatar}</div>
                                 <div class="friend-name">${friend.codename || friend.username}</div>
+                                <div class="friend-level ${friend.level}-badge">${this.getLevelName(friend.level)}</div>
                             `;
                             
                             friendItem.addEventListener('click', () => this.openChat(friend));
@@ -1223,17 +1941,21 @@
             // Atualizar lista de membros
             updateMembersList() {
                 const membersGrid = document.getElementById('membersGrid');
-                const onlineMembers = document.getElementById('onlineMembers');
                 
                 if (!membersGrid) return;
                 
                 membersGrid.innerHTML = '';
                 
-                // Contar membros online
-                const onlineCount = this.allMembers.filter(m => m.online).length;
-                if (onlineMembers) onlineMembers.textContent = onlineCount;
+                // Ordenar por nível e pontos
+                const sortedMembers = [...this.allMembers].sort((a, b) => {
+                    const levelOrder = { 'core': 3, 'renovated': 2, 'initiate': 1, 'observer': 0 };
+                    if (levelOrder[b.level] !== levelOrder[a.level]) {
+                        return levelOrder[b.level] - levelOrder[a.level];
+                    }
+                    return (b.points || 0) - (a.points || 0);
+                });
                 
-                this.allMembers.forEach(member => {
+                sortedMembers.forEach(member => {
                     // Não mostrar o usuário atual na lista
                     if (this.currentUser && member.id === this.currentUser.id) return;
                     
@@ -1249,15 +1971,15 @@
                             <div class="member-info">
                                 <h4>${member.codename || member.username}</h4>
                                 <p>${member.specialty || 'Matemática Geral'}</p>
-                                <p style="font-size: 12px;">
-                                    <i class="fas fa-circle" style="color: ${member.online ? '#2ecc71' : '#e74c3c'}; font-size: 10px;"></i>
-                                    ${member.online ? 'Online' : 'Offline'}
-                                </p>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span class="level-badge badge-${member.level}">${this.getLevelName(member.level)}</span>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">${member.points || 0} pontos</span>
+                                </div>
                             </div>
                         </div>
                         <div class="member-actions">
-                            <button class="add-friend-btn ${isFriend ? 'added' : ''}" data-member-id="${member.id}">
-                                <i class="fas fa-${isFriend ? 'check' : 'plus'}"></i>
+                            <button class="btn btn-small ${isFriend ? 'btn-secondary' : 'btn-primary'}" data-member-id="${member.id}" style="width: 100%;">
+                                <i class="fas fa-${isFriend ? 'check' : 'user-plus'}"></i>
                                 ${isFriend ? 'Contacto Adicionado' : 'Adicionar Contacto'}
                             </button>
                         </div>
@@ -1267,7 +1989,7 @@
                 });
                 
                 // Adicionar event listeners aos botões de adicionar amigo
-                document.querySelectorAll('.add-friend-btn').forEach(btn => {
+                document.querySelectorAll('.member-actions .btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const memberId = e.currentTarget.dataset.memberId;
                         this.addFriend(memberId);
@@ -1296,31 +2018,78 @@
                         
                         sortedTheories.forEach(theory => {
                             const author = this.allMembers.find(m => m.id === theory.authorId);
+                            const theoryComments = this.comments[theory.id] || [];
+                            const canComment = this.currentUser && 
+                                             (this.currentUser.level === 'initiate' || 
+                                              this.currentUser.level === 'renovated' || 
+                                              this.currentUser.level === 'core');
+                            
                             const theoryCard = document.createElement('div');
-                            theoryCard.className = 'content-card';
+                            theoryCard.className = 'content-card theory-card';
+                            theoryCard.dataset.theoryId = theory.id;
                             theoryCard.innerHTML = `
                                 <div class="card-header">
                                     <h3 class="card-title">${theory.title}</h3>
-                                    <div class="card-date">${theory.date}</div>
+                                    <div class="card-date">${this.formatDate(theory.date)}</div>
                                 </div>
                                 <div class="card-author">
-                                    <div class="author-avatar">${author ? author.avatar : 'AR'}</div>
+                                    <div class="author-avatar ${author ? author.level : ''}">${author ? author.avatar : 'AR'}</div>
                                     <div class="author-info">
-                                        <h4>${theory.authorName}</h4>
-                                        <p>${author ? author.specialty : 'Pesquisador Algebra Renova'}</p>
+                                        <h4>${author ? author.codename || author.username : 'Autor Desconhecido'}</h4>
+                                        <p>${this.getCategoryName(theory.category)} • ${this.getLevelName(author ? author.level : 'observer')}</p>
                                     </div>
                                 </div>
                                 <div class="theory-content">
                                     ${this.formatTheoryContent(theory.content)}
                                 </div>
                                 <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
-                                    <button class="btn btn-secondary" style="padding: 5px 15px;">
-                                        <i class="fas fa-heart"></i> ${theory.likes || 0}
+                                    <div>
+                                        <span style="color: var(--text-secondary); margin-right: 15px;">
+                                            <i class="fas fa-heart"></i> ${theory.likes || 0}
+                                        </span>
+                                        <span style="color: var(--text-secondary);">
+                                            <i class="fas fa-comment"></i> ${theoryComments.length} respostas
+                                        </span>
+                                    </div>
+                                    ${canComment ? `
+                                    <button class="btn btn-small btn-primary reply-theory-btn" data-theory-id="${theory.id}">
+                                        <i class="fas fa-reply"></i> Responder
                                     </button>
-                                    <div style="color: var(--text-secondary); font-size: 14px;">
-                                        Teoria ID: ${theory.id}
+                                    ` : ''}
+                                </div>
+                                ${theoryComments.length > 0 ? `
+                                <div class="comments-section">
+                                    <h4 style="margin-bottom: 15px; color: var(--accent-neon);">Respostas (${theoryComments.length})</h4>
+                                    <div class="comments-list">
+                                        ${theoryComments.slice(0, 2).map(comment => {
+                                            const commentAuthor = this.allMembers.find(m => m.id === comment.authorId);
+                                            return `
+                                                <div class="comment">
+                                                    <div class="comment-header">
+                                                        <div class="comment-author">
+                                                            <div class="comment-author-avatar ${commentAuthor ? commentAuthor.level : ''}">${commentAuthor ? commentAuthor.avatar : 'AR'}</div>
+                                                            <div>
+                                                                <strong>${commentAuthor ? commentAuthor.codename || commentAuthor.username : 'Anônimo'}</strong>
+                                                                <div class="comment-date">${this.formatDate(comment.date)}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        ${this.formatTheoryContent(comment.content)}
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                        ${theoryComments.length > 2 ? `
+                                        <div style="text-align: center; margin-top: 10px;">
+                                            <button class="btn btn-small btn-secondary view-all-comments" data-theory-id="${theory.id}">
+                                                Ver todas as ${theoryComments.length} respostas
+                                            </button>
+                                        </div>
+                                        ` : ''}
                                     </div>
                                 </div>
+                                ` : ''}
                             `;
                             
                             theoriesList.appendChild(theoryCard);
@@ -1353,15 +2122,18 @@
                             theoryItem.innerHTML = `
                                 <h3 style="font-size: 18px; margin-bottom: 10px;">${theory.title}</h3>
                                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                                    <div class="author-avatar" style="width: 30px; height: 30px; font-size: 12px;">${author ? author.avatar : 'AR'}</div>
+                                    <div class="author-avatar ${author ? author.level : ''}" style="width: 30px; height: 30px; font-size: 12px;">${author ? author.avatar : 'AR'}</div>
                                     <div style="margin-left: 10px;">
-                                        <div style="font-size: 14px;">${theory.authorName}</div>
-                                        <div style="font-size: 12px; color: var(--text-secondary);">${theory.date}</div>
+                                        <div style="font-size: 14px;">${author ? author.codename || author.username : 'Anônimo'}</div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">${this.formatDate(theory.date)}</div>
                                     </div>
                                 </div>
-                                <p style="color: var(--text-secondary); font-size: 14px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                    ${theory.content.replace(/[#*`$]/g, '').substring(0, 150)}...
+                                <p style="color: var(--text-secondary); font-size: 14px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                    ${theory.content.replace(/[#*`$]/g, '').substring(0, 200)}...
                                 </p>
+                                <div style="margin-top: 10px;">
+                                    <a href="#" class="view-theory-btn" data-theory-id="${theory.id}" style="color: var(--accent-neon); font-size: 14px;">Ler teoria completa →</a>
+                                </div>
                             `;
                             
                             recentTheories.appendChild(theoryItem);
@@ -1369,41 +2141,377 @@
                     }
                 }
                 
-                // Renderizar LaTeX após atualizar as teorias
+                // Adicionar event listeners aos botões
                 setTimeout(() => {
+                    // Botões de responder
+                    document.querySelectorAll('.reply-theory-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.openCommentModal(theoryId);
+                        });
+                    });
+                    
+                    // Botões de ver teoria
+                    document.querySelectorAll('.view-theory-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.switchTab('theories');
+                            // Scroll para a teoria
+                            setTimeout(() => {
+                                const theoryCard = document.querySelector(`.theory-card[data-theory-id="${theoryId}"]`);
+                                if (theoryCard) {
+                                    theoryCard.scrollIntoView({ behavior: 'smooth' });
+                                    theoryCard.style.boxShadow = '0 0 0 2px var(--accent-neon)';
+                                    setTimeout(() => {
+                                        theoryCard.style.boxShadow = '';
+                                    }, 2000);
+                                }
+                            }, 100);
+                        });
+                    });
+                    
+                    // Botões de ver todos os comentários
+                    document.querySelectorAll('.view-all-comments').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const theoryId = e.currentTarget.dataset.theoryId;
+                            this.showAllComments(theoryId);
+                        });
+                    });
+                    
+                    // Renderizar LaTeX após atualizar as teorias
                     if (window.MathJax) {
                         window.MathJax.typeset();
                     }
                 }, 100);
             },
             
-            // Formatar conteúdo da teoria (converter LaTeX)
-            formatTheoryContent(content) {
-                // Converter quebras de linha para <p>
-                let formatted = content.split('\n\n').map(paragraph => {
-                    if (paragraph.trim() === '') return '';
-                    return `<p>${paragraph}</p>`;
-                }).join('');
+            // Atualizar lista de grupos
+            updateGroupsList() {
+                const groupsList = document.getElementById('groupsList');
                 
-                return formatted;
+                if (!groupsList) return;
+                
+                groupsList.innerHTML = '';
+                
+                if (this.groups.length === 0) {
+                    groupsList.innerHTML = `
+                        <div class="content-card">
+                            <h3 class="card-title">Nenhum grupo criado ainda</h3>
+                            <p style="color: var(--text-secondary);">Crie o primeiro grupo de pesquisa!</p>
+                        </div>
+                    `;
+                } else {
+                    groupsList.innerHTML = '<div class="groups-grid" id="groupsGrid"></div>';
+                    const groupsGrid = document.getElementById('groupsGrid');
+                    
+                    this.groups.forEach(group => {
+                        const creator = this.allMembers.find(m => m.id === group.creatorId);
+                        const isMember = group.members && group.members.includes(this.currentUser.id);
+                        const canJoin = this.canUserJoinGroup(group);
+                        
+                        const groupCard = document.createElement('div');
+                        groupCard.className = 'group-card';
+                        groupCard.innerHTML = `
+                            <div class="group-header">
+                                <h3 class="group-name">${group.name}</h3>
+                                <span class="group-members">
+                                    <i class="fas fa-users"></i> ${group.members ? group.members.length : 0} membros
+                                </span>
+                            </div>
+                            <div class="group-description">
+                                ${group.description}
+                            </div>
+                            ${group.tags && group.tags.length > 0 ? `
+                            <div class="group-tags">
+                                ${group.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                            ` : ''}
+                            <div class="group-actions">
+                                <div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">
+                                        Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                    </span>
+                                </div>
+                                ${isMember ? `
+                                <button class="btn btn-small btn-secondary" disabled>
+                                    <i class="fas fa-check"></i> Já é membro
+                                </button>
+                                ` : canJoin ? `
+                                <button class="btn btn-small btn-primary join-group-btn" data-group-id="${group.id}">
+                                    <i class="fas fa-sign-in-alt"></i> Entrar no Grupo
+                                </button>
+                                ` : `
+                                <button class="btn btn-small btn-secondary" disabled title="Nível insuficiente ou grupo privado">
+                                    <i class="fas fa-lock"></i> Acesso Restrito
+                                </button>
+                                `}
+                            </div>
+                        `;
+                        
+                        groupsGrid.appendChild(groupCard);
+                    });
+                    
+                    // Adicionar event listeners aos botões de entrar no grupo
+                    setTimeout(() => {
+                        document.querySelectorAll('.join-group-btn').forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                const groupId = e.currentTarget.dataset.groupId;
+                                this.joinGroup(groupId);
+                            });
+                        });
+                    }, 100);
+                }
             },
             
-            // Atualizar estatísticas
-            updateStats() {
-                const totalMembers = document.getElementById('totalMembers');
-                const totalTheories = document.getElementById('totalTheories');
-                const totalMessages = document.getElementById('totalMessages');
+            // Atualizar lista de desafios
+            updateChallengesList() {
+                const challengesList = document.getElementById('challengesList');
+                const recentChallenges = document.getElementById('recentChallenges');
                 
-                if (totalMembers) totalMembers.textContent = this.allMembers.length;
-                if (totalTheories) totalTheories.textContent = this.theories.length;
+                if (challengesList) {
+                    challengesList.innerHTML = '';
+                    
+                    if (this.challenges.length === 0) {
+                        challengesList.innerHTML = `
+                            <div class="content-card">
+                                <h3 class="card-title">Nenhum desafio criado ainda</h3>
+                                <p style="color: var(--text-secondary);">Crie o primeiro desafio matemático!</p>
+                            </div>
+                        `;
+                    } else {
+                        challengesList.innerHTML = '<div class="challenges-grid" id="challengesGrid"></div>';
+                        const challengesGrid = document.getElementById('challengesGrid');
+                        
+                        // Ordenar por prazo
+                        const sortedChallenges = [...this.challenges].sort((a, b) => {
+                            const deadlineA = new Date(a.deadline);
+                            const deadlineB = new Date(b.deadline);
+                            return deadlineA - deadlineB;
+                        });
+                        
+                        sortedChallenges.forEach(challenge => {
+                            const creator = this.allMembers.find(m => m.id === challenge.creatorId);
+                            const solutions = this.solutions[challenge.id] || [];
+                            const hasSolved = this.currentUser && 
+                                            solutions.some(s => s.authorId === this.currentUser.id);
+                            const canSolve = this.currentUser && 
+                                           (this.currentUser.level === 'initiate' || 
+                                            this.currentUser.level === 'renovated' || 
+                                            this.currentUser.level === 'core');
+                            
+                            const challengeCard = document.createElement('div');
+                            challengeCard.className = 'challenge-card';
+                            challengeCard.innerHTML = `
+                                <div>
+                                    <span class="challenge-difficulty difficulty-${challenge.difficulty}">
+                                        ${this.getDifficultyName(challenge.difficulty)}
+                                    </span>
+                                    <h3 style="margin: 10px 0; font-size: 18px;">${challenge.title}</h3>
+                                </div>
+                                <div style="color: var(--text-secondary); margin-bottom: 15px; font-size: 14px;">
+                                    ${challenge.description.substring(0, 150)}...
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">
+                                            <i class="fas fa-user"></i> ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                        </div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">
+                                            <i class="fas fa-trophy"></i> ${challenge.points} pontos
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 12px; color: ${this.isDeadlineNear(challenge.deadline) ? 'var(--warning)' : 'var(--text-secondary)'};">
+                                            <i class="fas fa-clock"></i> Prazo: ${this.formatDate(challenge.deadline)}
+                                        </div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">
+                                            <i class="fas fa-solution"></i> ${solutions.length} soluções
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="group-actions">
+                                    ${hasSolved ? `
+                                    <button class="btn btn-small btn-success" disabled>
+                                        <i class="fas fa-check"></i> Solução Enviada
+                                    </button>
+                                    ` : canSolve ? `
+                                    <button class="btn btn-small btn-warning solve-challenge-btn" data-challenge-id="${challenge.id}">
+                                        <i class="fas fa-paper-plane"></i> Enviar Solução
+                                    </button>
+                                    ` : `
+                                    <button class="btn btn-small btn-secondary" disabled title="Nível insuficiente">
+                                        <i class="fas fa-lock"></i> Apenas Iniciados+
+                                    </button>
+                                    `}
+                                    <button class="btn btn-small btn-primary view-challenge-btn" data-challenge-id="${challenge.id}">
+                                        <i class="fas fa-eye"></i> Ver Detalhes
+                                    </button>
+                                </div>
+                            `;
+                            
+                            challengesGrid.appendChild(challengeCard);
+                        });
+                        
+                        // Adicionar event listeners
+                        setTimeout(() => {
+                            document.querySelectorAll('.solve-challenge-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    const challengeId = e.currentTarget.dataset.challengeId;
+                                    this.openSolutionModal(challengeId);
+                                });
+                            });
+                            
+                            document.querySelectorAll('.view-challenge-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    const challengeId = e.currentTarget.dataset.challengeId;
+                                    this.showChallengeDetails(challengeId);
+                                });
+                            });
+                        }, 100);
+                    }
+                }
                 
-                // Calcular total de mensagens
-                let messageCount = 0;
-                Object.values(this.privateMessages).forEach(conversation => {
-                    messageCount += conversation.length;
-                });
+                // Atualizar desafios recentes na home
+                if (recentChallenges) {
+                    recentChallenges.innerHTML = '';
+                    
+                    // Pegar os 3 desafios mais recentes
+                    const recent = [...this.challenges]
+                        .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+                        .slice(0, 3);
+                    
+                    if (recent.length === 0) {
+                        recentChallenges.innerHTML = `
+                            <p style="color: var(--text-secondary); text-align: center; padding: 20px;">
+                                Nenhum desafio ativo
+                            </p>
+                        `;
+                    } else {
+                        recent.forEach(challenge => {
+                            const creator = this.allMembers.find(m => m.id === challenge.creatorId);
+                            const challengeItem = document.createElement('div');
+                            challengeItem.className = 'content-card';
+                            challengeItem.style.padding = '15px';
+                            challengeItem.style.marginBottom = '15px';
+                            challengeItem.innerHTML = `
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                                    <h3 style="font-size: 16px; flex: 1;">${challenge.title}</h3>
+                                    <span class="challenge-difficulty difficulty-${challenge.difficulty}" style="font-size: 10px;">
+                                        ${this.getDifficultyName(challenge.difficulty)}
+                                    </span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <div style="margin-right: 10px;">
+                                        <div style="font-size: 14px;">${creator ? creator.codename || creator.username : 'Anônimo'}</div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">${this.formatDate(challenge.createdDate)}</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                                    <span style="font-size: 12px; color: var(--accent-neon);">
+                                        <i class="fas fa-trophy"></i> ${challenge.points} pontos
+                                    </span>
+                                    <button class="btn btn-small btn-primary view-challenge-btn" data-challenge-id="${challenge.id}" style="padding: 3px 10px; font-size: 12px;">
+                                        Ver Desafio
+                                    </button>
+                                </div>
+                            `;
+                            
+                            recentChallenges.appendChild(challengeItem);
+                        });
+                    }
+                }
+            },
+            
+            // Atualizar informações de hierarquia
+            updateHierarchyInfo() {
+                const userProgress = document.getElementById('userProgress');
+                const userContributions = document.getElementById('userContributions');
                 
-                if (totalMessages) totalMessages.textContent = messageCount;
+                if (!this.currentUser) return;
+                
+                // Progresso do usuário
+                if (userProgress) {
+                    const nextLevel = this.getNextLevel(this.currentUser.level);
+                    const pointsNeeded = this.getPointsForNextLevel(this.currentUser.level);
+                    const progressPercent = pointsNeeded > 0 ? 
+                        Math.min(100, Math.floor((this.currentUser.points || 0) / pointsNeeded * 100)) : 
+                        (this.currentUser.level === 'core' ? 100 : 0);
+                    
+                    userProgress.innerHTML = `
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Nível atual: <strong class="level-badge badge-${this.currentUser.level}">${this.getLevelName(this.currentUser.level)}</strong></span>
+                                <span>${this.currentUser.points || 0} pontos</span>
+                            </div>
+                            ${nextLevel ? `
+                            <div style="background: rgba(255, 255, 255, 0.1); height: 10px; border-radius: 5px; overflow: hidden;">
+                                <div style="background: linear-gradient(90deg, var(--accent-neon), var(--accent-renovated)); height: 100%; width: ${progressPercent}%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 5px;">
+                                <span>Progresso para ${this.getLevelName(nextLevel)}</span>
+                                <span>${progressPercent}% (${this.currentUser.points || 0}/${pointsNeeded} pontos)</span>
+                            </div>
+                            ` : `
+                            <div style="text-align: center; padding: 10px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; margin-top: 10px;">
+                                <i class="fas fa-crown" style="color: var(--accent-gold);"></i>
+                                <span style="color: var(--accent-gold);">Você atingiu o nível máximo!</span>
+                            </div>
+                            `}
+                        </div>
+                    `;
+                }
+                
+                // Contribuições do usuário
+                if (userContributions) {
+                    const userTheories = this.theories.filter(t => t.authorId === this.currentUser.id).length;
+                    const userGroups = this.groups.filter(g => g.creatorId === this.currentUser.id).length;
+                    const userChallenges = this.challenges.filter(c => c.creatorId === this.currentUser.id).length;
+                    
+                    // Contar comentários do usuário
+                    let userComments = 0;
+                    Object.values(this.comments).forEach(commentList => {
+                        userComments += commentList.filter(c => c.authorId === this.currentUser.id).length;
+                    });
+                    
+                    // Contar soluções do usuário
+                    let userSolutions = 0;
+                    Object.values(this.solutions).forEach(solutionList => {
+                        userSolutions += solutionList.filter(s => s.authorId === this.currentUser.id).length;
+                    });
+                    
+                    userContributions.innerHTML = `
+                        <div class="contributions">
+                            <div class="contribution-item">
+                                <div class="contribution-value">${userTheories}</div>
+                                <div class="contribution-label">Teorias</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value">${userComments}</div>
+                                <div class="contribution-label">Respostas</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value">${userChallenges}</div>
+                                <div class="contribution-label">Desafios</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value">${userSolutions}</div>
+                                <div class="contribution-label">Soluções</div>
+                            </div>
+                            <div class="contribution-item">
+                                <div class="contribution-value">${userGroups}</div>
+                                <div class="contribution-label">Grupos</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            },
+            
+            // Atualizar estatísticas da home
+            updateHomeStats() {
+                document.getElementById('totalTheoriesHome').textContent = this.theories.length;
+                document.getElementById('totalChallengesHome').textContent = this.challenges.length;
+                document.getElementById('totalGroupsHome').textContent = this.groups.length;
             },
             
             // ============================================
@@ -1411,10 +2519,16 @@
             // ============================================
             
             // Manipular login
-            handleLogin(username, email, level) {
+            handleLogin(username, email, nucleusKey) {
+                // Verificar chave do núcleo
+                let initialLevel = 'observer';
+                if (nucleusKey === 'Renova, O Not Trad') {
+                    initialLevel = 'core';
+                }
+                
                 // Verificar se o usuário já existe
                 let user = this.allMembers.find(m => 
-                    m.username === username || m.email === email
+                    m.email === email
                 );
                 
                 if (user) {
@@ -1430,10 +2544,15 @@
                         email: email,
                         codename: username,
                         specialty: 'Matemática Geral',
-                        level: level,
+                        bio: '',
+                        level: initialLevel,
                         avatar: this.generateAvatar(username),
                         friends: [],
-                        online: true
+                        points: initialLevel === 'core' ? 1000 : 0,
+                        theories: 0,
+                        solutions: 0,
+                        online: true,
+                        joinDate: new Date().toISOString().split('T')[0]
                     };
                     
                     this.allMembers.push(user);
@@ -1441,10 +2560,8 @@
                 }
                 
                 this.saveState();
+                this.showMainApp();
                 this.updateUI();
-                
-                // Fechar modal de login
-                document.getElementById('loginModal').classList.remove('active');
                 
                 // Mostrar mensagem de boas-vindas
                 this.showNotification(`Bem-vindo, ${user.codename}! A revolução aguarda.`);
@@ -1479,6 +2596,13 @@
                     document.getElementById('chatSelection').style.display = 'block';
                     document.getElementById('chatContainer').style.display = 'none';
                 }
+                
+                // Se for a aba de perfil, preencher formulário
+                if (tabName === 'profile' && this.currentUser) {
+                    document.getElementById('codename').value = this.currentUser.codename || this.currentUser.username;
+                    document.getElementById('specialty').value = this.currentUser.specialty || '';
+                    document.getElementById('bio').value = this.currentUser.bio || '';
+                }
             },
             
             // Adicionar amigo
@@ -1498,6 +2622,9 @@
                 
                 this.currentUser.friends.push(memberId);
                 
+                // Adicionar pontos
+                this.addPoints(5, 'Adicionar contacto');
+                
                 // Atualizar interface
                 this.updateFriendsList();
                 this.updateMembersList();
@@ -1507,7 +2634,7 @@
                 
                 // Mostrar notificação
                 const member = this.allMembers.find(m => m.id === memberId);
-                this.showNotification(`${member.codename || member.username} adicionado aos seus contactos.`);
+                this.showNotification(`${member.codename || member.username} adicionado aos seus contactos. +5 pontos`);
             },
             
             // Enviar mensagem
@@ -1553,35 +2680,306 @@
             },
             
             // Salvar teoria
-            saveTheory(title, content) {
+            saveTheory(title, content, category) {
                 if (!this.currentUser || !title.trim() || !content.trim()) return;
+                
+                // Verificar permissão
+                if (this.currentUser.level === 'observer') {
+                    this.showNotification('Apenas Iniciados ou superiores podem publicar teorias.');
+                    return;
+                }
                 
                 // Criar nova teoria
                 const theory = {
                     id: Date.now().toString(),
                     title: title,
                     content: content,
+                    category: category,
                     authorId: this.currentUser.id,
-                    authorName: this.currentUser.codename || this.currentUser.username,
+                    status: this.currentUser.level === 'core' ? 'approved' : 'pending',
                     date: new Date().toISOString().split('T')[0],
-                    likes: 0
+                    likes: 0,
+                    comments: 0
                 };
                 
                 // Adicionar à lista de teorias
-                this.theories.unshift(theory); // Adicionar no início
+                this.theories.unshift(theory);
+                
+                // Adicionar pontos
+                this.addPoints(50, 'Publicar teoria');
+                
+                // Atualizar contador do usuário
+                this.currentUser.theories = (this.currentUser.theories || 0) + 1;
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateUI();
+                
+                // Mostrar notificação
+                const statusMsg = theory.status === 'approved' ? 'aprovada' : 'aguardando aprovação';
+                this.showNotification(`Teoria publicada com sucesso! ${statusMsg}. +50 pontos`);
+                
+                return theory;
+            },
+            
+            // Adicionar comentário à teoria
+            addComment(theoryId, content) {
+                if (!this.currentUser || !content.trim()) return;
+                
+                // Verificar permissão
+                if (this.currentUser.level === 'observer') {
+                    this.showNotification('Apenas Iniciados ou superiores podem responder a teorias.');
+                    return;
+                }
+                
+                // Inicializar array de comentários se não existir
+                if (!this.comments[theoryId]) {
+                    this.comments[theoryId] = [];
+                }
+                
+                // Criar comentário
+                const comment = {
+                    id: Date.now().toString(),
+                    theoryId: theoryId,
+                    authorId: this.currentUser.id,
+                    content: content,
+                    date: new Date().toISOString().split('T')[0]
+                };
+                
+                // Adicionar à lista de comentários
+                this.comments[theoryId].push(comment);
+                
+                // Atualizar contador na teoria
+                const theory = this.theories.find(t => t.id === theoryId);
+                if (theory) {
+                    theory.comments = (theory.comments || 0) + 1;
+                }
+                
+                // Adicionar pontos
+                this.addPoints(5, 'Comentar em teoria');
                 
                 // Salvar estado
                 this.saveState();
                 
                 // Atualizar interface
                 this.updateTheoriesList();
-                this.updateStats();
                 
                 // Mostrar notificação
-                this.showNotification('Teoria publicada com sucesso!');
+                this.showNotification('Resposta publicada com sucesso! +5 pontos');
                 
-                return theory;
+                return comment;
             },
+            
+            // Criar grupo
+            createGroup(name, description, tags, privacy) {
+                if (!this.currentUser || !name.trim() || !description.trim()) return;
+                
+                // Verificar permissão
+                if (this.currentUser.level === 'observer') {
+                    this.showNotification('Apenas Iniciados ou superiores podem criar grupos.');
+                    return;
+                }
+                
+                // Criar novo grupo
+                const group = {
+                    id: Date.now().toString(),
+                    name: name,
+                    description: description,
+                    tags: tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [],
+                    privacy: privacy,
+                    creatorId: this.currentUser.id,
+                    members: [this.currentUser.id],
+                    createdDate: new Date().toISOString().split('T')[0]
+                };
+                
+                // Adicionar à lista de grupos
+                this.groups.push(group);
+                
+                // Adicionar pontos
+                this.addPoints(20, 'Criar grupo');
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateGroupsList();
+                
+                // Mostrar notificação
+                this.showNotification(`Grupo "${name}" criado com sucesso! +20 pontos`);
+                
+                return group;
+            },
+            
+            // Entrar em grupo
+            joinGroup(groupId) {
+                if (!this.currentUser) return;
+                
+                const group = this.groups.find(g => g.id === groupId);
+                if (!group) return;
+                
+                // Verificar se já é membro
+                if (group.members && group.members.includes(this.currentUser.id)) {
+                    this.showNotification('Você já é membro deste grupo.');
+                    return;
+                }
+                
+                // Verificar permissão
+                if (!this.canUserJoinGroup(group)) {
+                    this.showNotification('Você não tem permissão para entrar neste grupo.');
+                    return;
+                }
+                
+                // Adicionar ao grupo
+                if (!group.members) group.members = [];
+                group.members.push(this.currentUser.id);
+                
+                // Adicionar pontos
+                this.addPoints(10, 'Entrar em grupo');
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateGroupsList();
+                
+                // Mostrar notificação
+                this.showNotification(`Você entrou no grupo "${group.name}"! +10 pontos`);
+            },
+            
+            // Criar desafio
+            createChallenge(title, description, difficulty, deadlineDays) {
+                if (!this.currentUser || !title.trim() || !description.trim()) return;
+                
+                // Verificar permissão
+                if (this.currentUser.level === 'observer') {
+                    this.showNotification('Apenas Iniciados ou superiores podem criar desafios.');
+                    return;
+                }
+                
+                // Calcular prazo
+                const deadline = new Date();
+                deadline.setDate(deadline.getDate() + parseInt(deadlineDays));
+                
+                // Pontos baseados na dificuldade
+                const pointsMap = { 'easy': 15, 'medium': 20, 'hard': 30, 'extreme': 50 };
+                const points = pointsMap[difficulty] || 20;
+                
+                // Criar novo desafio
+                const challenge = {
+                    id: Date.now().toString(),
+                    title: title,
+                    description: description,
+                    difficulty: difficulty,
+                    points: points,
+                    creatorId: this.currentUser.id,
+                    deadline: deadline.toISOString().split('T')[0],
+                    createdDate: new Date().toISOString().split('T')[0],
+                    solutions: 0
+                };
+                
+                // Adicionar à lista de desafios
+                this.challenges.push(challenge);
+                
+                // Adicionar pontos
+                this.addPoints(15, 'Criar desafio');
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateChallengesList();
+                
+                // Mostrar notificação
+                this.showNotification(`Desafio "${title}" criado com sucesso! +15 pontos`);
+                
+                return challenge;
+            },
+            
+            // Enviar solução para desafio
+            submitSolution(challengeId, content) {
+                if (!this.currentUser || !content.trim()) return;
+                
+                // Verificar permissão
+                if (this.currentUser.level === 'observer') {
+                    this.showNotification('Apenas Iniciados ou superiores podem resolver desafios.');
+                    return;
+                }
+                
+                // Inicializar array de soluções se não existir
+                if (!this.solutions[challengeId]) {
+                    this.solutions[challengeId] = [];
+                }
+                
+                // Verificar se já enviou solução
+                const hasSubmitted = this.solutions[challengeId].some(s => s.authorId === this.currentUser.id);
+                if (hasSubmitted) {
+                    this.showNotification('Você já enviou uma solução para este desafio.');
+                    return;
+                }
+                
+                // Criar solução
+                const solution = {
+                    id: Date.now().toString(),
+                    challengeId: challengeId,
+                    authorId: this.currentUser.id,
+                    content: content,
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'pending'
+                };
+                
+                // Adicionar à lista de soluções
+                this.solutions[challengeId].push(solution);
+                
+                // Atualizar contador no desafio
+                const challenge = this.challenges.find(c => c.id === challengeId);
+                if (challenge) {
+                    challenge.solutions = (challenge.solutions || 0) + 1;
+                }
+                
+                // Adicionar pontos
+                this.addPoints(30, 'Resolver desafio');
+                
+                // Atualizar contador do usuário
+                this.currentUser.solutions = (this.currentUser.solutions || 0) + 1;
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateChallengesList();
+                this.updateHierarchyInfo();
+                
+                // Mostrar notificação
+                this.showNotification('Solução enviada com sucesso! Aguarde aprovação. +30 pontos');
+                
+                return solution;
+            },
+            
+            // Atualizar perfil
+            updateProfile(codename, specialty, bio) {
+                if (!this.currentUser) return;
+                
+                // Atualizar informações
+                this.currentUser.codename = codename || this.currentUser.username;
+                this.currentUser.specialty = specialty || 'Matemática Geral';
+                this.currentUser.bio = bio || '';
+                this.currentUser.avatar = this.generateAvatar(codename || this.currentUser.username);
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateUI();
+                
+                // Mostrar notificação
+                this.showNotification('Perfil atualizado com sucesso!');
+            },
+            
+            // ============================================
+            // FUNÇÕES AUXILIARES
+            // ============================================
             
             // Abrir chat com um amigo
             openChat(friend) {
@@ -1598,7 +2996,7 @@
                         </button>
                         <div class="chat-friend-info">
                             <h4>${friend.codename || friend.username}</h4>
-                            <p>${friend.specialty || 'Matemática Geral'}</p>
+                            <p>${friend.specialty || 'Matemática Geral'} • ${this.getLevelName(friend.level)}</p>
                         </div>
                     </div>
                     <div class="chat-messages" id="chatMessages">
@@ -1606,7 +3004,7 @@
                     </div>
                     <div class="chat-input-area">
                         <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua mensagem... (LaTeX: $$fórmula$$)">
-                        <button class="send-btn" id="sendMessageBtn">
+                        <button class="btn btn-primary" id="sendMessageBtn">
                             <i class="fas fa-paper-plane"></i> Enviar
                         </button>
                     </div>
@@ -1618,7 +3016,7 @@
                     chatContainer.style.display = 'none';
                 });
                 
-                document.getElementById('sendMessageBtn').addEventListener('click', () => {
+                const sendMessage = () => {
                     const input = document.getElementById('chatInput');
                     const message = input.value.trim();
                     
@@ -1627,11 +3025,13 @@
                         input.value = '';
                         input.focus();
                     }
-                });
+                };
+                
+                document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
                 
                 document.getElementById('chatInput').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
-                        document.getElementById('sendMessageBtn').click();
+                        sendMessage();
                     }
                 });
                 
@@ -1686,6 +3086,274 @@
                 }, 100);
             },
             
+            // Abrir modal de comentário
+            openCommentModal(theoryId) {
+                document.getElementById('commentTheoryId').value = theoryId;
+                document.getElementById('commentModal').classList.add('active');
+                document.getElementById('commentContent').focus();
+            },
+            
+            // Abrir modal de solução
+            openSolutionModal(challengeId) {
+                document.getElementById('solutionChallengeId').value = challengeId;
+                document.getElementById('solutionModal').classList.add('active');
+                document.getElementById('solutionContent').focus();
+            },
+            
+            // Mostrar todos os comentários
+            showAllComments(theoryId) {
+                const theory = this.theories.find(t => t.id === theoryId);
+                const comments = this.comments[theoryId] || [];
+                
+                let commentsHTML = '';
+                comments.forEach(comment => {
+                    const author = this.allMembers.find(m => m.id === comment.authorId);
+                    commentsHTML += `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <div class="comment-author">
+                                    <div class="comment-author-avatar ${author ? author.level : ''}">${author ? author.avatar : 'AR'}</div>
+                                    <div>
+                                        <strong>${author ? author.codename || author.username : 'Anônimo'}</strong>
+                                        <div class="comment-date">${this.formatDate(comment.date)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                ${this.formatTheoryContent(comment.content)}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Criar modal temporário
+                const modal = document.createElement('div');
+                modal.className = 'modal active';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Respostas à Teoria: ${theory ? theory.title : ''}</h2>
+                            <button class="close-btn" id="closeTempModal">&times;</button>
+                        </div>
+                        <div class="comments-list" style="max-height: 400px; overflow-y: auto;">
+                            ${commentsHTML}
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-secondary" id="closeTempBtn">Fechar</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Event listeners
+                document.getElementById('closeTempModal').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                document.getElementById('closeTempBtn').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
+                // Renderizar LaTeX
+                setTimeout(() => {
+                    if (window.MathJax) {
+                        window.MathJax.typeset([modal]);
+                    }
+                }, 100);
+            },
+            
+            // Mostrar detalhes do desafio
+            showChallengeDetails(challengeId) {
+                const challenge = this.challenges.find(c => c.id === challengeId);
+                const creator = challenge ? this.allMembers.find(m => m.id === challenge.creatorId) : null;
+                const solutions = challenge ? this.solutions[challengeId] || [] : [];
+                
+                if (!challenge) return;
+                
+                // Criar modal temporário
+                const modal = document.createElement('div');
+                modal.className = 'modal active';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">${challenge.title}</h2>
+                            <button class="close-btn" id="closeChallengeDetails">&times;</button>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <span class="challenge-difficulty difficulty-${challenge.difficulty}">
+                                ${this.getDifficultyName(challenge.difficulty)}
+                            </span>
+                            <span style="margin-left: 10px; color: var(--accent-neon);">
+                                <i class="fas fa-trophy"></i> ${challenge.points} pontos
+                            </span>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <div style="color: var(--text-secondary); margin-bottom: 10px;">
+                                <i class="fas fa-user"></i> Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                            </div>
+                            <div style="color: var(--text-secondary);">
+                                <i class="fas fa-clock"></i> Prazo: ${this.formatDate(challenge.deadline)}
+                                ${this.isDeadlineNear(challenge.deadline) ? 
+                                    '<span style="color: var(--warning); margin-left: 10px;">(PRAZO PRÓXIMO!)</span>' : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="theory-content" style="margin-bottom: 25px;">
+                            ${this.formatTheoryContent(challenge.description)}
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: var(--accent-neon); margin-bottom: 15px;">Soluções (${solutions.length})</h3>
+                            ${solutions.length === 0 ? 
+                                '<p style="color: var(--text-secondary); text-align: center;">Nenhuma solução enviada ainda.</p>' :
+                                solutions.map(sol => {
+                                    const solAuthor = this.allMembers.find(m => m.id === sol.authorId);
+                                    return `
+                                        <div class="comment" style="margin-bottom: 15px;">
+                                            <div class="comment-header">
+                                                <div class="comment-author">
+                                                    <div class="comment-author-avatar ${solAuthor ? solAuthor.level : ''}">${solAuthor ? solAuthor.avatar : 'AR'}</div>
+                                                    <div>
+                                                        <strong>${solAuthor ? solAuthor.codename || solAuthor.username : 'Anônimo'}</strong>
+                                                        <div class="comment-date">${this.formatDate(sol.date)} • Status: ${sol.status === 'approved' ? '✅ Aprovada' : '⏳ Pendente'}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="comment-content">
+                                                ${this.formatTheoryContent(sol.content)}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')
+                            }
+                        </div>
+                        
+                        <div class="form-actions">
+                            ${this.currentUser && this.currentUser.level !== 'observer' && 
+                              !solutions.some(s => s.authorId === this.currentUser.id) ? 
+                            `<button class="btn btn-warning" id="solveFromModal" data-challenge-id="${challengeId}">
+                                <i class="fas fa-paper-plane"></i> Enviar Minha Solução
+                            </button>` : ''}
+                            <button class="btn btn-secondary" id="closeDetailsBtn">Fechar</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Event listeners
+                const closeModal = () => modal.remove();
+                
+                document.getElementById('closeChallengeDetails').addEventListener('click', closeModal);
+                document.getElementById('closeDetailsBtn').addEventListener('click', closeModal);
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+                
+                // Botão de resolver do modal
+                const solveBtn = document.getElementById('solveFromModal');
+                if (solveBtn) {
+                    solveBtn.addEventListener('click', () => {
+                        closeModal();
+                        this.openSolutionModal(challengeId);
+                    });
+                }
+                
+                // Renderizar LaTeX
+                setTimeout(() => {
+                    if (window.MathJax) {
+                        window.MathJax.typeset([modal]);
+                    }
+                }, 100);
+            },
+            
+            // Adicionar pontos ao usuário
+            addPoints(points, reason) {
+                if (!this.currentUser) return;
+                
+                this.currentUser.points = (this.currentUser.points || 0) + points;
+                
+                // Verificar promoção automática
+                this.checkPromotion();
+                
+                // Salvar estado
+                this.saveState();
+                
+                // Atualizar interface
+                this.updateUserProfile();
+                this.updateHierarchyInfo();
+                
+                console.log(`+${points} pontos para ${this.currentUser.codename}: ${reason}`);
+            },
+            
+            // Verificar promoção automática
+            checkPromotion() {
+                if (!this.currentUser) return;
+                
+                const currentPoints = this.currentUser.points || 0;
+                const currentLevel = this.currentUser.level;
+                
+                // Promoção para Iniciado
+                if (currentLevel === 'observer' && currentPoints >= 100) {
+                    this.currentUser.level = 'initiate';
+                    this.showNotification(`🎉 Parabéns! Você foi promovido a Iniciado!`);
+                }
+                
+                // Promoção para Renovado
+                if (currentLevel === 'initiate' && currentPoints >= 500) {
+                    this.currentUser.level = 'renovated';
+                    this.showNotification(`🎉 Parabéns! Você foi promovido a Renovado!`);
+                }
+                
+                // Núcleo só com chave especial, não por pontos
+            },
+            
+            // Verificar se usuário pode entrar no grupo
+            canUserJoinGroup(group) {
+                if (!this.currentUser) return false;
+                
+                // Se já é membro
+                if (group.members && group.members.includes(this.currentUser.id)) {
+                    return false;
+                }
+                
+                // Verificar nível necessário
+                if (group.privacy === 'restricted') {
+                    return this.currentUser.level === 'initiate' || 
+                           this.currentUser.level === 'renovated' || 
+                           this.currentUser.level === 'core';
+                }
+                
+                return true;
+            },
+            
+            // ============================================
+            // FUNÇÕES DE FORMATAÇÃO E UTILITÁRIOS
+            // ============================================
+            
+            // Formatar conteúdo (converter LaTeX)
+            formatTheoryContent(content) {
+                // Converter quebras de linha para <p>
+                let formatted = content.split('\n\n').map(paragraph => {
+                    if (paragraph.trim() === '') return '';
+                    return `<p>${paragraph}</p>`;
+                }).join('');
+                
+                return formatted;
+            },
+            
             // Formatar texto da mensagem (suporte a LaTeX)
             formatMessageText(text) {
                 // Converter LaTeX inline
@@ -1695,9 +3363,23 @@
                 return formatted;
             },
             
-            // ============================================
-            // FUNÇÕES AUXILIARES
-            // ============================================
+            // Formatar data
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffTime = Math.abs(now - date);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 0) {
+                    return 'Hoje';
+                } else if (diffDays === 1) {
+                    return 'Ontem';
+                } else if (diffDays < 7) {
+                    return `${diffDays} dias atrás`;
+                } else {
+                    return date.toLocaleDateString('pt-BR');
+                }
+            },
             
             // Gerar avatar a partir do nome
             generateAvatar(username) {
@@ -1762,6 +3444,68 @@
                 document.head.appendChild(style);
             },
             
+            // Obter nome do nível
+            getLevelName(level) {
+                const names = {
+                    'observer': 'Observador',
+                    'initiate': 'Iniciado',
+                    'renovated': 'Renovado',
+                    'core': 'Núcleo'
+                };
+                return names[level] || 'Desconhecido';
+            },
+            
+            // Obter próximo nível
+            getNextLevel(currentLevel) {
+                const order = ['observer', 'initiate', 'renovated', 'core'];
+                const currentIndex = order.indexOf(currentLevel);
+                return currentIndex < order.length - 1 ? order[currentIndex + 1] : null;
+            },
+            
+            // Obter pontos necessários para próximo nível
+            getPointsForNextLevel(currentLevel) {
+                const pointsMap = {
+                    'observer': 100,
+                    'initiate': 500,
+                    'renovated': 1000, // Mas núcleo precisa de chave especial
+                    'core': 0
+                };
+                return pointsMap[currentLevel] || 0;
+            },
+            
+            // Obter nome da categoria
+            getCategoryName(category) {
+                const names = {
+                    'algebra': 'Álgebra Abstrata',
+                    'topology': 'Topologia',
+                    'category': 'Teoria das Categorias',
+                    'logic': 'Lógica Matemática',
+                    'geometry': 'Geometria Não-Euclidiana',
+                    'other': 'Outra'
+                };
+                return names[category] || 'Geral';
+            },
+            
+            // Obter nome da dificuldade
+            getDifficultyName(difficulty) {
+                const names = {
+                    'easy': 'Fácil',
+                    'medium': 'Médio',
+                    'hard': 'Difícil',
+                    'extreme': 'Extremo'
+                };
+                return names[difficulty] || 'Desconhecido';
+            },
+            
+            // Verificar se prazo está próximo
+            isDeadlineNear(deadlineString) {
+                const deadline = new Date(deadlineString);
+                const now = new Date();
+                const diffTime = deadline - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 3 && diffDays >= 0;
+            },
+            
             // Fazer logout
             logout() {
                 if (this.currentUser) {
@@ -1772,11 +3516,14 @@
                     this.currentUser = null;
                     this.saveState();
                     
+                    // Esconder aplicação principal
+                    document.getElementById('mainApp').style.display = 'none';
+                    
                     // Mostrar modal de login
                     document.getElementById('loginModal').classList.add('active');
+                    document.getElementById('loginForm').reset();
                     
-                    // Resetar interface
-                    this.updateUI();
+                    this.showNotification('Você saiu da plataforma.');
                 }
             }
         };
@@ -1788,11 +3535,6 @@
             // Inicializar estado da aplicação
             AppState.init();
             
-            // Verificar se há usuário logado
-            if (!AppState.currentUser) {
-                document.getElementById('loginModal').classList.add('active');
-            }
-            
             // ============================================
             // EVENT LISTENERS
             // ============================================
@@ -1803,10 +3545,10 @@
                 
                 const username = document.getElementById('username').value.trim();
                 const email = document.getElementById('userEmail').value.trim();
-                const level = document.getElementById('initialLevel').value;
+                const nucleusKey = document.getElementById('nucleusKey').value.trim();
                 
                 if (username && email) {
-                    AppState.handleLogin(username, email, level);
+                    AppState.handleLogin(username, email, nucleusKey);
                 }
             });
             
@@ -1818,9 +3560,16 @@
                 });
             });
             
-            // Botão de nova teoria
+            // Botões de nova teoria
             document.getElementById('newTheoryBtn').addEventListener('click', openTheoryModal);
             document.getElementById('newTheoryBtn2').addEventListener('click', openTheoryModal);
+            
+            // Botões de novo grupo
+            document.getElementById('newGroupBtn').addEventListener('click', openGroupModal);
+            
+            // Botões de novo desafio
+            document.getElementById('newChallengeBtn').addEventListener('click', openChallengeModal);
+            document.getElementById('newChallengeBtn2').addEventListener('click', openChallengeModal);
             
             // Modal de teoria
             document.getElementById('closeTheoryModal').addEventListener('click', closeTheoryModal);
@@ -1832,11 +3581,86 @@
                 
                 const title = document.getElementById('theoryTitle').value.trim();
                 const content = document.getElementById('theoryContent').value.trim();
+                const category = document.getElementById('theoryCategory').value;
                 
                 if (title && content) {
-                    AppState.saveTheory(title, content);
+                    AppState.saveTheory(title, content, category);
                     closeTheoryModal();
                     AppState.switchTab('theories');
+                }
+            });
+            
+            // Modal de grupo
+            document.getElementById('closeGroupModal').addEventListener('click', closeGroupModal);
+            document.getElementById('cancelGroupBtn').addEventListener('click', closeGroupModal);
+            
+            // Formulário de grupo
+            document.getElementById('groupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('groupName').value.trim();
+                const description = document.getElementById('groupDescription').value.trim();
+                const tags = document.getElementById('groupTags').value.trim();
+                const privacy = document.getElementById('groupPrivacy').value;
+                
+                if (name && description) {
+                    AppState.createGroup(name, description, tags, privacy);
+                    closeGroupModal();
+                    AppState.switchTab('groups');
+                }
+            });
+            
+            // Modal de desafio
+            document.getElementById('closeChallengeModal').addEventListener('click', closeChallengeModal);
+            document.getElementById('cancelChallengeBtn').addEventListener('click', closeChallengeModal);
+            
+            // Formulário de desafio
+            document.getElementById('challengeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('challengeTitle').value.trim();
+                const description = document.getElementById('challengeDescription').value.trim();
+                const difficulty = document.getElementById('challengeDifficulty').value;
+                const deadline = document.getElementById('challengeDeadline').value;
+                
+                if (title && description) {
+                    AppState.createChallenge(title, description, difficulty, deadline);
+                    closeChallengeModal();
+                    AppState.switchTab('challenges');
+                }
+            });
+            
+            // Modal de comentário
+            document.getElementById('closeCommentModal').addEventListener('click', closeCommentModal);
+            document.getElementById('cancelCommentBtn').addEventListener('click', closeCommentModal);
+            
+            // Formulário de comentário
+            document.getElementById('commentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const theoryId = document.getElementById('commentTheoryId').value;
+                const content = document.getElementById('commentContent').value.trim();
+                
+                if (content) {
+                    AppState.addComment(theoryId, content);
+                    closeCommentModal();
+                }
+            });
+            
+            // Modal de solução
+            document.getElementById('closeSolutionModal').addEventListener('click', closeSolutionModal);
+            document.getElementById('cancelSolutionBtn').addEventListener('click', closeSolutionModal);
+            
+            // Formulário de solução
+            document.getElementById('solutionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const challengeId = document.getElementById('solutionChallengeId').value;
+                const content = document.getElementById('solutionContent').value.trim();
+                
+                if (content) {
+                    AppState.submitSolution(challengeId, content);
+                    closeSolutionModal();
                 }
             });
             
@@ -1873,25 +3697,12 @@
                 
                 const codename = document.getElementById('codename').value.trim();
                 const specialty = document.getElementById('specialty').value.trim();
-                const level = document.getElementById('level').value;
+                const bio = document.getElementById('bio').value.trim();
                 
-                if (AppState.currentUser) {
-                    AppState.currentUser.codename = codename || AppState.currentUser.username;
-                    AppState.currentUser.specialty = specialty || 'Matemática Geral';
-                    AppState.currentUser.level = level;
-                    AppState.currentUser.avatar = AppState.generateAvatar(codename || AppState.currentUser.username);
-                    
-                    AppState.saveState();
-                    AppState.updateUI();
-                    
-                    AppState.showNotification('Perfil atualizado com sucesso!');
+                if (codename && specialty) {
+                    AppState.updateProfile(codename, specialty, bio);
                     AppState.switchTab('home');
                 }
-            });
-            
-            // Botão cancelar perfil
-            document.getElementById('cancelProfileBtn').addEventListener('click', function() {
-                AppState.switchTab('home');
             });
             
             // Botão de logout
@@ -1914,7 +3725,47 @@
                 document.getElementById('latexPreview').innerHTML = '';
             }
             
-            // Fechar modal ao clicar fora
+            function openGroupModal() {
+                document.getElementById('groupModal').classList.add('active');
+                document.getElementById('groupName').focus();
+            }
+            
+            function closeGroupModal() {
+                document.getElementById('groupModal').classList.remove('active');
+                document.getElementById('groupForm').reset();
+            }
+            
+            function openChallengeModal() {
+                document.getElementById('challengeModal').classList.add('active');
+                document.getElementById('challengeTitle').focus();
+            }
+            
+            function closeChallengeModal() {
+                document.getElementById('challengeModal').classList.remove('active');
+                document.getElementById('challengeForm').reset();
+            }
+            
+            function openCommentModal() {
+                document.getElementById('commentModal').classList.add('active');
+                document.getElementById('commentContent').focus();
+            }
+            
+            function closeCommentModal() {
+                document.getElementById('commentModal').classList.remove('active');
+                document.getElementById('commentForm').reset();
+            }
+            
+            function openSolutionModal() {
+                document.getElementById('solutionModal').classList.add('active');
+                document.getElementById('solutionContent').focus();
+            }
+            
+            function closeSolutionModal() {
+                document.getElementById('solutionModal').classList.remove('active');
+                document.getElementById('solutionForm').reset();
+            }
+            
+            // Fechar modais ao clicar fora
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
@@ -1924,24 +3775,18 @@
                 });
             });
             
-            // Preencher formulário de perfil com dados atuais
-            document.querySelector('.tab-btn[data-tab="profile"]').addEventListener('click', function() {
-                if (AppState.currentUser) {
-                    document.getElementById('codename').value = AppState.currentUser.codename || AppState.currentUser.username;
-                    document.getElementById('specialty').value = AppState.currentUser.specialty || '';
-                    document.getElementById('level').value = AppState.currentUser.level || 'initiate';
-                }
-            });
-            
-            // Inicializar MathJax
+            // Configurar MathJax
             if (window.MathJax) {
                 window.MathJax = {
                     tex: {
                         inlineMath: [['$', '$'], ['\\(', '\\)']],
-                        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                        processEscapes: true
                     },
                     options: {
-                        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                        ignoreHtmlClass: 'tex2jax_ignore',
+                        processHtmlClass: 'tex2jax_process'
                     }
                 };
             }
