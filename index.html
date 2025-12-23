@@ -2614,6 +2614,365 @@
         </div>
     </div>
 
+async function renderSettingsPage() {
+    return `
+        <div class="content-header">
+            <h1>Configurações do Sistema</h1>
+            <p class="subtitle">Personalize sua experiência no Renova</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Preferências</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="systemSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Tema</label>
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="theme-option theme-dark ${AppState.theme === 'dark' ? 'active' : ''}" 
+                                         onclick="setTheme('dark')" title="Tema Escuro"></div>
+                                    <div class="theme-option theme-blue ${AppState.theme === 'blue' ? 'active' : ''}" 
+                                         onclick="setTheme('blue')" title="Tema Azul"></div>
+                                    <div class="theme-option theme-green ${AppState.theme === 'green' ? 'active' : ''}" 
+                                         onclick="setTheme('green')" title="Tema Verde"></div>
+                                    <div class="theme-option theme-purple ${AppState.theme === 'purple' ? 'active' : ''}" 
+                                         onclick="setTheme('purple')" title="Tema Roxo"></div>
+                                    <div class="theme-option theme-matrix ${AppState.theme === 'matrix' ? 'active' : ''}" 
+                                         onclick="setTheme('matrix')" title="Tema Matrix"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemAutosave" 
+                                       ${AppState.settings.autosave !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemAutosave">
+                                    Auto-salvar dados
+                                </label>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label class="form-label">Intervalo de Auto-salvamento (segundos)</label>
+                                <input type="number" class="form-control" id="autosaveInterval" 
+                                       value="${RENOVA_CONFIG.AUTO_SAVE_INTERVAL / 1000}" min="10" max="300">
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemNotifications" 
+                                       ${AppState.settings.notifications !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemNotifications">
+                                    Notificações do sistema
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">
+                                    <i class="fas fa-save"></i> Salvar Configurações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Gerenciamento de Dados</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-primary" onclick="StorageSystem.exportData()">
+                                <i class="fas fa-download"></i> Exportar Dados
+                            </button>
+                            <button class="btn btn-secondary" onclick="importData()">
+                                <i class="fas fa-upload"></i> Importar Dados
+                            </button>
+                            <button class="btn btn-warning" onclick="StorageSystem.createBackup()">
+                                <i class="fas fa-copy"></i> Criar Backup
+                            </button>
+                            <button class="btn btn-danger" onclick="StorageSystem.clearAllData()">
+                                <i class="fas fa-trash"></i> Limpar Todos os Dados
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5>Informações do Sistema</h5>
+                            <ul class="list-unstyled">
+                                <li>Versão: ${RENOVA_CONFIG.VERSION}</li>
+                                <li>Usuários: ${Object.keys(AppState.users).length}</li>
+                                <li>Teorias: ${AppState.theories.length}</li>
+                                <li>Posts no Fórum: ${AppState.forumPosts.length}</li>
+                                <li>Armazenamento usado: calculando...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Ajuda</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Atalhos de Teclado</h5>
+                        <ul class="list-unstyled small">
+                            <li><kbd>Ctrl + Enter</kbd>: Enviar mensagem</li>
+                            <li><kbd>Ctrl + S</kbd>: Salvar teoria</li>
+                            <li><kbd>Ctrl + F</kbd>: Buscar</li>
+                            <li><kbd>Esc</kbd>: Fechar modal</li>
+                        </ul>
+                        
+                        <h5 class="mt-4">Suporte</h5>
+                        <p class="small">
+                            Problemas ou sugestões?<br>
+                            O sistema é 100% local - seus dados são armazenados no seu navegador.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                await StorageSystem.importData(file);
+                ToastSystem.success('Dados importados com sucesso! Recarregando...');
+                setTimeout(() => location.reload(), 1000);
+            } catch (error) {
+                ToastSystem.error('Erro ao importar dados');
+            }
+        }
+    };
+    
+    input.click();
+}
+
+switch (section) {
+    case 'dashboard-home':
+        content = await renderDashboardHome();
+        break;
+    case 'theories':
+        content = await renderTheoriesPage();
+        break;
+    case 'chat':
+        content = await renderChatPage();
+        break;
+    case 'forum':
+        content = await renderForumPage();
+        break;
+    case 'groups':
+        content = await renderGroupsPage(); // NOVO
+        break;
+    case 'friends':
+        content = await renderFriendsPage();
+        break;
+    case 'messages':
+        content = await renderMessagesPage(); // NOVO
+        break;
+    case 'profile':
+        content = await renderProfilePage(); // NOVO
+        break;
+    case 'settings':
+        content = await renderSettingsPage(); // Você precisará implementar esta
+        break;
+    case 'admin':
+        content = await renderAdminPage(); // Você precisará implementar esta
+        break;
+    default:
+        content = await renderDashboardHome();
+}
+
+  let AppState = {
+    // ... código existente ...
+    currentConversation: null, // ADICIONE ESTA LINHA
+    // ... resto do código ...
+};
+
+    window.insertLatex = function() {
+    const input = document.getElementById('chatInput');
+    if (input) {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const selectedText = input.value.substring(start, end);
+        
+        input.value = input.value.substring(0, start) + 
+                     `$${selectedText || 'equação'}$` + 
+                     input.value.substring(end);
+        
+        input.focus();
+        input.setSelectionRange(start + 1, start + 1 + (selectedText || 'equação').length);
+    }
+};
+
+window.insertCode = function() {
+    const input = document.getElementById('chatInput');
+    if (input) {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const selectedText = input.value.substring(start, end);
+        
+        input.value = input.value.substring(0, start) + 
+                     "```\n" + (selectedText || 'código') + "\n```" + 
+                     input.value.substring(end);
+        
+        input.focus();
+        input.setSelectionRange(start + 4, start + 4 + (selectedText || 'código').length);
+    }
+};
+
+    async function renderSettingsPage() {
+    return `
+        <div class="content-header">
+            <h1>Configurações do Sistema</h1>
+            <p class="subtitle">Personalize sua experiência no Renova</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Preferências</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="systemSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Tema</label>
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="theme-option theme-dark ${AppState.theme === 'dark' ? 'active' : ''}" 
+                                         onclick="setTheme('dark')" title="Tema Escuro"></div>
+                                    <div class="theme-option theme-blue ${AppState.theme === 'blue' ? 'active' : ''}" 
+                                         onclick="setTheme('blue')" title="Tema Azul"></div>
+                                    <div class="theme-option theme-green ${AppState.theme === 'green' ? 'active' : ''}" 
+                                         onclick="setTheme('green')" title="Tema Verde"></div>
+                                    <div class="theme-option theme-purple ${AppState.theme === 'purple' ? 'active' : ''}" 
+                                         onclick="setTheme('purple')" title="Tema Roxo"></div>
+                                    <div class="theme-option theme-matrix ${AppState.theme === 'matrix' ? 'active' : ''}" 
+                                         onclick="setTheme('matrix')" title="Tema Matrix"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemAutosave" 
+                                       ${AppState.settings.autosave !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemAutosave">
+                                    Auto-salvar dados
+                                </label>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label class="form-label">Intervalo de Auto-salvamento (segundos)</label>
+                                <input type="number" class="form-control" id="autosaveInterval" 
+                                       value="${RENOVA_CONFIG.AUTO_SAVE_INTERVAL / 1000}" min="10" max="300">
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemNotifications" 
+                                       ${AppState.settings.notifications !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemNotifications">
+                                    Notificações do sistema
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">
+                                    <i class="fas fa-save"></i> Salvar Configurações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Gerenciamento de Dados</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-primary" onclick="StorageSystem.exportData()">
+                                <i class="fas fa-download"></i> Exportar Dados
+                            </button>
+                            <button class="btn btn-secondary" onclick="importData()">
+                                <i class="fas fa-upload"></i> Importar Dados
+                            </button>
+                            <button class="btn btn-warning" onclick="StorageSystem.createBackup()">
+                                <i class="fas fa-copy"></i> Criar Backup
+                            </button>
+                            <button class="btn btn-danger" onclick="StorageSystem.clearAllData()">
+                                <i class="fas fa-trash"></i> Limpar Todos os Dados
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5>Informações do Sistema</h5>
+                            <ul class="list-unstyled">
+                                <li>Versão: ${RENOVA_CONFIG.VERSION}</li>
+                                <li>Usuários: ${Object.keys(AppState.users).length}</li>
+                                <li>Teorias: ${AppState.theories.length}</li>
+                                <li>Posts no Fórum: ${AppState.forumPosts.length}</li>
+                                <li>Armazenamento usado: calculando...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Ajuda</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Atalhos de Teclado</h5>
+                        <ul class="list-unstyled small">
+                            <li><kbd>Ctrl + Enter</kbd>: Enviar mensagem</li>
+                            <li><kbd>Ctrl + S</kbd>: Salvar teoria</li>
+                            <li><kbd>Ctrl + F</kbd>: Buscar</li>
+                            <li><kbd>Esc</kbd>: Fechar modal</li>
+                        </ul>
+                        
+                        <h5 class="mt-4">Suporte</h5>
+                        <p class="small">
+                            Problemas ou sugestões?<br>
+                            O sistema é 100% local - seus dados são armazenados no seu navegador.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                await StorageSystem.importData(file);
+                ToastSystem.success('Dados importados com sucesso! Recarregando...');
+                setTimeout(() => location.reload(), 1000);
+            } catch (error) {
+                ToastSystem.error('Erro ao importar dados');
+            }
+        }
+    };
+    
+    input.click();
+}
+    
     <script>
         // ============================================
         // SISTEMA RENOVA - CÓDIGO JAVASCRIPT COMPLETO
