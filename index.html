@@ -2614,6 +2614,859 @@
         </div>
     </div>
 
+// ============================================
+// ADICIONE ESTAS FUNÇÕES NO FINAL DO SEU ARQUIVO
+// ANTES DA TAG </script>
+// ============================================
+
+// 1. PÁGINA DE CONFIGURAÇÕES (COMPLETA)
+window.renderSettingsPage = async function() {
+    const user = AppState.users[AppState.currentUser];
+    
+    return `
+        <div class="content-header">
+            <h1>Configurações</h1>
+            <p class="subtitle">Personalize sua experiência no Renova</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Preferências</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="systemSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Tema</label>
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="theme-option theme-dark ${AppState.theme === 'dark' ? 'active' : ''}" 
+                                         onclick="setTheme('dark')" title="Tema Escuro"></div>
+                                    <div class="theme-option theme-blue ${AppState.theme === 'blue' ? 'active' : ''}" 
+                                         onclick="setTheme('blue')" title="Tema Azul"></div>
+                                    <div class="theme-option theme-green ${AppState.theme === 'green' ? 'active' : ''}" 
+                                         onclick="setTheme('green')" title="Tema Verde"></div>
+                                    <div class="theme-option theme-purple ${AppState.theme === 'purple' ? 'active' : ''}" 
+                                         onclick="setTheme('purple')" title="Tema Roxo"></div>
+                                    <div class="theme-option theme-matrix ${AppState.theme === 'matrix' ? 'active' : ''}" 
+                                         onclick="setTheme('matrix')" title="Tema Matrix"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemAutosave" 
+                                       ${AppState.settings.autosave !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemAutosave">
+                                    Auto-salvar dados
+                                </label>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemNotifications" 
+                                       ${AppState.settings.notifications !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemNotifications">
+                                    Notificações do sistema
+                                </label>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="systemLatex" 
+                                       ${AppState.settings.latexEnabled !== false ? 'checked' : ''}>
+                                <label class="form-check-label" for="systemLatex">
+                                    Habilitar LaTeX automático
+                                </label>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label class="form-label">Idioma</label>
+                                <select class="form-control" id="systemLanguage">
+                                    <option value="pt-BR" ${AppState.settings.language === 'pt-BR' ? 'selected' : ''}>Português (Brasil)</option>
+                                    <option value="en" ${AppState.settings.language === 'en' ? 'selected' : ''}>English</option>
+                                    <option value="es" ${AppState.settings.language === 'es' ? 'selected' : ''}>Español</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="saveSystemSettings()">
+                                    <i class="fas fa-save"></i> Salvar Configurações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Gerenciamento de Dados</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-primary" onclick="StorageSystem.exportData()">
+                                <i class="fas fa-download"></i> Exportar Dados
+                            </button>
+                            <button class="btn btn-secondary" onclick="importData()">
+                                <i class="fas fa-upload"></i> Importar Dados
+                            </button>
+                            <button class="btn btn-warning" onclick="StorageSystem.createBackup()">
+                                <i class="fas fa-copy"></i> Criar Backup
+                            </button>
+                            <button class="btn btn-danger" onclick="StorageSystem.clearAllData()">
+                                <i class="fas fa-trash"></i> Limpar Todos os Dados
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5>Informações do Sistema</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Versão:</strong> ${RENOVA_CONFIG.VERSION}</li>
+                                <li><strong>Usuários:</strong> ${Object.keys(AppState.users).length}</li>
+                                <li><strong>Teorias:</strong> ${AppState.theories.length}</li>
+                                <li><strong>Posts no Fórum:</strong> ${AppState.forumPosts.length}</li>
+                                <li><strong>Grupos:</strong> ${Object.keys(AppState.groups).length}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Ajuda</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Atalhos de Teclado</h5>
+                        <ul class="list-unstyled small">
+                            <li><kbd>Ctrl + Enter</kbd>: Enviar mensagem</li>
+                            <li><kbd>Ctrl + S</kbd>: Salvar teoria</li>
+                            <li><kbd>Ctrl + F</kbd>: Buscar</li>
+                            <li><kbd>Esc</kbd>: Fechar modal</li>
+                        </ul>
+                        
+                        <h5 class="mt-4">Suporte</h5>
+                        <p class="small">
+                            Sistema Renova v${RENOVA_CONFIG.VERSION}<br>
+                            Todos os dados são armazenados localmente no seu navegador.
+                        </p>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-sm btn-info btn-block" onclick="showAboutModal()">
+                                <i class="fas fa-info-circle"></i> Sobre o Renova
+                            </button>
+                            <button class="btn btn-sm btn-info btn-block mt-2" onclick="showPrivacyModal()">
+                                <i class="fas fa-shield-alt"></i> Política de Privacidade
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Segurança</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Alterar Senha</label>
+                            <input type="password" class="form-control mb-2" id="changePasswordCurrent" 
+                                   placeholder="Senha atual">
+                            <input type="password" class="form-control mb-2" id="changePasswordNew" 
+                                   placeholder="Nova senha">
+                            <input type="password" class="form-control mb-2" id="changePasswordConfirm" 
+                                   placeholder="Confirmar nova senha">
+                            <button class="btn btn-warning btn-block" onclick="changePassword()">
+                                <i class="fas fa-key"></i> Alterar Senha
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+// 2. PÁGINA DE ADMINISTRAÇÃO (COMPLETA)
+window.renderAdminPage = async function() {
+    if (!AppState.isNucleo) {
+        return `
+            <div class="content-header">
+                <h1>Acesso Negado</h1>
+                <p class="subtitle">Área restrita ao Núcleo Científico</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center py-5">
+                        <i class="fas fa-shield-alt fa-3x text-danger mb-3"></i>
+                        <h4 class="text-danger">Acesso Restrito</h4>
+                        <p class="text-muted">Esta área é exclusiva para membros do Núcleo Científico.</p>
+                        <p class="text-muted">Para acessar, utilize a MASTER_KEY durante o login.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    const pendingTheories = TheorySystem.getPendingTheories();
+    const allUsers = Object.values(AppState.users);
+    
+    return `
+        <div class="content-header">
+            <h1>Administração</h1>
+            <p class="subtitle">Painel de controle do Núcleo Científico</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Teorias Pendentes</h3>
+                        <span class="badge badge-warning">${pendingTheories.length}</span>
+                    </div>
+                    <div class="card-body">
+                        ${pendingTheories.length > 0 ? `
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>Autor</th>
+                                            <th>Data</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${pendingTheories.map(theory => {
+                                            const author = AppState.users[theory.author];
+                                            return `
+                                                <tr>
+                                                    <td>
+                                                        <strong>${theory.title}</strong><br>
+                                                        <small class="text-muted">${theory.category}</small>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <img src="${author?.profile?.avatar || ''}" 
+                                                                 style="width: 30px; height: 30px; border-radius: 50%;"
+                                                                 alt="${author?.username || 'Desconhecido'}">
+                                                            <span>${author?.username || 'Desconhecido'}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>${UISystem.formatDate(theory.createdAt)}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-primary" onclick="viewTheory('${theory.id}')">
+                                                                <i class="fas fa-eye"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-success" onclick="approveTheory('${theory.id}')">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger" onclick="rejectTheoryPrompt('${theory.id}')">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : `
+                            <div class="text-center py-4">
+                                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                                <h5 class="text-success">Nenhuma teoria pendente</h5>
+                                <p class="text-muted">Todas as teorias foram revisadas.</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Estatísticas do Sistema</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">${allUsers.length}</h3>
+                                        <p class="text-muted mb-0">Usuários</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-success">${AppState.theories.length}</h3>
+                                        <p class="text-muted mb-0">Teorias</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-warning">${AppState.forumPosts.length}</h3>
+                                        <p class="text-muted mb-0">Posts</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-info">${Object.keys(AppState.groups).length}</h3>
+                                        <p class="text-muted mb-0">Grupos</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Ferramentas de Administração</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="showUserManagement()">
+                                <i class="fas fa-users"></i> Gerenciar Usuários
+                            </button>
+                            <button class="btn btn-secondary" onclick="showSystemLogs()">
+                                <i class="fas fa-clipboard-list"></i> Logs do Sistema
+                            </button>
+                            <button class="btn btn-warning" onclick="showBackupManagement()">
+                                <i class="fas fa-database"></i> Gerenciar Backups
+                            </button>
+                            <button class="btn btn-danger" onclick="clearAllSystemData()">
+                                <i class="fas fa-broom"></i> Limpar Sistema
+                            </button>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <h5>Status do Sistema</h5>
+                        <ul class="list-unstyled small">
+                            <li><span class="badge badge-success">Online</span> Sistema operacional</li>
+                            <li><span class="badge badge-success">${allUsers.filter(u => u.status === 'online').length} online</span> Usuários ativos</li>
+                            <li><span class="badge badge-primary">${allUsers.filter(u => u.nucleo).length}</span> Membros do Núcleo</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Ações Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="promoteUserToNucleo()">
+                                <i class="fas fa-star"></i> Promover Usuário
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="sendSystemAnnouncement()">
+                                <i class="fas fa-bullhorn"></i> Anúncio do Sistema
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" onclick="runSystemDiagnostics()">
+                                <i class="fas fa-stethoscope"></i> Diagnóstico
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+// 3. PÁGINA DE PERFIL (VERSÃO MELHORADA)
+window.renderProfilePage = async function() {
+    const user = AppState.users[AppState.currentUser];
+    const theories = TheorySystem.getUserTheories(AppState.currentUser);
+    const friends = FriendSystem.getFriends(AppState.currentUser);
+    
+    return `
+        <div class="content-header">
+            <h1>Meu Perfil</h1>
+            <p class="subtitle">Gerencie suas informações pessoais</p>
+        </div>
+        
+        <div class="profile-header">
+            <div class="profile-main">
+                <div class="profile-sidebar">
+                    <img src="${user.profile.avatar}" class="profile-avatar" alt="${user.username}"
+                         onclick="changeProfileAvatar()" style="cursor: pointer;">
+                    
+                    <div class="text-center mb-4">
+                        <h3>${user.username}</h3>
+                        <p class="text-muted">${user.profile.specialization || 'Sem especialização'}</p>
+                        <div class="badge ${AppState.isNucleo ? 'badge-primary' : 'badge-secondary'}">
+                            ${AppState.isNucleo ? 'Membro do Núcleo' : 'Membro'}
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span>Teorias</span>
+                            <span>${theories.length}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Posts</span>
+                            <span>${user.stats.posts || 0}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Amigos</span>
+                            <span>${friends.length}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Reputação</span>
+                            <span>${user.stats.reputation || 0}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-content">
+                    <div class="profile-tabs">
+                        <button class="profile-tab active" onclick="switchProfileTab('info')">Informações</button>
+                        <button class="profile-tab" onclick="switchProfileTab('theories')">Minhas Teorias</button>
+                        <button class="profile-tab" onclick="switchProfileTab('friends')">Amigos</button>
+                        <button class="profile-tab" onclick="switchProfileTab('security')">Segurança</button>
+                    </div>
+                    
+                    <div class="profile-section active" id="profileInfoSection">
+                        <form id="profileInfoForm">
+                            <div class="form-group">
+                                <label class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" value="${user.username}" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="${user.email}" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Biografia</label>
+                                <textarea class="form-control" id="profileBio" rows="3">${user.profile.bio || ''}</textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Especialização</label>
+                                    <select class="form-control" id="profileSpecialization">
+                                        <option value="">Selecione</option>
+                                        <option value="mathematics" ${user.profile.specialization === 'mathematics' ? 'selected' : ''}>Matemática</option>
+                                        <option value="physics" ${user.profile.specialization === 'physics' ? 'selected' : ''}>Física</option>
+                                        <option value="computer" ${user.profile.specialization === 'computer' ? 'selected' : ''}>Computação</option>
+                                        <option value="biology" ${user.profile.specialization === 'biology' ? 'selected' : ''}>Biologia</option>
+                                        <option value="engineering" ${user.profile.specialization === 'engineering' ? 'selected' : ''}>Engenharia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Localização</label>
+                                    <input type="text" class="form-control" id="profileLocation" 
+                                           value="${user.profile.location || ''}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Website</label>
+                                <input type="url" class="form-control" id="profileWebsite" 
+                                       value="${user.profile.website || ''}">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="saveProfileInfo()">
+                                    <i class="fas fa-save"></i> Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="profile-section" id="profileTheoriesSection">
+                        ${theories.length > 0 ? `
+                            <div class="list-group">
+                                ${theories.map(theory => `
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="font-weight-bold">${theory.title}</div>
+                                            <small class="text-muted">
+                                                Status: <span class="badge ${theory.status === 'approved' ? 'badge-success' : 
+                                                                          theory.status === 'pending' ? 'badge-warning' : 
+                                                                          theory.status === 'rejected' ? 'badge-danger' : 'badge-secondary'}">
+                                                    ${theory.status === 'approved' ? 'Aprovada' :
+                                                      theory.status === 'pending' ? 'Pendente' :
+                                                      theory.status === 'rejected' ? 'Rejeitada' : 'Rascunho'}
+                                                </span>
+                                                • ${UISystem.formatDate(theory.createdAt)}
+                                            </small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-primary" onclick="viewTheory('${theory.id}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-secondary" onclick="editTheory('${theory.id}')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="text-center py-4">
+                                <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Nenhuma teoria criada</h5>
+                                <p class="text-muted">
+                                    <a href="javascript:void(0)" onclick="loadSection('theories')">
+                                        Crie sua primeira teoria!
+                                    </a>
+                                </p>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <div class="profile-section" id="profileFriendsSection">
+                        ${friends.length > 0 ? `
+                            <div class="row">
+                                ${friends.map(friendId => {
+                                    const friend = AppState.users[friendId];
+                                    if (!friend) return '';
+                                    
+                                    return `
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                                        <img src="${friend.profile.avatar}" 
+                                                             style="width: 50px; height: 50px; border-radius: 50%;"
+                                                             alt="${friend.username}">
+                                                        <div>
+                                                            <div class="font-weight-bold">${friend.username}</div>
+                                                            <div class="d-flex align-items-center gap-1">
+                                                                <span class="status-dot status-${friend.status || 'offline'}"></span>
+                                                                <small class="text-muted">${friend.status === 'online' ? 'Online' : 'Offline'}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <button class="btn btn-sm btn-primary flex-grow-1" onclick="UISystem.startPrivateChat('${friendId}')">
+                                                            <i class="fas fa-comment"></i> Mensagem
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger" onclick="removeFriend('${friendId}')">
+                                                            <i class="fas fa-user-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        ` : `
+                            <div class="text-center py-4">
+                                <i class="fas fa-user-friends fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Nenhum amigo adicionado</h5>
+                                <p class="text-muted">
+                                    <a href="javascript:void(0)" onclick="loadSection('friends')">
+                                        Adicione amigos para colaborar!
+                                    </a>
+                                </p>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <div class="profile-section" id="profileSecuritySection">
+                        <form id="profileSecurityForm">
+                            <div class="form-group">
+                                <label class="form-label">Alterar Senha</label>
+                                <input type="password" class="form-control mb-2" id="currentPassword" 
+                                       placeholder="Senha atual">
+                                <input type="password" class="form-control mb-2" id="newPassword" 
+                                       placeholder="Nova senha">
+                                <input type="password" class="form-control mb-2" id="confirmPassword" 
+                                       placeholder="Confirmar nova senha">
+                                <button type="button" class="btn btn-warning" onclick="changePassword()">
+                                    <i class="fas fa-key"></i> Alterar Senha
+                                </button>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <h5>Sessões Ativas</h5>
+                            <div class="list-group">
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="font-weight-bold">Esta sessão</div>
+                                        <small class="text-muted">Iniciada agora</small>
+                                    </div>
+                                    <span class="badge badge-success">Ativa</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button type="button" class="btn btn-danger" onclick="logoutAllSessions()">
+                                    <i class="fas fa-sign-out-alt"></i> Sair de Todas as Sessões
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .profile-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                border: 3px solid var(--accent-primary);
+                object-fit: cover;
+                margin-bottom: 20px;
+            }
+            
+            .profile-tabs {
+                display: flex;
+                border-bottom: 2px solid var(--border-color);
+                margin-bottom: 20px;
+                overflow-x: auto;
+            }
+            
+            .profile-tab {
+                padding: 10px 20px;
+                background: none;
+                border: none;
+                border-bottom: 2px solid transparent;
+                color: var(--text-secondary);
+                cursor: pointer;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+            
+            .profile-tab:hover {
+                color: var(--text-primary);
+            }
+            
+            .profile-tab.active {
+                color: var(--accent-primary);
+                border-bottom-color: var(--accent-primary);
+            }
+            
+            .profile-section {
+                display: none;
+            }
+            
+            .profile-section.active {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .profile-stats {
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 15px;
+                margin-top: 20px;
+            }
+            
+            .stat-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+        </style>
+    `;
+};
+
+// ============================================
+// FUNÇÕES AUXILIARES PARA AS NOVAS PÁGINAS
+// ============================================
+
+// Função para alternar abas no perfil
+window.switchProfileTab = function(tab) {
+    // Esconder todas as seções
+    document.querySelectorAll('.profile-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Remover active de todas as tabs
+    document.querySelectorAll('.profile-tab').forEach(tabElement => {
+        tabElement.classList.remove('active');
+    });
+    
+    // Ativar tab clicada
+    const tabElement = Array.from(document.querySelectorAll('.profile-tab')).find(
+        t => t.textContent.toLowerCase().includes(tab)
+    );
+    if (tabElement) {
+        tabElement.classList.add('active');
+    }
+    
+    // Mostrar seção correspondente
+    const section = document.getElementById(`profile${tab.charAt(0).toUpperCase() + tab.slice(1)}Section`);
+    if (section) {
+        section.classList.add('active');
+    }
+};
+
+// Salvar informações do perfil
+window.saveProfileInfo = function() {
+    const user = AppState.users[AppState.currentUser];
+    if (!user) return;
+    
+    user.profile.bio = document.getElementById('profileBio')?.value || '';
+    user.profile.specialization = document.getElementById('profileSpecialization')?.value || '';
+    user.profile.location = document.getElementById('profileLocation')?.value || '';
+    user.profile.website = document.getElementById('profileWebsite')?.value || '';
+    
+    StorageSystem.save();
+    ToastSystem.success('Perfil atualizado com sucesso!');
+};
+
+// Alterar senha
+window.changePassword = function() {
+    const currentPassword = document.getElementById('currentPassword')?.value;
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+    
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        ToastSystem.error('Preencha todos os campos');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        ToastSystem.error('As senhas não coincidem');
+        return;
+    }
+    
+    if (newPassword.length < 8) {
+        ToastSystem.error('A nova senha deve ter pelo menos 8 caracteres');
+        return;
+    }
+    
+    const user = AppState.users[AppState.currentUser];
+    if (!user) return;
+    
+    // Verificar senha atual
+    if (user.password !== Security.hash(currentPassword)) {
+        ToastSystem.error('Senha atual incorreta');
+        return;
+    }
+    
+    // Alterar senha
+    user.password = Security.hash(newPassword);
+    StorageSystem.save();
+    
+    ToastSystem.success('Senha alterada com sucesso!');
+    
+    // Limpar campos
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+};
+
+// Salvar configurações do sistema
+window.saveSystemSettings = function() {
+    AppState.settings.autosave = document.getElementById('systemAutosave')?.checked || false;
+    AppState.settings.notifications = document.getElementById('systemNotifications')?.checked || false;
+    AppState.settings.latexEnabled = document.getElementById('systemLatex')?.checked || false;
+    AppState.settings.language = document.getElementById('systemLanguage')?.value || 'pt-BR';
+    
+    // Atualizar configurações do usuário atual
+    if (AppState.currentUser && AppState.users[AppState.currentUser]) {
+        AppState.users[AppState.currentUser].settings = {
+            ...AppState.users[AppState.currentUser].settings,
+            ...AppState.settings
+        };
+    }
+    
+    StorageSystem.save();
+    ToastSystem.success('Configurações salvas com sucesso!');
+};
+
+// Importar dados
+window.importData = function() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                await StorageSystem.importData(file);
+                ToastSystem.success('Dados importados com sucesso! Recarregando...');
+                setTimeout(() => location.reload(), 1000);
+            } catch (error) {
+                ToastSystem.error('Erro ao importar dados');
+            }
+        }
+    };
+    
+    input.click();
+};
+
+// Funções de administração
+window.rejectTheoryPrompt = function(theoryId) {
+    const reason = prompt('Digite o motivo da rejeição:');
+    if (reason) {
+        try {
+            TheorySystem.rejectTheory(theoryId, reason);
+            ToastSystem.success('Teoria rejeitada');
+            loadSection('admin');
+        } catch (error) {
+            ToastSystem.error(error.message);
+        }
+    }
+};
+
+window.showUserManagement = function() {
+    ToastSystem.info('Gerenciamento de usuários em desenvolvimento');
+};
+
+window.showSystemLogs = function() {
+    ToastSystem.info('Logs do sistema em desenvolvimento');
+};
+
+window.showBackupManagement = function() {
+    ToastSystem.info('Gerenciamento de backups em desenvolvimento');
+};
+
+window.clearAllSystemData = function() {
+    if (confirm('⚠️ ATENÇÃO: Isso apagará TODOS os dados do sistema. Esta ação não pode ser desfeita.\n\nTem certeza?')) {
+        if (confirm('Digite "CONFIRMAR" para continuar:')) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+};
+
+window.promoteUserToNucleo = function() {
+    ToastSystem.info('Promoção de usuário em desenvolvimento');
+};
+
+window.sendSystemAnnouncement = function() {
+    ToastSystem.info('Anúncios do sistema em desenvolvimento');
+};
+
+window.runSystemDiagnostics = function() {
+    ToastSystem.info('Diagnóstico do sistema em desenvolvimento');
+};
+
+window.changeProfileAvatar = function() {
+    ToastSystem.info('Alteração de avatar em desenvolvimento');
+};
+
+window.logoutAllSessions = function() {
+    if (confirm('Tem certeza que deseja sair de todas as sessões?')) {
+        AuthSystem.logout();
+    }
+};
+    
     <script>
         // ============================================
         // SISTEMA RENOVA - CÓDIGO JAVASCRIPT COMPLETO
