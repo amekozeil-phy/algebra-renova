@@ -3148,4 +3148,643 @@ openSection = function (sectionId) {
    - PRESENÇA ONLINE / OFFLINE
    ============================================================ */
 
-    
+    /* ============================================================
+   CHAT — GERAL + PRIVADO + CONTATOS + ONLINE/OFFLINE
+   LaTeX SUPORTADO — NÃO FECHAR SCRIPT / HTML
+   ============================================================ */
+
+/* =======================
+   ESTADO GLOBAL — CHAT
+   ======================= */
+const chatState = {
+  channels: JSON.parse(localStorage.getItem("chat_channels") || "[]"),
+  messages: JSON.parse(localStorage.getItem("chat_messages") || "{}"),
+  private: JSON.parse(localStorage.getItem("chat_private") || "{}"),
+  unread: JSON.parse(localStorage.getItem("chat_unread") || "{}"),
+  presence: JSON.parse(localStorage.getItem("chat_presence") || "{}"),
+  contacts: JSON.parse(localStorage.getItem("chat_contacts") || "{}")
+};
+
+function saveChat() {
+  localStorage.setItem("chat_channels", JSON.stringify(chatState.channels));
+  localStorage.setItem("chat_messages", JSON.stringify(chatState.messages));
+  localStorage.setItem("chat_private", JSON.stringify(chatState.private));
+  localStorage.setItem("chat_unread", JSON.stringify(chatState.unread));
+  localStorage.setItem("chat_presence", JSON.stringify(chatState.presence));
+  localStorage.setItem("chat_contacts", JSON.stringify(chatState.contacts));
+}
+
+/* =======================
+   PRESENÇA ONLINE
+   ======================= */
+function setOnline() {
+  chatState.presence[currentUser()] = {
+    online: true,
+    lastSeen: nowISO()
+  };
+  saveChat();
+}
+
+function setOffline() {
+  if (chatState.presence[currentUser()]) {
+    chatState.presence[currentUser()].online = false;
+    chatState.presence[currentUser()].lastSeen = nowISO();
+    saveChat();
+  }
+}
+
+window.addEventListener("beforeunload", setOffline);
+setOnline();
+
+/* =======================
+   CANAIS GERAIS
+   ======================= */
+function ensureDefaultChannels() {
+  if (chatState.channels.length === 0) {
+    chatState.channels = [
+      { id: "geral", name: "Geral" },
+      { id: "matematica", name: "Matemática" },
+      { id: "fisica", name: "Física" },
+      { id: "offtopic", name: "Off-topic" }
+    ];
+    saveChat();
+  }
+}
+ensureDefaultChannels();
+
+/* =======================
+   RENDER CHAT GERAL
+   ======================= */
+function renderChat(channelId = "geral") {
+  const content = document.getElementById("dashboardContent");
+  content.innerHTML = "";
+
+  const h = document.createElement("h3");
+  h.innerText = "Chat Geral";
+  content.appendChild(h);
+
+  const layout = document.createElement("div");
+  layout.style.display = "grid";
+  layout.style.gridTemplateColumns = "180px 1fr";
+  layout.style.gap = "12px";
+
+  /* canais */
+  const sidebar = document.createElement("div");
+  chatState.channels.forEach(c => {
+    const btn = document.createElement("button");
+    btn.style.width = "100%";
+    btn.innerText =
+      c.name +
+      (chatState.unread[c.id]?.includes(currentUser()) ? " ●" : "");
+    btn.onclick = () => renderChat(c.id);
+    sidebar.appendChild(btn);
+  });
+
+  /* mensagens */
+  const panel = document.createElement("div");
+  panel.id = "chat-panel";
+  panel.style.border = "1px solid #333";
+  panel.style.padding = "8px";
+  panel.style.height = "320px";
+  panel.style.overflowY = "auto";
+
+  const msgs = chatState.messages[channelId] || [];
+  msgs.forEach(m => {
+    const row = document.createElement("div");
+    row.innerHTML = `<b>${m.author}</b>: ${m.body}`;
+    panel.appendChild(row);
+    if (window.MathJax) MathJax.typesetPromise([row]);
+  });
+
+  /* input */
+  const input = document.createElement("textarea");
+  input.placeholder = "Mensagem (LaTeX suportado)";
+  input.style.width = "100%";
+
+  const send = document.createElement("button");
+  send.innerText = "Enviar";
+  send.onclick = () => {
+    if (!chatState.messages[channelId])
+      chatState.messages[channelId] = [];
+
+    chatState.messages[channelId].push({
+      author: currentUser(),
+      body: input.value,
+      at: nowISO()
+    });
+
+    chatState.channels.forEach(c => {
+      if (c.id !== channelId) {
+        if (!chatState.unread[c.id]) chatState.unread[c.id] = [];
+        if (!chatState.unread[c.id].includes(currentUser()))
+          chatState.unread[c.id].push(currentUser());
+      }
+    });
+
+    saveChat();
+    renderChat(channelId);
+  };
+
+  panel.appendChild(input);
+  panel.appendChild(send);
+
+  layout.appendChild(sidebar);
+  layout.appendChild(panel);
+  content.appendChild(layout);
+}
+
+/* =======================
+   CONTATOS
+   ======================= */
+function renderContacts() {
+  const content = document.getElementById("dashboardContent");
+  content.innerHTML = "";
+
+  const h = document.createElement("h3");
+  h.innerText = "Contatos";
+  content.appendChild(h);
+
+  const my = currentUser();
+  if (!chatState.contacts[my]) chatState.contacts[my] = [];
+
+  chatState.contacts[my].forEach(u => {
+    const row = document.createElement("div");
+    const status = chatState.presence[u]?.online ? "🟢" : "⚪";
+    row.innerHTML = `${status} ${u}`;
+    row.onclick = () => openPrivateChat(u);
+    content.appendChild(row);
+  });
+}
+
+/* =======================
+   CHAT PRIVADO
+   ======================= */
+function openPrivateChat(other) {
+  const content = document.getElementById("dashboardContent");
+  content.innerHTML = "";
+
+  const key = [currentUser(), other].sort().join("|");
+  if (!chatState.private[key]) chatState.private[key] = [];
+
+  const panel = document.createElement("div");
+  panel.style.border = "1px solid #333";
+  panel.style.height = "320px";
+  panel.style.overflowY = "auto";
+
+  chatState.private[key].forEach(m => {
+    const row = document.createElement("div");
+    row.innerHTML = `<b>${m.author}</b>: ${m.body}`;
+    panel.appendChild(row);
+    if (window.MathJax) MathJax.typesetPromise([row]);
+  });
+
+  const input = document.createElement("textarea");
+  input.style.width = "100%";
+
+  const send = document.createElement("button");
+  send.innerText = "Enviar";
+  send.onclick = () => {
+    chatState.private[key].push({
+      author: currentUser(),
+      body: input.value,
+      at: nowISO()
+    });
+    saveChat();
+    openPrivateChat(other);
+  };
+
+  content.appendChild(panel);
+  content.appendChild(input);
+  content.appendChild(send);
+}
+
+/* =======================
+   INTEGRAÇÃO DASHBOARD
+   ======================= */
+const __openSectionChat = openSection;
+openSection = function (sectionId) {
+  if (sectionId === "chat") {
+    renderChat();
+    return;
+  }
+  if (sectionId === "contacts") {
+    renderContacts();
+    return;
+  }
+  __openSectionChat(sectionId);
+};
+
+/* ============================================================
+   PRÓXIMO BLOCO (FINAL):
+   - AJUSTES RESPONSIVOS
+   - MENU MOBILE
+   - POLIMENTO FINAL UI
+   - FECHAMENTO DO DOCUMENTO 
+   ============================================================ */
+
+  /* ============================================================
+   RESPONSIVIDADE + MENU MOBILE + POLIMENTO FINAL
+   BLOCO CONTÍNUO — NÃO FECHAR SCRIPT / HTML
+   ============================================================ */
+
+/* =======================
+   ESTILOS RESPONSIVOS
+   ======================= */
+const responsiveStyle = document.createElement("style");
+responsiveStyle.innerHTML = `
+:root {
+  --bg:#050505; --panel:#0b0b0b; --border:#1f1f1f; --fg:#eaeaea;
+}
+body { background:var(--bg); color:var(--fg); font-family:system-ui, sans-serif; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:12px; }
+button { background:#111; color:#fff; border:1px solid #222; border-radius:8px; padding:8px 10px; cursor:pointer; }
+button:hover { background:#161616; }
+input, textarea, select { background:#0c0c0c; color:#fff; border:1px solid #222; border-radius:8px; padding:8px; margin:6px 0; }
+table { border-collapse:collapse; }
+th,td { border-bottom:1px solid #222; padding:6px; }
+.hidden { display:none; }
+
+#app-shell {
+  display:grid;
+  grid-template-columns: 220px 1fr;
+  gap:12px;
+}
+
+#side-menu {
+  position:sticky; top:10px; height:calc(100vh - 20px);
+}
+
+#mobile-top {
+  display:none;
+  align-items:center; justify-content:space-between;
+  padding:10px; border-bottom:1px solid #222; background:#070707;
+}
+
+@media (max-width: 860px) {
+  #app-shell { grid-template-columns: 1fr; }
+  #side-menu { display:none; position:fixed; left:0; top:0; height:100vh; width:240px; z-index:10; }
+  #side-menu.open { display:block; background:#070707; }
+  #mobile-top { display:flex; }
+}
+`;
+document.head.appendChild(responsiveStyle);
+
+/* =======================
+   MENU LATERAL (DESKTOP)
+   ======================= */
+function buildSideMenu() {
+  const menu = document.getElementById("side-menu");
+  if (!menu) return;
+  menu.innerHTML = "";
+
+  const sections = [
+    { id:"dashboard", label:"Dashboard" },
+    { id:"theories", label:"Teorias" },
+    { id:"forum", label:"Fórum" },
+    { id:"chat", label:"Chat Geral" },
+    { id:"contacts", label:"Contatos" },
+    { id:"profile", label:"Perfil" }
+  ];
+
+  sections.forEach(s=>{
+    const b=document.createElement("button");
+    b.style.width="100%";
+    b.innerText=s.label;
+    b.onclick=()=>openSection(s.id);
+    menu.appendChild(b);
+  });
+
+  if (canApprove()) {
+    const admin=document.createElement("button");
+    admin.style.width="100%";
+    admin.innerText="Administração";
+    admin.onclick=()=>openSection("admin");
+    menu.appendChild(admin);
+  }
+
+  const out=document.createElement("button");
+  out.style.width="100%";
+  out.innerText="Sair";
+  out.onclick=logout;
+  menu.appendChild(out);
+}
+
+/* =======================
+   MENU MOBILE
+   ======================= */
+function buildMobileTop() {
+  let top = document.getElementById("mobile-top");
+  if (!top) {
+    top = document.createElement("div");
+    top.id="mobile-top";
+    document.body.prepend(top);
+  }
+  top.innerHTML="";
+
+  const btn=document.createElement("button");
+  btn.innerText="☰";
+  btn.onclick=()=>document.getElementById("side-menu").classList.toggle("open");
+
+  const title=document.createElement("div");
+  title.innerText="Renova • Algebra";
+  title.style.opacity="0.85";
+
+  top.appendChild(btn);
+  top.appendChild(title);
+}
+
+/* =======================
+   CASCA DO APP
+   ======================= */
+function ensureShell() {
+  let shell=document.getElementById("app-shell");
+  if (shell) return;
+
+  shell=document.createElement("div");
+  shell.id="app-shell";
+
+  const side=document.createElement("div");
+  side.id="side-menu";
+
+  const main=document.createElement("div");
+  main.id="dashboardContent";
+
+  shell.appendChild(side);
+  shell.appendChild(main);
+  document.body.appendChild(shell);
+
+  buildSideMenu();
+  buildMobileTop();
+}
+
+/* =======================
+   ADMIN — PAINEL NÚCLEO
+   ======================= */
+function renderAdmin() {
+  if (!canApprove()) return;
+  const content=document.getElementById("dashboardContent");
+  content.innerHTML="";
+
+  const h=document.createElement("h3");
+  h.innerText="Administração Núcleo";
+  content.appendChild(h);
+
+  const logs=document.createElement("div");
+  logs.className="panel";
+  logs.innerHTML="<h4>Logs Recentes</h4>";
+  content.appendChild(logs);
+
+  Object.entries(profileState.activity || {}).forEach(([u,acts])=>{
+    acts.slice(0,3).forEach(a=>{
+      const r=document.createElement("div");
+      r.style.fontSize="12px";
+      r.innerText=`${u}: ${a.text}`;
+      logs.appendChild(r);
+    });
+  });
+}
+
+/* =======================
+   ROTEAMENTO CENTRAL
+   ======================= */
+const __openSectionRoot = openSection;
+openSection = function(sectionId){
+  ensureShell();
+  if (sectionId==="admin") { renderAdmin(); return; }
+  __openSectionRoot(sectionId);
+};
+
+/* =======================
+   MATHJAX (LaTeX)
+   ======================= */
+if (!window.MathJax) {
+  const mj = document.createElement("script");
+  mj.src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+  mj.async=true;
+  document.head.appendChild(mj);
+}
+
+/* =======================
+   INICIALIZAÇÃO FINAL
+   ======================= */
+ensureShell();
+openSection("dashboard");
+
+/* ============================================================
+   DOCUMENTO AINDA ABERTO
+   — FECHAMENTO FINAL SÓ QUANDO AUTORIZAR —
+   ============================================================ */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard — Núcleo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Estilo Base -->
+  <style>
+    :root {
+      --bg-main: #0b0e14;
+      --bg-panel: #121826;
+      --bg-card: #1a2033;
+      --accent: #7aa2f7;
+      --accent-soft: #9ece6a;
+      --danger: #f7768e;
+      --text-main: #c0caf5;
+      --text-soft: #9aa5ce;
+      --border: #2a2f4a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    aside {
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-soft);
+      padding: 10px 12px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      background: var(--bg-card);
+      color: var(--accent);
+    }
+
+    nav a.active {
+      background: var(--bg-card);
+      color: var(--accent-soft);
+    }
+
+    /* ===== MAIN ===== */
+    main {
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .user-info {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .status {
+      margin-top: auto;
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 32px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside>
+    <div class="logo">NÚCLEO</div>
+
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Teorias</a>
+      <a href="#">Grupos</a>
+      <a href="#">Fórum</a>
+      <a href="#">Chat</a>
+      <a href="#">Arquivos</a>
+      <a href="#">Configurações</a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+    <header>
+      <h1>Dashboard</h1>
+      <div class="user-info">Usuário ativo • Nível verificado</div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Estado do Sistema</h2>
+        <p>Todos os serviços principais estão operando dentro dos parâmetros normais.</p>
+        <div class="status">Operacional</div>
+      </div>
+
+      <div class="card">
+        <h2>Teorias Ativas</h2>
+        <p>Modelos registrados, em desenvolvimento ou em análise colaborativa.</p>
+        <div class="status">Sincronizado</div>
+      </div>
+
+      <div class="card">
+        <h2>Grupos</h2>
+        <p>Espaços privados e públicos para pesquisa, discussão e escrita conjunta.</p>
+        <div class="status">Disponível</div>
+      </div>
+
+      <div class="card">
+        <h2>Fórum</h2>
+        <p>Debates estruturados, tópicos persistentes e arquivos de discussão.</p>
+        <div class="status">Ativo</div>
+      </div>
+
+      <div class="card">
+        <h2>Chat</h2>
+        <p>Comunicação em tempo real entre membros e grupos.</p>
+        <div class="status">Online</div>
+      </div>
+
+      <div class="card">
+        <h2>Arquivos</h2>
+        <p>Upload, versionamento e organização de documentos e projetos.</p>
+        <div class="status">Estável</div>
+      </div>
+    </section>
+
+    <footer>
+      Núcleo • Sistema Modular • Interface Base
+    </footer>
+  </main>
+
+</body>
+</html>
+
