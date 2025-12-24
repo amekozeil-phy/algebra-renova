@@ -37,13 +37,27 @@ h1 {
   text-shadow: 0 0 20px #400;
 }
 
+h2 {
+  color: #8b0000;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #400;
+  padding-bottom: 5px;
+}
+
+h3 {
+  color: #a52a2a;
+  margin: 10px 0;
+}
+
 a {
   color: #b30000;
   text-decoration: none;
+  transition: all 0.3s;
 }
 
 a:hover {
   text-shadow: 0 0 10px crimson;
+  color: #ff3333;
 }
 
 /* ===============================
@@ -55,11 +69,19 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 header nav a {
   margin-left: 20px;
   font-size: 0.9rem;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+}
+
+header nav a:hover {
+  border: 1px solid #400;
+  background: rgba(64, 0, 0, 0.2);
 }
 
 /* ===============================
@@ -69,6 +91,7 @@ main {
   display: grid;
   grid-template-columns: 260px 1fr 300px;
   min-height: calc(100vh - 80px);
+  gap: 0;
 }
 
 /* ===============================
@@ -78,11 +101,13 @@ main {
   border-right: 1px solid #300;
   padding: 20px;
   background: rgba(10,0,0,0.4);
+  overflow-y: auto;
 }
 
 #sidebar h2 {
   font-size: 1rem;
   margin-bottom: 10px;
+  color: #8b0000;
 }
 
 #sidebar button {
@@ -93,10 +118,25 @@ main {
   border: 1px solid #400;
   padding: 10px;
   cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
 }
 
 #sidebar button:hover {
   background: #200;
+  transform: translateX(5px);
+}
+
+#sidebar .group-item {
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #333;
+  background: rgba(20,0,0,0.3);
+  cursor: pointer;
+}
+
+#sidebar .group-item:hover {
+  background: rgba(64,0,0,0.3);
 }
 
 /* ===============================
@@ -104,12 +144,31 @@ main {
 ================================ */
 #content {
   padding: 30px;
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
 }
 
 .section {
   margin-bottom: 40px;
   border-left: 3px solid #400;
   padding-left: 20px;
+  background: rgba(10,0,0,0.2);
+  padding: 20px;
+  border-radius: 0 5px 5px 0;
+}
+
+.section p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.section ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.section li {
+  margin-bottom: 8px;
 }
 
 /* ===============================
@@ -119,6 +178,8 @@ main {
   border-left: 1px solid #300;
   padding: 20px;
   background: rgba(5,0,0,0.6);
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
 }
 
 .friend {
@@ -126,6 +187,11 @@ main {
   padding: 8px 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.friend:hover {
+  background: rgba(64,0,0,0.2);
 }
 
 /* ===============================
@@ -143,14 +209,79 @@ main {
 .message {
   margin-bottom: 8px;
   font-size: 0.9rem;
+  padding: 5px;
+  border-bottom: 1px solid #222;
 }
 
-input, textarea {
+.message .user {
+  color: #b30000;
+  font-weight: bold;
+}
+
+input, textarea, select {
   width: 100%;
   background: black;
   border: 1px solid #400;
   color: #eee;
   padding: 8px;
+  margin: 5px 0;
+}
+
+button {
+  background: #400;
+  color: #eee;
+  border: 1px solid #600;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background: #600;
+  transform: scale(1.05);
+}
+
+/* ===============================
+   MODAL
+================================ */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #111;
+  border: 2px solid #400;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #400;
+  padding-bottom: 10px;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: #b30000;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* ===============================
@@ -162,6 +293,79 @@ footer {
   text-align: center;
   font-size: 0.7rem;
   color: #666;
+  background: rgba(0,0,0,0.8);
+}
+
+/* ===============================
+   GRUPOS
+================================ */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.group-card {
+  border: 1px solid #400;
+  padding: 15px;
+  background: rgba(20,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.group-card:hover {
+  background: rgba(64,0,0,0.3);
+  transform: translateY(-5px);
+}
+
+.group-card h3 {
+  color: #b30000;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   LOGIN FORM
+================================ */
+.login-form input {
+  margin-bottom: 15px;
+}
+
+.login-form button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ===============================
+   RESPONSIVO
+================================ */
+@media (max-width: 1024px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  
+  #sidebar, #rightbar {
+    display: none;
+  }
+}
+
+/* ===============================
+   SCROLLBAR
+================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #400;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #600;
 }
 </style>
 </head>
@@ -171,227 +375,784 @@ footer {
 <header>
   <h1>Algebra Renova</h1>
   <nav>
-    <a href="#">Manifesto</a>
-    <a href="#">Grupos</a>
-    <a href="#">Arquivos</a>
-    <a href="#">Entrar</a>
+    <a href="#" onclick="showModal('manifestoModal')">Manifesto</a>
+    <a href="#" onclick="showGroups()">Grupos</a>
+    <a href="#" onclick="showModal('arquivosModal')">Arquivos</a>
+    <a href="#" onclick="showModal('loginModal')">Entrar</a>
   </nav>
 </header>
 
-
-
-    
 <main>
-
     
 <!-- SIDEBAR -->
 <aside id="sidebar">
-  <h2>Usuário</h2>
-  <button onclick="login()">Entrar / Criar</button>
+  <div id="userStatus">
+    <h2>Usuário</h2>
+    <div id="userInfo">
+      <p id="userName">Visitante</p>
+      <button onclick="showModal('loginModal')">Entrar / Criar</button>
+    </div>
+  </div>
 
   <h2>Grupos</h2>
-  <button onclick="criarGrupo()">Criar Grupo</button>
-  <button>Explorar</button>
+  <button onclick="showModal('createGroupModal')">Criar Grupo</button>
+  <button onclick="exploreGroups()">Explorar</button>
+  
+  <div id="userGroups">
+    <h3>Meus Grupos</h3>
+    <div id="groupsList"></div>
+  </div>
 </aside>
 
 <!-- CONTEÚDO -->
 <section id="content">
-
   <div class="section">
-    <h2>Manifesto</h2>
+    <h2>Bem-vindo à Algebra Renova</h2>
     <p>
-      Algebra Renova não é uma comunidade.  
-      É um refúgio para ideias que não sobrevivem ao ruído.
+      <strong>Algebra Renova</strong> não é uma comunidade comum. É um refúgio para ideias que não sobrevivem ao ruído convencional. 
+      Um espaço onde a matemática renasce das ruínas do tradicional, mais poderosa, mais estranha, mais verdadeira.
     </p>
+    <p>
+      Nossa missão é a criação deliberada de estruturas matemáticas "impossíveis". Não buscamos resolver problemas já conhecidos, 
+      mas inventar realidades teóricas novas, com coerência interna tão profunda que forçam o mundo a repensar o que é possível.
+    </p>
+    <button onclick="showModal('manifestoModal')" style="margin-top: 15px;">Ler Manifesto Completo</button>
   </div>
 
   <div class="section">
     <h2>Trabalhos Recentes</h2>
-    <ul id="files"></ul>
-    <input type="file" onchange="uploadArquivo(event)">
+    <ul id="filesList">
+      <!-- Arquivos serão carregados aqui -->
+    </ul>
+    <input type="file" id="fileUpload" onchange="uploadArquivo(event)" multiple>
+    <button onclick="document.getElementById('fileUpload').click()">Enviar Arquivo</button>
   </div>
 
+  <div class="section">
+    <h2>Grupos Ativos</h2>
+    <div id="activeGroups" class="groups-grid">
+      <!-- Grupos ativos serão carregados aqui -->
+    </div>
+  </div>
 </section>
 
 <!-- DIREITA -->
 <aside id="rightbar">
-
   <h2>Amigos</h2>
-  <div id="friends"></div>
-  <input placeholder="Adicionar amigo..." onkeydown="addFriend(event)">
-
-  <h2>Chat</h2>
+  <div id="friendsList"></div>
+  <input id="addFriendInput" placeholder="Adicionar amigo..." onkeydown="addFriend(event)">
+  
+  <h2>Chat Global</h2>
   <div id="chatBox"></div>
-  <input placeholder="Mensagem..." onkeydown="sendMessage(event)">
+  <input id="messageInput" placeholder="Digite sua mensagem..." onkeydown="sendMessage(event)">
+  <button onclick="clearChat()">Limpar Chat</button>
 
+  <h2>Status do Sistema</h2>
+  <div id="systemStatus">
+    <p>Usuários Online: <span id="onlineCount">1</span></p>
+    <p>Grupos Ativos: <span id="groupsCount">3</span></p>
+    <p>Arquivos: <span id="filesCount">0</span></p>
+  </div>
 </aside>
 
 </main>
 
 <!-- ===============================
-     BLOCO: SISTEMA DE AMIGOS
+     MODAIS
 =============================== -->
-<section id="friends-system">
-  <h2>⸸ Conexões ⸸</h2>
 
-  <div class="friend-add">
-    <input type="text" id="friendName" placeholder="Nome do usuário">
-    <button onclick="sendFriendRequest()">Enviar Pedido</button>
-  </div>
-
-  <div class="friends-columns">
-
-    <div class="friends-box">
-      <h3>Pedidos Pendentes</h3>
-      <ul id="requestsList"></ul>
+<!-- Modal de Manifesto -->
+<div id="manifestoModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Manifesto da Algebra Renova</h2>
+      <button class="close-modal" onclick="closeModal('manifestoModal')">&times;</button>
     </div>
-
-    <div class="friends-box">
-      <h3>Aliados</h3>
-      <ul id="friendsList"></ul>
+    <div id="manifestoContent">
+      <!-- Conteúdo do PDF será carregado aqui -->
     </div>
-
   </div>
-</section>
+</div>
 
-    
+<!-- Modal de Login/Cadastro -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Entrar / Criar Conta</h2>
+      <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
+    </div>
+    <div class="login-form">
+      <h3>Login</h3>
+      <input type="text" id="loginUsername" placeholder="Nome de usuário">
+      <input type="password" id="loginPassword" placeholder="Senha">
+      <button onclick="login()">Entrar</button>
+      
+      <h3 style="margin-top: 30px;">Criar Nova Conta</h3>
+      <input type="text" id="newUsername" placeholder="Escolha um nome de usuário">
+      <input type="email" id="newEmail" placeholder="E-mail (opcional)">
+      <input type="password" id="newPassword" placeholder="Senha">
+      <input type="password" id="confirmPassword" placeholder="Confirmar senha">
+      <button onclick="createAccount()">Criar Conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Criar Grupo -->
+<div id="createGroupModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Criar Novo Grupo</h2>
+      <button class="close-modal" onclick="closeModal('createGroupModal')">&times;</button>
+    </div>
+    <div>
+      <input type="text" id="groupName" placeholder="Nome do grupo">
+      <textarea id="groupDescription" placeholder="Descrição do grupo" rows="4"></textarea>
+      <select id="groupCategory">
+        <option value="algebra">Álgebra Avançada</option>
+        <option value="topology">Topologia</option>
+        <option value="geometry">Geometria</option>
+        <option value="categories">Teoria das Categorias</option>
+        <option value="other">Outro</option>
+      </select>
+      <select id="groupPrivacy">
+        <option value="public">Público</option>
+        <option value="private">Privado</option>
+        <option value="secret">Secreto</option>
+      </select>
+      <button onclick="createGroup()">Criar Grupo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Arquivos -->
+<div id="arquivosModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Arquivos</h2>
+      <button class="close-modal" onclick="closeModal('arquivosModal')">&times;</button>
+    </div>
+    <div>
+      <h3>Meus Arquivos</h3>
+      <ul id="userFilesList"></ul>
+      
+      <h3>Arquivos Públicos</h3>
+      <ul id="publicFilesList"></ul>
+      
+      <input type="file" id="modalFileUpload" onchange="uploadArquivo(event)" multiple>
+      <button onclick="document.getElementById('modalFileUpload').click()">Enviar Novo Arquivo</button>
+    </div>
+  </div>
+</div>
+
 <footer>
-  Algebra Renova — conhecimento não domesticado
+  Algebra Renova — conhecimento não domesticado | Revolution. Algebra et Perseverantia.
 </footer>
 
 <script>
 /* ===============================
-   SISTEMA LOCAL (SIMULA BACKEND)
+   SISTEMA DE ARMAZENAMENTO
 ================================ */
-let user = localStorage.getItem("user") || null;
-let friends = JSON.parse(localStorage.getItem("friends") || "[]");
-let messages = JSON.parse(localStorage.getItem("messages") || "[]");
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let groups = JSON.parse(localStorage.getItem('groups')) || [
+  { id: 1, name: "Álgebra Não-Convencional", description: "Explorando estruturas algébricas além do convencional", category: "algebra", privacy: "public", members: [] },
+  { id: 2, name: "Topologia da Borboleta", description: "Estudo de transformações topológicas radicais", category: "topology", privacy: "public", members: [] },
+  { id: 3, name: "Geometria do Infinito", description: "Formas geométricas em espaços não-euclidianos", category: "geometry", privacy: "private", members: [] }
+];
+let friends = JSON.parse(localStorage.getItem('friends')) || [];
+let messages = JSON.parse(localStorage.getItem('messages')) || [];
+let files = JSON.parse(localStorage.getItem('files')) || [];
+let friendRequests = JSON.parse(localStorage.getItem('friendRequests')) || [];
 
 /* ===============================
-   LOGIN
+   INICIALIZAÇÃO
 ================================ */
+document.addEventListener('DOMContentLoaded', function() {
+  updateUserStatus();
+  loadManifesto();
+  loadGroups();
+  loadFiles();
+  renderFriends();
+  renderChat();
+  
+  // Carregar mensagens de exemplo se não houver mensagens
+  if (messages.length === 0) {
+    messages = [
+      "Sistema: Bem-vindo à Algebra Renova",
+      "Sistema: Este é um espaço para matemática radical",
+      "Visitante: Alguém aqui estuda álgebra não-associativa?",
+      "Anônimo: Estou explorando estruturas infinitamente recursivas..."
+    ];
+    localStorage.setItem('messages', JSON.stringify(messages));
+    renderChat();
+  }
+});
+
+/* ===============================
+   SISTEMA DE USUÁRIO
+================================ */
+function updateUserStatus() {
+  const userNameElement = document.getElementById('userName');
+  const userInfoElement = document.getElementById('userInfo');
+  
+  if (currentUser) {
+    userNameElement.textContent = currentUser.username;
+    userInfoElement.innerHTML = `
+      <p>${currentUser.username}</p>
+      <button onclick="logout()">Sair</button>
+    `;
+  } else {
+    userNameElement.textContent = "Visitante";
+    userInfoElement.innerHTML = `
+      <p>Visitante</p>
+      <button onclick="showModal('loginModal')">Entrar / Criar</button>
+    `;
+  }
+}
+
 function login() {
-  const name = prompt("Nome:");
-  if (!name) return;
-  user = name;
-  localStorage.setItem("user", user);
-  alert("Bem-vindo, " + user);
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  
+  if (!username || !password) {
+    alert("Por favor, preencha todos os campos");
+    return;
+  }
+  
+  const user = users.find(u => u.username === username && u.password === password);
+  
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    alert(`Bem-vindo de volta, ${username}!`);
+    closeModal('loginModal');
+    updateUserStatus();
+    renderFriends();
+  } else {
+    alert("Usuário ou senha incorretos");
+  }
+}
+
+function createAccount() {
+  const username = document.getElementById('newUsername').value.trim();
+  const email = document.getElementById('newEmail').value.trim();
+  const password = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  
+  if (!username || !password) {
+    alert("Nome de usuário e senha são obrigatórios");
+    return;
+  }
+  
+  if (password !== confirmPassword) {
+    alert("As senhas não coincidem");
+    return;
+  }
+  
+  if (users.some(u => u.username === username)) {
+    alert("Este nome de usuário já está em uso");
+    return;
+  }
+  
+  const newUser = {
+    id: Date.now(),
+    username: username,
+    email: email,
+    password: password,
+    joined: new Date().toISOString()
+  };
+  
+  users.push(newUser);
+  currentUser = newUser;
+  
+  localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  
+  alert(`Conta criada com sucesso! Bem-vindo, ${username}!`);
+  closeModal('loginModal');
+  updateUserStatus();
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+  updateUserStatus();
+  alert("Você saiu da sua conta");
 }
 
 /* ===============================
-   AMIGOS
+   SISTEMA DE GRUPOS
+================================ */
+function loadGroups() {
+  const groupsList = document.getElementById('groupsList');
+  const activeGroups = document.getElementById('activeGroups');
+  
+  groupsList.innerHTML = '';
+  activeGroups.innerHTML = '';
+  
+  groups.forEach(group => {
+    // Lista na sidebar
+    const groupItem = document.createElement('div');
+    groupItem.className = 'group-item';
+    groupItem.innerHTML = `
+      <strong>${group.name}</strong>
+      <small>${group.category}</small>
+    `;
+    groupItem.onclick = () => showGroupDetails(group.id);
+    groupsList.appendChild(groupItem);
+    
+    // Grid de grupos ativos
+    if (group.privacy === 'public') {
+      const groupCard = document.createElement('div');
+      groupCard.className = 'group-card';
+      groupCard.innerHTML = `
+        <h3>${group.name}</h3>
+        <p>${group.description}</p>
+        <small>Categoria: ${group.category}</small>
+        <small>Membros: ${group.members.length}</small>
+      `;
+      groupCard.onclick = () => showGroupDetails(group.id);
+      activeGroups.appendChild(groupCard);
+    }
+  });
+  
+  // Atualizar contador
+  document.getElementById('groupsCount').textContent = groups.length;
+}
+
+function createGroup() {
+  if (!currentUser) {
+    alert("Você precisa estar logado para criar um grupo");
+    showModal('loginModal');
+    return;
+  }
+  
+  const name = document.getElementById('groupName').value.trim();
+  const description = document.getElementById('groupDescription').value.trim();
+  const category = document.getElementById('groupCategory').value;
+  const privacy = document.getElementById('groupPrivacy').value;
+  
+  if (!name) {
+    alert("O grupo precisa de um nome");
+    return;
+  }
+  
+  const newGroup = {
+    id: Date.now(),
+    name: name,
+    description: description,
+    category: category,
+    privacy: privacy,
+    creator: currentUser.username,
+    members: [currentUser.username],
+    created: new Date().toISOString()
+  };
+  
+  groups.push(newGroup);
+  localStorage.setItem('groups', JSON.stringify(groups));
+  
+  alert(`Grupo "${name}" criado com sucesso!`);
+  closeModal('createGroupModal');
+  loadGroups();
+}
+
+function showGroupDetails(groupId) {
+  const group = groups.find(g => g.id === groupId);
+  if (!group) return;
+  
+  const modalContent = `
+    <div class="modal-header">
+      <h2>${group.name}</h2>
+      <button class="close-modal" onclick="closeModal('groupDetailsModal')">&times;</button>
+    </div>
+    <div>
+      <p><strong>Descrição:</strong> ${group.description}</p>
+      <p><strong>Categoria:</strong> ${group.category}</p>
+      <p><strong>Privacidade:</strong> ${group.privacy}</p>
+      <p><strong>Criador:</strong> ${group.creator}</p>
+      <p><strong>Membros:</strong> ${group.members.length}</p>
+      <p><strong>Criado em:</strong> ${new Date(group.created).toLocaleDateString()}</p>
+      
+      ${group.privacy === 'public' || (currentUser && group.members.includes(currentUser.username)) 
+        ? `<button onclick="joinGroup(${groupId})">${currentUser && group.members.includes(currentUser.username) ? 'Sair do Grupo' : 'Entrar no Grupo'}</button>`
+        : '<p><em>Este grupo é privado</em></p>'
+      }
+    </div>
+  `;
+  
+  showCustomModal('Detalhes do Grupo', modalContent, 'groupDetailsModal');
+}
+
+function joinGroup(groupId) {
+  if (!currentUser) {
+    alert("Você precisa estar logado para entrar em um grupo");
+    showModal('loginModal');
+    return;
+  }
+  
+  const group = groups.find(g => g.id === groupId);
+  if (!group) return;
+  
+  const userIndex = group.members.indexOf(currentUser.username);
+  
+  if (userIndex === -1) {
+    group.members.push(currentUser.username);
+    alert(`Você entrou no grupo "${group.name}"`);
+  } else {
+    group.members.splice(userIndex, 1);
+    alert(`Você saiu do grupo "${group.name}"`);
+  }
+  
+  localStorage.setItem('groups', JSON.stringify(groups));
+  closeModal('groupDetailsModal');
+  loadGroups();
+}
+
+function exploreGroups() {
+  showGroups();
+}
+
+function showGroups() {
+  const groupsHTML = groups.map(group => `
+    <div class="group-card" onclick="showGroupDetails(${group.id})">
+      <h3>${group.name}</h3>
+      <p>${group.description}</p>
+      <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+        <small>${group.category}</small>
+        <small>${group.privacy === 'public' ? '🌐 Público' : group.privacy === 'private' ? '🔒 Privado' : '🕵️ Secreto'}</small>
+      </div>
+      <small>Membros: ${group.members.length}</small>
+    </div>
+  `).join('');
+  
+  const modalContent = `
+    <div class="modal-header">
+      <h2>Todos os Grupos</h2>
+      <button class="close-modal" onclick="closeModal('allGroupsModal')">&times;</button>
+    </div>
+    <div>
+      <div class="groups-grid">
+        ${groupsHTML}
+      </div>
+      <button onclick="showModal('createGroupModal')" style="margin-top: 20px; width: 100%;">Criar Novo Grupo</button>
+    </div>
+  `;
+  
+  showCustomModal('Explorar Grupos', modalContent, 'allGroupsModal');
+}
+
+/* ===============================
+   MANIFESTO
+================================ */
+function loadManifesto() {
+  const manifestoContent = `
+    <h3>Algebra Renova</h3>
+    <p><em>"Algebra Renova é mais do que um grupo de pesquisa. É uma rebelião matemática. Uma revolução intelectual..."</em></p>
+    
+    <h4>A Origem do Nome</h4>
+    <p>O nome <strong>Algebra Renova</strong> surge da fusão entre o <strong>clássico e o revolucionário</strong>.</p>
+    <ul>
+      <li><strong>Algebra</strong>: Refere-se ao campo estrutural fundamental da matemática, mas aqui entendido em seu sentido mais profundo — o tecido estrutural da realidade teórica.</li>
+      <li><strong>Renova</strong>: Do latim <em>renovare</em>, "renovar", "renascer", "recriar". Uma evocação ao renascimento matemático.</li>
+    </ul>
+    
+    <h4>Símbolos e seu Significado</h4>
+    <p>A logomarca de <strong>Algebra Renova</strong> contém três elementos principais:</p>
+    <ol>
+      <li><strong>A Borboleta</strong>: Simboliza a transformação radical. Representa a transfunctoração: a capacidade de uma estrutura emergir em outro domínio.</li>
+      <li><strong>A Espada com Olho</strong>: Representa a precisão cortante do raciocínio matemático. O olho que chora simboliza a visão profunda e os sacrifícios da compreensão.</li>
+      <li><strong>O Escudo com o Lema</strong>: Defende a nova matemática contra o dogma. Contém o lema: <em>Revolution. Algebra et Perseverantia.</em></li>
+    </ol>
+    
+    <h4>Missão e Objetivos</h4>
+    <p>Algebra Renova tem como missão a criação deliberada de estruturas matemáticas impossíveis. Seus objetivos incluem:</p>
+    <ul>
+      <li>Desenvolver novas teorias rigorosas</li>
+      <li>Fundar subcampos dentro da álgebra e matemática abstrata</li>
+      <li>Reformular a linguagem matemática como forma de expressão estrutural criativa</li>
+      <li>Criar uma comunidade radical de pensadores dispostos a romper com os fundamentos</li>
+    </ul>
+    
+    <h4>Um Chamado à Mente Revolucionária</h4>
+    <p><em>"Se você sente que a matemática que conhece é apenas a casca de algo muito mais profundo, Algebra Renova te chama..."</em></p>
+    
+    <p style="margin-top: 30px; text-align: right; font-style: italic;">
+      Lohan Cunha Cardoso<br>
+      "Matemática é opcional – assim como a sanidade"
+    </p>
+  `;
+  
+  document.getElementById('manifestoContent').innerHTML = manifestoContent;
+}
+
+/* ===============================
+   SISTEMA DE AMIGOS
 ================================ */
 function renderFriends() {
-  const box = document.getElementById("friends");
-  box.innerHTML = "";
-  friends.forEach(f => {
-    const div = document.createElement("div");
-    div.className = "friend";
-    div.innerHTML = `<span>${f}</span><span>+</span>`;
-    box.appendChild(div);
-  });
+  const friendsList = document.getElementById('friendsList');
+  friendsList.innerHTML = '';
+  
+  if (friends.length === 0) {
+    friendsList.innerHTML = '<p>Nenhum amigo adicionado ainda</p>';
+  } else {
+    friends.forEach((friend, index) => {
+      const friendDiv = document.createElement('div');
+      friendDiv.className = 'friend';
+      friendDiv.innerHTML = `
+        <span>${friend}</span>
+        <button onclick="removeFriend(${index})" style="padding: 2px 8px; font-size: 0.8rem;">Remover</button>
+      `;
+      friendsList.appendChild(friendDiv);
+    });
+  }
 }
 
 function addFriend(e) {
-  if (e.key !== "Enter") return;
-  friends.push(e.target.value);
-  localStorage.setItem("friends", JSON.stringify(friends));
-  e.target.value = "";
+  if (e.key !== 'Enter') return;
+  
+  const friendName = e.target.value.trim();
+  if (!friendName) return;
+  
+  if (!currentUser) {
+    alert("Você precisa estar logado para adicionar amigos");
+    showModal('loginModal');
+    e.target.value = '';
+    return;
+  }
+  
+  if (friends.includes(friendName)) {
+    alert("Este usuário já está na sua lista de amigos");
+    e.target.value = '';
+    return;
+  }
+  
+  friends.push(friendName);
+  localStorage.setItem('friends', JSON.stringify(friends));
+  e.target.value = '';
+  renderFriends();
+}
+
+function removeFriend(index) {
+  friends.splice(index, 1);
+  localStorage.setItem('friends', JSON.stringify(friends));
   renderFriends();
 }
 
 /* ===============================
-   CHAT
+   SISTEMA DE CHAT
 ================================ */
 function renderChat() {
-  const box = document.getElementById("chatBox");
-  box.innerHTML = "";
-  messages.forEach(m => {
-    const div = document.createElement("div");
-    div.className = "message";
-    div.textContent = m;
-    box.appendChild(div);
+  const chatBox = document.getElementById('chatBox');
+  chatBox.innerHTML = '';
+  
+  messages.forEach((message, index) => {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    
+    if (message.startsWith('Sistema:')) {
+      messageDiv.innerHTML = `<span style="color: #666;">${message}</span>`;
+    } else {
+      const parts = message.split(': ');
+      if (parts.length > 1) {
+        messageDiv.innerHTML = `<span class="user">${parts[0]}:</span> ${parts.slice(1).join(': ')}`;
+      } else {
+        messageDiv.textContent = message;
+      }
+    }
+    
+    chatBox.appendChild(messageDiv);
   });
+  
+  // Scroll para o final
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function sendMessage(e) {
-  if (e.key !== "Enter") return;
-  messages.push((user || "Anon") + ": " + e.target.value);
-  localStorage.setItem("messages", JSON.stringify(messages));
-  e.target.value = "";
+  if (e.key !== 'Enter') return;
+  
+  const messageInput = document.getElementById('messageInput');
+  const message = messageInput.value.trim();
+  
+  if (!message) return;
+  
+  const sender = currentUser ? currentUser.username : 'Visitante';
+  messages.push(`${sender}: ${message}`);
+  
+  // Limitar o histórico de mensagens
+  if (messages.length > 100) {
+    messages = messages.slice(-100);
+  }
+  
+  localStorage.setItem('messages', JSON.stringify(messages));
+  messageInput.value = '';
   renderChat();
 }
 
+function clearChat() {
+  if (confirm("Tem certeza que deseja limpar o chat?")) {
+    messages = [];
+    localStorage.setItem('messages', JSON.stringify(messages));
+    renderChat();
+  }
+}
+
 /* ===============================
-   UPLOAD
+   SISTEMA DE ARQUIVOS
 ================================ */
-function uploadArquivo(e) {
-  const file = e.target.files[0];
-  const li = document.createElement("li");
-  li.textContent = file.name;
-  document.getElementById("files").appendChild(li);
+function loadFiles() {
+  const filesList = document.getElementById('filesList');
+  const userFilesList = document.getElementById('userFilesList');
+  const publicFilesList = document.getElementById('publicFilesList');
+  
+  filesList.innerHTML = '';
+  userFilesList.innerHTML = '';
+  publicFilesList.innerHTML = '';
+  
+  if (files.length === 0) {
+    filesList.innerHTML = '<li>Nenhum arquivo enviado ainda</li>';
+    userFilesList.innerHTML = '<li>Nenhum arquivo pessoal</li>';
+    publicFilesList.innerHTML = '<li>Nenhum arquivo público</li>';
+  } else {
+    files.forEach((file, index) => {
+      // Lista principal
+      const li = document.createElement('li');
+      li.innerHTML = `
+        ${file.name} 
+        <small>(${file.size} - ${new Date(file.date).toLocaleDateString()})</small>
+        <button onclick="downloadFile(${index})" style="margin-left: 10px; padding: 2px 8px;">Baixar</button>
+      `;
+      filesList.appendChild(li);
+      
+      // Lista no modal (arquivos pessoais)
+      if (file.user === (currentUser ? currentUser.username : 'Visitante')) {
+        const userLi = document.createElement('li');
+        userLi.innerHTML = `${file.name} <small>(${file.size})</small>`;
+        userFilesList.appendChild(userLi);
+      }
+      
+      // Lista no modal (arquivos públicos)
+      if (file.privacy === 'public') {
+        const publicLi = document.createElement('li');
+        publicLi.innerHTML = `
+          ${file.name} 
+          <small>(${file.size} - ${file.user})</small>
+        `;
+        publicFilesList.appendChild(publicLi);
+      }
+    });
+  }
+  
+  // Atualizar contador
+  document.getElementById('filesCount').textContent = files.length;
 }
 
-/* INIT */
-renderFriends();
-renderChat();
+function uploadArquivo(event) {
+  const fileInput = event.target;
+  const files = fileInput.files;
+  
+  if (!files.length) return;
+  
+  if (!currentUser) {
+    alert("Você precisa estar logado para enviar arquivos");
+    showModal('loginModal');
+    return;
+  }
+  
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    const newFile = {
+      id: Date.now() + i,
+      name: file.name,
+      size: formatFileSize(file.size),
+      type: file.type,
+      date: new Date().toISOString(),
+      user: currentUser.username,
+      privacy: 'public'
+    };
+    
+    // Adicionar ao array de arquivos
+    window.files.push(newFile);
+    
+    // Adicionar mensagem no chat
+    messages.push(`Sistema: ${currentUser.username} enviou o arquivo "${file.name}"`);
+  }
+  
+  localStorage.setItem('files', JSON.stringify(window.files));
+  localStorage.setItem('messages', JSON.stringify(messages));
+  
+  alert(`${files.length} arquivo(s) enviado(s) com sucesso!`);
+  loadFiles();
+  renderChat();
+  
+  // Limpar input
+  fileInput.value = '';
+}
 
-    <script>
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function downloadFile(index) {
+  const file = files[index];
+  alert(`Download do arquivo: ${file.name}\nTamanho: ${file.size}\nEnviado por: ${file.user}`);
+  // Em uma implementação real, aqui seria o código para baixar o arquivo
+}
+
 /* ===============================
-   SISTEMA DE AMIGOS — LÓGICA
+   SISTEMA DE MODAIS
 ================================ */
-
-let friendRequests = [];
-let friends = [];
-
-function sendFriendRequest() {
-  const name = document.getElementById("friendName").value.trim();
-  if (!name) return;
-
-  friendRequests.push(name);
-  document.getElementById("friendName").value = "";
-  renderRequests();
+function showModal(modalId) {
+  document.getElementById(modalId).style.display = 'flex';
 }
 
-function acceptFriend(index) {
-  friends.push(friendRequests[index]);
-  friendRequests.splice(index, 1);
-  renderRequests();
-  renderFriends();
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
 }
 
-function rejectFriend(index) {
-  friendRequests.splice(index, 1);
-  renderRequests();
+function showCustomModal(title, content, modalId = 'customModal') {
+  // Criar modal se não existir
+  let modal = document.getElementById(modalId);
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = modalId;
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>${title}</h2>
+          <button class="close-modal" onclick="closeModal('${modalId}')">&times;</button>
+        </div>
+        <div id="${modalId}Content"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  document.getElementById(`${modalId}Content`).innerHTML = content;
+  modal.style.display = 'flex';
 }
 
-function renderRequests() {
-  const list = document.getElementById("requestsList");
-  list.innerHTML = "";
+// Fechar modal ao clicar fora
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.style.display = 'none';
+  }
+};
 
-  friendRequests.forEach((name, i) => {
-    list.innerHTML += `
-      <li>
-        ${name}
-        <span>
-          <button onclick="acceptFriend(${i})">Aceitar</button>
-          <button onclick="rejectFriend(${i})">Recusar</button>
-        </span>
-      </li>`;
-  });
-}
-
-function renderFriends() {
-  const list = document.getElementById("friendsList");
-  list.innerHTML = "";
-
-  friends.forEach(name => {
-    list.innerHTML += `<li>${name}</li>`;
-  });
-}
-</script>
-
-
+// Fechar com ESC
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+      modal.style.display = 'none';
+    });
+  }
+});
 </script>
 
 </body>
