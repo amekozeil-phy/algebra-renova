@@ -341,6 +341,11 @@ body {
   color: #b30000;
   font-weight: bold;
   margin-right: 8px;
+  cursor: pointer;
+}
+
+.chat-message .sender:hover {
+  text-decoration: underline;
 }
 
 .chat-input {
@@ -421,6 +426,55 @@ body {
 }
 
 /* ===============================
+   MODAL CHAT PRIVADO
+================================ */
+.chat-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-modal-content {
+  background: #111;
+  border: 2px solid #400;
+  width: 90%;
+  max-width: 600px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-modal-header {
+  padding: 15px 20px;
+  background: rgba(20, 0, 0, 0.8);
+  border-bottom: 1px solid #400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-modal-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #000;
+}
+
+.chat-modal-input {
+  padding: 15px;
+  border-top: 1px solid #400;
+  display: flex;
+  gap: 10px;
+}
+
+/* ===============================
    SCROLLBAR
 ================================ */
 ::-webkit-scrollbar {
@@ -439,6 +493,28 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #600;
 }
+
+/* ===============================
+   BOTÕES PEQUENOS
+================================ */
+.btn-small {
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  margin-left: 5px;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #b30000;
+  border: 1px solid #400;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(179, 0, 0, 0.1);
+}
 </style>
 </head>
 <body>
@@ -449,6 +525,7 @@ body {
     <div class="login-tabs">
       <button class="login-tab active" onclick="showLoginForm('login')">Entrar</button>
       <button class="login-tab" onclick="showLoginForm('register')">Criar Conta</button>
+      <button class="login-tab" onclick="showLoginForm('key')">Chave Renova</button>
     </div>
     
     <div id="login-form" class="login-form active">
@@ -472,10 +549,6 @@ body {
         <input type="text" id="register-username" class="form-control" placeholder="Escolha um nome único">
       </div>
       <div class="form-group">
-        <label>Email (opcional)</label>
-        <input type="email" id="register-email" class="form-control" placeholder="email@exemplo.com">
-      </div>
-      <div class="form-group">
         <label>Senha</label>
         <input type="password" id="register-password" class="form-control" placeholder="Mínimo 6 caracteres">
       </div>
@@ -484,6 +557,21 @@ body {
         <input type="password" id="register-confirm" class="form-control" placeholder="Digite a senha novamente">
       </div>
       <button class="btn-primary" onclick="register()">Criar Conta</button>
+    </div>
+    
+    <div id="key-form" class="login-form">
+      <div class="form-group">
+        <label>Nome de Usuário</label>
+        <input type="text" id="key-username" class="form-control" placeholder="Seu nome de usuário">
+      </div>
+      <div class="form-group">
+        <label>Chave de Acesso</label>
+        <input type="password" id="key-password" class="form-control" placeholder="Digite a chave secreta">
+      </div>
+      <button class="btn-primary" onclick="useKey()">Ativar Chave</button>
+      <div style="margin-top: 15px; text-align: center; color: #666; font-size: 0.8rem;">
+        Acesso ao Núcleo: Chave Renova
+      </div>
     </div>
   </div>
 </div>
@@ -534,6 +622,7 @@ body {
       <div class="nav-section">
         <h4 style="color: #b30000; margin-bottom: 15px;">Ferramentas</h4>
         <button class="nav-button" onclick="showSection('editor')" id="editor-btn">Editor Teórico</button>
+        <button class="nav-button" onclick="showSection('create-bounty')" id="create-bounty-btn">Criar Desafio</button>
       </div>
     </aside>
 
@@ -641,6 +730,29 @@ body {
         </div>
       </section>
 
+      <!-- CRIAR DESAFIO -->
+      <section id="create-bounty" class="content-section">
+        <h2>Criar Novo Desafio</h2>
+        <div class="card">
+          <div class="form-group">
+            <label for="bounty-title">Título do Desafio</label>
+            <input type="text" id="bounty-title" class="form-control" placeholder="Ex: Problema da Auto-Similaridade Algébrica">
+          </div>
+          <div class="form-group">
+            <label for="bounty-description">Descrição</label>
+            <textarea id="bounty-description" class="form-control" placeholder="Descreva o problema matemático..." rows="8"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="bounty-reward">Recompensa</label>
+            <input type="text" id="bounty-reward" class="form-control" placeholder="Ex: Acesso ao Núcleo por 30 dias">
+          </div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button class="btn-primary" onclick="createBounty()">Criar Desafio</button>
+            <button class="btn-primary" onclick="showSection('bounty')" style="background: #333; margin-left: 10px;">Cancelar</button>
+          </div>
+        </div>
+      </section>
+
       <!-- MEMBROS -->
       <section id="members" class="content-section">
         <h2>Membros da Rede</h2>
@@ -712,6 +824,21 @@ body {
   </div>
 </div>
 
+<!-- MODAL CHAT PRIVADO -->
+<div id="private-chat-modal" class="chat-modal">
+  <div class="chat-modal-content">
+    <div class="chat-modal-header">
+      <h3 id="chat-with-user">Chat com Usuário</h3>
+      <button class="btn-secondary" onclick="closePrivateChat()" style="padding: 5px 10px;">Fechar</button>
+    </div>
+    <div class="chat-modal-messages" id="private-chat-messages"></div>
+    <div class="chat-modal-input">
+      <input type="text" id="private-chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') sendPrivateMessage()">
+      <button class="btn-primary" onclick="sendPrivateMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ===============================
 // SISTEMA DE DADOS
@@ -756,6 +883,11 @@ function loadData() {
   privateMessages = JSON.parse(localStorage.getItem('ar_privateMessages')) || {};
   friendRequests = JSON.parse(localStorage.getItem('ar_friendRequests')) || {};
   activities = JSON.parse(localStorage.getItem('ar_activities')) || [];
+  
+  // Criar alguns desafios de exemplo se não existirem
+  if (bounties.length === 0) {
+    createExampleBounties();
+  }
 }
 
 function saveData() {
@@ -797,6 +929,35 @@ function createDefaultUsers() {
   };
 
   users.push(adminUser, testUser);
+  saveData();
+}
+
+function createExampleBounties() {
+  const bounty1 = {
+    id: Date.now(),
+    title: 'Problema da Auto-Similaridade Algébrica',
+    description: 'Encontre uma estrutura algébrica não-associativa que seja isomorfa a um de seus subconjuntos próprios. Considere espaços de dimensão infinita.',
+    reward: 'Acesso ao Núcleo por 30 dias',
+    createdBy: 'admin',
+    createdById: users.find(u => u.username === 'admin')?.id,
+    createdAt: new Date().toISOString(),
+    status: 'open',
+    submissions: []
+  };
+
+  const bounty2 = {
+    id: Date.now() + 1,
+    title: 'Demonstração da Conjectura da Borboleta',
+    description: 'Prove que toda transformação algébrica radical pode ser representada como composição de duas involuções não-lineares.',
+    reward: 'Título de Iniciado Permanente',
+    createdBy: 'admin',
+    createdById: users.find(u => u.username === 'admin')?.id,
+    createdAt: new Date().toISOString(),
+    status: 'open',
+    submissions: []
+  };
+
+  bounties.push(bounty1, bounty2);
   saveData();
 }
 
@@ -845,7 +1006,6 @@ function login() {
 
 function register() {
   const username = document.getElementById('register-username').value.trim();
-  const email = document.getElementById('register-email').value.trim();
   const password = document.getElementById('register-password').value;
   const confirm = document.getElementById('register-confirm').value;
   
@@ -875,7 +1035,6 @@ function register() {
     id: 'user_' + Date.now(),
     username: username,
     password: password,
-    email: email || '',
     rank: 'observador',
     avatar: '',
     bio: '',
@@ -894,6 +1053,36 @@ function register() {
   saveData();
   showApp();
   logActivity(`Novo membro: ${username}`);
+}
+
+function useKey() {
+  const username = document.getElementById('key-username').value.trim();
+  const key = document.getElementById('key-password').value;
+  
+  if (!username || !key) {
+    alert('Preencha todos os campos');
+    return;
+  }
+  
+  // Encontrar usuário
+  const user = users.find(u => u.username === username);
+  
+  if (!user) {
+    alert('Usuário não encontrado');
+    return;
+  }
+  
+  // Verificar chave (Renova)
+  if (key === 'Renova') {
+    user.rank = 'nucleo';
+    currentUser = user;
+    saveData();
+    showApp();
+    logActivity(`${username} ativou a Chave Renova e ascendeu ao Núcleo`);
+    alert('Chave aceita. Bem-vindo ao Núcleo.');
+  } else {
+    alert('Chave incorreta');
+  }
 }
 
 function logout() {
@@ -958,6 +1147,9 @@ function updateUserDisplay() {
   // Permissões
   document.getElementById('new-theory-btn').style.display = 
     canPublishTheory() ? 'block' : 'none';
+  
+  document.getElementById('create-bounty-btn').style.display = 
+    canCreateBounty() ? 'block' : 'none';
 }
 
 function getRankDisplay(rank) {
@@ -971,6 +1163,10 @@ function getRankDisplay(rank) {
 
 function canPublishTheory() {
   return currentUser && ['nucleo', 'iniciado'].includes(currentUser.rank);
+}
+
+function canCreateBounty() {
+  return currentUser && currentUser.rank === 'nucleo';
 }
 
 function updateCounters() {
@@ -1112,6 +1308,113 @@ function renderTheories() {
 }
 
 // ===============================
+// DESAFIOS
+// ===============================
+function createBounty() {
+  if (!currentUser) {
+    alert('Você precisa estar logado');
+    return;
+  }
+  
+  if (!canCreateBounty()) {
+    alert('Apenas membros do Núcleo podem criar desafios');
+    return;
+  }
+  
+  const title = document.getElementById('bounty-title').value.trim();
+  const description = document.getElementById('bounty-description').value.trim();
+  const reward = document.getElementById('bounty-reward').value.trim();
+  
+  if (!title || !description || !reward) {
+    alert('Preencha todos os campos');
+    return;
+  }
+  
+  const bounty = {
+    id: Date.now(),
+    title: title,
+    description: description,
+    reward: reward,
+    createdBy: currentUser.username,
+    createdById: currentUser.id,
+    createdAt: new Date().toISOString(),
+    status: 'open',
+    submissions: []
+  };
+  
+  bounties.unshift(bounty);
+  saveData();
+  
+  // Limpar formulário
+  document.getElementById('bounty-title').value = '';
+  document.getElementById('bounty-description').value = '';
+  document.getElementById('bounty-reward').value = '';
+  
+  // Voltar para desafios
+  showSection('bounty');
+  renderBounties();
+  logActivity(`${currentUser.username} criou um novo desafio: "${title}"`);
+}
+
+function renderBounties() {
+  const container = document.getElementById('bounty-board');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  if (bounties.length === 0) {
+    container.innerHTML = '<p style="color: #666;">Nenhum desafio disponível.</p>';
+    return;
+  }
+  
+  bounties.forEach(bounty => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #300;">
+        <div style="color: #b30000; font-size: 1.2rem;">${bounty.title}</div>
+        <span class="rank-badge ${bounty.status === 'open' ? 'rank-iniciado' : 'rank-observador'}" style="font-size: 0.7rem;">
+          ${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}
+        </span>
+      </div>
+      <p>${bounty.description}</p>
+      <div style="margin-top: 15px;">
+        <div style="color: #daa520; margin-bottom: 10px;">
+          <strong>Recompensa:</strong> ${bounty.reward}
+        </div>
+        <div style="color: #666; font-size: 0.8rem;">
+          Criado por: ${bounty.createdBy} • ${new Date(bounty.createdAt).toLocaleDateString()}
+        </div>
+      </div>
+      ${bounty.status === 'open' ? `
+        <div style="margin-top: 20px;">
+          <button class="btn-primary" onclick="submitSolution(${bounty.id})" style="padding: 8px 15px; font-size: 0.8rem;">Submeter Solução</button>
+        </div>
+      ` : ''}
+    `;
+    container.appendChild(card);
+  });
+}
+
+function submitSolution(bountyId) {
+  const solution = prompt('Descreva sua solução para este desafio:');
+  if (solution && solution.trim()) {
+    const bounty = bounties.find(b => b.id === bountyId);
+    if (bounty) {
+      bounty.submissions.push({
+        user: currentUser.username,
+        userId: currentUser.id,
+        solution: solution.trim(),
+        submittedAt: new Date().toISOString()
+      });
+      saveData();
+      alert('Solução submetida para análise do Núcleo.');
+      logActivity(`${currentUser.username} submeteu uma solução para: "${bounty.title}"`);
+    }
+  }
+}
+
+// ===============================
 // ARQUIVO
 // ===============================
 function addReference() {
@@ -1168,34 +1471,6 @@ function renderReferences() {
       </div>
     `;
     container.appendChild(item);
-  });
-}
-
-// ===============================
-// DESAFIOS
-// ===============================
-function renderBounties() {
-  const container = document.getElementById('bounty-board');
-  if (!container) return;
-  
-  container.innerHTML = '';
-  
-  bounties.forEach(bounty => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #300;">
-        <div style="color: #b30000; font-size: 1.2rem;">${bounty.title}</div>
-        <span class="rank-badge ${bounty.status === 'open' ? 'rank-iniciado' : 'rank-observador'}" style="font-size: 0.7rem;">
-          ${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}
-        </span>
-      </div>
-      <p>${bounty.description}</p>
-      <div style="margin-top: 15px; color: #daa520;">
-        Recompensa: ${bounty.reward}
-      </div>
-    `;
-    container.appendChild(card);
   });
 }
 
@@ -1480,7 +1755,7 @@ function renderGlobalChat() {
     div.className = 'chat-message';
     div.innerHTML = `
       <div>
-        <span class="sender">${msg.user}</span>
+        <span class="sender" onclick="startPrivateChat('${msg.userId}')">${msg.user}</span>
         <span style="color: #666; font-size: 0.7rem;">
           ${new Date(msg.timestamp).toLocaleTimeString()}
         </span>
@@ -1504,8 +1779,105 @@ function renderBountyChat() {
     div.className = 'chat-message';
     div.innerHTML = `
       <div>
-        <span class="sender">${msg.user}</span>
+        <span class="sender" onclick="startPrivateChat('${msg.userId}')">${msg.user}</span>
         <span style="color: #666; font-size: 0.7rem;">
+          ${new Date(msg.timestamp).toLocaleTimeString()}
+        </span>
+      </div>
+      <div>${msg.text}</div>
+    `;
+    container.appendChild(div);
+  });
+  
+  container.scrollTop = container.scrollHeight;
+}
+
+// ===============================
+// CHAT PRIVADO
+// ===============================
+let currentChatWith = null;
+
+function startPrivateChat(userId) {
+  const user = users.find(u => u.id === userId);
+  if (!user) return;
+  
+  currentChatWith = userId;
+  document.getElementById('chat-with-user').textContent = `Chat com ${user.username}`;
+  document.getElementById('private-chat-modal').style.display = 'flex';
+  
+  renderPrivateChat();
+  
+  // Focar no input
+  setTimeout(() => {
+    document.getElementById('private-chat-input').focus();
+  }, 100);
+}
+
+function closePrivateChat() {
+  document.getElementById('private-chat-modal').style.display = 'none';
+  currentChatWith = null;
+}
+
+function sendPrivateMessage() {
+  const input = document.getElementById('private-chat-input');
+  const message = input.value.trim();
+  
+  if (!currentUser || !currentChatWith || !message) return;
+  
+  const chatMessage = {
+    id: Date.now(),
+    from: currentUser.id,
+    fromName: currentUser.username,
+    to: currentChatWith,
+    text: message,
+    timestamp: new Date().toISOString()
+  };
+  
+  // Inicializar se necessário
+  if (!privateMessages[currentUser.id]) {
+    privateMessages[currentUser.id] = {};
+  }
+  if (!privateMessages[currentChatWith]) {
+    privateMessages[currentChatWith] = {};
+  }
+  if (!privateMessages[currentUser.id][currentChatWith]) {
+    privateMessages[currentUser.id][currentChatWith] = [];
+  }
+  if (!privateMessages[currentChatWith][currentUser.id]) {
+    privateMessages[currentChatWith][currentUser.id] = [];
+  }
+  
+  // Adicionar mensagem
+  privateMessages[currentUser.id][currentChatWith].push(chatMessage);
+  privateMessages[currentChatWith][currentUser.id].push(chatMessage);
+  
+  saveData();
+  
+  renderPrivateChat();
+  input.value = '';
+  input.focus();
+}
+
+function renderPrivateChat() {
+  const container = document.getElementById('private-chat-messages');
+  if (!container || !currentChatWith) return;
+  
+  container.innerHTML = '';
+  
+  const messages = privateMessages[currentUser.id]?.[currentChatWith] || [];
+  
+  messages.forEach(msg => {
+    const isFromMe = msg.from === currentUser.id;
+    const div = document.createElement('div');
+    div.className = 'chat-message';
+    div.style.background = isFromMe ? 'rgba(64, 0, 0, 0.3)' : 'rgba(0, 20, 0, 0.3)';
+    div.style.borderLeft = isFromMe ? '3px solid #b30000' : '3px solid #008000';
+    div.innerHTML = `
+      <div>
+        <strong style="color: ${isFromMe ? '#b30000' : '#008000'}">
+          ${isFromMe ? 'Você' : msg.fromName}
+        </strong>
+        <span style="color: #666; font-size: 0.7rem; margin-left: 10px;">
           ${new Date(msg.timestamp).toLocaleTimeString()}
         </span>
       </div>
@@ -1531,6 +1903,10 @@ function renderContacts() {
   }
   
   friends.forEach(friend => {
+    // Contar mensagens não lidas
+    const messages = privateMessages[currentUser.id]?.[friend.id] || [];
+    const unread = messages.filter(m => !m.read && m.from !== currentUser.id).length;
+    
     const item = document.createElement('div');
     item.className = 'list-item';
     item.style.cursor = 'pointer';
@@ -1543,11 +1919,11 @@ function renderContacts() {
             friend.username.charAt(0)
           }
         </div>
-        <div>
+        <div style="flex: 1;">
           <strong>${friend.username}</strong>
+          ${unread > 0 ? `<span style="background: #b30000; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: 10px;">${unread}</span>` : ''}
         </div>
       </div>
-      <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem;">Chat</button>
     `;
     container.appendChild(item);
   });
@@ -1561,11 +1937,6 @@ function searchContacts() {
     const text = item.textContent.toLowerCase();
     item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
   });
-}
-
-function startPrivateChat(userId) {
-  // Esta função seria expandida para abrir um modal de chat
-  alert('Funcionalidade de chat privado seria implementada aqui');
 }
 
 // ===============================
@@ -1649,6 +2020,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.getElementById('register-confirm')?.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') register();
+  });
+  
+  document.getElementById('key-password')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') useKey();
   });
 });
 </script>
