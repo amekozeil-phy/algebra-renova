@@ -2,1158 +2,1580 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Algebra Renova</title>
+<title>Algebra Renova - Plataforma Operacional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* ===============================
-   RESET + BASE
+   RESET + BASE CIENTÍFICO
 ================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Times New Roman", serif;
+  font-family: 'Cambria', 'Georgia', serif;
 }
 
 body {
-  background: radial-gradient(circle at top, #0b0b0b, #000);
-  color: #d6d6d6;
+  background: #0a0a12;
+  color: #e8e8f0;
   min-height: 100vh;
   overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* ===============================
-   ESTÉTICA GÓTICA / BRUTAL
+   TIPOGRAFIA CIENTÍFICA
 ================================ */
-h1, h2, h3 {
-  letter-spacing: 2px;
-  text-transform: uppercase;
+h1, h2, h3, h4 {
+  font-weight: normal;
+  letter-spacing: 0.5px;
 }
 
 h1 {
-  font-size: 3rem;
-  color: #b30000;
-  text-shadow: 0 0 20px #400;
+  font-size: 2.2rem;
+  color: #4a9eff;
+  border-bottom: 2px solid #2a5caa;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 h2 {
-  color: #8b0000;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #400;
-  padding-bottom: 5px;
+  font-size: 1.6rem;
+  color: #4a9eff;
+  margin: 25px 0 15px 0;
 }
 
 h3 {
-  color: #a52a2a;
-  margin: 10px 0;
-}
-
-a {
-  color: #b30000;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-a:hover {
-  text-shadow: 0 0 10px crimson;
-  color: #ff3333;
+  font-size: 1.3rem;
+  color: #66b3ff;
+  margin: 20px 0 10px 0;
 }
 
 /* ===============================
-   HEADER
+   HIERARQUIA DE CARGOS
 ================================ */
-header {
-  border-bottom: 1px solid #400;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.7);
+.role-nucleo {
+  color: #ffd700;
+  font-weight: bold;
+  border: 1px solid #ffd700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(255, 215, 0, 0.1);
 }
 
-header nav a {
-  margin-left: 20px;
-  font-size: 0.9rem;
-  padding: 5px 10px;
-  border: 1px solid transparent;
+.role-iniciado {
+  color: #4a9eff;
+  font-weight: bold;
+  border: 1px solid #4a9eff;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(74, 158, 255, 0.1);
 }
 
-header nav a:hover {
-  border: 1px solid #400;
-  background: rgba(64, 0, 0, 0.2);
+.role-observador {
+  color: #8a8aff;
+  font-weight: bold;
+  border: 1px solid #8a8aff;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(138, 138, 255, 0.1);
 }
 
 /* ===============================
-   MAIN LAYOUT
+   LAYOUT PRINCIPAL
 ================================ */
-main {
+#app {
   display: grid;
-  grid-template-columns: 260px 1fr 300px;
-  min-height: calc(100vh - 80px);
+  grid-template-columns: 280px 1fr 320px;
+  min-height: 100vh;
   gap: 0;
 }
 
 /* ===============================
-   SIDEBAR ESQUERDA
+   SIDEBAR ESQUERDA - PERFIL E NAVEGAÇÃO
 ================================ */
 #sidebar {
-  border-right: 1px solid #300;
-  padding: 20px;
-  background: rgba(10,0,0,0.4);
-  overflow-y: auto;
+  background: #151522;
+  border-right: 1px solid #2a2a3a;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
 }
 
-#sidebar h2 {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  color: #8b0000;
+.profile-card {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #2a2a3a;
 }
 
-#sidebar button {
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #4a9eff;
+  margin: 0 auto 15px;
+  overflow: hidden;
+  background: #1a1a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #4a9eff;
+}
+
+.profile-avatar img {
   width: 100%;
-  margin-bottom: 10px;
-  background: black;
-  color: #b30000;
-  border: 1px solid #400;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-align: left;
+  height: 100%;
+  object-fit: cover;
 }
 
-#sidebar button:hover {
-  background: #200;
-  transform: translateX(5px);
+.profile-name {
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+  color: #ffffff;
 }
 
-#sidebar .group-item {
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #333;
-  background: rgba(20,0,0,0.3);
-  cursor: pointer;
-}
-
-#sidebar .group-item:hover {
-  background: rgba(64,0,0,0.3);
-}
-
-/* ===============================
-   CONTEÚDO CENTRAL
-================================ */
-#content {
-  padding: 30px;
-  overflow-y: auto;
-  max-height: calc(100vh - 80px);
-}
-
-.section {
-  margin-bottom: 40px;
-  border-left: 3px solid #400;
-  padding-left: 20px;
-  background: rgba(10,0,0,0.2);
-  padding: 20px;
-  border-radius: 0 5px 5px 0;
-}
-
-.section p {
-  line-height: 1.6;
+.profile-role {
   margin-bottom: 15px;
 }
 
-.section ul {
-  padding-left: 20px;
-  margin: 10px 0;
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
 }
 
-.section li {
-  margin-bottom: 8px;
+.stat {
+  background: #1a1a2a;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4a9eff;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #8a8aff;
 }
 
 /* ===============================
-   PAINEL DIREITO (AMIGOS/CHAT)
+   NAVEGAÇÃO
 ================================ */
-#rightbar {
-  border-left: 1px solid #300;
-  padding: 20px;
-  background: rgba(5,0,0,0.6);
-  overflow-y: auto;
-  max-height: calc(100vh - 80px);
+.nav-section {
+  margin-bottom: 30px;
 }
 
-.friend {
-  border-bottom: 1px solid #300;
-  padding: 8px 0;
+.nav-title {
+  color: #8a8aff;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: #c8c8e0;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background: #2a2a3a;
+  color: #ffffff;
+  border-left: 3px solid #4a9eff;
+}
+
+.nav-item.active {
+  background: #2a2a3a;
+  color: #4a9eff;
+  border-left: 3px solid #4a9eff;
+}
+
+.nav-icon {
+  margin-right: 12px;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* ===============================
+   CONTEÚDO PRINCIPAL
+================================ */
+#main-content {
+  padding: 30px 40px;
+  background: #0f0f18;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.content-section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.content-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   TEORIAS
+================================ */
+.theory-card {
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.theory-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #2a2a3a;
 }
 
-.friend:hover {
-  background: rgba(64,0,0,0.2);
+.theory-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2a2a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9eff;
+  font-size: 1.2rem;
+}
+
+.author-info h4 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.author-info small {
+  color: #8a8aff;
+  font-size: 0.85rem;
+}
+
+.theory-content {
+  margin: 20px 0;
+  line-height: 1.8;
+}
+
+.math-display {
+  background: #151522;
+  border: 1px solid #2a2a3a;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 20px 0;
+  font-family: 'Times New Roman', serif;
+  overflow-x: auto;
+}
+
+.theory-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #2a2a3a;
+  color: #8a8aff;
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   FORMULÁRIOS
+================================ */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #c8c8e0;
+  font-size: 0.95rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4a9eff;
+}
+
+textarea.form-control {
+  min-height: 150px;
+  resize: vertical;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+}
+
+.btn {
+  padding: 12px 25px;
+  background: #2a5caa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background: #4a9eff;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #2a2a3a;
+}
+
+.btn-secondary:hover {
+  background: #3a3a4a;
+}
+
+.btn-danger {
+  background: #aa2a2a;
+}
+
+.btn-danger:hover {
+  background: #cc3333;
+}
+
+/* ===============================
+   BARRA DIREITA - ATIVIDADES E CHAT
+================================ */
+#right-sidebar {
+  background: #151522;
+  border-left: 1px solid #2a2a3a;
+  padding: 25px 20px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+.activity-log {
+  margin-bottom: 40px;
+}
+
+.activity-item {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: #1a1a2a;
+  border-radius: 5px;
+  border-left: 3px solid #4a9eff;
+  font-size: 0.9rem;
+  color: #c8c8e0;
+}
+
+.activity-time {
+  color: #8a8aff;
+  font-size: 0.8rem;
+  margin-top: 5px;
 }
 
 /* ===============================
    CHAT
 ================================ */
-#chatBox {
-  border: 1px solid #400;
-  height: 200px;
+.chat-container {
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 15px;
+  background: #2a2a3a;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+.chat-messages {
+  height: 300px;
   overflow-y: auto;
-  padding: 10px;
-  margin-bottom: 10px;
-  background: black;
+  padding: 15px;
 }
 
-.message {
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  padding: 5px;
-  border-bottom: 1px solid #222;
+.chat-message {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #2a2a3a;
 }
 
-.message .user {
-  color: #b30000;
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.message-author {
   font-weight: bold;
+  color: #4a9eff;
 }
 
-input, textarea, select {
+.message-role {
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.message-time {
+  color: #8a8aff;
+  font-size: 0.8rem;
+}
+
+.message-content {
+  color: #e8e8f0;
+  line-height: 1.5;
+}
+
+.chat-input {
+  padding: 15px;
+  border-top: 1px solid #2a2a3a;
+  background: #2a2a3a;
+}
+
+.chat-input textarea {
   width: 100%;
-  background: black;
-  border: 1px solid #400;
-  color: #eee;
-  padding: 8px;
-  margin: 5px 0;
-}
-
-button {
-  background: #400;
-  color: #eee;
-  border: 1px solid #600;
-  padding: 8px 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-button:hover {
-  background: #600;
-  transform: scale(1.05);
+  padding: 10px;
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 5px;
+  color: white;
+  resize: none;
+  height: 60px;
+  margin-bottom: 10px;
 }
 
 /* ===============================
-   MODAL
+   REPOSITÓRIO DE DOCUMENTOS
 ================================ */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  z-index: 1000;
+.document-card {
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
 }
 
-.modal-content {
-  background: #111;
-  border: 2px solid #400;
-  padding: 30px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
+.document-info h4 {
+  margin: 0 0 8px 0;
+  color: #ffffff;
 }
 
-.modal-header {
+.document-meta {
+  color: #8a8aff;
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   QUADRO DE DESAFIOS
+================================ */
+.bounty-card {
+  background: linear-gradient(135deg, #1a1a2a 0%, #2a1a2a 100%);
+  border: 1px solid #4a2a3a;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+}
+
+.bounty-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #400;
-  padding-bottom: 10px;
 }
 
-.close-modal {
-  background: none;
-  border: none;
-  color: #b30000;
-  font-size: 1.5rem;
-  cursor: pointer;
+.bounty-status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.status-open {
+  background: rgba(74, 158, 255, 0.2);
+  color: #4a9eff;
+}
+
+.status-solved {
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+}
+
+.bounty-reward {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 /* ===============================
-   FOOTER
+   PERFIS DE MEMBROS
 ================================ */
-footer {
-  border-top: 1px solid #300;
-  padding: 10px;
-  text-align: center;
-  font-size: 0.7rem;
-  color: #666;
-  background: rgba(0,0,0,0.8);
-}
-
-/* ===============================
-   GRUPOS
-================================ */
-.groups-grid {
+.members-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  gap: 20px;
   margin-top: 20px;
 }
 
-.group-card {
-  border: 1px solid #400;
-  padding: 15px;
-  background: rgba(20,0,0,0.3);
-  cursor: pointer;
-  transition: all 0.3s;
+.member-card {
+  background: #1a1a2a;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
 }
 
-.group-card:hover {
-  background: rgba(64,0,0,0.3);
+.member-card:hover {
   transform: translateY(-5px);
+  border-color: #4a9eff;
 }
 
-.group-card h3 {
-  color: #b30000;
-  margin-bottom: 10px;
+.member-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  background: #2a2a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #4a9eff;
 }
 
-/* ===============================
-   LOGIN FORM
-================================ */
-.login-form input {
+.member-name {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.member-specialty {
+  color: #8a8aff;
+  font-size: 0.9rem;
   margin-bottom: 15px;
 }
 
-.login-form button {
-  width: 100%;
-  margin-top: 10px;
-}
-
 /* ===============================
-   RESPONSIVO
+   RESPONSIVIDADE
 ================================ */
-@media (max-width: 1024px) {
-  main {
-    grid-template-columns: 1fr;
+@media (max-width: 1200px) {
+  #app {
+    grid-template-columns: 250px 1fr;
   }
-  
-  #sidebar, #rightbar {
+  #right-sidebar {
     display: none;
   }
 }
 
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+  }
+  #sidebar {
+    display: none;
+  }
+  #main-content {
+    padding: 20px;
+  }
+}
+
 /* ===============================
-   SCROLLBAR
+   UTILITÁRIOS
 ================================ */
-::-webkit-scrollbar {
-  width: 8px;
+.hidden {
+  display: none !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #111;
+.text-center {
+  text-align: center;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #400;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #600;
-}
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+.mt-30 { margin-top: 30px; }
+.mb-30 { margin-bottom: 30px; }
 </style>
 </head>
 
 <body>
-
-<header>
-  <h1>Algebra Renova</h1>
-  <nav>
-    <a href="#" onclick="showModal('manifestoModal')">Manifesto</a>
-    <a href="#" onclick="showGroups()">Grupos</a>
-    <a href="#" onclick="showModal('arquivosModal')">Arquivos</a>
-    <a href="#" onclick="showModal('loginModal')">Entrar</a>
-  </nav>
-</header>
-
-<main>
-    
-<!-- SIDEBAR -->
-<aside id="sidebar">
-  <div id="userStatus">
-    <h2>Usuário</h2>
-    <div id="userInfo">
-      <p id="userName">Visitante</p>
-      <button onclick="showModal('loginModal')">Entrar / Criar</button>
+<div id="app">
+  <!-- SIDEBAR ESQUERDA -->
+  <aside id="sidebar">
+    <div class="profile-card">
+      <div class="profile-avatar" id="userAvatar">A</div>
+      <h3 class="profile-name" id="userName">Carregando...</h3>
+      <div class="profile-role" id="userRole"></div>
+      <div class="profile-stats">
+        <div class="stat">
+          <div class="stat-number" id="statsTheories">0</div>
+          <div class="stat-label">Teorias</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="statsConnections">0</div>
+          <div class="stat-label">Conexões</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <h2>Grupos</h2>
-  <button onclick="showModal('createGroupModal')">Criar Grupo</button>
-  <button onclick="exploreGroups()">Explorar</button>
-  
-  <div id="userGroups">
-    <h3>Meus Grupos</h3>
-    <div id="groupsList"></div>
-  </div>
-</aside>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-title">Navegação Principal</div>
+        <a href="#" class="nav-item active" data-section="dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a href="#" class="nav-item" data-section="theories">
+          <span class="nav-icon">📚</span> Teorias
+        </a>
+        <a href="#" class="nav-item" data-section="repository">
+          <span class="nav-icon">🗂️</span> Repositório
+        </a>
+        <a href="#" class="nav-item" data-section="bounty">
+          <span class="nav-icon">🎯</span> Desafios
+        </a>
+      </div>
 
-<!-- CONTEÚDO -->
-<section id="content">
-  <div class="section">
-    <h2>Bem-vindo à Algebra Renova</h2>
-    <p>
-      <strong>Algebra Renova</strong> não é uma comunidade comum. É um refúgio para ideias que não sobrevivem ao ruído convencional. 
-      Um espaço onde a matemática renasce das ruínas do tradicional, mais poderosa, mais estranha, mais verdadeira.
-    </p>
-    <p>
-      Nossa missão é a criação deliberada de estruturas matemáticas "impossíveis". Não buscamos resolver problemas já conhecidos, 
-      mas inventar realidades teóricas novas, com coerência interna tão profunda que forçam o mundo a repensar o que é possível.
-    </p>
-    <button onclick="showModal('manifestoModal')" style="margin-top: 15px;">Ler Manifesto Completo</button>
-  </div>
+      <div class="nav-section">
+        <div class="nav-title">Rede</div>
+        <a href="#" class="nav-item" data-section="members">
+          <span class="nav-icon">👥</span> Membros
+        </a>
+        <a href="#" class="nav-item" data-section="connections">
+          <span class="nav-icon">🔗</span> Conexões
+        </a>
+        <a href="#" class="nav-item" data-section="profile">
+          <span class="nav-icon">⚙️</span> Meu Perfil
+        </a>
+      </div>
 
-  <div class="section">
-    <h2>Trabalhos Recentes</h2>
-    <ul id="filesList">
-      <!-- Arquivos serão carregados aqui -->
-    </ul>
-    <input type="file" id="fileUpload" onchange="uploadArquivo(event)" multiple>
-    <button onclick="document.getElementById('fileUpload').click()">Enviar Arquivo</button>
-  </div>
+      <div class="nav-section">
+        <div class="nav-title">Administração</div>
+        <a href="#" class="nav-item" data-section="new-theory">
+          <span class="nav-icon">+</span> Nova Teoria
+        </a>
+        <a href="#" class="nav-item" data-section="manage">
+          <span class="nav-icon">🛡️</span> Gerenciar
+        </a>
+      </div>
+    </nav>
 
-  <div class="section">
-    <h2>Grupos Ativos</h2>
-    <div id="activeGroups" class="groups-grid">
-      <!-- Grupos ativos serão carregados aqui -->
+    <div class="mt-auto">
+      <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">
+        <span class="nav-icon">🚪</span> Sair
+      </button>
     </div>
-  </div>
-</section>
+  </aside>
 
-<!-- DIREITA -->
-<aside id="rightbar">
-  <h2>Amigos</h2>
-  <div id="friendsList"></div>
-  <input id="addFriendInput" placeholder="Adicionar amigo..." onkeydown="addFriend(event)">
-  
-  <h2>Chat Global</h2>
-  <div id="chatBox"></div>
-  <input id="messageInput" placeholder="Digite sua mensagem..." onkeydown="sendMessage(event)">
-  <button onclick="clearChat()">Limpar Chat</button>
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="main-content">
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="content-section active">
+      <h1>Dashboard do Sistema</h1>
+      <div class="grid-3 mb-30">
+        <div class="theory-card">
+          <h3>Status do Sistema</h3>
+          <p>Membros ativos: <span id="activeMembers">0</span></p>
+          <p>Teorias publicadas: <span id="totalTheories">0</span></p>
+          <p>Desafios em aberto: <span id="openBounties">0</span></p>
+        </div>
+        <div class="theory-card">
+          <h3>Minha Atividade</h3>
+          <p id="userActivityStatus">Carregando...</p>
+        </div>
+        <div class="theory-card">
+          <h3>Próximos Objetivos</h3>
+          <p>Complete seu perfil</p>
+          <p>Conecte-se com 3 membros</p>
+          <p>Contribua com uma teoria</p>
+        </div>
+      </div>
 
-  <h2>Status do Sistema</h2>
-  <div id="systemStatus">
-    <p>Usuários Online: <span id="onlineCount">1</span></p>
-    <p>Grupos Ativos: <span id="groupsCount">3</span></p>
-    <p>Arquivos: <span id="filesCount">0</span></p>
-  </div>
-</aside>
+      <h2>Atividade Recente</h2>
+      <div id="recentActivity"></div>
+    </section>
 
-</main>
+    <!-- TEORIAS -->
+    <section id="theories" class="content-section">
+      <h1>Teorias Publicadas</h1>
+      <div id="theoriesList"></div>
+    </section>
 
-<!-- ===============================
-     MODAIS
-=============================== -->
+    <!-- REPOSITÓRIO -->
+    <section id="repository" class="content-section">
+      <h1>Repositório de Documentos</h1>
+      <button class="btn mb-20" onclick="showUploadForm()">
+        <span class="nav-icon">📤</span> Upload de Documento
+      </button>
+      <div id="repositoryList"></div>
+    </section>
 
-<!-- Modal de Manifesto -->
-<div id="manifestoModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Manifesto da Algebra Renova</h2>
-      <button class="close-modal" onclick="closeModal('manifestoModal')">&times;</button>
+    <!-- DESAFIOS -->
+    <section id="bounty" class="content-section">
+      <h1>Quadro de Desafios</h1>
+      <div id="bountyBoard"></div>
+    </section>
+
+    <!-- MEMBROS -->
+    <section id="members" class="content-section">
+      <h1>Membros da Algebra Renova</h1>
+      <div class="members-grid" id="membersGrid"></div>
+    </section>
+
+    <!-- CONEXÕES -->
+    <section id="connections" class="content-section">
+      <h1>Minhas Conexões</h1>
+      <div class="members-grid" id="connectionsGrid"></div>
+    </section>
+
+    <!-- MEU PERFIL -->
+    <section id="profile" class="content-section">
+      <h1>Meu Perfil</h1>
+      <div class="form-group">
+        <label class="form-label">Nome de Exibição</label>
+        <input type="text" id="editName" class="form-control" placeholder="Seu nome público">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Especialidade Matemática</label>
+        <select id="editSpecialty" class="form-control">
+          <option value="algebra">Álgebra Abstrata</option>
+          <option value="topology">Topologia</option>
+          <option value="geometry">Geometria Não-Euclidiana</option>
+          <option value="categories">Teoria das Categorias</option>
+          <option value="logic">Lógica Matemática</option>
+          <option value="number">Teoria dos Números</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Biografia</label>
+        <textarea id="editBio" class="form-control" placeholder="Sua trajetória matemática..."></textarea>
+      </div>
+      <button class="btn" onclick="saveProfile()">Salvar Alterações</button>
+    </section>
+
+    <!-- NOVA TEORIA -->
+    <section id="new-theory" class="content-section">
+      <h1>Publicar Nova Teoria</h1>
+      <div class="form-group">
+        <label class="form-label">Título da Teoria</label>
+        <input type="text" id="theoryTitle" class="form-control" placeholder="Título formal da teoria">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Conteúdo (Suporte LaTeX)</label>
+        <textarea id="theoryContent" class="form-control" placeholder="Descreva sua teoria. Use $...$ para fórmulas inline e $$...$$ para display."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <select id="theoryCategory" class="form-control">
+          <option value="algebra">Álgebra</option>
+          <option value="topology">Topologia</option>
+          <option value="geometry">Geometria</option>
+          <option value="foundations">Fundamentos</option>
+        </select>
+      </div>
+      <button class="btn" onclick="publishTheory()">Publicar Teoria</button>
+    </section>
+
+    <!-- GERENCIAR -->
+    <section id="manage" class="content-section">
+      <h1>Gerenciamento do Sistema</h1>
+      <div class="theory-card">
+        <h3>Gerenciar Membros</h3>
+        <div id="adminMembersList"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BARRA DIREITA -->
+  <aside id="right-sidebar">
+    <div class="activity-log">
+      <h3>Log de Atividades</h3>
+      <div id="activityLog"></div>
     </div>
-    <div id="manifestoContent">
-      <!-- Conteúdo do PDF será carregado aqui -->
+
+    <div class="chat-container">
+      <div class="chat-header">
+        <h3>Chat da Sala Principal</h3>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <textarea id="chatInput" placeholder="Digite sua mensagem..." onkeydown="sendChatMessage(event)"></textarea>
+        <button class="btn btn-secondary" onclick="sendChatMessageManual()">Enviar</button>
+      </div>
     </div>
-  </div>
+  </aside>
 </div>
 
-<!-- Modal de Login/Cadastro -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Entrar / Criar Conta</h2>
-      <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
+<!-- MODAL DE UPLOAD -->
+<div id="uploadModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div style="background: #1a1a2a; padding: 30px; border-radius: 10px; width: 500px; max-width: 90%;">
+    <h3>Upload de Documento</h3>
+    <div class="form-group">
+      <label class="form-label">Título do Documento</label>
+      <input type="text" id="docTitle" class="form-control" placeholder="Título formal">
     </div>
-    <div class="login-form">
-      <h3>Login</h3>
-      <input type="text" id="loginUsername" placeholder="Nome de usuário">
-      <input type="password" id="loginPassword" placeholder="Senha">
-      <button onclick="login()">Entrar</button>
-      
-      <h3 style="margin-top: 30px;">Criar Nova Conta</h3>
-      <input type="text" id="newUsername" placeholder="Escolha um nome de usuário">
-      <input type="email" id="newEmail" placeholder="E-mail (opcional)">
-      <input type="password" id="newPassword" placeholder="Senha">
-      <input type="password" id="confirmPassword" placeholder="Confirmar senha">
-      <button onclick="createAccount()">Criar Conta</button>
+    <div class="form-group">
+      <label class="form-label">Descrição</label>
+      <textarea id="docDescription" class="form-control" placeholder="Descrição do conteúdo"></textarea>
     </div>
-  </div>
-</div>
-
-<!-- Modal de Criar Grupo -->
-<div id="createGroupModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Criar Novo Grupo</h2>
-      <button class="close-modal" onclick="closeModal('createGroupModal')">&times;</button>
+    <div class="form-group">
+      <label class="form-label">URL ou Conteúdo</label>
+      <textarea id="docContent" class="form-control" placeholder="Cole o link ou conteúdo"></textarea>
     </div>
-    <div>
-      <input type="text" id="groupName" placeholder="Nome do grupo">
-      <textarea id="groupDescription" placeholder="Descrição do grupo" rows="4"></textarea>
-      <select id="groupCategory">
-        <option value="algebra">Álgebra Avançada</option>
-        <option value="topology">Topologia</option>
-        <option value="geometry">Geometria</option>
-        <option value="categories">Teoria das Categorias</option>
-        <option value="other">Outro</option>
+    <div class="form-group">
+      <label class="form-label">Categoria</label>
+      <select id="docCategory" class="form-control">
+        <option value="reference">Referência</option>
+        <option value="proof">Prova</option>
+        <option value="conjecture">Conjectura</option>
+        <option value="meta">Metamatemática</option>
       </select>
-      <select id="groupPrivacy">
-        <option value="public">Público</option>
-        <option value="private">Privado</option>
-        <option value="secret">Secreto</option>
-      </select>
-      <button onclick="createGroup()">Criar Grupo</button>
+    </div>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button class="btn" onclick="uploadDocument()">Enviar</button>
+      <button class="btn btn-secondary" onclick="closeUploadModal()">Cancelar</button>
     </div>
   </div>
 </div>
-
-<!-- Modal de Arquivos -->
-<div id="arquivosModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Arquivos</h2>
-      <button class="close-modal" onclick="closeModal('arquivosModal')">&times;</button>
-    </div>
-    <div>
-      <h3>Meus Arquivos</h3>
-      <ul id="userFilesList"></ul>
-      
-      <h3>Arquivos Públicos</h3>
-      <ul id="publicFilesList"></ul>
-      
-      <input type="file" id="modalFileUpload" onchange="uploadArquivo(event)" multiple>
-      <button onclick="document.getElementById('modalFileUpload').click()">Enviar Novo Arquivo</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-  Algebra Renova — conhecimento não domesticado | Revolution. Algebra et Perseverantia.
-</footer>
 
 <script>
-/* ===============================
-   SISTEMA DE ARMAZENAMENTO
-================================ */
-let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let groups = JSON.parse(localStorage.getItem('groups')) || [
-  { id: 1, name: "Álgebra Não-Convencional", description: "Explorando estruturas algébricas além do convencional", category: "algebra", privacy: "public", members: [] },
-  { id: 2, name: "Topologia da Borboleta", description: "Estudo de transformações topológicas radicais", category: "topology", privacy: "public", members: [] },
-  { id: 3, name: "Geometria do Infinito", description: "Formas geométricas em espaços não-euclidianos", category: "geometry", privacy: "private", members: [] }
-];
-let friends = JSON.parse(localStorage.getItem('friends')) || [];
-let messages = JSON.parse(localStorage.getItem('messages')) || [];
-let files = JSON.parse(localStorage.getItem('files')) || [];
-let friendRequests = JSON.parse(localStorage.getItem('friendRequests')) || [];
+// ===============================
+// ESTADO GLOBAL DO SISTEMA
+// ===============================
+const AppState = {
+  currentUser: null,
+  users: [],
+  theories: [],
+  documents: [],
+  bounties: [],
+  activities: [],
+  chatMessages: [],
+  connections: {},
 
-/* ===============================
-   INICIALIZAÇÃO
-================================ */
-document.addEventListener('DOMContentLoaded', function() {
-  updateUserStatus();
-  loadManifesto();
-  loadGroups();
-  loadFiles();
-  renderFriends();
-  renderChat();
-  
-  // Carregar mensagens de exemplo se não houver mensagens
-  if (messages.length === 0) {
-    messages = [
-      "Sistema: Bem-vindo à Algebra Renova",
-      "Sistema: Este é um espaço para matemática radical",
-      "Visitante: Alguém aqui estuda álgebra não-associativa?",
-      "Anônimo: Estou explorando estruturas infinitamente recursivas..."
+  init: function() {
+    this.loadFromStorage();
+    this.initCurrentUser();
+    this.updateUI();
+    this.renderAll();
+    this.logActivity('Sistema inicializado');
+  },
+
+  loadFromStorage: function() {
+    // Carregar dados existentes ou inicializar com dados de sistema
+    this.users = JSON.parse(localStorage.getItem('algebra_users')) || this.getDefaultUsers();
+    this.theories = JSON.parse(localStorage.getItem('algebra_theories')) || [];
+    this.documents = JSON.parse(localStorage.getItem('algebra_documents')) || [];
+    this.bounties = JSON.parse(localStorage.getItem('algebra_bounties')) || this.getDefaultBounties();
+    this.activities = JSON.parse(localStorage.getItem('algebra_activities')) || [];
+    this.chatMessages = JSON.parse(localStorage.getItem('algebra_chat')) || [];
+    this.connections = JSON.parse(localStorage.getItem('algebra_connections')) || {};
+  },
+
+  saveToStorage: function() {
+    localStorage.setItem('algebra_users', JSON.stringify(this.users));
+    localStorage.setItem('algebra_theories', JSON.stringify(this.theories));
+    localStorage.setItem('algebra_documents', JSON.stringify(this.documents));
+    localStorage.setItem('algebra_bounties', JSON.stringify(this.bounties));
+    localStorage.setItem('algebra_activities', JSON.stringify(this.activities));
+    localStorage.setItem('algebra_chat', JSON.stringify(this.chatMessages));
+    localStorage.setItem('algebra_connections', JSON.stringify(this.connections));
+  },
+
+  getDefaultUsers: function() {
+    return [
+      {
+        id: 'nucleo_master',
+        username: 'Lohan Cunha',
+        displayName: 'Lohan Cunha',
+        role: 'nucleo',
+        specialty: 'Álgebra Não-Convencional',
+        bio: 'Fundador da Algebra Renova. Especialista em estruturas algébricas além do convencional.',
+        avatar: 'LC',
+        joinDate: '2023-01-01',
+        connections: [],
+        theories: []
+      },
+      {
+        id: 'iniciado_001',
+        username: 'Elena V.',
+        displayName: 'Elena V.',
+        role: 'iniciado',
+        specialty: 'Topologia da Borboleta',
+        bio: 'Pesquisadora em transformações topológicas radicais.',
+        avatar: 'EV',
+        joinDate: '2023-02-15',
+        connections: [],
+        theories: []
+      },
+      {
+        id: 'observador_001',
+        username: 'Carlos M.',
+        displayName: 'Carlos M.',
+        role: 'observador',
+        specialty: 'Geometria do Infinito',
+        bio: 'Observador dedicado à compreensão de espaços não-euclidianos.',
+        avatar: 'CM',
+        joinDate: '2023-03-10',
+        connections: [],
+        theories: []
+      }
     ];
-    localStorage.setItem('messages', JSON.stringify(messages));
-    renderChat();
-  }
-});
+  },
 
-/* ===============================
-   SISTEMA DE USUÁRIO
-================================ */
-function updateUserStatus() {
-  const userNameElement = document.getElementById('userName');
-  const userInfoElement = document.getElementById('userInfo');
-  
-  if (currentUser) {
-    userNameElement.textContent = currentUser.username;
-    userInfoElement.innerHTML = `
-      <p>${currentUser.username}</p>
-      <button onclick="logout()">Sair</button>
-    `;
-  } else {
-    userNameElement.textContent = "Visitante";
-    userInfoElement.innerHTML = `
-      <p>Visitante</p>
-      <button onclick="showModal('loginModal')">Entrar / Criar</button>
-    `;
-  }
-}
-
-function login() {
-  const username = document.getElementById('loginUsername').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  
-  if (!username || !password) {
-    alert("Por favor, preencha todos os campos");
-    return;
-  }
-  
-  const user = users.find(u => u.username === username && u.password === password);
-  
-  if (user) {
-    currentUser = user;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    alert(`Bem-vindo de volta, ${username}!`);
-    closeModal('loginModal');
-    updateUserStatus();
-    renderFriends();
-  } else {
-    alert("Usuário ou senha incorretos");
-  }
-}
-
-function createAccount() {
-  const username = document.getElementById('newUsername').value.trim();
-  const email = document.getElementById('newEmail').value.trim();
-  const password = document.getElementById('newPassword').value;
-  const confirmPassword = document.getElementById('confirmPassword').value;
-  
-  if (!username || !password) {
-    alert("Nome de usuário e senha são obrigatórios");
-    return;
-  }
-  
-  if (password !== confirmPassword) {
-    alert("As senhas não coincidem");
-    return;
-  }
-  
-  if (users.some(u => u.username === username)) {
-    alert("Este nome de usuário já está em uso");
-    return;
-  }
-  
-  const newUser = {
-    id: Date.now(),
-    username: username,
-    email: email,
-    password: password,
-    joined: new Date().toISOString()
-  };
-  
-  users.push(newUser);
-  currentUser = newUser;
-  
-  localStorage.setItem('users', JSON.stringify(users));
-  localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  
-  alert(`Conta criada com sucesso! Bem-vindo, ${username}!`);
-  closeModal('loginModal');
-  updateUserStatus();
-}
-
-function logout() {
-  currentUser = null;
-  localStorage.removeItem('currentUser');
-  updateUserStatus();
-  alert("Você saiu da sua conta");
-}
-
-/* ===============================
-   SISTEMA DE GRUPOS
-================================ */
-function loadGroups() {
-  const groupsList = document.getElementById('groupsList');
-  const activeGroups = document.getElementById('activeGroups');
-  
-  groupsList.innerHTML = '';
-  activeGroups.innerHTML = '';
-  
-  groups.forEach(group => {
-    // Lista na sidebar
-    const groupItem = document.createElement('div');
-    groupItem.className = 'group-item';
-    groupItem.innerHTML = `
-      <strong>${group.name}</strong>
-      <small>${group.category}</small>
-    `;
-    groupItem.onclick = () => showGroupDetails(group.id);
-    groupsList.appendChild(groupItem);
-    
-    // Grid de grupos ativos
-    if (group.privacy === 'public') {
-      const groupCard = document.createElement('div');
-      groupCard.className = 'group-card';
-      groupCard.innerHTML = `
-        <h3>${group.name}</h3>
-        <p>${group.description}</p>
-        <small>Categoria: ${group.category}</small>
-        <small>Membros: ${group.members.length}</small>
-      `;
-      groupCard.onclick = () => showGroupDetails(group.id);
-      activeGroups.appendChild(groupCard);
-    }
-  });
-  
-  // Atualizar contador
-  document.getElementById('groupsCount').textContent = groups.length;
-}
-
-function createGroup() {
-  if (!currentUser) {
-    alert("Você precisa estar logado para criar um grupo");
-    showModal('loginModal');
-    return;
-  }
-  
-  const name = document.getElementById('groupName').value.trim();
-  const description = document.getElementById('groupDescription').value.trim();
-  const category = document.getElementById('groupCategory').value;
-  const privacy = document.getElementById('groupPrivacy').value;
-  
-  if (!name) {
-    alert("O grupo precisa de um nome");
-    return;
-  }
-  
-  const newGroup = {
-    id: Date.now(),
-    name: name,
-    description: description,
-    category: category,
-    privacy: privacy,
-    creator: currentUser.username,
-    members: [currentUser.username],
-    created: new Date().toISOString()
-  };
-  
-  groups.push(newGroup);
-  localStorage.setItem('groups', JSON.stringify(groups));
-  
-  alert(`Grupo "${name}" criado com sucesso!`);
-  closeModal('createGroupModal');
-  loadGroups();
-}
-
-function showGroupDetails(groupId) {
-  const group = groups.find(g => g.id === groupId);
-  if (!group) return;
-  
-  const modalContent = `
-    <div class="modal-header">
-      <h2>${group.name}</h2>
-      <button class="close-modal" onclick="closeModal('groupDetailsModal')">&times;</button>
-    </div>
-    <div>
-      <p><strong>Descrição:</strong> ${group.description}</p>
-      <p><strong>Categoria:</strong> ${group.category}</p>
-      <p><strong>Privacidade:</strong> ${group.privacy}</p>
-      <p><strong>Criador:</strong> ${group.creator}</p>
-      <p><strong>Membros:</strong> ${group.members.length}</p>
-      <p><strong>Criado em:</strong> ${new Date(group.created).toLocaleDateString()}</p>
-      
-      ${group.privacy === 'public' || (currentUser && group.members.includes(currentUser.username)) 
-        ? `<button onclick="joinGroup(${groupId})">${currentUser && group.members.includes(currentUser.username) ? 'Sair do Grupo' : 'Entrar no Grupo'}</button>`
-        : '<p><em>Este grupo é privado</em></p>'
+  getDefaultBounties: function() {
+    return [
+      {
+        id: 'bounty_001',
+        title: 'Estrutura Algébrica da Transfunctoração',
+        description: 'Definir formalmente a operação de transfunctoração e suas propriedades fundamentais.',
+        reward: 'Nível Iniciado',
+        status: 'open',
+        createdBy: 'nucleo_master',
+        createdAt: '2023-11-01',
+        attempts: []
       }
-    </div>
-  `;
-  
-  showCustomModal('Detalhes do Grupo', modalContent, 'groupDetailsModal');
-}
+    ];
+  },
 
-function joinGroup(groupId) {
-  if (!currentUser) {
-    alert("Você precisa estar logado para entrar em um grupo");
-    showModal('loginModal');
-    return;
-  }
-  
-  const group = groups.find(g => g.id === groupId);
-  if (!group) return;
-  
-  const userIndex = group.members.indexOf(currentUser.username);
-  
-  if (userIndex === -1) {
-    group.members.push(currentUser.username);
-    alert(`Você entrou no grupo "${group.name}"`);
-  } else {
-    group.members.splice(userIndex, 1);
-    alert(`Você saiu do grupo "${group.name}"`);
-  }
-  
-  localStorage.setItem('groups', JSON.stringify(groups));
-  closeModal('groupDetailsModal');
-  loadGroups();
-}
-
-function exploreGroups() {
-  showGroups();
-}
-
-function showGroups() {
-  const groupsHTML = groups.map(group => `
-    <div class="group-card" onclick="showGroupDetails(${group.id})">
-      <h3>${group.name}</h3>
-      <p>${group.description}</p>
-      <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-        <small>${group.category}</small>
-        <small>${group.privacy === 'public' ? '🌐 Público' : group.privacy === 'private' ? '🔒 Privado' : '🕵️ Secreto'}</small>
-      </div>
-      <small>Membros: ${group.members.length}</small>
-    </div>
-  `).join('');
-  
-  const modalContent = `
-    <div class="modal-header">
-      <h2>Todos os Grupos</h2>
-      <button class="close-modal" onclick="closeModal('allGroupsModal')">&times;</button>
-    </div>
-    <div>
-      <div class="groups-grid">
-        ${groupsHTML}
-      </div>
-      <button onclick="showModal('createGroupModal')" style="margin-top: 20px; width: 100%;">Criar Novo Grupo</button>
-    </div>
-  `;
-  
-  showCustomModal('Explorar Grupos', modalContent, 'allGroupsModal');
-}
-
-/* ===============================
-   MANIFESTO
-================================ */
-function loadManifesto() {
-  const manifestoContent = `
-    <h3>Algebra Renova</h3>
-    <p><em>"Algebra Renova é mais do que um grupo de pesquisa. É uma rebelião matemática. Uma revolução intelectual..."</em></p>
-    
-    <h4>A Origem do Nome</h4>
-    <p>O nome <strong>Algebra Renova</strong> surge da fusão entre o <strong>clássico e o revolucionário</strong>.</p>
-    <ul>
-      <li><strong>Algebra</strong>: Refere-se ao campo estrutural fundamental da matemática, mas aqui entendido em seu sentido mais profundo — o tecido estrutural da realidade teórica.</li>
-      <li><strong>Renova</strong>: Do latim <em>renovare</em>, "renovar", "renascer", "recriar". Uma evocação ao renascimento matemático.</li>
-    </ul>
-    
-    <h4>Símbolos e seu Significado</h4>
-    <p>A logomarca de <strong>Algebra Renova</strong> contém três elementos principais:</p>
-    <ol>
-      <li><strong>A Borboleta</strong>: Simboliza a transformação radical. Representa a transfunctoração: a capacidade de uma estrutura emergir em outro domínio.</li>
-      <li><strong>A Espada com Olho</strong>: Representa a precisão cortante do raciocínio matemático. O olho que chora simboliza a visão profunda e os sacrifícios da compreensão.</li>
-      <li><strong>O Escudo com o Lema</strong>: Defende a nova matemática contra o dogma. Contém o lema: <em>Revolution. Algebra et Perseverantia.</em></li>
-    </ol>
-    
-    <h4>Missão e Objetivos</h4>
-    <p>Algebra Renova tem como missão a criação deliberada de estruturas matemáticas impossíveis. Seus objetivos incluem:</p>
-    <ul>
-      <li>Desenvolver novas teorias rigorosas</li>
-      <li>Fundar subcampos dentro da álgebra e matemática abstrata</li>
-      <li>Reformular a linguagem matemática como forma de expressão estrutural criativa</li>
-      <li>Criar uma comunidade radical de pensadores dispostos a romper com os fundamentos</li>
-    </ul>
-    
-    <h4>Um Chamado à Mente Revolucionária</h4>
-    <p><em>"Se você sente que a matemática que conhece é apenas a casca de algo muito mais profundo, Algebra Renova te chama..."</em></p>
-    
-    <p style="margin-top: 30px; text-align: right; font-style: italic;">
-      Lohan Cunha Cardoso<br>
-      "Matemática é opcional – assim como a sanidade"
-    </p>
-  `;
-  
-  document.getElementById('manifestoContent').innerHTML = manifestoContent;
-}
-
-/* ===============================
-   SISTEMA DE AMIGOS
-================================ */
-function renderFriends() {
-  const friendsList = document.getElementById('friendsList');
-  friendsList.innerHTML = '';
-  
-  if (friends.length === 0) {
-    friendsList.innerHTML = '<p>Nenhum amigo adicionado ainda</p>';
-  } else {
-    friends.forEach((friend, index) => {
-      const friendDiv = document.createElement('div');
-      friendDiv.className = 'friend';
-      friendDiv.innerHTML = `
-        <span>${friend}</span>
-        <button onclick="removeFriend(${index})" style="padding: 2px 8px; font-size: 0.8rem;">Remover</button>
-      `;
-      friendsList.appendChild(friendDiv);
-    });
-  }
-}
-
-function addFriend(e) {
-  if (e.key !== 'Enter') return;
-  
-  const friendName = e.target.value.trim();
-  if (!friendName) return;
-  
-  if (!currentUser) {
-    alert("Você precisa estar logado para adicionar amigos");
-    showModal('loginModal');
-    e.target.value = '';
-    return;
-  }
-  
-  if (friends.includes(friendName)) {
-    alert("Este usuário já está na sua lista de amigos");
-    e.target.value = '';
-    return;
-  }
-  
-  friends.push(friendName);
-  localStorage.setItem('friends', JSON.stringify(friends));
-  e.target.value = '';
-  renderFriends();
-}
-
-function removeFriend(index) {
-  friends.splice(index, 1);
-  localStorage.setItem('friends', JSON.stringify(friends));
-  renderFriends();
-}
-
-/* ===============================
-   SISTEMA DE CHAT
-================================ */
-function renderChat() {
-  const chatBox = document.getElementById('chatBox');
-  chatBox.innerHTML = '';
-  
-  messages.forEach((message, index) => {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'message';
-    
-    if (message.startsWith('Sistema:')) {
-      messageDiv.innerHTML = `<span style="color: #666;">${message}</span>`;
+  initCurrentUser: function() {
+    const savedUser = localStorage.getItem('algebra_currentUser');
+    if (savedUser) {
+      this.currentUser = JSON.parse(savedUser);
     } else {
-      const parts = message.split(': ');
-      if (parts.length > 1) {
-        messageDiv.innerHTML = `<span class="user">${parts[0]}:</span> ${parts.slice(1).join(': ')}`;
-      } else {
-        messageDiv.textContent = message;
-      }
+      // Login automático como observador para demonstração
+      this.currentUser = this.users[2]; // Carlos M.
+      localStorage.setItem('algebra_currentUser', JSON.stringify(this.currentUser));
+    }
+  },
+
+  logActivity: function(message) {
+    const activity = {
+      id: Date.now(),
+      message: message,
+      timestamp: new Date().toISOString(),
+      user: this.currentUser ? this.currentUser.id : 'system'
+    };
+    this.activities.unshift(activity);
+    if (this.activities.length > 50) this.activities.pop();
+    this.saveToStorage();
+    this.renderActivityLog();
+  },
+
+  // ===============================
+  // GERENCIAMENTO DE USUÁRIOS
+  // ===============================
+  canPublishTheories: function() {
+    return this.currentUser && ['nucleo', 'iniciado'].includes(this.currentUser.role);
+  },
+
+  addConnection: function(userId) {
+    if (!this.currentUser) return false;
+    
+    if (!this.connections[this.currentUser.id]) {
+      this.connections[this.currentUser.id] = [];
     }
     
-    chatBox.appendChild(messageDiv);
-  });
-  
-  // Scroll para o final
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+    if (!this.connections[this.currentUser.id].includes(userId)) {
+      this.connections[this.currentUser.id].push(userId);
+      this.saveToStorage();
+      this.logActivity(`${this.currentUser.displayName} conectou-se com ${this.getUserById(userId).displayName}`);
+      return true;
+    }
+    return false;
+  },
 
-function sendMessage(e) {
-  if (e.key !== 'Enter') return;
-  
-  const messageInput = document.getElementById('messageInput');
-  const message = messageInput.value.trim();
-  
-  if (!message) return;
-  
-  const sender = currentUser ? currentUser.username : 'Visitante';
-  messages.push(`${sender}: ${message}`);
-  
-  // Limitar o histórico de mensagens
-  if (messages.length > 100) {
-    messages = messages.slice(-100);
-  }
-  
-  localStorage.setItem('messages', JSON.stringify(messages));
-  messageInput.value = '';
-  renderChat();
-}
+  getUserById: function(id) {
+    return this.users.find(u => u.id === id);
+  },
 
-function clearChat() {
-  if (confirm("Tem certeza que deseja limpar o chat?")) {
-    messages = [];
-    localStorage.setItem('messages', JSON.stringify(messages));
-    renderChat();
-  }
-}
+  // ===============================
+  // TEORIAS
+  // ===============================
+  publishTheory: function(title, content, category) {
+    if (!this.canPublishTheories()) {
+      alert('Apenas membros Núcleo e Iniciados podem publicar teorias.');
+      return null;
+    }
 
-/* ===============================
-   SISTEMA DE ARQUIVOS
-================================ */
-function loadFiles() {
-  const filesList = document.getElementById('filesList');
-  const userFilesList = document.getElementById('userFilesList');
-  const publicFilesList = document.getElementById('publicFilesList');
-  
-  filesList.innerHTML = '';
-  userFilesList.innerHTML = '';
-  publicFilesList.innerHTML = '';
-  
-  if (files.length === 0) {
-    filesList.innerHTML = '<li>Nenhum arquivo enviado ainda</li>';
-    userFilesList.innerHTML = '<li>Nenhum arquivo pessoal</li>';
-    publicFilesList.innerHTML = '<li>Nenhum arquivo público</li>';
-  } else {
-    files.forEach((file, index) => {
-      // Lista principal
-      const li = document.createElement('li');
-      li.innerHTML = `
-        ${file.name} 
-        <small>(${file.size} - ${new Date(file.date).toLocaleDateString()})</small>
-        <button onclick="downloadFile(${index})" style="margin-left: 10px; padding: 2px 8px;">Baixar</button>
-      `;
-      filesList.appendChild(li);
-      
-      // Lista no modal (arquivos pessoais)
-      if (file.user === (currentUser ? currentUser.username : 'Visitante')) {
-        const userLi = document.createElement('li');
-        userLi.innerHTML = `${file.name} <small>(${file.size})</small>`;
-        userFilesList.appendChild(userLi);
-      }
-      
-      // Lista no modal (arquivos públicos)
-      if (file.privacy === 'public') {
-        const publicLi = document.createElement('li');
-        publicLi.innerHTML = `
-          ${file.name} 
-          <small>(${file.size} - ${file.user})</small>
-        `;
-        publicFilesList.appendChild(publicLi);
-      }
-    });
-  }
-  
-  // Atualizar contador
-  document.getElementById('filesCount').textContent = files.length;
-}
-
-function uploadArquivo(event) {
-  const fileInput = event.target;
-  const files = fileInput.files;
-  
-  if (!files.length) return;
-  
-  if (!currentUser) {
-    alert("Você precisa estar logado para enviar arquivos");
-    showModal('loginModal');
-    return;
-  }
-  
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    
-    const newFile = {
-      id: Date.now() + i,
-      name: file.name,
-      size: formatFileSize(file.size),
-      type: file.type,
-      date: new Date().toISOString(),
-      user: currentUser.username,
-      privacy: 'public'
+    const theory = {
+      id: 'theory_' + Date.now(),
+      title: title,
+      content: content,
+      category: category,
+      author: this.currentUser.id,
+      createdAt: new Date().toISOString(),
+      views: 0,
+      comments: []
     };
+
+    this.theories.unshift(theory);
     
-    // Adicionar ao array de arquivos
-    window.files.push(newFile);
+    // Adicionar ao perfil do usuário
+    if (!this.currentUser.theories) this.currentUser.theories = [];
+    this.currentUser.theories.push(theory.id);
     
-    // Adicionar mensagem no chat
-    messages.push(`Sistema: ${currentUser.username} enviou o arquivo "${file.name}"`);
-  }
-  
-  localStorage.setItem('files', JSON.stringify(window.files));
-  localStorage.setItem('messages', JSON.stringify(messages));
-  
-  alert(`${files.length} arquivo(s) enviado(s) com sucesso!`);
-  loadFiles();
-  renderChat();
-  
-  // Limpar input
-  fileInput.value = '';
-}
+    this.saveToStorage();
+    this.logActivity(`${this.currentUser.displayName} publicou uma nova teoria: ${title}`);
+    
+    return theory;
+  },
 
-function formatFileSize(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
+  // ===============================
+  // DOCUMENTOS
+  // ===============================
+  addDocument: function(title, description, content, category) {
+    const doc = {
+      id: 'doc_' + Date.now(),
+      title: title,
+      description: description,
+      content: content,
+      category: category,
+      uploadedBy: this.currentUser.id,
+      uploadedAt: new Date().toISOString(),
+      downloads: 0
+    };
 
-function downloadFile(index) {
-  const file = files[index];
-  alert(`Download do arquivo: ${file.name}\nTamanho: ${file.size}\nEnviado por: ${file.user}`);
-  // Em uma implementação real, aqui seria o código para baixar o arquivo
-}
+    this.documents.unshift(doc);
+    this.saveToStorage();
+    this.logActivity(`${this.currentUser.displayName} adicionou um documento ao repositório: ${title}`);
+    
+    return doc;
+  },
 
-/* ===============================
-   SISTEMA DE MODAIS
-================================ */
-function showModal(modalId) {
-  document.getElementById(modalId).style.display = 'flex';
-}
+  // ===============================
+  // RENDERIZAÇÃO
+  // ===============================
+  updateUI: function() {
+    if (!this.currentUser) return;
 
-function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
-}
+    // Atualizar perfil
+    document.getElementById('userName').textContent = this.currentUser.displayName;
+    document.getElementById('userAvatar').textContent = this.currentUser.avatar;
+    
+    // Atualizar role com cores
+    const roleElement = document.getElementById('userRole');
+    roleElement.innerHTML = `<span class="role-${this.currentUser.role}">${this.currentUser.role.toUpperCase()}</span>`;
+    
+    // Atualizar estatísticas
+    const userTheories = this.theories.filter(t => t.author === this.currentUser.id).length;
+    const userConnections = this.connections[this.currentUser.id] ? this.connections[this.currentUser.id].length : 0;
+    
+    document.getElementById('statsTheories').textContent = userTheories;
+    document.getElementById('statsConnections').textContent = userConnections;
+    document.getElementById('activeMembers').textContent = this.users.length;
+    document.getElementById('totalTheories').textContent = this.theories.length;
+    document.getElementById('openBounties').textContent = this.bounties.filter(b => b.status === 'open').length;
+  },
 
-function showCustomModal(title, content, modalId = 'customModal') {
-  // Criar modal se não existir
-  let modal = document.getElementById(modalId);
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = modalId;
-    modal.className = 'modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>${title}</h2>
-          <button class="close-modal" onclick="closeModal('${modalId}')">&times;</button>
+  renderAll: function() {
+    this.renderTheories();
+    this.renderRepository();
+    this.renderBountyBoard();
+    this.renderMembers();
+    this.renderConnections();
+    this.renderActivityLog();
+    this.renderChat();
+    this.renderAdminMembers();
+  },
+
+  renderTheories: function() {
+    const container = document.getElementById('theoriesList');
+    if (!container) return;
+
+    if (this.theories.length === 0) {
+      container.innerHTML = '<div class="theory-card"><p>Nenhuma teoria publicada ainda.</p></div>';
+      return;
+    }
+
+    container.innerHTML = this.theories.map(theory => {
+      const author = this.getUserById(theory.author);
+      return `
+        <div class="theory-card">
+          <div class="theory-header">
+            <div class="theory-author">
+              <div class="author-avatar">${author.avatar}</div>
+              <div class="author-info">
+                <h4>${author.displayName}</h4>
+                <small><span class="role-${author.role}">${author.role.toUpperCase()}</span> • ${new Date(theory.createdAt).toLocaleDateString()}</small>
+              </div>
+            </div>
+            <div class="theory-category">${theory.category}</div>
+          </div>
+          <h3>${theory.title}</h3>
+          <div class="theory-content">${this.formatMathContent(theory.content)}</div>
+          <div class="theory-meta">
+            <span>${theory.views} visualizações</span>
+            <span>${theory.comments.length} comentários</span>
+          </div>
         </div>
-        <div id="${modalId}Content"></div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-  
-  document.getElementById(`${modalId}Content`).innerHTML = content;
-  modal.style.display = 'flex';
-}
+      `;
+    }).join('');
+    
+    // Processar MathJax
+    if (window.MathJax) {
+      MathJax.typeset();
+    }
+  },
 
-// Fechar modal ao clicar fora
-window.onclick = function(event) {
-  if (event.target.classList.contains('modal')) {
-    event.target.style.display = 'none';
+  formatMathContent: function(content) {
+    // Garantir que fórmulas LaTeX sejam processáveis pelo MathJax
+    return content.replace(/\$\$(.*?)\$\$/g, '<div class="math-display">\\[ $1 \\]</div>')
+                  .replace(/\$(.*?)\$/g, '\\( $1 \\)')
+                  .replace(/\n/g, '<br>');
+  },
+
+  renderRepository: function() {
+    const container = document.getElementById('repositoryList');
+    if (!container) return;
+
+    if (this.documents.length === 0) {
+      container.innerHTML = '<div class="theory-card"><p>Nenhum documento no repositório.</p></div>';
+      return;
+    }
+
+    container.innerHTML = this.documents.map(doc => {
+      const uploader = this.getUserById(doc.uploadedBy);
+      return `
+        <div class="document-card">
+          <div class="document-info">
+            <h4>${doc.title}</h4>
+            <p>${doc.description}</p>
+            <div class="document-meta">
+              Enviado por ${uploader.displayName} • ${new Date(doc.uploadedAt).toLocaleDateString()} • ${doc.downloads} downloads
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="downloadDocument('${doc.id}')">Acessar</button>
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderBountyBoard: function() {
+    const container = document.getElementById('bountyBoard');
+    if (!container) return;
+
+    container.innerHTML = this.bounties.map(bounty => {
+      const creator = this.getUserById(bounty.createdBy);
+      return `
+        <div class="bounty-card">
+          <div class="bounty-header">
+            <h3>${bounty.title}</h3>
+            <div class="bounty-status status-${bounty.status}">${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}</div>
+          </div>
+          <p>${bounty.description}</p>
+          <div class="theory-meta">
+            <span>Postado por ${creator.displayName}</span>
+            <span class="bounty-reward">${bounty.reward}</span>
+            <span>${bounty.attempts.length} tentativas</span>
+          </div>
+          ${bounty.status === 'open' ? `
+            <button class="btn mt-20" onclick="attemptBounty('${bounty.id}')">Submeter Solução</button>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderMembers: function() {
+    const container = document.getElementById('membersGrid');
+    if (!container) return;
+
+    container.innerHTML = this.users.map(user => {
+      const isCurrentUser = this.currentUser && user.id === this.currentUser.id;
+      const isConnected = this.connections[this.currentUser.id] && this.connections[this.currentUser.id].includes(user.id);
+      
+      return `
+        <div class="member-card">
+          <div class="member-avatar">${user.avatar}</div>
+          <div class="member-name">${user.displayName}</div>
+          <div class="member-specialty">${user.specialty}</div>
+          <div class="profile-role mb-20">
+            <span class="role-${user.role}">${user.role.toUpperCase()}</span>
+          </div>
+          ${!isCurrentUser ? `
+            <button class="btn ${isConnected ? 'btn-secondary' : ''}" onclick="${isConnected ? 'removeConnection' : 'addConnection'}('${user.id}')">
+              ${isConnected ? '✅ Conectado' : '🔗 Conectar'}
+            </button>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderConnections: function() {
+    const container = document.getElementById('connectionsGrid');
+    if (!container) return;
+
+    const userConnections = this.connections[this.currentUser.id] || [];
+    
+    if (userConnections.length === 0) {
+      container.innerHTML = '<div class="theory-card"><p>Você ainda não tem conexões.</p></div>';
+      return;
+    }
+
+    container.innerHTML = userConnections.map(userId => {
+      const user = this.getUserById(userId);
+      if (!user) return '';
+      
+      return `
+        <div class="member-card">
+          <div class="member-avatar">${user.avatar}</div>
+          <div class="member-name">${user.displayName}</div>
+          <div class="member-specialty">${user.specialty}</div>
+          <div class="profile-role mb-20">
+            <span class="role-${user.role}">${user.role.toUpperCase()}</span>
+          </div>
+          <button class="btn btn-secondary" onclick="removeConnection('${user.id}')">
+            Remover Conexão
+          </button>
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderActivityLog: function() {
+    const container = document.getElementById('activityLog');
+    if (!container) return;
+
+    const recentActivities = this.activities.slice(0, 10);
+    
+    container.innerHTML = recentActivities.map(activity => {
+      const user = activity.user !== 'system' ? this.getUserById(activity.user) : null;
+      const time = new Date(activity.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      
+      return `
+        <div class="activity-item">
+          ${activity.message}
+          <div class="activity-time">${time}</div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderChat: function() {
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
+
+    const recentMessages = this.chatMessages.slice(-20);
+    
+    container.innerHTML = recentMessages.map(msg => {
+      const user = this.getUserById(msg.userId);
+      const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      
+      return `
+        <div class="chat-message">
+          <div class="message-header">
+            <div>
+              <span class="message-author">${user.displayName}</span>
+              <span class="message-role role-${user.role}">${user.role[0].toUpperCase()}</span>
+            </div>
+            <div class="message-time">${time}</div>
+          </div>
+          <div class="message-content">${msg.message}</div>
+        </div>
+      `;
+    }).join('');
+    
+    // Scroll para o final
+    container.scrollTop = container.scrollHeight;
+  },
+
+  renderAdminMembers: function() {
+    if (this.currentUser.role !== 'nucleo') return;
+    
+    const container = document.getElementById('adminMembersList');
+    if (!container) return;
+
+    container.innerHTML = this.users.map(user => {
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #2a2a3a;">
+          <div>
+            <strong>${user.displayName}</strong>
+            <small class="role-${user.role}">${user.role.toUpperCase()}</small>
+          </div>
+          <div>
+            <select onchange="changeUserRole('${user.id}', this.value)" value="${user.role}">
+              <option value="observador">Observador</option>
+              <option value="iniciado">Iniciado</option>
+              <option value="nucleo">Núcleo</option>
+            </select>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 };
 
-// Fechar com ESC
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-      modal.style.display = 'none';
-    });
+// ===============================
+// FUNÇÕES DE INTERFACE
+// ===============================
+function addConnection(userId) {
+  if (AppState.addConnection(userId)) {
+    AppState.updateUI();
+    AppState.renderMembers();
+    AppState.renderConnections();
   }
+}
+
+function removeConnection(userId) {
+  if (AppState.connections[AppState.currentUser.id]) {
+    const index = AppState.connections[AppState.currentUser.id].indexOf(userId);
+    if (index > -1) {
+      AppState.connections[AppState.currentUser.id].splice(index, 1);
+      AppState.saveToStorage();
+      AppState.logActivity(`${AppState.currentUser.displayName} removeu conexão`);
+      AppState.updateUI();
+      AppState.renderMembers();
+      AppState.renderConnections();
+    }
+  }
+}
+
+function publishTheory() {
+  const title = document.getElementById('theoryTitle').value.trim();
+  const content = document.getElementById('theoryContent').value.trim();
+  const category = document.getElementById('theoryCategory').value;
+  
+  if (!title || !content) {
+    alert('Preencha todos os campos obrigatórios.');
+    return;
+  }
+  
+  const theory = AppState.publishTheory(title, content, category);
+  if (theory) {
+    document.getElementById('theoryTitle').value = '';
+    document.getElementById('theoryContent').value = '';
+    AppState.renderTheories();
+    showSection('theories');
+  }
+}
+
+function uploadDocument() {
+  const title = document.getElementById('docTitle').value.trim();
+  const description = document.getElementById('docDescription').value.trim();
+  const content = document.getElementById('docContent').value.trim();
+  const category = document.getElementById('docCategory').value;
+  
+  if (!title || !content) {
+    alert('Preencha todos os campos obrigatórios.');
+    return;
+  }
+  
+  AppState.addDocument(title, description, content, category);
+  closeUploadModal();
+  AppState.renderRepository();
+}
+
+function downloadDocument(docId) {
+  const doc = AppState.documents.find(d => d.id === docId);
+  if (doc) {
+    doc.downloads++;
+    AppState.saveToStorage();
+    AppState.renderRepository();
+    window.open(doc.content.startsWith('http') ? doc.content : '#', '_blank');
+  }
+}
+
+function attemptBounty(bountyId) {
+  const solution = prompt('Descreva sua solução para o desafio:');
+  if (solution) {
+    const bounty = AppState.bounties.find(b => b.id === bountyId);
+    if (bounty) {
+      bounty.attempts.push({
+        user: AppState.currentUser.id,
+        solution: solution,
+        timestamp: new Date().toISOString()
+      });
+      AppState.saveToStorage();
+      AppState.renderBountyBoard();
+      AppState.logActivity(`${AppState.currentUser.displayName} submeteu uma solução para "${bounty.title}"`);
+    }
+  }
+}
+
+function sendChatMessage(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendChatMessageManual();
+  }
+}
+
+function sendChatMessageManual() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  
+  if (!message) return;
+  
+  const chatMessage = {
+    id: 'msg_' + Date.now(),
+    userId: AppState.currentUser.id,
+    message: message,
+    timestamp: new Date().toISOString()
+  };
+  
+  AppState.chatMessages.push(chatMessage);
+  AppState.saveToStorage();
+  AppState.renderChat();
+  AppState.logActivity(`${AppState.currentUser.displayName} enviou uma mensagem no chat`);
+  
+  input.value = '';
+  input.focus();
+}
+
+function showUploadForm() {
+  document.getElementById('uploadModal').classList.remove('hidden');
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').classList.add('hidden');
+}
+
+function saveProfile() {
+  const name = document.getElementById('editName').value.trim();
+  const specialty = document.getElementById('editSpecialty').value;
+  const bio = document.getElementById('editBio').value.trim();
+  
+  if (name) {
+    AppState.currentUser.displayName = name;
+    AppState.currentUser.specialty = document.getElementById('editSpecialty').options[document.getElementById('editSpecialty').selectedIndex].text;
+    AppState.currentUser.bio = bio;
+    
+    // Atualizar no array de usuários
+    const userIndex = AppState.users.findIndex(u => u.id === AppState.currentUser.id);
+    if (userIndex > -1) {
+      AppState.users[userIndex] = AppState.currentUser;
+    }
+    
+    AppState.saveToStorage();
+    localStorage.setItem('algebra_currentUser', JSON.stringify(AppState.currentUser));
+    AppState.updateUI();
+    AppState.logActivity(`${AppState.currentUser.displayName} atualizou seu perfil`);
+    
+    alert('Perfil atualizado com sucesso!');
+  }
+}
+
+function changeUserRole(userId, newRole) {
+  if (AppState.currentUser.role !== 'nucleo') return;
+  
+  const user = AppState.users.find(u => u.id === userId);
+  if (user) {
+    const oldRole = user.role;
+    user.role = newRole;
+    AppState.saveToStorage();
+    AppState.logActivity(`Núcleo alterou cargo de ${user.displayName}: ${oldRole} → ${newRole}`);
+    AppState.renderAdminMembers();
+    AppState.renderMembers();
+  }
+}
+
+function showSection(sectionId) {
+  // Atualizar navegação
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+  
+  // Mostrar seção
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(sectionId).classList.add('active');
+}
+
+function logout() {
+  localStorage.removeItem('algebra_currentUser');
+  location.reload();
+}
+
+// ===============================
+// INICIALIZAÇÃO
+// ===============================
+document.addEventListener('DOMContentLoaded', function() {
+  // Inicializar estado
+  AppState.init();
+  
+  // Configurar navegação
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      const section = this.getAttribute('data-section');
+      showSection(section);
+    });
+  });
+  
+  // Preencher formulário de perfil
+  if (AppState.currentUser) {
+    document.getElementById('editName').value = AppState.currentUser.displayName;
+    document.getElementById('editSpecialty').value = AppState.currentUser.specialty || 'algebra';
+    document.getElementById('editBio').value = AppState.currentUser.bio || '';
+    
+    // Atualizar status de atividade
+    const userTheories = AppState.theories.filter(t => t.author === AppState.currentUser.id).length;
+    document.getElementById('userActivityStatus').textContent = 
+      `Você publicou ${userTheories} teorias e tem ${AppState.connections[AppState.currentUser.id]?.length || 0} conexões.`;
+  }
+  
+  // Renderizar atividades recentes
+  const recentActivities = AppState.activities.slice(0, 5);
+  document.getElementById('recentActivity').innerHTML = recentActivities.map(activity => {
+    return `<div class="activity-item">${activity.message}</div>`;
+  }).join('');
 });
 </script>
-
 </body>
 </html>
