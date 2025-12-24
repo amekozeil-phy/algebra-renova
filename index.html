@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algebra Renova - Rede Social Científica</title>
+    
     <!-- MathJax para renderização de LaTeX -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary-dark: #0a0a0f;
@@ -23,6 +28,7 @@
             --warning: #f39c12;
             --danger: #e74c3c;
             --info: #3498db;
+            --bot-color: #8e44ad;
         }
 
         * {
@@ -46,7 +52,7 @@
             min-height: 100vh;
         }
 
-        /* Barra Lateral */
+        /* ============ BARRA LATERAL ============ */
         .sidebar {
             width: 300px;
             background-color: var(--secondary-dark);
@@ -92,6 +98,7 @@
             letter-spacing: 1px;
         }
 
+        /* ============ PERFIL DO USUÁRIO ============ */
         .user-profile {
             display: flex;
             align-items: center;
@@ -183,7 +190,16 @@
             font-weight: bold;
         }
 
-        /* Navegação */
+        .bot-number {
+            background: var(--bot-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            margin-left: 5px;
+        }
+
+        /* ============ NAVEGAÇÃO ============ */
         .nav-tabs {
             display: flex;
             flex-direction: column;
@@ -231,7 +247,7 @@
             font-weight: bold;
         }
 
-        /* Lista de Amigos */
+        /* ============ LISTA DE AMIGOS ============ */
         .friends-section {
             margin-top: auto;
             border-top: 1px solid var(--border-color);
@@ -292,7 +308,7 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Conteúdo Principal */
+        /* ============ CONTEÚDO PRINCIPAL ============ */
         .main-content {
             flex: 1;
             padding: 30px;
@@ -329,7 +345,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Card de Conteúdo */
+        /* ============ CARD DE CONTEÚDO ============ */
         .content-card {
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -417,7 +433,34 @@
         .status-approved { background: rgba(46, 204, 113, 0.2); color: var(--success); }
         .status-rejected { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
 
-        /* Botões */
+        /* ============ AÇÕES DO NÚCLEO ============ */
+        .nucleus-actions {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .nucleus-actions h4 {
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nucleus-actions h4 i {
+            color: var(--accent-gold);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ============ BOTÕES ============ */
         .btn {
             padding: 10px 20px;
             border-radius: 8px;
@@ -472,7 +515,7 @@
             font-size: 12px;
         }
 
-        /* Modal */
+        /* ============ MODAIS ============ */
         .modal {
             display: none;
             position: fixed;
@@ -527,6 +570,7 @@
             color: var(--accent-neon);
         }
 
+        /* ============ FORMULÁRIOS ============ */
         .form-group {
             margin-bottom: 20px;
         }
@@ -568,7 +612,7 @@
             margin-top: 25px;
         }
 
-        /* Upload de Foto */
+        /* ============ UPLOAD DE FOTO ============ */
         .avatar-upload {
             display: flex;
             flex-direction: column;
@@ -609,7 +653,7 @@
             display: none;
         }
 
-        /* Comentários */
+        /* ============ COMENTÁRIOS ============ */
         .comments-section {
             margin-top: 30px;
             border-top: 1px solid var(--border-color);
@@ -618,10 +662,6 @@
 
         .comment-form {
             margin-bottom: 25px;
-        }
-
-        .comment-form textarea {
-            min-height: 100px;
         }
 
         .comments-list {
@@ -673,7 +713,7 @@
             color: var(--text-secondary);
         }
 
-        /* Grupos */
+        /* ============ GRUPOS ============ */
         .groups-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -739,7 +779,7 @@
             align-items: center;
         }
 
-        /* Chat do Grupo */
+        /* ============ CHAT DO GRUPO ============ */
         .group-chat-container {
             display: flex;
             flex-direction: column;
@@ -813,6 +853,9 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .group-message-time {
@@ -844,7 +887,7 @@
             border-color: var(--accent-neon);
         }
 
-        /* Desafios */
+        /* ============ DESAFIOS ============ */
         .challenges-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -861,7 +904,7 @@
         }
 
         .challenge-card:hover {
-            border-color: var(--accent-warning);
+            border-color: var(--warning);
             transform: translateY(-5px);
         }
 
@@ -879,7 +922,7 @@
         .difficulty-hard { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
         .difficulty-extreme { background: rgba(155, 89, 182, 0.2); color: var(--accent-renovated); }
 
-        /* Tabela de Hierarquia */
+        /* ============ TABELA DE HIERARQUIA ============ */
         .hierarchy-table {
             width: 100%;
             border-collapse: collapse;
@@ -913,7 +956,7 @@
         .badge-renovated { background: rgba(155, 89, 182, 0.2); color: var(--accent-renovated); }
         .badge-core { background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); }
 
-        /* Chat Privado */
+        /* ============ CHAT PRIVADO ============ */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -1010,7 +1053,7 @@
             border-color: var(--accent-neon);
         }
 
-        /* Solicitações de Amizade */
+        /* ============ SOLICITAÇÕES DE AMIZADE ============ */
         .requests-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1060,7 +1103,65 @@
             flex: 1;
         }
 
-        /* LaTeX Preview */
+        /* ============ MEMBROS ============ */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .member-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-info h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .member-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .member-actions {
+            margin-top: auto;
+        }
+
+        /* ============ PREVIEW LaTeX ============ */
         .latex-preview {
             background-color: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
@@ -1076,26 +1177,17 @@
             margin-bottom: 10px;
         }
 
-        /* Badges e Status */
-        .status-online {
-            color: var(--success);
-            font-size: 12px;
-        }
-
-        .status-offline {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        /* Contribuições */
+        /* ============ CONTRIBUIÇÕES ============ */
         .contributions {
             display: flex;
             gap: 20px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         .contribution-item {
             text-align: center;
+            min-width: 80px;
         }
 
         .contribution-value {
@@ -1109,7 +1201,18 @@
             color: var(--text-secondary);
         }
 
-        /* Responsividade */
+        /* ============ ANIMAÇÕES ============ */
+        .pulse-gold {
+            animation: pulseGold 2s infinite;
+        }
+
+        @keyframes pulseGold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 1024px) {
             .app-container {
                 flex-direction: column;
@@ -1126,7 +1229,7 @@
                 padding: 15px;
             }
             
-            .groups-grid, .challenges-grid, .requests-grid {
+            .groups-grid, .challenges-grid, .requests-grid, .members-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1134,56 +1237,43 @@
                 display: block;
                 overflow-x: auto;
             }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
-        /* Animações */
-        .pulse-gold {
-            animation: pulseGold 2s infinite;
-        }
-
-        @keyframes pulseGold {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-
-        /* Loader */
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--accent-neon);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Ações do Núcleo */
-        .nucleus-actions {
-            background: rgba(212, 175, 55, 0.1);
+        /* ============ NOTIFICAÇÕES ============ */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            padding: 15px 25px;
             border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-left: 4px solid var(--accent-neon);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            max-width: 300px;
+            animation: slideIn 0.3s, fadeOut 0.3s 2.7s;
         }
 
-        .nucleus-actions h4 {
-            color: var(--accent-gold);
-            margin-bottom: 10px;
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Modal de Login -->
@@ -1235,6 +1325,7 @@
         </div>
     </div>
 
+    <!-- Aplicação Principal -->
     <div class="app-container" style="display: none;" id="mainApp">
         <!-- Barra Lateral -->
         <aside class="sidebar">
@@ -1245,9 +1336,7 @@
 
             <!-- Perfil do Usuário -->
             <div class="user-profile">
-                <div class="avatar" id="userAvatar">
-                    <!-- Avatar será carregado via JS -->
-                </div>
+                <div class="avatar" id="userAvatar"></div>
                 <div class="user-info" id="userInfo">
                     <h3 id="userName">Anônimo <span id="userBotBadge" class="bot-badge" style="display: none;">BOT</span></h3>
                     <p id="userSpecialty">Observador</p>
@@ -1414,7 +1503,7 @@
                     </button>
                 </div>
                 
-                <!-- Solicitações de Amizade (visível apenas para usuários reais) -->
+                <!-- Solicitações de Amizade -->
                 <div id="friendRequestsSection" style="display: none;">
                     <h2 style="margin-bottom: 15px; color: var(--accent-neon);">Solicitações de Amizade</h2>
                     <div class="requests-grid" id="friendRequestsGrid">
@@ -1565,6 +1654,8 @@
         </main>
     </div>
 
+    <!-- ============ MODAIS ============ -->
+    
     <!-- Modal para Nova Teoria -->
     <div class="modal" id="theoryModal">
         <div class="modal-content">
@@ -1817,7 +1908,7 @@
             init() {
                 this.loadState();
                 
-                // Se não houver usuários, criar alguns de exemplo (BOTS)
+                // Se não houver usuários, criar BOTs de exemplo
                 if (this.allMembers.length === 0) {
                     this.createSampleBots();
                 }
@@ -1906,7 +1997,7 @@
                 }
             },
             
-            // Criar BOTS de exemplo
+            // Criar BOTs de exemplo com identificação clara
             createSampleBots() {
                 const bots = [
                     {
@@ -1917,14 +2008,15 @@
                         specialty: 'Teoria das Categorias',
                         level: 'core',
                         avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Transfunctor',
-                        bio: 'BOT 001: Especialista em transfunctoração e estruturas não-convencionais.',
+                        bio: 'Especialista em transfunctoração e estruturas não-convencionais.',
                         friends: ['bot002', 'bot003'],
                         points: 15200,
                         theories: 8,
                         solutions: 12,
                         online: true,
                         joinDate: '2023-01-15',
-                        isBot: true
+                        isBot: true,
+                        botNumber: '001'
                     },
                     {
                         id: 'bot002',
@@ -1934,14 +2026,15 @@
                         specialty: 'Álgebra Não-Associativa',
                         level: 'renovated',
                         avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=AntiIdentidade',
-                        bio: 'BOT 002: Pesquisador em estruturas algébricas sem elemento identidade.',
+                        bio: 'Pesquisador em estruturas algébricas sem elemento identidade.',
                         friends: ['bot001', 'bot004'],
                         points: 1680,
                         theories: 5,
                         solutions: 8,
                         online: true,
                         joinDate: '2023-03-10',
-                        isBot: true
+                        isBot: true,
+                        botNumber: '002'
                     },
                     {
                         id: 'bot003',
@@ -1951,14 +2044,15 @@
                         specialty: 'Topologia Algébrica',
                         level: 'initiate',
                         avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Borboleta',
-                        bio: 'BOT 003: Interessada em transformações radicais de estruturas matemáticas.',
+                        bio: 'Interessada em transformações radicais de estruturas matemáticas.',
                         friends: ['bot001'],
                         points: 650,
                         theories: 2,
                         solutions: 3,
                         online: true,
                         joinDate: '2023-05-22',
-                        isBot: true
+                        isBot: true,
+                        botNumber: '003'
                     },
                     {
                         id: 'bot004',
@@ -1968,14 +2062,15 @@
                         specialty: 'Lógica Não-Clássica',
                         level: 'initiate',
                         avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=EspadaOlho',
-                        bio: 'BOT 004: Estudante de lógicas alternativas e fundamentos da matemática.',
+                        bio: 'Estudante de lógicas alternativas e fundamentos da matemática.',
                         friends: ['bot002'],
                         points: 520,
                         theories: 1,
                         solutions: 2,
                         online: true,
                         joinDate: '2023-06-18',
-                        isBot: true
+                        isBot: true,
+                        botNumber: '004'
                     },
                     {
                         id: 'bot005',
@@ -1985,14 +2080,15 @@
                         specialty: 'Matemática Geral',
                         level: 'observer',
                         avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Observador',
-                        bio: 'BOT 005: Aprendendo sobre as novas fronteiras da matemática.',
+                        bio: 'Aprendendo sobre as novas fronteiras da matemática.',
                         friends: [],
                         points: 80,
                         theories: 0,
                         solutions: 1,
                         online: true,
                         joinDate: '2023-08-01',
-                        isBot: true
+                        isBot: true,
+                        botNumber: '005'
                     }
                 ];
                 
@@ -2000,7 +2096,7 @@
                 this.saveState();
             },
             
-            // Criar teorias de exemplo
+            // Criar teorias de exemplo com status claro
             createSampleTheories() {
                 const sampleTheories = [
                     {
@@ -2092,7 +2188,7 @@ Esta estrutura desafia o Teorema de Cayley e exige uma reformulação completa d
                 this.saveState();
             },
             
-            // Criar grupos de exemplo
+            // Criar grupos de exemplo com chat
             createSampleGroups() {
                 const sampleGroups = [
                     {
@@ -2135,6 +2231,13 @@ Esta estrutura desafia o Teorema de Cayley e exige uma reformulação completa d
                             authorId: 'bot002',
                             content: 'Tenho uma pergunta: como a transfunctoração se relaciona com as anti-identidades que estudo?',
                             timestamp: '2023-10-01T10:05:00'
+                        },
+                        {
+                            id: 'gm003',
+                            groupId: 'group001',
+                            authorId: 'bot003',
+                            content: 'Acredito que podemos explorar a conexão através de $\\infty$-categories. O que acham?',
+                            timestamp: '2023-10-01T10:10:00'
                         }
                     ]
                 };
@@ -2157,10 +2260,35 @@ Dica: Considere a construção do completamento livre.`,
                         deadline: '2023-11-15',
                         createdDate: '2023-10-01',
                         solutions: 2
+                    },
+                    {
+                        id: 'challenge002',
+                        title: 'Encontre um contraexemplo para a propriedade associativa em espaços anti-identitários',
+                        description: `Construa um espaço anti-identitário $(A, \\bullet, \\Phi)$ onde a operação $\\bullet$ não é associativa, mas ainda preserva algumas propriedades interessantes.`,
+                        difficulty: 'medium',
+                        creatorId: 'bot002',
+                        points: 25,
+                        deadline: '2023-11-30',
+                        createdDate: '2023-10-05',
+                        solutions: 1
                     }
                 ];
                 
                 this.challenges = sampleChallenges;
+                
+                // Soluções de exemplo
+                this.solutions = {
+                    'challenge001': [
+                        {
+                            id: 'sol001',
+                            challengeId: 'challenge001',
+                            authorId: 'bot002',
+                            content: 'Solução: Considere o completamento livre da categoria $\\mathcal{D}$ com relação à operação $\\star$...',
+                            date: '2023-10-10',
+                            status: 'approved'
+                        }
+                    ]
+                };
                 
                 this.saveState();
             },
@@ -2231,7 +2359,10 @@ Dica: Considere a construção do completamento livre.`,
                 document.getElementById('loginModal').classList.remove('active');
             },
             
-            // Atualizar a interface com base no estado
+            // ============================================
+            // ATUALIZAÇÃO DA INTERFACE
+            // ============================================
+            
             updateUI() {
                 this.updateUserProfile();
                 this.updateFriendsList();
@@ -2260,6 +2391,8 @@ Dica: Considere a construção do completamento livre.`,
                 if (this.currentUser.avatar) {
                     userAvatar.style.backgroundImage = `url(${this.currentUser.avatar})`;
                 }
+                
+                // Aplicar classes
                 userAvatar.className = `avatar ${this.currentUser.level} ${this.currentUser.isBot ? 'bot' : ''}`;
                 
                 // Atualizar informações do usuário
@@ -2270,7 +2403,12 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Mostrar badge de BOT se for bot
                 if (userBotBadge) {
-                    userBotBadge.style.display = this.currentUser.isBot ? 'inline-block' : 'none';
+                    if (this.currentUser.isBot) {
+                        userBotBadge.innerHTML = `BOT <span class="bot-number">${this.currentUser.botNumber || ''}</span>`;
+                        userBotBadge.style.display = 'inline-block';
+                    } else {
+                        userBotBadge.style.display = 'none';
+                    }
                 }
                 
                 // Aplicar classe de nível ao contêiner de informações
@@ -2314,7 +2452,10 @@ Dica: Considere a construção do completamento livre.`,
                                 <div class="friend-avatar ${friend.level} ${friend.isBot ? 'bot' : ''}" style="${avatarStyle}">
                                     ${friend.avatar && friend.avatar.startsWith('http') ? '' : friend.avatar || 'AR'}
                                 </div>
-                                <div class="friend-name">${friend.codename || friend.username}</div>
+                                <div class="friend-name">
+                                    ${friend.codename || friend.username}
+                                    ${friend.isBot ? `<span class="bot-badge">BOT <span class="bot-number">${friend.botNumber}</span></span>` : ''}
+                                </div>
                                 <div class="friend-level ${friend.level}-badge">${this.getLevelName(friend.level)}</div>
                             `;
                             
@@ -2398,7 +2539,7 @@ Dica: Considere a construção do completamento livre.`,
                             </div>
                             <div class="member-info">
                                 <h4>${member.codename || member.username} 
-                                    ${member.isBot ? '<span class="bot-badge">BOT ' + member.id.substring(3) + '</span>' : ''}
+                                    ${member.isBot ? `<span class="bot-badge">BOT <span class="bot-number">${member.botNumber}</span></span>` : ''}
                                 </h4>
                                 <p>${member.specialty || 'Matemática Geral'}</p>
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
@@ -2425,13 +2566,13 @@ Dica: Considere a construção do completamento livre.`,
                                     <i class="fas fa-times"></i> Recusar
                                 </button>
                             </div>
-                            ` : !member.isBot ? `
-                            <button class="btn btn-small btn-primary send-request-btn" data-member-id="${member.id}" style="width: 100%;">
-                                <i class="fas fa-user-plus"></i> Enviar Solicitação
+                            ` : member.isBot ? `
+                            <button class="btn btn-small btn-primary add-friend-btn" data-member-id="${member.id}" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Adicionar BOT ${member.botNumber}
                             </button>
                             ` : `
-                            <button class="btn btn-small btn-secondary add-friend-btn" data-member-id="${member.id}" style="width: 100%;">
-                                <i class="fas fa-user-plus"></i> Adicionar BOT
+                            <button class="btn btn-small btn-primary send-request-btn" data-member-id="${member.id}" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Enviar Solicitação
                             </button>
                             `}
                         </div>
@@ -2442,7 +2583,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Adicionar event listeners
                 setTimeout(() => {
-                    // Botões de enviar solicitação
+                    // Botões de enviar solicitação para humanos
                     document.querySelectorAll('.send-request-btn').forEach(btn => {
                         btn.addEventListener('click', (e) => {
                             const memberId = e.currentTarget.dataset.memberId;
@@ -2514,7 +2655,7 @@ Dica: Considere a construção do completamento livre.`,
                                 <h4>${member.codename || member.username}</h4>
                                 <p>${member.specialty || 'Matemática Geral'}</p>
                                 <p style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">
-                                    ${request.message || 'Sem mensagem'}
+                                    <i>"${request.message || 'Sem mensagem'}"</i>
                                 </p>
                             </div>
                         </div>
@@ -2549,12 +2690,6 @@ Dica: Considere a construção do completamento livre.`,
                 }, 100);
             },
             
-            // Obter solicitações pendentes
-            getPendingFriendRequests() {
-                if (!this.currentUser || !this.friendRequests[this.currentUser.id]) return [];
-                return this.friendRequests[this.currentUser.id].filter(r => r.status === 'pending');
-            },
-            
             // Atualizar lista de teorias
             updateTheoriesList() {
                 const theoriesList = document.getElementById('theoriesList');
@@ -2562,9 +2697,9 @@ Dica: Considere a construção do completamento livre.`,
                 const pendingTheoriesBadge = document.getElementById('pendingTheoriesBadge');
                 
                 // Atualizar badge de teorias pendentes (apenas para Núcleo)
-                if (pendingTheoriesBadge && this.currentUser && this.currentUser.level === 'core') {
+                if (pendingTheoriesBadge) {
                     const pendingCount = this.theories.filter(t => t.status === 'pending').length;
-                    if (pendingCount > 0) {
+                    if (pendingCount > 0 && this.currentUser && this.currentUser.level === 'core') {
                         pendingTheoriesBadge.textContent = pendingCount;
                         pendingTheoriesBadge.style.display = 'inline-block';
                     } else {
@@ -2613,9 +2748,9 @@ Dica: Considere a construção do completamento livre.`,
                                 
                                 <div style="display: flex; align-items: center; margin-bottom: 15px;">
                                     <span class="theory-status status-${theory.status}">
-                                        ${theory.status === 'pending' ? '⏳ Aguardando Aprovação' : 
+                                        ${theory.status === 'pending' ? '⏳ Aguardando Aprovação do Núcleo' : 
                                           theory.status === 'approved' ? '✅ Aprovada pelo Núcleo' : 
-                                          '❌ Rejeitada'}
+                                          '❌ Rejeitada pelo Núcleo'}
                                     </span>
                                     ${theory.approvedBy ? `
                                     <span style="margin-left: 10px; font-size: 12px; color: var(--text-secondary);">
@@ -2630,7 +2765,7 @@ Dica: Considere a construção do completamento livre.`,
                                     </div>
                                     <div class="author-info">
                                         <h4>${author ? author.codename || author.username : 'Autor Desconhecido'}
-                                            ${author?.isBot ? '<span class="bot-badge">BOT ' + author.id.substring(3) + '</span>' : ''}
+                                            ${author?.isBot ? `<span class="bot-badge">BOT <span class="bot-number">${author.botNumber}</span></span>` : ''}
                                         </h4>
                                         <p>${this.getCategoryName(theory.category)} • ${this.getLevelName(author ? author.level : 'observer')}</p>
                                     </div>
@@ -2834,7 +2969,7 @@ Dica: Considere a construção do completamento livre.`,
                         });
                     });
                     
-                    // Renderizar LaTeX após atualizar as teorias
+                    // Renderizar LaTeX
                     if (window.MathJax) {
                         window.MathJax.typeset();
                     }
@@ -2862,7 +2997,7 @@ Dica: Considere a construção do completamento livre.`,
                     
                     this.groups.forEach(group => {
                         const creator = this.allMembers.find(m => m.id === group.creatorId);
-                        const isMember = group.members && group.members.includes(this.currentUser.id);
+                        const isMember = this.currentUser && group.members && group.members.includes(this.currentUser.id);
                         const canJoin = this.canUserJoinGroup(group);
                         const groupMessages = this.groupMessages[group.id] || [];
                         
@@ -2892,6 +3027,7 @@ Dica: Considere a construção do completamento livre.`,
                                 <div>
                                     <span style="font-size: 12px; color: var(--text-secondary);">
                                         <i class="fas fa-user"></i> ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                        ${creator?.isBot ? `<span class="bot-badge" style="margin-left: 5px;">BOT ${creator.botNumber}</span>` : ''}
                                     </span>
                                     <br>
                                     <span style="font-size: 12px; color: var(--text-secondary);">
@@ -2997,10 +3133,11 @@ Dica: Considere a construção do completamento livre.`,
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                                     <div>
                                         <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px;">
-                                            <div class="author-avatar ${creator ? creator.level : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
+                                            <div class="author-avatar ${creator ? creator.level : ''} ${creator?.isBot ? 'bot' : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
                                                 ${avatarStyle ? '' : (creator ? creator.avatar : 'AR')}
                                             </div>
                                             ${creator ? creator.codename || creator.username : 'Desconhecido'}
+                                            ${creator?.isBot ? `<span class="bot-badge" style="font-size: 8px;">BOT ${creator.botNumber}</span>` : ''}
                                         </div>
                                         <div style="font-size: 12px; color: var(--accent-neon); margin-top: 3px;">
                                             <i class="fas fa-trophy"></i> ${challenge.points} pontos
@@ -3268,7 +3405,7 @@ Dica: Considere a construção do completamento livre.`,
                     this.allMembers.push(user);
                     this.currentUser = user;
                     
-                    // Adicionar automaticamente alguns BOTS como amigos
+                    // BOTs automaticamente adicionam novos usuários
                     const botIds = ['bot001', 'bot002', 'bot003'];
                     botIds.forEach(botId => {
                         if (!user.friends.includes(botId)) {
@@ -3354,7 +3491,7 @@ Dica: Considere a construção do completamento livre.`,
                 
                 this.currentUser.friends.push(memberId);
                 
-                // Adicionar ao amigo também (se for BOT)
+                // Adicionar ao amigo também
                 const member = this.allMembers.find(m => m.id === memberId);
                 if (member && !member.friends.includes(this.currentUser.id)) {
                     if (!member.friends) member.friends = [];
@@ -3375,7 +3512,7 @@ Dica: Considere a construção do completamento livre.`,
                 this.showNotification(`${member.codename || member.username} adicionado aos seus contactos. +10 pontos`);
             },
             
-            // Enviar solicitação de amizade
+            // Enviar solicitação de amizade para humanos
             sendFriendRequest(memberId, message) {
                 if (!this.currentUser || this.currentUser.isBot) return;
                 
@@ -3588,53 +3725,11 @@ Dica: Considere a construção do completamento livre.`,
                 this.showNotification(`Solicitação de ${member.codename || member.username} recusada.`);
             },
             
-            // Enviar mensagem
-            sendMessage(friendId, messageText) {
-                if (!this.currentUser || !messageText.trim()) return;
-                
-                // Criar ID da conversa (ordem alfabética dos IDs para garantir unicidade)
-                const conversationId = [this.currentUser.id, friendId].sort().join('_');
-                
-                // Inicializar array de mensagens se não existir
-                if (!this.privateMessages[conversationId]) {
-                    this.privateMessages[conversationId] = [];
-                }
-                
-                // Criar mensagem
-                const message = {
-                    id: Date.now().toString(),
-                    senderId: this.currentUser.id,
-                    receiverId: friendId,
-                    text: messageText,
-                    timestamp: new Date().toISOString(),
-                    read: false
-                };
-                
-                // Adicionar à conversa
-                this.privateMessages[conversationId].push(message);
-                
-                // Salvar estado
-                this.saveState();
-                
-                // Atualizar interface do chat
-                this.updateChatMessages(friendId);
-                
-                // Rolagem para a última mensagem
-                setTimeout(() => {
-                    const chatMessages = document.getElementById('chatMessages');
-                    if (chatMessages) {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-                }, 100);
-                
-                return message;
-            },
-            
             // Salvar teoria (aguardando aprovação do Núcleo)
             saveTheory(title, content, category) {
                 if (!this.currentUser || !title.trim() || !content.trim()) return;
                 
-                // Verificar permissão
+                // Verificar permissão - agora apenas Iniciados+ podem enviar teorias
                 if (this.currentUser.level === 'observer') {
                     this.showNotification('Apenas Iniciados ou superiores podem enviar teorias para aprovação.');
                     return;
@@ -3796,7 +3891,7 @@ Dica: Considere a construção do completamento livre.`,
             addComment(theoryId, content) {
                 if (!this.currentUser || !content.trim()) return;
                 
-                // Verificar permissão
+                // Verificar permissão - agora apenas Iniciados+ podem comentar
                 if (this.currentUser.level === 'observer') {
                     this.showNotification('Apenas Iniciados ou superiores podem responder a teorias.');
                     return;
@@ -3847,7 +3942,7 @@ Dica: Considere a construção do completamento livre.`,
             createGroup(name, description, tags, privacy) {
                 if (!this.currentUser || !name.trim() || !description.trim()) return;
                 
-                // Verificar permissão
+                // Verificar permissão - agora apenas Iniciados+ podem criar grupos
                 if (this.currentUser.level === 'observer') {
                     this.showNotification('Apenas Iniciados ou superiores podem criar grupos.');
                     return;
@@ -4032,11 +4127,11 @@ Dica: Considere a construção do completamento livre.`,
                         messageDiv.innerHTML = `
                             <div class="group-message-author">
                                 <div style="display: flex; align-items: center; gap: 5px;">
-                                    <div class="comment-author-avatar ${author ? author.level : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
+                                    <div class="comment-author-avatar ${author ? author.level : ''} ${author?.isBot ? 'bot' : ''}" style="width: 20px; height: 20px; font-size: 10px; ${avatarStyle}">
                                         ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
                                     </div>
                                     ${author ? author.codename || author.username : 'Anônimo'}
-                                    ${author?.isBot ? '<span class="bot-badge" style="font-size: 8px;">BOT</span>' : ''}
+                                    ${author?.isBot ? `<span class="bot-badge" style="font-size: 8px;">BOT ${author.botNumber}</span>` : ''}
                                 </div>
                             </div>
                             <div>${this.formatMessageText(msg.content)}</div>
@@ -4057,7 +4152,7 @@ Dica: Considere a construção do completamento livre.`,
             createChallenge(title, description, difficulty, deadlineDays) {
                 if (!this.currentUser || !title.trim() || !description.trim()) return;
                 
-                // Verificar permissão
+                // Verificar permissão - agora apenas Iniciados+ podem criar desafios
                 if (this.currentUser.level === 'observer') {
                     this.showNotification('Apenas Iniciados ou superiores podem criar desafios.');
                     return;
@@ -4106,7 +4201,7 @@ Dica: Considere a construção do completamento livre.`,
             submitSolution(challengeId, content) {
                 if (!this.currentUser || !content.trim()) return;
                 
-                // Verificar permissão
+                // Verificar permissão - agora apenas Iniciados+ podem resolver desafios
                 if (this.currentUser.level === 'observer') {
                     this.showNotification('Apenas Iniciados ou superiores podem resolver desafios.');
                     return;
@@ -4204,7 +4299,7 @@ Dica: Considere a construção do completamento livre.`,
                             <i class="fas fa-arrow-left"></i>
                         </button>
                         <div class="chat-friend-info">
-                            <h4>${friend.codename || friend.username} ${friend.isBot ? '<span class="bot-badge">BOT</span>' : ''}</h4>
+                            <h4>${friend.codename || friend.username} ${friend.isBot ? `<span class="bot-badge">BOT ${friend.botNumber}</span>` : ''}</h4>
                             <p>${friend.specialty || 'Matemática Geral'} • ${this.getLevelName(friend.level)}</p>
                         </div>
                     </div>
@@ -4248,295 +4343,6 @@ Dica: Considere a construção do completamento livre.`,
                 this.updateChatMessages(friend.id);
             },
             
-            // Atualizar mensagens do chat privado
-            updateChatMessages(friendId) {
-                const chatMessages = document.getElementById('chatMessages');
-                if (!chatMessages) return;
-                
-                // Criar ID da conversa
-                const conversationId = [this.currentUser.id, friendId].sort().join('_');
-                const messages = this.privateMessages[conversationId] || [];
-                
-                chatMessages.innerHTML = '';
-                
-                if (messages.length === 0) {
-                    chatMessages.innerHTML = `
-                        <div style="text-align: center; color: var(--text-secondary); padding: 40px;">
-                            <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 15px;"></i>
-                            <p>Nenhuma mensagem ainda. Inicie a conversa!</p>
-                        </div>
-                    `;
-                } else {
-                    messages.forEach(msg => {
-                        const isSent = msg.senderId === this.currentUser.id;
-                        const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-                        messageDiv.innerHTML = `
-                            <div>${this.formatMessageText(msg.text)}</div>
-                            <div class="message-time">${time}</div>
-                        `;
-                        
-                        chatMessages.appendChild(messageDiv);
-                    });
-                    
-                    // Rolagem para a última mensagem
-                    setTimeout(() => {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 100);
-                }
-                
-                // Renderizar LaTeX nas mensagens
-                setTimeout(() => {
-                    if (window.MathJax) {
-                        window.MathJax.typeset([chatMessages]);
-                    }
-                }, 100);
-            },
-            
-            // Abrir modal de comentário
-            openCommentModal(theoryId) {
-                document.getElementById('commentTheoryId').value = theoryId;
-                document.getElementById('commentModal').classList.add('active');
-                document.getElementById('commentContent').focus();
-            },
-            
-            // Abrir modal de solução
-            openSolutionModal(challengeId) {
-                document.getElementById('solutionChallengeId').value = challengeId;
-                document.getElementById('solutionModal').classList.add('active');
-                document.getElementById('solutionContent').focus();
-            },
-            
-            // Abrir modal de solicitação de amizade
-            openFriendRequestModal(memberId) {
-                const member = this.allMembers.find(m => m.id === memberId);
-                if (!member) return;
-                
-                document.getElementById('requestMemberId').value = memberId;
-                
-                let avatarStyle = '';
-                if (member.avatar && member.avatar.startsWith('http')) {
-                    avatarStyle = `background-image: url('${member.avatar}')`;
-                }
-                
-                const avatarEl = document.getElementById('requestMemberAvatar');
-                if (avatarEl) {
-                    avatarEl.style.backgroundImage = avatarStyle ? `url('${member.avatar}')` : '';
-                    avatarEl.innerHTML = avatarStyle ? '' : (member.avatar || 'AR');
-                    avatarEl.className = `avatar ${member.level}`;
-                }
-                
-                document.getElementById('requestMemberName').textContent = member.codename || member.username;
-                document.getElementById('requestMemberSpecialty').textContent = member.specialty || 'Matemática Geral';
-                
-                document.getElementById('friendRequestModal').classList.add('active');
-                document.getElementById('requestMessage').focus();
-            },
-            
-            // Mostrar todos os comentários
-            showAllComments(theoryId) {
-                const theory = this.theories.find(t => t.id === theoryId);
-                const comments = this.comments[theoryId] || [];
-                
-                let commentsHTML = '';
-                comments.forEach(comment => {
-                    const author = this.allMembers.find(m => m.id === comment.authorId);
-                    
-                    let avatarStyle = '';
-                    if (author && author.avatar && author.avatar.startsWith('http')) {
-                        avatarStyle = `background-image: url('${author.avatar}')`;
-                    }
-                    
-                    commentsHTML += `
-                        <div class="comment">
-                            <div class="comment-header">
-                                <div class="comment-author">
-                                    <div class="comment-author-avatar ${author ? author.level : ''} ${author?.isBot ? 'bot' : ''}" style="${avatarStyle}">
-                                        ${avatarStyle ? '' : (author ? author.avatar : 'AR')}
-                                    </div>
-                                    <div>
-                                        <strong>${author ? author.codename || author.username : 'Anônimo'}</strong>
-                                        <div class="comment-date">${this.formatDate(comment.date)}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-content">
-                                ${this.formatTheoryContent(comment.content)}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                // Criar modal temporário
-                const modal = document.createElement('div');
-                modal.className = 'modal active';
-                modal.innerHTML = `
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title">Respostas à Teoria: ${theory ? theory.title : ''}</h2>
-                            <button class="close-btn" id="closeTempModal">&times;</button>
-                        </div>
-                        <div class="comments-list" style="max-height: 400px; overflow-y: auto;">
-                            ${commentsHTML}
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-secondary" id="closeTempBtn">Fechar</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-                // Event listeners
-                document.getElementById('closeTempModal').addEventListener('click', () => {
-                    modal.remove();
-                });
-                
-                document.getElementById('closeTempBtn').addEventListener('click', () => {
-                    modal.remove();
-                });
-                
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.remove();
-                    }
-                });
-                
-                // Renderizar LaTeX
-                setTimeout(() => {
-                    if (window.MathJax) {
-                        window.MathJax.typeset([modal]);
-                    }
-                }, 100);
-            },
-            
-            // Mostrar detalhes do desafio
-            showChallengeDetails(challengeId) {
-                const challenge = this.challenges.find(c => c.id === challengeId);
-                const creator = challenge ? this.allMembers.find(m => m.id === challenge.creatorId) : null;
-                const solutions = challenge ? this.solutions[challengeId] || [] : [];
-                
-                if (!challenge) return;
-                
-                let avatarStyle = '';
-                if (creator && creator.avatar && creator.avatar.startsWith('http')) {
-                    avatarStyle = `background-image: url('${creator.avatar}')`;
-                }
-                
-                // Criar modal temporário
-                const modal = document.createElement('div');
-                modal.className = 'modal active';
-                modal.innerHTML = `
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title">${challenge.title}</h2>
-                            <button class="close-btn" id="closeChallengeDetails">&times;</button>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <span class="challenge-difficulty difficulty-${challenge.difficulty}">
-                                ${this.getDifficultyName(challenge.difficulty)}
-                            </span>
-                            <span style="margin-left: 10px; color: var(--accent-neon);">
-                                <i class="fas fa-trophy"></i> ${challenge.points} pontos
-                            </span>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <div style="color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                                <div class="author-avatar ${creator ? creator.level : ''}" style="width: 30px; height: 30px; font-size: 12px; ${avatarStyle}">
-                                    ${avatarStyle ? '' : (creator ? creator.avatar : 'AR')}
-                                </div>
-                                Criado por: ${creator ? creator.codename || creator.username : 'Desconhecido'}
-                            </div>
-                            <div style="color: var(--text-secondary);">
-                                <i class="fas fa-clock"></i> Prazo: ${this.formatDate(challenge.deadline)}
-                                ${this.isDeadlineNear(challenge.deadline) ? 
-                                    '<span style="color: var(--warning); margin-left: 10px;">(PRAZO PRÓXIMO!)</span>' : ''}
-                            </div>
-                        </div>
-                        
-                        <div class="theory-content" style="margin-bottom: 25px;">
-                            ${this.formatTheoryContent(challenge.description)}
-                        </div>
-                        
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: var(--accent-neon); margin-bottom: 15px;">Soluções (${solutions.length})</h3>
-                            ${solutions.length === 0 ? 
-                                '<p style="color: var(--text-secondary); text-align: center;">Nenhuma solução enviada ainda.</p>' :
-                                solutions.map(sol => {
-                                    const solAuthor = this.allMembers.find(m => m.id === sol.authorId);
-                                    let solAvatarStyle = '';
-                                    if (solAuthor && solAuthor.avatar && solAuthor.avatar.startsWith('http')) {
-                                        solAvatarStyle = `background-image: url('${solAuthor.avatar}')`;
-                                    }
-                                    
-                                    return `
-                                        <div class="comment" style="margin-bottom: 15px;">
-                                            <div class="comment-header">
-                                                <div class="comment-author">
-                                                    <div class="comment-author-avatar ${solAuthor ? solAuthor.level : ''}" style="${solAvatarStyle}">
-                                                        ${solAvatarStyle ? '' : (solAuthor ? solAuthor.avatar : 'AR')}
-                                                    </div>
-                                                    <div>
-                                                        <strong>${solAuthor ? solAuthor.codename || solAuthor.username : 'Anônimo'}</strong>
-                                                        <div class="comment-date">${this.formatDate(sol.date)} • Status: ${sol.status === 'approved' ? '✅ Aprovada' : '⏳ Pendente'}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="comment-content">
-                                                ${this.formatTheoryContent(sol.content)}
-                                            </div>
-                                        </div>
-                                    `;
-                                }).join('')
-                            }
-                        </div>
-                        
-                        <div class="form-actions">
-                            ${this.currentUser && this.currentUser.level !== 'observer' && 
-                              !solutions.some(s => s.authorId === this.currentUser.id) ? 
-                            `<button class="btn btn-warning" id="solveFromModal" data-challenge-id="${challengeId}">
-                                <i class="fas fa-paper-plane"></i> Enviar Minha Solução
-                            </button>` : ''}
-                            <button class="btn btn-secondary" id="closeDetailsBtn">Fechar</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-                // Event listeners
-                const closeModal = () => modal.remove();
-                
-                document.getElementById('closeChallengeDetails').addEventListener('click', closeModal);
-                document.getElementById('closeDetailsBtn').addEventListener('click', closeModal);
-                
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        closeModal();
-                    }
-                });
-                
-                // Botão de resolver do modal
-                const solveBtn = document.getElementById('solveFromModal');
-                if (solveBtn) {
-                    solveBtn.addEventListener('click', () => {
-                        closeModal();
-                        this.openSolutionModal(challengeId);
-                    });
-                }
-                
-                // Renderizar LaTeX
-                setTimeout(() => {
-                    if (window.MathJax) {
-                        window.MathJax.typeset([modal]);
-                    }
-                }, 100);
-            },
-            
             // Adicionar pontos ao usuário
             addPoints(points, reason) {
                 if (!this.currentUser) return;
@@ -4552,8 +4358,6 @@ Dica: Considere a construção do completamento livre.`,
                 // Atualizar interface
                 this.updateUserProfile();
                 this.updateHierarchyInfo();
-                
-                console.log(`+${points} pontos para ${this.currentUser.codename}: ${reason}`);
             },
             
             // Verificar promoção automática do usuário atual
@@ -4563,7 +4367,7 @@ Dica: Considere a construção do completamento livre.`,
                 const currentPoints = this.currentUser.points || 0;
                 const currentLevel = this.currentUser.level;
                 
-                // Pontos necessários para cada nível (ajustados)
+                // Pontos necessários para cada nível (sistema ajustado)
                 const pointsNeeded = {
                     'observer': 500,      // Para Iniciado
                     'initiate': 1500,     // Para Renovado  
@@ -4590,35 +4394,14 @@ Dica: Considere a construção do completamento livre.`,
                 }
             },
             
-            // Verificar promoção de outro membro
-            checkMemberPromotion(member) {
-                if (!member) return;
-                
-                const currentPoints = member.points || 0;
-                const currentLevel = member.level;
-                
-                // Pontos necessários para cada nível
-                const pointsNeeded = {
-                    'observer': 500,
-                    'initiate': 1500,
-                    'renovated': 15000,
-                    'core': Infinity
-                };
-                
-                // Promoção para Iniciado
-                if (currentLevel === 'observer' && currentPoints >= pointsNeeded.observer) {
-                    member.level = 'initiate';
-                }
-                
-                // Promoção para Renovado
-                if (currentLevel === 'initiate' && currentPoints >= pointsNeeded.initiate) {
-                    member.level = 'renovated';
-                }
-                
-                // Promoção para Núcleo (apenas por pontos)
-                if (currentLevel === 'renovated' && currentPoints >= pointsNeeded.renovated) {
-                    member.level = 'core';
-                }
+            // ============================================
+            // FUNÇÕES DE UTILITÁRIOS
+            // ============================================
+            
+            // Obter solicitações pendentes
+            getPendingFriendRequests() {
+                if (!this.currentUser || !this.friendRequests[this.currentUser.id]) return [];
+                return this.friendRequests[this.currentUser.id].filter(r => r.status === 'pending');
             },
             
             // Verificar se usuário pode entrar no grupo
@@ -4639,19 +4422,34 @@ Dica: Considere a construção do completamento livre.`,
                 
                 // Grupos privados precisam de convite
                 if (group.privacy === 'private') {
-                    return false; // Por enquanto, sem sistema de convites
+                    return false;
                 }
                 
                 return true;
             },
             
-            // ============================================
-            // FUNÇÕES DE FORMATAÇÃO E UTILITÁRIOS
-            // ============================================
+            // Mostrar notificação
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-info-circle" style="color: var(--accent-neon); margin-right: 10px;"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 3000);
+            },
             
-            // Formatar conteúdo (converter LaTeX)
+            // Formatar conteúdo
             formatTheoryContent(content) {
-                // Converter quebras de linha para <p>
                 let formatted = content.split('\n\n').map(paragraph => {
                     if (paragraph.trim() === '') return '';
                     return `<p>${paragraph}</p>`;
@@ -4660,12 +4458,10 @@ Dica: Considere a construção do completamento livre.`,
                 return formatted;
             },
             
-            // Formatar texto da mensagem (suporte a LaTeX)
+            // Formatar texto da mensagem
             formatMessageText(text) {
-                // Converter LaTeX inline
                 let formatted = text.replace(/\$\$(.*?)\$\$/g, '\\[$1\\]');
                 formatted = formatted.replace(/\$(.*?)\$/g, '\\($1\\)');
-                
                 return formatted;
             },
             
@@ -4749,74 +4545,19 @@ Dica: Considere a construção do completamento livre.`,
                 return diffDays <= 3 && diffDays >= 0;
             },
             
-            // Mostrar notificação
-            showNotification(message) {
-                // Criar elemento de notificação
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background-color: var(--card-bg);
-                    color: var(--text-primary);
-                    padding: 15px 25px;
-                    border-radius: 8px;
-                    border-left: 4px solid var(--accent-neon);
-                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-                    z-index: 10000;
-                    max-width: 300px;
-                    animation: slideIn 0.3s, fadeOut 0.3s 2.7s;
-                `;
-                
-                notification.innerHTML = `
-                    <div style="display: flex; align-items: center;">
-                        <i class="fas fa-info-circle" style="color: var(--accent-neon); margin-right: 10px;"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-                
-                document.body.appendChild(notification);
-                
-                // Remover após 3 segundos
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 3000);
-                
-                // Adicionar estilos de animação
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes fadeOut {
-                        from { opacity: 1; }
-                        to { opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            },
-            
             // Fazer logout
             logout() {
                 if (this.currentUser) {
-                    // Marcar como offline
                     const user = this.allMembers.find(m => m.id === this.currentUser.id);
                     if (user) user.online = false;
                     
                     this.currentUser = null;
                     this.saveState();
                     
-                    // Esconder aplicação principal
                     document.getElementById('mainApp').style.display = 'none';
-                    
-                    // Mostrar modal de login
                     document.getElementById('loginModal').classList.add('active');
                     document.getElementById('loginForm').reset();
                     
-                    // Resetar avatar de login
                     const avatarPreviewLogin = document.getElementById('avatarPreviewLogin');
                     if (avatarPreviewLogin) {
                         avatarPreviewLogin.style.backgroundImage = 'url(\'https://api.dicebear.com/7.x/identicon/svg?seed=AlgebraRenova\')';
@@ -4828,15 +4569,10 @@ Dica: Considere a construção do completamento livre.`,
         };
 
         // ============================================
-        // INICIALIZAÇÃO DA APLICAÇÃO
+        // INICIALIZAÇÃO E EVENT LISTENERS
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar estado da aplicação
             AppState.init();
-            
-            // ============================================
-            // EVENT LISTENERS
-            // ============================================
             
             // Login
             document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -4860,273 +4596,211 @@ Dica: Considere a construção do completamento livre.`,
             });
             
             // Botões de nova teoria
-            document.getElementById('newTheoryBtn').addEventListener('click', openTheoryModal);
-            document.getElementById('newTheoryBtn2').addEventListener('click', openTheoryModal);
+            document.getElementById('newTheoryBtn').addEventListener('click', () => openModal('theoryModal'));
+            document.getElementById('newTheoryBtn2').addEventListener('click', () => openModal('theoryModal'));
             
             // Botões de novo grupo
-            document.getElementById('newGroupBtn').addEventListener('click', openGroupModal);
+            document.getElementById('newGroupBtn').addEventListener('click', () => openModal('groupModal'));
             
             // Botões de novo desafio
-            document.getElementById('newChallengeBtn').addEventListener('click', openChallengeModal);
-            document.getElementById('newChallengeBtn2').addEventListener('click', openChallengeModal);
+            document.getElementById('newChallengeBtn').addEventListener('click', () => openModal('challengeModal'));
+            document.getElementById('newChallengeBtn2').addEventListener('click', () => openModal('challengeModal'));
             
-            // Botão gerenciar solicitações
-            document.getElementById('manageRequestsBtn')?.addEventListener('click', function() {
-                AppState.switchTab('members');
-            });
+            // Formulários
+            document.getElementById('theoryForm').addEventListener('submit', handleTheorySubmit);
+            document.getElementById('groupForm').addEventListener('submit', handleGroupSubmit);
+            document.getElementById('challengeForm').addEventListener('submit', handleChallengeSubmit);
+            document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+            document.getElementById('solutionForm').addEventListener('submit', handleSolutionSubmit);
+            document.getElementById('friendRequestForm').addEventListener('submit', handleFriendRequestSubmit);
+            document.getElementById('profileForm').addEventListener('submit', handleProfileSubmit);
             
-            // Modal de teoria
-            document.getElementById('closeTheoryModal').addEventListener('click', closeTheoryModal);
-            document.getElementById('cancelTheoryBtn').addEventListener('click', closeTheoryModal);
+            // Botões de logout
+            document.getElementById('logoutBtn').addEventListener('click', () => AppState.logout());
             
-            // Formulário de teoria
-            document.getElementById('theoryForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const title = document.getElementById('theoryTitle').value.trim();
-                const content = document.getElementById('theoryContent').value.trim();
-                const category = document.getElementById('theoryCategory').value;
-                
-                if (title && content) {
-                    AppState.saveTheory(title, content, category);
-                    closeTheoryModal();
-                    AppState.switchTab('theories');
-                }
-            });
-            
-            // Modal de grupo
-            document.getElementById('closeGroupModal').addEventListener('click', closeGroupModal);
-            document.getElementById('cancelGroupBtn').addEventListener('click', closeGroupModal);
-            
-            // Formulário de grupo
-            document.getElementById('groupForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('groupName').value.trim();
-                const description = document.getElementById('groupDescription').value.trim();
-                const tags = document.getElementById('groupTags').value.trim();
-                const privacy = document.getElementById('groupPrivacy').value;
-                
-                if (name && description) {
-                    AppState.createGroup(name, description, tags, privacy);
-                    closeGroupModal();
-                    AppState.switchTab('groups');
-                }
-            });
-            
-            // Modal de desafio
-            document.getElementById('closeChallengeModal').addEventListener('click', closeChallengeModal);
-            document.getElementById('cancelChallengeBtn').addEventListener('click', closeChallengeModal);
-            
-            // Formulário de desafio
-            document.getElementById('challengeForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const title = document.getElementById('challengeTitle').value.trim();
-                const description = document.getElementById('challengeDescription').value.trim();
-                const difficulty = document.getElementById('challengeDifficulty').value;
-                const deadline = document.getElementById('challengeDeadline').value;
-                
-                if (title && description) {
-                    AppState.createChallenge(title, description, difficulty, deadline);
-                    closeChallengeModal();
-                    AppState.switchTab('challenges');
-                }
-            });
-            
-            // Modal de comentário
-            document.getElementById('closeCommentModal').addEventListener('click', closeCommentModal);
-            document.getElementById('cancelCommentBtn').addEventListener('click', closeCommentModal);
-            
-            // Formulário de comentário
-            document.getElementById('commentForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const theoryId = document.getElementById('commentTheoryId').value;
-                const content = document.getElementById('commentContent').value.trim();
-                
-                if (content) {
-                    AppState.addComment(theoryId, content);
-                    closeCommentModal();
-                }
-            });
-            
-            // Modal de solução
-            document.getElementById('closeSolutionModal').addEventListener('click', closeSolutionModal);
-            document.getElementById('cancelSolutionBtn').addEventListener('click', closeSolutionModal);
-            
-            // Formulário de solução
-            document.getElementById('solutionForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const challengeId = document.getElementById('solutionChallengeId').value;
-                const content = document.getElementById('solutionContent').value.trim();
-                
-                if (content) {
-                    AppState.submitSolution(challengeId, content);
-                    closeSolutionModal();
-                }
-            });
-            
-            // Modal de chat do grupo
-            document.getElementById('closeGroupChatModal').addEventListener('click', closeGroupChatModal);
-            document.getElementById('groupChatBackBtn').addEventListener('click', closeGroupChatModal);
-            
-            // Modal de solicitação de amizade
-            document.getElementById('closeFriendRequestModal').addEventListener('click', closeFriendRequestModal);
-            document.getElementById('cancelFriendRequestBtn').addEventListener('click', closeFriendRequestModal);
-            
-            // Formulário de solicitação de amizade
-            document.getElementById('friendRequestForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const memberId = document.getElementById('requestMemberId').value;
-                const message = document.getElementById('requestMessage').value.trim();
-                
-                AppState.sendFriendRequest(memberId, message);
-                closeFriendRequestModal();
-            });
+            // Fechar modais
+            setupModalClosers();
             
             // Pré-visualização LaTeX
-            document.getElementById('theoryContent').addEventListener('input', function() {
-                const preview = document.getElementById('latexPreview');
-                const content = this.value;
-                
-                // Extrair fórmulas LaTeX
-                const latexMatches = content.match(/\$\$.*?\$\$/g) || [];
-                
-                if (latexMatches.length > 0) {
-                    let previewHTML = '';
-                    latexMatches.forEach((formula, index) => {
-                        previewHTML += `<div style="margin-bottom: 10px;">Fórmula ${index + 1}: ${formula}</div>`;
-                    });
-                    
-                    preview.innerHTML = previewHTML;
-                    
-                    // Tentar renderizar o LaTeX
-                    setTimeout(() => {
-                        if (window.MathJax) {
-                            window.MathJax.typeset([preview]);
-                        }
-                    }, 100);
-                } else {
-                    preview.innerHTML = '<div style="color: var(--text-secondary);">Nenhuma fórmula LaTeX detectada. Use $$...$$ para fórmulas.</div>';
-                }
-            });
+            document.getElementById('theoryContent').addEventListener('input', updateLatexPreview);
+        });
+        
+        // Funções auxiliares para modais
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            const firstInput = document.querySelector(`#${modalId} input, #${modalId} textarea`);
+            if (firstInput) firstInput.focus();
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            const form = document.querySelector(`#${modalId} form`);
+            if (form) form.reset();
+        }
+        
+        function setupModalClosers() {
+            // Teoria
+            document.getElementById('closeTheoryModal').addEventListener('click', () => closeModal('theoryModal'));
+            document.getElementById('cancelTheoryBtn').addEventListener('click', () => closeModal('theoryModal'));
             
-            // Formulário de perfil
-            document.getElementById('profileForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const codename = document.getElementById('codename').value.trim();
-                const specialty = document.getElementById('specialty').value.trim();
-                const bio = document.getElementById('bio').value.trim();
-                
-                if (codename && specialty) {
-                    AppState.updateProfile(codename, specialty, bio);
-                    AppState.switchTab('home');
-                }
-            });
+            // Grupo
+            document.getElementById('closeGroupModal').addEventListener('click', () => closeModal('groupModal'));
+            document.getElementById('cancelGroupBtn').addEventListener('click', () => closeModal('groupModal'));
             
-            // Botão de logout
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                AppState.logout();
-            });
+            // Desafio
+            document.getElementById('closeChallengeModal').addEventListener('click', () => closeModal('challengeModal'));
+            document.getElementById('cancelChallengeBtn').addEventListener('click', () => closeModal('challengeModal'));
             
-            // ============================================
-            // FUNÇÕES AUXILIARES DA INTERFACE
-            // ============================================
+            // Comentário
+            document.getElementById('closeCommentModal').addEventListener('click', () => closeModal('commentModal'));
+            document.getElementById('cancelCommentBtn').addEventListener('click', () => closeModal('commentModal'));
             
-            function openTheoryModal() {
-                document.getElementById('theoryModal').classList.add('active');
-                document.getElementById('theoryTitle').focus();
-            }
+            // Solução
+            document.getElementById('closeSolutionModal').addEventListener('click', () => closeModal('solutionModal'));
+            document.getElementById('cancelSolutionBtn').addEventListener('click', () => closeModal('solutionModal'));
             
-            function closeTheoryModal() {
-                document.getElementById('theoryModal').classList.remove('active');
-                document.getElementById('theoryForm').reset();
-                document.getElementById('latexPreview').innerHTML = '';
-            }
+            // Chat do grupo
+            document.getElementById('closeGroupChatModal').addEventListener('click', () => closeModal('groupChatModal'));
+            document.getElementById('groupChatBackBtn').addEventListener('click', () => closeModal('groupChatModal'));
             
-            function openGroupModal() {
-                document.getElementById('groupModal').classList.add('active');
-                document.getElementById('groupName').focus();
-            }
-            
-            function closeGroupModal() {
-                document.getElementById('groupModal').classList.remove('active');
-                document.getElementById('groupForm').reset();
-            }
-            
-            function openChallengeModal() {
-                document.getElementById('challengeModal').classList.add('active');
-                document.getElementById('challengeTitle').focus();
-            }
-            
-            function closeChallengeModal() {
-                document.getElementById('challengeModal').classList.remove('active');
-                document.getElementById('challengeForm').reset();
-            }
-            
-            function openCommentModal() {
-                document.getElementById('commentModal').classList.add('active');
-                document.getElementById('commentContent').focus();
-            }
-            
-            function closeCommentModal() {
-                document.getElementById('commentModal').classList.remove('active');
-                document.getElementById('commentForm').reset();
-            }
-            
-            function openSolutionModal() {
-                document.getElementById('solutionModal').classList.add('active');
-                document.getElementById('solutionContent').focus();
-            }
-            
-            function closeSolutionModal() {
-                document.getElementById('solutionModal').classList.remove('active');
-                document.getElementById('solutionForm').reset();
-            }
-            
-            function closeGroupChatModal() {
-                document.getElementById('groupChatModal').classList.remove('active');
-            }
-            
-            function openFriendRequestModal() {
-                document.getElementById('friendRequestModal').classList.add('active');
-            }
-            
-            function closeFriendRequestModal() {
-                document.getElementById('friendRequestModal').classList.remove('active');
-                document.getElementById('friendRequestForm').reset();
-            }
+            // Solicitação de amizade
+            document.getElementById('closeFriendRequestModal').addEventListener('click', () => closeModal('friendRequestModal'));
+            document.getElementById('cancelFriendRequestBtn').addEventListener('click', () => closeModal('friendRequestModal'));
             
             // Fechar modais ao clicar fora
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        if (this.id === 'loginModal') return; // Não fechar modal de login
+                    if (e.target === this && this.id !== 'loginModal') {
                         this.classList.remove('active');
                     }
                 });
             });
+        }
+        
+        // Handlers de formulários
+        function handleTheorySubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('theoryTitle').value.trim();
+            const content = document.getElementById('theoryContent').value.trim();
+            const category = document.getElementById('theoryCategory').value;
             
-            // Configurar MathJax
-            if (window.MathJax) {
-                window.MathJax = {
-                    tex: {
-                        inlineMath: [['$', '$'], ['\\(', '\\)']],
-                        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                        processEscapes: true
-                    },
-                    options: {
-                        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-                        ignoreHtmlClass: 'tex2jax_ignore',
-                        processHtmlClass: 'tex2jax_process'
-                    }
-                };
+            if (title && content) {
+                AppState.saveTheory(title, content, category);
+                closeModal('theoryModal');
+                AppState.switchTab('theories');
             }
-        });
+        }
+        
+        function handleGroupSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('groupName').value.trim();
+            const description = document.getElementById('groupDescription').value.trim();
+            const tags = document.getElementById('groupTags').value.trim();
+            const privacy = document.getElementById('groupPrivacy').value;
+            
+            if (name && description) {
+                AppState.createGroup(name, description, tags, privacy);
+                closeModal('groupModal');
+                AppState.switchTab('groups');
+            }
+        }
+        
+        function handleChallengeSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('challengeTitle').value.trim();
+            const description = document.getElementById('challengeDescription').value.trim();
+            const difficulty = document.getElementById('challengeDifficulty').value;
+            const deadline = document.getElementById('challengeDeadline').value;
+            
+            if (title && description) {
+                AppState.createChallenge(title, description, difficulty, deadline);
+                closeModal('challengeModal');
+                AppState.switchTab('challenges');
+            }
+        }
+        
+        function handleCommentSubmit(e) {
+            e.preventDefault();
+            const theoryId = document.getElementById('commentTheoryId').value;
+            const content = document.getElementById('commentContent').value.trim();
+            
+            if (content) {
+                AppState.addComment(theoryId, content);
+                closeModal('commentModal');
+            }
+        }
+        
+        function handleSolutionSubmit(e) {
+            e.preventDefault();
+            const challengeId = document.getElementById('solutionChallengeId').value;
+            const content = document.getElementById('solutionContent').value.trim();
+            
+            if (content) {
+                AppState.submitSolution(challengeId, content);
+                closeModal('solutionModal');
+            }
+        }
+        
+        function handleFriendRequestSubmit(e) {
+            e.preventDefault();
+            const memberId = document.getElementById('requestMemberId').value;
+            const message = document.getElementById('requestMessage').value.trim();
+            
+            AppState.sendFriendRequest(memberId, message);
+            closeModal('friendRequestModal');
+        }
+        
+        function handleProfileSubmit(e) {
+            e.preventDefault();
+            const codename = document.getElementById('codename').value.trim();
+            const specialty = document.getElementById('specialty').value.trim();
+            const bio = document.getElementById('bio').value.trim();
+            
+            if (codename && specialty) {
+                AppState.updateProfile(codename, specialty, bio);
+                AppState.switchTab('home');
+            }
+        }
+        
+        function updateLatexPreview() {
+            const preview = document.getElementById('latexPreview');
+            const content = document.getElementById('theoryContent').value;
+            
+            const latexMatches = content.match(/\$\$.*?\$\$/g) || [];
+            
+            if (latexMatches.length > 0) {
+                let previewHTML = '';
+                latexMatches.forEach((formula, index) => {
+                    previewHTML += `<div style="margin-bottom: 10px;">Fórmula ${index + 1}: ${formula}</div>`;
+                });
+                
+                preview.innerHTML = previewHTML;
+                
+                setTimeout(() => {
+                    if (window.MathJax) {
+                        window.MathJax.typeset([preview]);
+                    }
+                }, 100);
+            } else {
+                preview.innerHTML = '<div style="color: var(--text-secondary);">Nenhuma fórmula LaTeX detectada. Use $$...$$ para fórmulas.</div>';
+            }
+        }
+        
+        // Configurar MathJax
+        if (window.MathJax) {
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                    ignoreHtmlClass: 'tex2jax_ignore',
+                    processHtmlClass: 'tex2jax_process'
+                }
+            };
+        }
     </script>
 </body>
 </html>
