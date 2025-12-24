@@ -4,234 +4,202 @@
 <meta charset="UTF-8">
 <title>Algebra Renova - Plataforma Operacional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <style>
 /* ===============================
-   RESET + BASE CIENTÍFICO
+   RESET + BASE
 ================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Cambria', 'Georgia', serif;
+  font-family: "Times New Roman", serif;
 }
 
 body {
-  background: #0a0a12;
-  color: #e8e8f0;
+  background: radial-gradient(circle at top, #0b0b0b, #000);
+  color: #d6d6d6;
   min-height: 100vh;
   overflow-x: hidden;
-  font-size: 16px;
-  line-height: 1.6;
 }
 
 /* ===============================
-   TIPOGRAFIA CIENTÍFICA
+   ESTÉTICA GÓTICA / BRUTAL
 ================================ */
 h1, h2, h3, h4 {
+  letter-spacing: 1.5px;
   font-weight: normal;
-  letter-spacing: 0.5px;
 }
 
 h1 {
-  font-size: 2.2rem;
-  color: #4a9eff;
-  border-bottom: 2px solid #2a5caa;
+  font-size: 2.8rem;
+  color: #8b0000;
+  text-shadow: 0 0 15px #300;
+  border-bottom: 2px solid #400;
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
 
 h2 {
-  font-size: 1.6rem;
-  color: #4a9eff;
+  color: #8b0000;
+  font-size: 1.8rem;
   margin: 25px 0 15px 0;
+  border-left: 3px solid #400;
+  padding-left: 15px;
 }
 
 h3 {
-  font-size: 1.3rem;
-  color: #66b3ff;
+  color: #a52a2a;
+  font-size: 1.4rem;
   margin: 20px 0 10px 0;
 }
 
 /* ===============================
-   HIERARQUIA DE CARGOS
+   HIERARQUIA DE CARGO
 ================================ */
-.role-nucleo {
-  color: #ffd700;
+.rank-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
   font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.rank-nucleo {
+  background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
+  color: #000;
   border: 1px solid #ffd700;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: rgba(255, 215, 0, 0.1);
 }
 
-.role-iniciado {
-  color: #4a9eff;
-  font-weight: bold;
-  border: 1px solid #4a9eff;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: rgba(74, 158, 255, 0.1);
+.rank-iniciado {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: #fff;
+  border: 1px solid #3b82f6;
 }
 
-.role-observador {
-  color: #8a8aff;
-  font-weight: bold;
-  border: 1px solid #8a8aff;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: rgba(138, 138, 255, 0.1);
+.rank-observador {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  color: #d1d5db;
+  border: 1px solid #6b7280;
 }
 
 /* ===============================
    LAYOUT PRINCIPAL
 ================================ */
-#app {
+.container {
   display: grid;
   grid-template-columns: 280px 1fr 320px;
-  min-height: 100vh;
   gap: 0;
+  min-height: calc(100vh - 80px);
 }
 
 /* ===============================
    SIDEBAR ESQUERDA - PERFIL E NAVEGAÇÃO
 ================================ */
 #sidebar {
-  background: #151522;
-  border-right: 1px solid #2a2a3a;
+  background: rgba(15, 0, 0, 0.7);
+  border-right: 2px solid #400;
   padding: 25px 20px;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
+  overflow-y: auto;
 }
 
-.profile-card {
+.profile-section {
   text-align: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #2a2a3a;
+  padding: 20px 0;
+  border-bottom: 1px solid #300;
+  margin-bottom: 25px;
 }
 
-.profile-avatar {
+.avatar-container {
   width: 100px;
   height: 100px;
-  border-radius: 50%;
-  border: 3px solid #4a9eff;
   margin: 0 auto 15px;
+  border-radius: 50%;
   overflow: hidden;
-  background: #1a1a2a;
+  border: 2px solid #400;
+  background: #111;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  color: #4a9eff;
 }
 
-.profile-avatar img {
+.avatar-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-name {
-  font-size: 1.3rem;
-  margin-bottom: 5px;
-  color: #ffffff;
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 2rem;
 }
 
-.profile-role {
-  margin-bottom: 15px;
-}
-
-.profile-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.stat {
-  background: #1a1a2a;
-  padding: 10px;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #4a9eff;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  color: #8a8aff;
-}
-
-/* ===============================
-   NAVEGAÇÃO
-================================ */
 .nav-section {
   margin-bottom: 30px;
 }
 
-.nav-title {
-  color: #8a8aff;
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  margin: 8px 0;
+  background: transparent;
+  color: #b30000;
+  border: 1px solid #400;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 15px;
-  padding-left: 5px;
 }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 15px;
-  color: #c8c8e0;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  transition: all 0.2s;
-  border-left: 3px solid transparent;
+.nav-button:hover {
+  background: rgba(179, 0, 0, 0.1);
+  border-color: #b30000;
+  transform: translateX(5px);
 }
 
-.nav-item:hover {
-  background: #2a2a3a;
-  color: #ffffff;
-  border-left: 3px solid #4a9eff;
-}
-
-.nav-item.active {
-  background: #2a2a3a;
-  color: #4a9eff;
-  border-left: 3px solid #4a9eff;
-}
-
-.nav-icon {
-  margin-right: 12px;
-  font-size: 1.1rem;
-  width: 20px;
-  text-align: center;
+.nav-button.active {
+  background: rgba(179, 0, 0, 0.2);
+  border-color: #b30000;
+  color: #ff3333;
 }
 
 /* ===============================
-   CONTEÚDO PRINCIPAL
+   CONTEÚDO CENTRAL
 ================================ */
 #main-content {
-  padding: 30px 40px;
-  background: #0f0f18;
+  padding: 30px;
   overflow-y: auto;
-  max-height: 100vh;
+  background: rgba(10, 0, 0, 0.4);
 }
 
 .content-section {
   display: none;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.5s;
 }
 
 .content-section.active {
@@ -244,395 +212,242 @@ h3 {
 }
 
 /* ===============================
-   TEORIAS
+   PAINEL DIREITO - ATIVIDADES E CHAT
 ================================ */
-.theory-card {
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 25px;
-  position: relative;
+#right-panel {
+  background: rgba(20, 0, 0, 0.8);
+  border-left: 2px solid #400;
+  padding: 25px 20px;
+  overflow-y: auto;
 }
 
-.theory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #2a2a3a;
+.activity-log {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 30px;
 }
 
-.theory-author {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.author-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #2a2a3a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #4a9eff;
-  font-size: 1.2rem;
-}
-
-.author-info h4 {
-  margin: 0;
-  color: #ffffff;
-}
-
-.author-info small {
-  color: #8a8aff;
+.activity-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background: rgba(30, 0, 0, 0.3);
+  border-left: 3px solid #400;
   font-size: 0.85rem;
 }
 
-.theory-content {
-  margin: 20px 0;
-  line-height: 1.8;
-}
+.activity-item.new-member { border-left-color: #daa520; }
+.activity-item.new-theory { border-left-color: #1e40af; }
+.activity-item.new-connection { border-left-color: #10b981; }
 
-.math-display {
-  background: #151522;
-  border: 1px solid #2a2a3a;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px 0;
-  font-family: 'Times New Roman', serif;
-  overflow-x: auto;
-}
-
-.theory-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.chat-container {
+  border: 1px solid #400;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
   margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #2a2a3a;
-  color: #8a8aff;
-  font-size: 0.9rem;
+}
+
+#chat-messages {
+  height: 200px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #000;
+  border: 1px solid #300;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-bottom: 1px solid #222;
+}
+
+.chat-message .sender {
+  color: #b30000;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  background: #111;
+  border: 1px solid #400;
+  color: #eee;
+  padding: 8px 12px;
+}
+
+.chat-input button {
+  background: #400;
+  color: #eee;
+  border: 1px solid #600;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.chat-input button:hover {
+  background: #600;
 }
 
 /* ===============================
-   FORMULÁRIOS
+   FORMULÁRIOS E INPUTS
 ================================ */
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-.form-label {
+.form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #c8c8e0;
-  font-size: 0.95rem;
+  color: #b30000;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .form-control {
   width: 100%;
-  padding: 12px 15px;
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 1rem;
-  transition: border 0.2s;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #400;
+  color: #eee;
+  font-size: 0.95rem;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #4a9eff;
+  border-color: #b30000;
+  box-shadow: 0 0 10px rgba(179, 0, 0, 0.3);
 }
 
 textarea.form-control {
   min-height: 150px;
   resize: vertical;
-  font-family: 'Courier New', monospace;
-  line-height: 1.5;
+  font-family: monospace;
 }
 
-.btn {
-  padding: 12px 25px;
-  background: #2a5caa;
+.btn-primary {
+  background: linear-gradient(135deg, #8b0000 0%, #b30000 100%);
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 12px 25px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.3s;
 }
 
-.btn:hover {
-  background: #4a9eff;
-  transform: translateY(-2px);
+.btn-primary:hover {
+  background: linear-gradient(135deg, #b30000 0%, #8b0000 100%);
+  box-shadow: 0 0 15px rgba(179, 0, 0, 0.4);
 }
 
 .btn-secondary {
-  background: #2a2a3a;
+  background: transparent;
+  color: #b30000;
+  border: 1px solid #400;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .btn-secondary:hover {
-  background: #3a3a4a;
-}
-
-.btn-danger {
-  background: #aa2a2a;
-}
-
-.btn-danger:hover {
-  background: #cc3333;
+  background: rgba(179, 0, 0, 0.1);
+  border-color: #b30000;
 }
 
 /* ===============================
-   BARRA DIREITA - ATIVIDADES E CHAT
+   CARDS E LISTAS
 ================================ */
-#right-sidebar {
-  background: #151522;
-  border-left: 1px solid #2a2a3a;
-  padding: 25px 20px;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-}
-
-.activity-log {
-  margin-bottom: 40px;
-}
-
-.activity-item {
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  background: #1a1a2a;
-  border-radius: 5px;
-  border-left: 3px solid #4a9eff;
-  font-size: 0.9rem;
-  color: #c8c8e0;
-}
-
-.activity-time {
-  color: #8a8aff;
-  font-size: 0.8rem;
-  margin-top: 5px;
-}
-
-/* ===============================
-   CHAT
-================================ */
-.chat-container {
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.chat-header {
-  padding: 15px;
-  background: #2a2a3a;
-  border-bottom: 1px solid #2a2a3a;
-}
-
-.chat-messages {
-  height: 300px;
-  overflow-y: auto;
-  padding: 15px;
-}
-
-.chat-message {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #2a2a3a;
-}
-
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.message-author {
-  font-weight: bold;
-  color: #4a9eff;
-}
-
-.message-role {
-  font-size: 0.8rem;
-  margin-left: 8px;
-}
-
-.message-time {
-  color: #8a8aff;
-  font-size: 0.8rem;
-}
-
-.message-content {
-  color: #e8e8f0;
-  line-height: 1.5;
-}
-
-.chat-input {
-  padding: 15px;
-  border-top: 1px solid #2a2a3a;
-  background: #2a2a3a;
-}
-
-.chat-input textarea {
-  width: 100%;
-  padding: 10px;
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 5px;
-  color: white;
-  resize: none;
-  height: 60px;
-  margin-bottom: 10px;
-}
-
-/* ===============================
-   REPOSITÓRIO DE DOCUMENTOS
-================================ */
-.document-card {
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 8px;
+.card {
+  background: rgba(20, 0, 0, 0.5);
+  border: 1px solid #400;
   padding: 20px;
   margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  border-color: #b30000;
+  background: rgba(30, 0, 0, 0.6);
+}
+
+.card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #300;
 }
 
-.document-info h4 {
-  margin: 0 0 8px 0;
-  color: #ffffff;
-}
-
-.document-meta {
-  color: #8a8aff;
-  font-size: 0.9rem;
-}
-
-/* ===============================
-   QUADRO DE DESAFIOS
-================================ */
-.bounty-card {
-  background: linear-gradient(135deg, #1a1a2a 0%, #2a1a2a 100%);
-  border: 1px solid #4a2a3a;
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 25px;
-}
-
-.bounty-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.bounty-status {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: bold;
-}
-
-.status-open {
-  background: rgba(74, 158, 255, 0.2);
-  color: #4a9eff;
-}
-
-.status-solved {
-  background: rgba(0, 255, 0, 0.2);
-  color: #00ff00;
-}
-
-.bounty-reward {
-  color: #ffd700;
-  font-weight: bold;
+.card-title {
+  color: #b30000;
   font-size: 1.2rem;
 }
 
-/* ===============================
-   PERFIS DE MEMBROS
-================================ */
-.members-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+.card-meta {
+  color: #666;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.member-card {
-  background: #1a1a2a;
-  border: 1px solid #2a2a3a;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.member-card:hover {
-  transform: translateY(-5px);
-  border-color: #4a9eff;
-}
-
-.member-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin: 0 auto 15px;
-  background: #2a2a3a;
+.list-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: rgba(10, 0, 0, 0.3);
+  border-left: 3px solid #400;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: #4a9eff;
 }
 
-.member-name {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: #ffffff;
-}
-
-.member-specialty {
-  color: #8a8aff;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
+.list-item:hover {
+  background: rgba(20, 0, 0, 0.5);
+  border-left-color: #b30000;
 }
 
 /* ===============================
-   RESPONSIVIDADE
+   BANNER E HEADER
 ================================ */
-@media (max-width: 1200px) {
-  #app {
-    grid-template-columns: 250px 1fr;
-  }
-  #right-sidebar {
-    display: none;
-  }
+#banner {
+  background: linear-gradient(135deg, #000 0%, #1a0000 100%);
+  border-bottom: 3px solid #400;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-@media (max-width: 768px) {
-  #app {
-    grid-template-columns: 1fr;
-  }
-  #sidebar {
-    display: none;
-  }
-  #main-content {
-    padding: 20px;
-  }
+.banner-title {
+  font-size: 2.5rem;
+  color: #8b0000;
+  text-shadow: 0 0 20px #300;
+  letter-spacing: 3px;
+}
+
+.system-status {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.status-item {
+  text-align: center;
+}
+
+.status-value {
+  display: block;
+  color: #b30000;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 /* ===============================
@@ -650,932 +465,976 @@ textarea.form-control {
 .mb-20 { margin-bottom: 20px; }
 .mt-30 { margin-top: 30px; }
 .mb-30 { margin-bottom: 30px; }
+
+/* ===============================
+   SCROLLBAR
+================================ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #400;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #600;
+}
 </style>
 </head>
-
 <body>
-<div id="app">
+
+<div id="banner">
+  <div class="banner-title">ALGEBRA RENOVA</div>
+  <div class="system-status">
+    <div class="status-item">
+      <span class="status-value" id="member-count">0</span>
+      <span>MEMBROS</span>
+    </div>
+    <div class="status-item">
+      <span class="status-value" id="theory-count">0</span>
+      <span>TEORIAS</span>
+    </div>
+    <div class="status-item">
+      <span class="status-value" id="online-count">0</span>
+      <span>ONLINE</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  
   <!-- SIDEBAR ESQUERDA -->
   <aside id="sidebar">
-    <div class="profile-card">
-      <div class="profile-avatar" id="userAvatar">A</div>
-      <h3 class="profile-name" id="userName">Carregando...</h3>
-      <div class="profile-role" id="userRole"></div>
-      <div class="profile-stats">
-        <div class="stat">
-          <div class="stat-number" id="statsTheories">0</div>
-          <div class="stat-label">Teorias</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number" id="statsConnections">0</div>
-          <div class="stat-label">Conexões</div>
-        </div>
+    <div class="profile-section">
+      <div class="avatar-container" id="user-avatar">
+        <div class="avatar-placeholder" id="avatar-placeholder">A</div>
+      </div>
+      <h3 id="username-display">Carregando...</h3>
+      <div id="user-rank" class="rank-badge rank-observador">Observador</div>
+      <div class="mt-20">
+        <button class="btn-secondary" onclick="openProfileEditor()">Editar Perfil</button>
       </div>
     </div>
 
-    <nav>
-      <div class="nav-section">
-        <div class="nav-title">Navegação Principal</div>
-        <a href="#" class="nav-item active" data-section="dashboard">
-          <span class="nav-icon">📊</span> Dashboard
-        </a>
-        <a href="#" class="nav-item" data-section="theories">
-          <span class="nav-icon">📚</span> Teorias
-        </a>
-        <a href="#" class="nav-item" data-section="repository">
-          <span class="nav-icon">🗂️</span> Repositório
-        </a>
-        <a href="#" class="nav-item" data-section="bounty">
-          <span class="nav-icon">🎯</span> Desafios
-        </a>
-      </div>
+    <div class="nav-section">
+      <button class="nav-button active" onclick="showSection('dashboard')">Dashboard</button>
+      <button class="nav-button" onclick="showSection('theories')">Teorias</button>
+      <button class="nav-button" onclick="showSection('archive')">Arquivo</button>
+      <button class="nav-button" onclick="showSection('bounty')">Desafios</button>
+      <button class="nav-button" onclick="showSection('members')">Membros</button>
+      <button class="nav-button" onclick="showSection('connections')">Conexões</button>
+    </div>
 
-      <div class="nav-section">
-        <div class="nav-title">Rede</div>
-        <a href="#" class="nav-item" data-section="members">
-          <span class="nav-icon">👥</span> Membros
-        </a>
-        <a href="#" class="nav-item" data-section="connections">
-          <span class="nav-icon">🔗</span> Conexões
-        </a>
-        <a href="#" class="nav-item" data-section="profile">
-          <span class="nav-icon">⚙️</span> Meu Perfil
-        </a>
-      </div>
-
-      <div class="nav-section">
-        <div class="nav-title">Administração</div>
-        <a href="#" class="nav-item" data-section="new-theory">
-          <span class="nav-icon">+</span> Nova Teoria
-        </a>
-        <a href="#" class="nav-item" data-section="manage">
-          <span class="nav-icon">🛡️</span> Gerenciar
-        </a>
-      </div>
-    </nav>
-
-    <div class="mt-auto">
-      <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">
-        <span class="nav-icon">🚪</span> Sair
-      </button>
+    <div class="nav-section">
+      <h4>Ferramentas</h4>
+      <button class="nav-button" onclick="showSection('editor')" id="editor-btn">Editor Teórico</button>
+      <button class="nav-button" onclick="showSection('upload')">Upload de Referência</button>
+      <button class="nav-button" onclick="showSection('reports')">Relatórios</button>
     </div>
   </aside>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- CONTEÚDO CENTRAL -->
   <main id="main-content">
+    
     <!-- DASHBOARD -->
     <section id="dashboard" class="content-section active">
-      <h1>Dashboard do Sistema</h1>
-      <div class="grid-3 mb-30">
-        <div class="theory-card">
-          <h3>Status do Sistema</h3>
-          <p>Membros ativos: <span id="activeMembers">0</span></p>
-          <p>Teorias publicadas: <span id="totalTheories">0</span></p>
-          <p>Desafios em aberto: <span id="openBounties">0</span></p>
+      <h2>Dashboard do Sistema</h2>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Status da Rede</div>
+          <div class="card-meta">Última Atualização: <span id="last-update"></span></div>
         </div>
-        <div class="theory-card">
-          <h3>Minha Atividade</h3>
-          <p id="userActivityStatus">Carregando...</p>
-        </div>
-        <div class="theory-card">
-          <h3>Próximos Objetivos</h3>
-          <p>Complete seu perfil</p>
-          <p>Conecte-se com 3 membros</p>
-          <p>Contribua com uma teoria</p>
+        <p>Plataforma operacional. Sistema de hierarquia rigorosa implementado.</p>
+        <div class="mt-20">
+          <div class="list-item">
+            <span>Teorias Ativas</span>
+            <span id="active-theories">0</span>
+          </div>
+          <div class="list-item">
+            <span>Desafios em Aberto</span>
+            <span id="open-bounties">0</span>
+          </div>
+          <div class="list-item">
+            <span>Referências Catalogadas</span>
+            <span id="archived-refs">0</span>
+          </div>
         </div>
       </div>
 
-      <h2>Atividade Recente</h2>
-      <div id="recentActivity"></div>
+      <h3>Minhas Conexões</h3>
+      <div id="my-connections-list" class="mt-20">
+        <!-- Conexões serão carregadas dinamicamente -->
+      </div>
     </section>
 
     <!-- TEORIAS -->
     <section id="theories" class="content-section">
-      <h1>Teorias Publicadas</h1>
-      <div id="theoriesList"></div>
+      <div class="card-header">
+        <h2>Teorias Publicadas</h2>
+        <button class="btn-primary" id="new-theory-btn" onclick="showSection('editor')">Nova Teoria</button>
+      </div>
+      <div id="theories-list">
+        <!-- Teorias serão carregadas dinamicamente -->
+      </div>
     </section>
 
-    <!-- REPOSITÓRIO -->
-    <section id="repository" class="content-section">
-      <h1>Repositório de Documentos</h1>
-      <button class="btn mb-20" onclick="showUploadForm()">
-        <span class="nav-icon">📤</span> Upload de Documento
-      </button>
-      <div id="repositoryList"></div>
+    <!-- EDITOR TEÓRICO -->
+    <section id="editor" class="content-section">
+      <h2>Editor Teórico</h2>
+      <div class="card">
+        <div class="form-group">
+          <label for="theory-title">Título da Teoria</label>
+          <input type="text" id="theory-title" class="form-control" placeholder="Ex: Álgebra Não-Associativa em Espaços de Dimensão Infinita">
+        </div>
+        <div class="form-group">
+          <label for="theory-content">Conteúdo (Suporte LaTeX: use $...$ para inline, $$...$$ para display)</label>
+          <textarea id="theory-content" class="form-control" placeholder="Descreva sua teoria matemática aqui..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="theory-tags">Tags (separadas por vírgula)</label>
+          <input type="text" id="theory-tags" class="form-control" placeholder="álgebra, não-associativa, teoria-de-categorias">
+        </div>
+        <div class="text-center">
+          <button class="btn-primary" onclick="publishTheory()">Publicar Teoria</button>
+          <button class="btn-secondary" onclick="showSection('theories')">Cancelar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARQUIVO -->
+    <section id="archive" class="content-section">
+      <h2>Arquivo de Referências</h2>
+      <div class="card">
+        <div class="form-group">
+          <label for="ref-title">Título da Referência</label>
+          <input type="text" id="ref-title" class="form-control" placeholder="Ex: Artigo: 'Non-Associative Algebras in Quantum Gravity'">
+        </div>
+        <div class="form-group">
+          <label for="ref-url">URL ou DOI</label>
+          <input type="text" id="ref-url" class="form-control" placeholder="https://arxiv.org/abs/... ou DOI: 10.1000/...">
+        </div>
+        <div class="form-group">
+          <label for="ref-description">Descrição/Resumo</label>
+          <textarea id="ref-description" class="form-control" placeholder="Resumo ou comentários sobre esta referência..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="addReference()">Adicionar ao Arquivo</button>
+      </div>
+
+      <div id="references-list" class="mt-30">
+        <!-- Referências serão carregadas dinamicamente -->
+      </div>
     </section>
 
     <!-- DESAFIOS -->
     <section id="bounty" class="content-section">
-      <h1>Quadro de Desafios</h1>
-      <div id="bountyBoard"></div>
+      <h2>Quadro de Desafios</h2>
+      <div id="bounty-board">
+        <!-- Desafios serão carregados dinamicamente -->
+      </div>
     </section>
 
     <!-- MEMBROS -->
     <section id="members" class="content-section">
-      <h1>Membros da Algebra Renova</h1>
-      <div class="members-grid" id="membersGrid"></div>
+      <h2>Membros da Rede</h2>
+      <div class="form-group">
+        <input type="text" id="search-member" class="form-control" placeholder="Buscar membro por nome ou nick..." onkeyup="searchMembers()">
+      </div>
+      <div id="members-list">
+        <!-- Membros serão carregados dinamicamente -->
+      </div>
     </section>
 
     <!-- CONEXÕES -->
     <section id="connections" class="content-section">
-      <h1>Minhas Conexões</h1>
-      <div class="members-grid" id="connectionsGrid"></div>
+      <h2>Minhas Conexões</h2>
+      <div id="connections-container">
+        <!-- Conexões serão carregadas dinamicamente -->
+      </div>
     </section>
 
-    <!-- MEU PERFIL -->
-    <section id="profile" class="content-section">
-      <h1>Meu Perfil</h1>
-      <div class="form-group">
-        <label class="form-label">Nome de Exibição</label>
-        <input type="text" id="editName" class="form-control" placeholder="Seu nome público">
+    <!-- UPLOAD -->
+    <section id="upload" class="content-section">
+      <h2>Upload de Documento</h2>
+      <div class="card">
+        <div class="form-group">
+          <label for="doc-title">Título do Documento</label>
+          <input type="text" id="doc-title" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="doc-file">Arquivo (PDF, TEX, MD)</label>
+          <input type="file" id="doc-file" class="form-control" accept=".pdf,.tex,.md,.txt">
+        </div>
+        <div class="form-group">
+          <label for="doc-description">Descrição</label>
+          <textarea id="doc-description" class="form-control"></textarea>
+        </div>
+        <button class="btn-primary" onclick="uploadDocument()">Upload</button>
       </div>
-      <div class="form-group">
-        <label class="form-label">Especialidade Matemática</label>
-        <select id="editSpecialty" class="form-control">
-          <option value="algebra">Álgebra Abstrata</option>
-          <option value="topology">Topologia</option>
-          <option value="geometry">Geometria Não-Euclidiana</option>
-          <option value="categories">Teoria das Categorias</option>
-          <option value="logic">Lógica Matemática</option>
-          <option value="number">Teoria dos Números</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Biografia</label>
-        <textarea id="editBio" class="form-control" placeholder="Sua trajetória matemática..."></textarea>
-      </div>
-      <button class="btn" onclick="saveProfile()">Salvar Alterações</button>
     </section>
 
-    <!-- NOVA TEORIA -->
-    <section id="new-theory" class="content-section">
-      <h1>Publicar Nova Teoria</h1>
-      <div class="form-group">
-        <label class="form-label">Título da Teoria</label>
-        <input type="text" id="theoryTitle" class="form-control" placeholder="Título formal da teoria">
+    <!-- RELATÓRIOS -->
+    <section id="reports" class="content-section">
+      <h2>Relatórios do Sistema</h2>
+      <div class="card">
+        <h3>Estatísticas da Rede</h3>
+        <div id="system-stats"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Conteúdo (Suporte LaTeX)</label>
-        <textarea id="theoryContent" class="form-control" placeholder="Descreva sua teoria. Use $...$ para fórmulas inline e $$...$$ para display."></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Categoria</label>
-        <select id="theoryCategory" class="form-control">
-          <option value="algebra">Álgebra</option>
-          <option value="topology">Topologia</option>
-          <option value="geometry">Geometria</option>
-          <option value="foundations">Fundamentos</option>
-        </select>
-      </div>
-      <button class="btn" onclick="publishTheory()">Publicar Teoria</button>
     </section>
 
-    <!-- GERENCIAR -->
-    <section id="manage" class="content-section">
-      <h1>Gerenciamento do Sistema</h1>
-      <div class="theory-card">
-        <h3>Gerenciar Membros</h3>
-        <div id="adminMembersList"></div>
-      </div>
-    </section>
   </main>
 
-  <!-- BARRA DIREITA -->
-  <aside id="right-sidebar">
-    <div class="activity-log">
-      <h3>Log de Atividades</h3>
-      <div id="activityLog"></div>
+  <!-- PAINEL DIREITO -->
+  <aside id="right-panel">
+    <h3>Log de Atividades</h3>
+    <div class="activity-log" id="activity-log">
+      <!-- Atividades serão carregadas dinamicamente -->
     </div>
 
+    <h3>Chat de Desafios</h3>
     <div class="chat-container">
-      <div class="chat-header">
-        <h3>Chat da Sala Principal</h3>
-      </div>
-      <div class="chat-messages" id="chatMessages"></div>
+      <div id="chat-messages"></div>
       <div class="chat-input">
-        <textarea id="chatInput" placeholder="Digite sua mensagem..." onkeydown="sendChatMessage(event)"></textarea>
-        <button class="btn btn-secondary" onclick="sendChatMessageManual()">Enviar</button>
+        <input type="text" id="chat-input" placeholder="Discuta soluções..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+        <button onclick="sendChatMessage()">Enviar</button>
       </div>
+    </div>
+
+    <div class="mt-30">
+      <h4>Status do Usuário</h4>
+      <div id="user-status-display"></div>
     </div>
   </aside>
+
 </div>
 
-<!-- MODAL DE UPLOAD -->
-<div id="uploadModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-  <div style="background: #1a1a2a; padding: 30px; border-radius: 10px; width: 500px; max-width: 90%;">
-    <h3>Upload de Documento</h3>
+<!-- MODAL EDITOR DE PERFIL -->
+<div id="profile-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+  <div style="background: #111; border: 2px solid #400; padding: 30px; width: 90%; max-width: 500px;">
+    <h2 style="color: #b30000; margin-bottom: 20px;">Editar Perfil</h2>
+    
     <div class="form-group">
-      <label class="form-label">Título do Documento</label>
-      <input type="text" id="docTitle" class="form-control" placeholder="Título formal">
+      <label>Nome de Exibição</label>
+      <input type="text" id="edit-username" class="form-control">
     </div>
+    
     <div class="form-group">
-      <label class="form-label">Descrição</label>
-      <textarea id="docDescription" class="form-control" placeholder="Descrição do conteúdo"></textarea>
+      <label>Avatar (URL da imagem)</label>
+      <input type="text" id="edit-avatar" class="form-control" placeholder="https://...">
     </div>
+    
     <div class="form-group">
-      <label class="form-label">URL ou Conteúdo</label>
-      <textarea id="docContent" class="form-control" placeholder="Cole o link ou conteúdo"></textarea>
+      <label>Biografia</label>
+      <textarea id="edit-bio" class="form-control" rows="4"></textarea>
     </div>
+    
     <div class="form-group">
-      <label class="form-label">Categoria</label>
-      <select id="docCategory" class="form-control">
-        <option value="reference">Referência</option>
-        <option value="proof">Prova</option>
-        <option value="conjecture">Conjectura</option>
-        <option value="meta">Metamatemática</option>
-      </select>
+      <label>Áreas de Interesse (separadas por vírgula)</label>
+      <input type="text" id="edit-interests" class="form-control" placeholder="álgebra, topologia, teoria das categorias">
     </div>
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button class="btn" onclick="uploadDocument()">Enviar</button>
-      <button class="btn btn-secondary" onclick="closeUploadModal()">Cancelar</button>
+    
+    <div style="display: flex; gap: 15px; margin-top: 25px;">
+      <button class="btn-primary" onclick="saveProfile()">Salvar Alterações</button>
+      <button class="btn-secondary" onclick="closeProfileEditor()">Cancelar</button>
     </div>
   </div>
 </div>
 
 <script>
 // ===============================
-// ESTADO GLOBAL DO SISTEMA
+// SISTEMA DE ESTADO GLOBAL
 // ===============================
-const AppState = {
-  currentUser: null,
-  users: [],
-  theories: [],
-  documents: [],
-  bounties: [],
-  activities: [],
-  chatMessages: [],
-  connections: {},
+class AlgebraRenovaSystem {
+  constructor() {
+    this.loadState();
+    this.initializeSystem();
+  }
 
-  init: function() {
-    this.loadFromStorage();
-    this.initCurrentUser();
-    this.updateUI();
-    this.renderAll();
-    this.logActivity('Sistema inicializado');
-  },
+  loadState() {
+    // Estado principal
+    this.currentUser = JSON.parse(localStorage.getItem('ar_currentUser')) || this.createDefaultUser();
+    this.users = JSON.parse(localStorage.getItem('ar_users')) || [this.currentUser];
+    this.theories = JSON.parse(localStorage.getItem('ar_theories')) || [];
+    this.references = JSON.parse(localStorage.getItem('ar_references')) || [];
+    this.bounties = JSON.parse(localStorage.getItem('ar_bounties')) || [];
+    this.documents = JSON.parse(localStorage.getItem('ar_documents')) || [];
+    this.activities = JSON.parse(localStorage.getItem('ar_activities')) || [];
+    this.chatMessages = JSON.parse(localStorage.getItem('ar_chatMessages')) || [];
+    
+    // Inicializar contadores reais
+    this.updateCounters();
+    
+    // Log de inicialização
+    this.logActivity('Sistema inicializado', 'system');
+  }
 
-  loadFromStorage: function() {
-    // Carregar dados existentes ou inicializar com dados de sistema
-    this.users = JSON.parse(localStorage.getItem('algebra_users')) || this.getDefaultUsers();
-    this.theories = JSON.parse(localStorage.getItem('algebra_theories')) || [];
-    this.documents = JSON.parse(localStorage.getItem('algebra_documents')) || [];
-    this.bounties = JSON.parse(localStorage.getItem('algebra_bounties')) || this.getDefaultBounties();
-    this.activities = JSON.parse(localStorage.getItem('algebra_activities')) || [];
-    this.chatMessages = JSON.parse(localStorage.getItem('algebra_chat')) || [];
-    this.connections = JSON.parse(localStorage.getItem('algebra_connections')) || {};
-  },
-
-  saveToStorage: function() {
-    localStorage.setItem('algebra_users', JSON.stringify(this.users));
-    localStorage.setItem('algebra_theories', JSON.stringify(this.theories));
-    localStorage.setItem('algebra_documents', JSON.stringify(this.documents));
-    localStorage.setItem('algebra_bounties', JSON.stringify(this.bounties));
-    localStorage.setItem('algebra_activities', JSON.stringify(this.activities));
-    localStorage.setItem('algebra_chat', JSON.stringify(this.chatMessages));
-    localStorage.setItem('algebra_connections', JSON.stringify(this.connections));
-  },
-
-  getDefaultUsers: function() {
-    return [
-      {
-        id: 'nucleo_master',
-        username: 'Lohan Cunha',
-        displayName: 'Lohan Cunha',
-        role: 'nucleo',
-        specialty: 'Álgebra Não-Convencional',
-        bio: 'Fundador da Algebra Renova. Especialista em estruturas algébricas além do convencional.',
-        avatar: 'LC',
-        joinDate: '2023-01-01',
-        connections: [],
-        theories: []
-      },
-      {
-        id: 'iniciado_001',
-        username: 'Elena V.',
-        displayName: 'Elena V.',
-        role: 'iniciado',
-        specialty: 'Topologia da Borboleta',
-        bio: 'Pesquisadora em transformações topológicas radicais.',
-        avatar: 'EV',
-        joinDate: '2023-02-15',
-        connections: [],
-        theories: []
-      },
-      {
-        id: 'observador_001',
-        username: 'Carlos M.',
-        displayName: 'Carlos M.',
-        role: 'observador',
-        specialty: 'Geometria do Infinito',
-        bio: 'Observador dedicado à compreensão de espaços não-euclidianos.',
-        avatar: 'CM',
-        joinDate: '2023-03-10',
-        connections: [],
-        theories: []
-      }
-    ];
-  },
-
-  getDefaultBounties: function() {
-    return [
-      {
-        id: 'bounty_001',
-        title: 'Estrutura Algébrica da Transfunctoração',
-        description: 'Definir formalmente a operação de transfunctoração e suas propriedades fundamentais.',
-        reward: 'Nível Iniciado',
-        status: 'open',
-        createdBy: 'nucleo_master',
-        createdAt: '2023-11-01',
-        attempts: []
-      }
-    ];
-  },
-
-  initCurrentUser: function() {
-    const savedUser = localStorage.getItem('algebra_currentUser');
-    if (savedUser) {
-      this.currentUser = JSON.parse(savedUser);
-    } else {
-      // Login automático como observador para demonstração
-      this.currentUser = this.users[2]; // Carlos M.
-      localStorage.setItem('algebra_currentUser', JSON.stringify(this.currentUser));
-    }
-  },
-
-  logActivity: function(message) {
-    const activity = {
-      id: Date.now(),
-      message: message,
-      timestamp: new Date().toISOString(),
-      user: this.currentUser ? this.currentUser.id : 'system'
+  createDefaultUser() {
+    return {
+      id: this.generateId(),
+      username: 'Usuario_' + Math.floor(Math.random() * 1000),
+      rank: 'observador',
+      avatar: '',
+      bio: '',
+      interests: [],
+      connections: [],
+      joinDate: new Date().toISOString(),
+      lastActive: new Date().toISOString()
     };
-    this.activities.unshift(activity);
-    if (this.activities.length > 50) this.activities.pop();
-    this.saveToStorage();
-    this.renderActivityLog();
-  },
+  }
+
+  generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  initializeSystem() {
+    // Atualizar interface
+    this.updateUserDisplay();
+    this.updateCounters();
+    this.renderTheories();
+    this.renderReferences();
+    this.renderBounties();
+    this.renderMembers();
+    this.renderActivities();
+    this.renderChat();
+    
+    // Configurar intervalos de atualização
+    setInterval(() => this.updateUserActivity(), 30000);
+    setInterval(() => this.renderActivities(), 60000);
+  }
 
   // ===============================
-  // GERENCIAMENTO DE USUÁRIOS
+  // SISTEMA DE HIERARQUIA
   // ===============================
-  canPublishTheories: function() {
-    return this.currentUser && ['nucleo', 'iniciado'].includes(this.currentUser.role);
-  },
+  canPublishTheory() {
+    const ranks = ['nucleo', 'iniciado'];
+    return ranks.includes(this.currentUser.rank);
+  }
 
-  addConnection: function(userId) {
-    if (!this.currentUser) return false;
+  canCreateBounty() {
+    return this.currentUser.rank === 'nucleo';
+  }
+
+  getRankDisplay(rank) {
+    const ranks = {
+      'nucleo': { name: 'Núcleo', class: 'rank-nucleo' },
+      'iniciado': { name: 'Iniciado', class: 'rank-iniciado' },
+      'observador': { name: 'Observador', class: 'rank-observador' }
+    };
+    return ranks[rank] || ranks.observador;
+  }
+
+  // ===============================
+  // OPERAÇÕES DO USUÁRIO
+  // ===============================
+  updateUserDisplay() {
+    document.getElementById('username-display').textContent = this.currentUser.username;
     
-    if (!this.connections[this.currentUser.id]) {
-      this.connections[this.currentUser.id] = [];
+    const rank = this.getRankDisplay(this.currentUser.rank);
+    const rankBadge = document.getElementById('user-rank');
+    rankBadge.textContent = rank.name;
+    rankBadge.className = `rank-badge ${rank.class}`;
+    
+    // Atualizar avatar
+    if (this.currentUser.avatar) {
+      document.getElementById('avatar-placeholder').innerHTML = `<img src="${this.currentUser.avatar}" alt="${this.currentUser.username}">`;
     }
     
-    if (!this.connections[this.currentUser.id].includes(userId)) {
-      this.connections[this.currentUser.id].push(userId);
-      this.saveToStorage();
-      this.logActivity(`${this.currentUser.displayName} conectou-se com ${this.getUserById(userId).displayName}`);
-      return true;
+    // Botão de nova teoria baseado em permissões
+    const newTheoryBtn = document.getElementById('new-theory-btn');
+    if (this.canPublishTheory()) {
+      newTheoryBtn.classList.remove('hidden');
+    } else {
+      newTheoryBtn.classList.add('hidden');
     }
-    return false;
-  },
+  }
 
-  getUserById: function(id) {
-    return this.users.find(u => u.id === id);
-  },
+  updateUserActivity() {
+    this.currentUser.lastActive = new Date().toISOString();
+    this.saveUserState();
+  }
+
+  saveUserState() {
+    // Atualizar usuário na lista
+    const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+    if (userIndex > -1) {
+      this.users[userIndex] = this.currentUser;
+    } else {
+      this.users.push(this.currentUser);
+    }
+    
+    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+    localStorage.setItem('ar_users', JSON.stringify(this.users));
+  }
 
   // ===============================
   // TEORIAS
   // ===============================
-  publishTheory: function(title, content, category) {
-    if (!this.canPublishTheories()) {
-      alert('Apenas membros Núcleo e Iniciados podem publicar teorias.');
-      return null;
+  publishTheory(title, content, tags) {
+    if (!this.canPublishTheory()) {
+      alert('Apenas membros do Núcleo e Iniciados podem publicar teorias.');
+      return;
     }
 
     const theory = {
-      id: 'theory_' + Date.now(),
+      id: this.generateId(),
       title: title,
       content: content,
-      category: category,
-      author: this.currentUser.id,
+      tags: tags.split(',').map(tag => tag.trim()),
+      author: this.currentUser.username,
+      authorId: this.currentUser.id,
+      authorRank: this.currentUser.rank,
       createdAt: new Date().toISOString(),
       views: 0,
       comments: []
     };
 
     this.theories.unshift(theory);
+    localStorage.setItem('ar_theories', JSON.stringify(this.theories));
     
-    // Adicionar ao perfil do usuário
-    if (!this.currentUser.theories) this.currentUser.theories = [];
-    this.currentUser.theories.push(theory.id);
-    
-    this.saveToStorage();
-    this.logActivity(`${this.currentUser.displayName} publicou uma nova teoria: ${title}`);
-    
-    return theory;
-  },
-
-  // ===============================
-  // DOCUMENTOS
-  // ===============================
-  addDocument: function(title, description, content, category) {
-    const doc = {
-      id: 'doc_' + Date.now(),
-      title: title,
-      description: description,
-      content: content,
-      category: category,
-      uploadedBy: this.currentUser.id,
-      uploadedAt: new Date().toISOString(),
-      downloads: 0
-    };
-
-    this.documents.unshift(doc);
-    this.saveToStorage();
-    this.logActivity(`${this.currentUser.displayName} adicionou um documento ao repositório: ${title}`);
-    
-    return doc;
-  },
-
-  // ===============================
-  // RENDERIZAÇÃO
-  // ===============================
-  updateUI: function() {
-    if (!this.currentUser) return;
-
-    // Atualizar perfil
-    document.getElementById('userName').textContent = this.currentUser.displayName;
-    document.getElementById('userAvatar').textContent = this.currentUser.avatar;
-    
-    // Atualizar role com cores
-    const roleElement = document.getElementById('userRole');
-    roleElement.innerHTML = `<span class="role-${this.currentUser.role}">${this.currentUser.role.toUpperCase()}</span>`;
-    
-    // Atualizar estatísticas
-    const userTheories = this.theories.filter(t => t.author === this.currentUser.id).length;
-    const userConnections = this.connections[this.currentUser.id] ? this.connections[this.currentUser.id].length : 0;
-    
-    document.getElementById('statsTheories').textContent = userTheories;
-    document.getElementById('statsConnections').textContent = userConnections;
-    document.getElementById('activeMembers').textContent = this.users.length;
-    document.getElementById('totalTheories').textContent = this.theories.length;
-    document.getElementById('openBounties').textContent = this.bounties.filter(b => b.status === 'open').length;
-  },
-
-  renderAll: function() {
+    this.logActivity(`${this.currentUser.username} publicou uma nova teoria: "${title}"`, 'new-theory');
     this.renderTheories();
-    this.renderRepository();
-    this.renderBountyBoard();
-    this.renderMembers();
-    this.renderConnections();
-    this.renderActivityLog();
-    this.renderChat();
-    this.renderAdminMembers();
-  },
-
-  renderTheories: function() {
-    const container = document.getElementById('theoriesList');
-    if (!container) return;
-
-    if (this.theories.length === 0) {
-      container.innerHTML = '<div class="theory-card"><p>Nenhuma teoria publicada ainda.</p></div>';
-      return;
-    }
-
-    container.innerHTML = this.theories.map(theory => {
-      const author = this.getUserById(theory.author);
-      return `
-        <div class="theory-card">
-          <div class="theory-header">
-            <div class="theory-author">
-              <div class="author-avatar">${author.avatar}</div>
-              <div class="author-info">
-                <h4>${author.displayName}</h4>
-                <small><span class="role-${author.role}">${author.role.toUpperCase()}</span> • ${new Date(theory.createdAt).toLocaleDateString()}</small>
-              </div>
-            </div>
-            <div class="theory-category">${theory.category}</div>
-          </div>
-          <h3>${theory.title}</h3>
-          <div class="theory-content">${this.formatMathContent(theory.content)}</div>
-          <div class="theory-meta">
-            <span>${theory.views} visualizações</span>
-            <span>${theory.comments.length} comentários</span>
-          </div>
-        </div>
-      `;
-    }).join('');
+    this.updateCounters();
     
     // Processar MathJax
-    if (window.MathJax) {
-      MathJax.typeset();
-    }
-  },
-
-  formatMathContent: function(content) {
-    // Garantir que fórmulas LaTeX sejam processáveis pelo MathJax
-    return content.replace(/\$\$(.*?)\$\$/g, '<div class="math-display">\\[ $1 \\]</div>')
-                  .replace(/\$(.*?)\$/g, '\\( $1 \\)')
-                  .replace(/\n/g, '<br>');
-  },
-
-  renderRepository: function() {
-    const container = document.getElementById('repositoryList');
-    if (!container) return;
-
-    if (this.documents.length === 0) {
-      container.innerHTML = '<div class="theory-card"><p>Nenhum documento no repositório.</p></div>';
-      return;
-    }
-
-    container.innerHTML = this.documents.map(doc => {
-      const uploader = this.getUserById(doc.uploadedBy);
-      return `
-        <div class="document-card">
-          <div class="document-info">
-            <h4>${doc.title}</h4>
-            <p>${doc.description}</p>
-            <div class="document-meta">
-              Enviado por ${uploader.displayName} • ${new Date(doc.uploadedAt).toLocaleDateString()} • ${doc.downloads} downloads
-            </div>
-          </div>
-          <button class="btn btn-secondary" onclick="downloadDocument('${doc.id}')">Acessar</button>
-        </div>
-      `;
-    }).join('');
-  },
-
-  renderBountyBoard: function() {
-    const container = document.getElementById('bountyBoard');
-    if (!container) return;
-
-    container.innerHTML = this.bounties.map(bounty => {
-      const creator = this.getUserById(bounty.createdBy);
-      return `
-        <div class="bounty-card">
-          <div class="bounty-header">
-            <h3>${bounty.title}</h3>
-            <div class="bounty-status status-${bounty.status}">${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}</div>
-          </div>
-          <p>${bounty.description}</p>
-          <div class="theory-meta">
-            <span>Postado por ${creator.displayName}</span>
-            <span class="bounty-reward">${bounty.reward}</span>
-            <span>${bounty.attempts.length} tentativas</span>
-          </div>
-          ${bounty.status === 'open' ? `
-            <button class="btn mt-20" onclick="attemptBounty('${bounty.id}')">Submeter Solução</button>
-          ` : ''}
-        </div>
-      `;
-    }).join('');
-  },
-
-  renderMembers: function() {
-    const container = document.getElementById('membersGrid');
-    if (!container) return;
-
-    container.innerHTML = this.users.map(user => {
-      const isCurrentUser = this.currentUser && user.id === this.currentUser.id;
-      const isConnected = this.connections[this.currentUser.id] && this.connections[this.currentUser.id].includes(user.id);
-      
-      return `
-        <div class="member-card">
-          <div class="member-avatar">${user.avatar}</div>
-          <div class="member-name">${user.displayName}</div>
-          <div class="member-specialty">${user.specialty}</div>
-          <div class="profile-role mb-20">
-            <span class="role-${user.role}">${user.role.toUpperCase()}</span>
-          </div>
-          ${!isCurrentUser ? `
-            <button class="btn ${isConnected ? 'btn-secondary' : ''}" onclick="${isConnected ? 'removeConnection' : 'addConnection'}('${user.id}')">
-              ${isConnected ? '✅ Conectado' : '🔗 Conectar'}
-            </button>
-          ` : ''}
-        </div>
-      `;
-    }).join('');
-  },
-
-  renderConnections: function() {
-    const container = document.getElementById('connectionsGrid');
-    if (!container) return;
-
-    const userConnections = this.connections[this.currentUser.id] || [];
-    
-    if (userConnections.length === 0) {
-      container.innerHTML = '<div class="theory-card"><p>Você ainda não tem conexões.</p></div>';
-      return;
-    }
-
-    container.innerHTML = userConnections.map(userId => {
-      const user = this.getUserById(userId);
-      if (!user) return '';
-      
-      return `
-        <div class="member-card">
-          <div class="member-avatar">${user.avatar}</div>
-          <div class="member-name">${user.displayName}</div>
-          <div class="member-specialty">${user.specialty}</div>
-          <div class="profile-role mb-20">
-            <span class="role-${user.role}">${user.role.toUpperCase()}</span>
-          </div>
-          <button class="btn btn-secondary" onclick="removeConnection('${user.id}')">
-            Remover Conexão
-          </button>
-        </div>
-      `;
-    }).join('');
-  },
-
-  renderActivityLog: function() {
-    const container = document.getElementById('activityLog');
-    if (!container) return;
-
-    const recentActivities = this.activities.slice(0, 10);
-    
-    container.innerHTML = recentActivities.map(activity => {
-      const user = activity.user !== 'system' ? this.getUserById(activity.user) : null;
-      const time = new Date(activity.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      
-      return `
-        <div class="activity-item">
-          ${activity.message}
-          <div class="activity-time">${time}</div>
-        </div>
-      `;
-    }).join('');
-  },
-
-  renderChat: function() {
-    const container = document.getElementById('chatMessages');
-    if (!container) return;
-
-    const recentMessages = this.chatMessages.slice(-20);
-    
-    container.innerHTML = recentMessages.map(msg => {
-      const user = this.getUserById(msg.userId);
-      const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      
-      return `
-        <div class="chat-message">
-          <div class="message-header">
-            <div>
-              <span class="message-author">${user.displayName}</span>
-              <span class="message-role role-${user.role}">${user.role[0].toUpperCase()}</span>
-            </div>
-            <div class="message-time">${time}</div>
-          </div>
-          <div class="message-content">${msg.message}</div>
-        </div>
-      `;
-    }).join('');
-    
-    // Scroll para o final
-    container.scrollTop = container.scrollHeight;
-  },
-
-  renderAdminMembers: function() {
-    if (this.currentUser.role !== 'nucleo') return;
-    
-    const container = document.getElementById('adminMembersList');
-    if (!container) return;
-
-    container.innerHTML = this.users.map(user => {
-      return `
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #2a2a3a;">
-          <div>
-            <strong>${user.displayName}</strong>
-            <small class="role-${user.role}">${user.role.toUpperCase()}</small>
-          </div>
-          <div>
-            <select onchange="changeUserRole('${user.id}', this.value)" value="${user.role}">
-              <option value="observador">Observador</option>
-              <option value="iniciado">Iniciado</option>
-              <option value="nucleo">Núcleo</option>
-            </select>
-          </div>
-        </div>
-      `;
-    }).join('');
+    setTimeout(() => MathJax.typeset(), 100);
   }
-};
+
+  renderTheories() {
+    const container = document.getElementById('theories-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.theories.forEach(theory => {
+      const theoryCard = document.createElement('div');
+      theoryCard.className = 'card';
+      theoryCard.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${theory.title}</div>
+          <div class="card-meta">
+            Por: ${theory.author} 
+            <span class="rank-badge ${this.getRankDisplay(theory.authorRank).class}">${this.getRankDisplay(theory.authorRank).name}</span>
+          </div>
+        </div>
+        <div class="theory-content">${theory.content}</div>
+        <div class="mt-20">
+          <span style="color: #666; font-size: 0.8rem;">Tags: ${theory.tags.join(', ')}</span>
+          <span style="float: right; color: #666; font-size: 0.8rem;">Visualizações: ${theory.views}</span>
+        </div>
+      `;
+      container.appendChild(theoryCard);
+    });
+  }
+
+  // ===============================
+  // ARQUIVO DE REFERÊNCIAS
+  // ===============================
+  addReference(title, url, description) {
+    const reference = {
+      id: this.generateId(),
+      title: title,
+      url: url,
+      description: description,
+      addedBy: this.currentUser.username,
+      addedById: this.currentUser.id,
+      addedAt: new Date().toISOString(),
+      verified: this.currentUser.rank === 'nucleo'
+    };
+
+    this.references.unshift(reference);
+    localStorage.setItem('ar_references', JSON.stringify(this.references));
+    
+    this.logActivity(`${this.currentUser.username} adicionou uma referência: "${title}"`, 'archive');
+    this.renderReferences();
+    this.updateCounters();
+  }
+
+  renderReferences() {
+    const container = document.getElementById('references-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.references.forEach(ref => {
+      const refItem = document.createElement('div');
+      refItem.className = 'list-item';
+      refItem.innerHTML = `
+        <div>
+          <strong>${ref.title}</strong><br>
+          <small style="color: #666;">${ref.url}</small><br>
+          <small>${ref.description}</small>
+        </div>
+        <div style="text-align: right;">
+          <small>Adicionado por: ${ref.addedBy}</small><br>
+          <small>${new Date(ref.addedAt).toLocaleDateString()}</small>
+        </div>
+      `;
+      container.appendChild(refItem);
+    });
+  }
+
+  // ===============================
+  // QUADRO DE DESAFIOS
+  // ===============================
+  createBounty(title, description, reward) {
+    if (!this.canCreateBounty()) {
+      alert('Apenas membros do Núcleo podem criar desafios.');
+      return;
+    }
+
+    const bounty = {
+      id: this.generateId(),
+      title: title,
+      description: description,
+      reward: reward,
+      createdBy: this.currentUser.username,
+      createdById: this.currentUser.id,
+      createdAt: new Date().toISOString(),
+      status: 'open',
+      submissions: []
+    };
+
+    this.bounties.unshift(bounty);
+    localStorage.setItem('ar_bounties', JSON.stringify(this.bounties));
+    
+    this.logActivity(`Novo desafio criado por ${this.currentUser.username}: "${title}"`, 'bounty');
+    this.renderBounties();
+    this.updateCounters();
+  }
+
+  renderBounties() {
+    const container = document.getElementById('bounty-board');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.bounties.forEach(bounty => {
+      const bountyCard = document.createElement('div');
+      bountyCard.className = 'card';
+      bountyCard.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${bounty.title}</div>
+          <div class="card-meta">
+            <span class="rank-badge ${bounty.status === 'open' ? 'rank-iniciado' : 'rank-observador'}">
+              ${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}
+            </span>
+          </div>
+        </div>
+        <p>${bounty.description}</p>
+        <div class="mt-20">
+          <span style="color: #daa520;">Recompensa: ${bounty.reward}</span>
+          <span style="float: right; color: #666;">Criado por: ${bounty.createdBy}</span>
+        </div>
+        ${bounty.status === 'open' ? 
+          `<button class="btn-secondary mt-20" onclick="submitBountySolution('${bounty.id}')">Submeter Solução</button>` : 
+          ''
+        }
+      `;
+      container.appendChild(bountyCard);
+    });
+  }
+
+  // ===============================
+  // SISTEMA DE MEMBROS
+  // ===============================
+  renderMembers() {
+    const container = document.getElementById('members-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.users.forEach(user => {
+      const rank = this.getRankDisplay(user.rank);
+      const memberCard = document.createElement('div');
+      memberCard.className = 'list-item';
+      memberCard.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center;">
+            ${user.username.charAt(0)}
+          </div>
+          <div>
+            <strong>${user.username}</strong><br>
+            <span class="rank-badge ${rank.class}" style="font-size: 0.7rem;">${rank.name}</span>
+          </div>
+        </div>
+        <div>
+          ${user.id !== this.currentUser.id && !this.currentUser.connections.includes(user.id) ?
+            `<button class="btn-secondary" onclick="system.sendConnectionRequest('${user.id}')">Conectar</button>` :
+            '<small style="color: #666;">Conectado</small>'
+          }
+        </div>
+      `;
+      container.appendChild(memberCard);
+    });
+  }
+
+  searchMembers() {
+    const searchTerm = document.getElementById('search-member').value.toLowerCase();
+    const members = document.querySelectorAll('#members-list .list-item');
+    
+    members.forEach(member => {
+      const text = member.textContent.toLowerCase();
+      member.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+    });
+  }
+
+  // ===============================
+  // SISTEMA DE CONEXÕES
+  // ===============================
+  sendConnectionRequest(targetUserId) {
+    const targetUser = this.users.find(u => u.id === targetUserId);
+    if (!targetUser) return;
+
+    // Adicionar conexão
+    if (!this.currentUser.connections.includes(targetUserId)) {
+      this.currentUser.connections.push(targetUserId);
+      this.saveUserState();
+      
+      this.logActivity(`${this.currentUser.username} conectou-se com ${targetUser.username}`, 'new-connection');
+      this.renderMembers();
+      this.updateUserDisplay();
+    }
+  }
+
+  renderConnections() {
+    const container = document.getElementById('connections-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    const connectedUsers = this.users.filter(user => 
+      this.currentUser.connections.includes(user.id)
+    );
+
+    if (connectedUsers.length === 0) {
+      container.innerHTML = '<p style="color: #666;">Nenhuma conexão estabelecida.</p>';
+      return;
+    }
+
+    connectedUsers.forEach(user => {
+      const rank = this.getRankDisplay(user.rank);
+      const connectionCard = document.createElement('div');
+      connectionCard.className = 'list-item';
+      connectionCard.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 50px; height: 50px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+            ${user.username.charAt(0)}
+          </div>
+          <div>
+            <strong>${user.username}</strong><br>
+            <span class="rank-badge ${rank.class}">${rank.name}</span><br>
+            <small style="color: #666;">${user.interests?.slice(0, 3).join(', ') || 'Sem interesses definidos'}</small>
+          </div>
+        </div>
+      `;
+      container.appendChild(connectionCard);
+    });
+  }
+
+  // ===============================
+  // ATIVIDADES E LOG
+  // ===============================
+  logActivity(message, type = 'system') {
+    const activity = {
+      id: this.generateId(),
+      message: message,
+      type: type,
+      timestamp: new Date().toISOString(),
+      user: this.currentUser.username
+    };
+
+    this.activities.unshift(activity);
+    
+    // Manter apenas as 50 atividades mais recentes
+    if (this.activities.length > 50) {
+      this.activities = this.activities.slice(0, 50);
+    }
+
+    localStorage.setItem('ar_activities', JSON.stringify(this.activities));
+    this.renderActivities();
+  }
+
+  renderActivities() {
+    const container = document.getElementById('activity-log');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.activities.slice(0, 10).forEach(activity => {
+      const activityItem = document.createElement('div');
+      activityItem.className = `activity-item ${activity.type}`;
+      activityItem.innerHTML = `
+        <div style="color: #999; font-size: 0.75rem;">
+          ${new Date(activity.timestamp).toLocaleTimeString()}
+        </div>
+        <div>${activity.message}</div>
+      `;
+      container.appendChild(activityItem);
+    });
+  }
+
+  // ===============================
+  // SISTEMA DE CHAT
+  // ===============================
+  sendChatMessage(message) {
+    const input = document.getElementById('chat-input');
+    if (!input) return;
+
+    const text = message || input.value.trim();
+    if (!text) return;
+
+    const chatMessage = {
+      id: this.generateId(),
+      user: this.currentUser.username,
+      userId: this.currentUser.id,
+      userRank: this.currentUser.rank,
+      text: text,
+      timestamp: new Date().toISOString()
+    };
+
+    this.chatMessages.push(chatMessage);
+    
+    // Manter apenas as 100 mensagens mais recentes
+    if (this.chatMessages.length > 100) {
+      this.chatMessages = this.chatMessages.slice(-100);
+    }
+
+    localStorage.setItem('ar_chatMessages', JSON.stringify(this.chatMessages));
+    input.value = '';
+    this.renderChat();
+  }
+
+  renderChat() {
+    const container = document.getElementById('chat-messages');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    this.chatMessages.slice(-20).forEach(msg => {
+      const rank = this.getRankDisplay(msg.userRank);
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message';
+      messageDiv.innerHTML = `
+        <div>
+          <span class="sender">${msg.user}</span>
+          <span class="rank-badge ${rank.class}" style="font-size: 0.6rem; padding: 1px 6px;">${rank.name}</span>
+          <span style="color: #666; font-size: 0.7rem;">
+            ${new Date(msg.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+        <div>${msg.text}</div>
+      `;
+      container.appendChild(messageDiv);
+    });
+
+    container.scrollTop = container.scrollHeight;
+  }
+
+  // ===============================
+  // CONTADORES E ESTATÍSTICAS
+  // ===============================
+  updateCounters() {
+    document.getElementById('member-count').textContent = this.users.length;
+    document.getElementById('theory-count').textContent = this.theories.length;
+    document.getElementById('online-count').textContent = this.users.filter(u => 
+      new Date() - new Date(u.lastActive) < 300000
+    ).length;
+    
+    document.getElementById('active-theories').textContent = this.theories.length;
+    document.getElementById('open-bounties').textContent = this.bounties.filter(b => b.status === 'open').length;
+    document.getElementById('archived-refs').textContent = this.references.length;
+    
+    document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+  }
+
+  // ===============================
+  // PERFIL DO USUÁRIO
+  // ===============================
+  saveProfile() {
+    const username = document.getElementById('edit-username').value.trim();
+    const avatar = document.getElementById('edit-avatar').value.trim();
+    const bio = document.getElementById('edit-bio').value.trim();
+    const interests = document.getElementById('edit-interests').value.split(',').map(i => i.trim());
+
+    if (username) {
+      this.currentUser.username = username;
+    }
+    
+    if (avatar) {
+      this.currentUser.avatar = avatar;
+    }
+    
+    this.currentUser.bio = bio;
+    this.currentUser.interests = interests;
+
+    this.saveUserState();
+    this.updateUserDisplay();
+    this.closeProfileEditor();
+    
+    this.logActivity(`${this.currentUser.username} atualizou seu perfil`, 'system');
+  }
+}
+
+// ===============================
+// INSTANCIAÇÃO DO SISTEMA
+// ===============================
+let system;
+
+document.addEventListener('DOMContentLoaded', () => {
+  system = new AlgebraRenovaSystem();
+  
+  // Adicionar alguns dados iniciais se o sistema estiver vazio
+  if (system.theories.length === 0) {
+    system.publishTheory(
+      'Fundamentos da Algebra Renova',
+      'A Algebra Renova transcende as estruturas convencionais. Consideremos uma álgebra $A$ sobre um corpo $K$ com operação $*$ não necessariamente associativa. Definimos a transformação radical: $$T: A \\to A, \\quad T(x) = \\lim_{n\\to\\infty} \\frac{x^{*n}}{n!}$$ onde $x^{*n}$ denota a $n$-ésima potência não-associativa.',
+      'álgebra, fundamentos, não-associativa'
+    );
+  }
+
+  if (system.bounties.length === 0 && system.currentUser.rank === 'nucleo') {
+    system.createBounty(
+      'Problema da Auto-Similaridade Algébrica',
+      'Encontre uma estrutura algébrica não-associativa que seja isomorfa a um de seus subconjuntos próprios. Considere espaços de dimensão infinita.',
+      'Acesso ao Núcleo por 30 dias'
+    );
+  }
+});
 
 // ===============================
 // FUNÇÕES DE INTERFACE
 // ===============================
-function addConnection(userId) {
-  if (AppState.addConnection(userId)) {
-    AppState.updateUI();
-    AppState.renderMembers();
-    AppState.renderConnections();
-  }
-}
-
-function removeConnection(userId) {
-  if (AppState.connections[AppState.currentUser.id]) {
-    const index = AppState.connections[AppState.currentUser.id].indexOf(userId);
-    if (index > -1) {
-      AppState.connections[AppState.currentUser.id].splice(index, 1);
-      AppState.saveToStorage();
-      AppState.logActivity(`${AppState.currentUser.displayName} removeu conexão`);
-      AppState.updateUI();
-      AppState.renderMembers();
-      AppState.renderConnections();
-    }
-  }
-}
-
-function publishTheory() {
-  const title = document.getElementById('theoryTitle').value.trim();
-  const content = document.getElementById('theoryContent').value.trim();
-  const category = document.getElementById('theoryCategory').value;
-  
-  if (!title || !content) {
-    alert('Preencha todos os campos obrigatórios.');
-    return;
-  }
-  
-  const theory = AppState.publishTheory(title, content, category);
-  if (theory) {
-    document.getElementById('theoryTitle').value = '';
-    document.getElementById('theoryContent').value = '';
-    AppState.renderTheories();
-    showSection('theories');
-  }
-}
-
-function uploadDocument() {
-  const title = document.getElementById('docTitle').value.trim();
-  const description = document.getElementById('docDescription').value.trim();
-  const content = document.getElementById('docContent').value.trim();
-  const category = document.getElementById('docCategory').value;
-  
-  if (!title || !content) {
-    alert('Preencha todos os campos obrigatórios.');
-    return;
-  }
-  
-  AppState.addDocument(title, description, content, category);
-  closeUploadModal();
-  AppState.renderRepository();
-}
-
-function downloadDocument(docId) {
-  const doc = AppState.documents.find(d => d.id === docId);
-  if (doc) {
-    doc.downloads++;
-    AppState.saveToStorage();
-    AppState.renderRepository();
-    window.open(doc.content.startsWith('http') ? doc.content : '#', '_blank');
-  }
-}
-
-function attemptBounty(bountyId) {
-  const solution = prompt('Descreva sua solução para o desafio:');
-  if (solution) {
-    const bounty = AppState.bounties.find(b => b.id === bountyId);
-    if (bounty) {
-      bounty.attempts.push({
-        user: AppState.currentUser.id,
-        solution: solution,
-        timestamp: new Date().toISOString()
-      });
-      AppState.saveToStorage();
-      AppState.renderBountyBoard();
-      AppState.logActivity(`${AppState.currentUser.displayName} submeteu uma solução para "${bounty.title}"`);
-    }
-  }
-}
-
-function sendChatMessage(event) {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault();
-    sendChatMessageManual();
-  }
-}
-
-function sendChatMessageManual() {
-  const input = document.getElementById('chatInput');
-  const message = input.value.trim();
-  
-  if (!message) return;
-  
-  const chatMessage = {
-    id: 'msg_' + Date.now(),
-    userId: AppState.currentUser.id,
-    message: message,
-    timestamp: new Date().toISOString()
-  };
-  
-  AppState.chatMessages.push(chatMessage);
-  AppState.saveToStorage();
-  AppState.renderChat();
-  AppState.logActivity(`${AppState.currentUser.displayName} enviou uma mensagem no chat`);
-  
-  input.value = '';
-  input.focus();
-}
-
-function showUploadForm() {
-  document.getElementById('uploadModal').classList.remove('hidden');
-}
-
-function closeUploadModal() {
-  document.getElementById('uploadModal').classList.add('hidden');
-}
-
-function saveProfile() {
-  const name = document.getElementById('editName').value.trim();
-  const specialty = document.getElementById('editSpecialty').value;
-  const bio = document.getElementById('editBio').value.trim();
-  
-  if (name) {
-    AppState.currentUser.displayName = name;
-    AppState.currentUser.specialty = document.getElementById('editSpecialty').options[document.getElementById('editSpecialty').selectedIndex].text;
-    AppState.currentUser.bio = bio;
-    
-    // Atualizar no array de usuários
-    const userIndex = AppState.users.findIndex(u => u.id === AppState.currentUser.id);
-    if (userIndex > -1) {
-      AppState.users[userIndex] = AppState.currentUser;
-    }
-    
-    AppState.saveToStorage();
-    localStorage.setItem('algebra_currentUser', JSON.stringify(AppState.currentUser));
-    AppState.updateUI();
-    AppState.logActivity(`${AppState.currentUser.displayName} atualizou seu perfil`);
-    
-    alert('Perfil atualizado com sucesso!');
-  }
-}
-
-function changeUserRole(userId, newRole) {
-  if (AppState.currentUser.role !== 'nucleo') return;
-  
-  const user = AppState.users.find(u => u.id === userId);
-  if (user) {
-    const oldRole = user.role;
-    user.role = newRole;
-    AppState.saveToStorage();
-    AppState.logActivity(`Núcleo alterou cargo de ${user.displayName}: ${oldRole} → ${newRole}`);
-    AppState.renderAdminMembers();
-    AppState.renderMembers();
-  }
-}
-
 function showSection(sectionId) {
-  // Atualizar navegação
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
-  
-  // Mostrar seção
+  // Esconder todas as seções
   document.querySelectorAll('.content-section').forEach(section => {
     section.classList.remove('active');
   });
-  document.getElementById(sectionId).classList.add('active');
-}
-
-function logout() {
-  localStorage.removeItem('algebra_currentUser');
-  location.reload();
-}
-
-// ===============================
-// INICIALIZAÇÃO
-// ===============================
-document.addEventListener('DOMContentLoaded', function() {
-  // Inicializar estado
-  AppState.init();
   
-  // Configurar navegação
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      const section = this.getAttribute('data-section');
-      showSection(section);
-    });
-  });
-  
-  // Preencher formulário de perfil
-  if (AppState.currentUser) {
-    document.getElementById('editName').value = AppState.currentUser.displayName;
-    document.getElementById('editSpecialty').value = AppState.currentUser.specialty || 'algebra';
-    document.getElementById('editBio').value = AppState.currentUser.bio || '';
-    
-    // Atualizar status de atividade
-    const userTheories = AppState.theories.filter(t => t.author === AppState.currentUser.id).length;
-    document.getElementById('userActivityStatus').textContent = 
-      `Você publicou ${userTheories} teorias e tem ${AppState.connections[AppState.currentUser.id]?.length || 0} conexões.`;
+  // Mostrar seção selecionada
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.classList.add('active');
   }
   
-  // Renderizar atividades recentes
-  const recentActivities = AppState.activities.slice(0, 5);
-  document.getElementById('recentActivity').innerHTML = recentActivities.map(activity => {
-    return `<div class="activity-item">${activity.message}</div>`;
-  }).join('');
+  // Atualizar botões de navegação
+  document.querySelectorAll('.nav-button').forEach(button => {
+    button.classList.remove('active');
+  });
+  
+  // Atualizar interface baseado na seção
+  if (sectionId === 'theories') {
+    system.renderTheories();
+  } else if (sectionId === 'members') {
+    system.renderMembers();
+  } else if (sectionId === 'connections') {
+    system.renderConnections();
+  } else if (sectionId === 'bounty') {
+    system.renderBounties();
+  }
+  
+  // Processar MathJax
+  setTimeout(() => MathJax.typeset(), 100);
+}
+
+function publishTheory() {
+  const title = document.getElementById('theory-title').value.trim();
+  const content = document.getElementById('theory-content').value.trim();
+  const tags = document.getElementById('theory-tags').value.trim();
+
+  if (!title || !content) {
+    alert('Título e conteúdo são obrigatórios.');
+    return;
+  }
+
+  system.publishTheory(title, content, tags);
+  
+  // Limpar formulário
+  document.getElementById('theory-title').value = '';
+  document.getElementById('theory-content').value = '';
+  document.getElementById('theory-tags').value = '';
+  
+  // Voltar para teorias
+  showSection('theories');
+}
+
+function addReference() {
+  const title = document.getElementById('ref-title').value.trim();
+  const url = document.getElementById('ref-url').value.trim();
+  const description = document.getElementById('ref-description').value.trim();
+
+  if (!title) {
+    alert('Título é obrigatório.');
+    return;
+  }
+
+  system.addReference(title, url, description);
+  
+  // Limpar formulário
+  document.getElementById('ref-title').value = '';
+  document.getElementById('ref-url').value = '';
+  document.getElementById('ref-description').value = '';
+}
+
+function openProfileEditor() {
+  const modal = document.getElementById('profile-modal');
+  if (!modal) return;
+
+  document.getElementById('edit-username').value = system.currentUser.username;
+  document.getElementById('edit-avatar').value = system.currentUser.avatar || '';
+  document.getElementById('edit-bio').value = system.currentUser.bio || '';
+  document.getElementById('edit-interests').value = system.currentUser.interests?.join(', ') || '';
+
+  modal.classList.remove('hidden');
+}
+
+function closeProfileEditor() {
+  document.getElementById('profile-modal').classList.add('hidden');
+}
+
+function saveProfile() {
+  system.saveProfile();
+}
+
+function sendChatMessage() {
+  system.sendChatMessage();
+}
+
+function searchMembers() {
+  system.searchMembers();
+}
+
+function submitBountySolution(bountyId) {
+  const solution = prompt('Descreva sua solução para este desafio:');
+  if (solution) {
+    alert('Solução submetida para análise do Núcleo.');
+    system.logActivity(`${system.currentUser.username} submeteu uma solução para um desafio`, 'bounty');
+  }
+}
+
+// ===============================
+// EVENT LISTENERS
+// ===============================
+document.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && e.target.id === 'chat-input') {
+    sendChatMessage();
+  }
 });
+
+// ===============================
+// INICIALIZAÇÃO FINAL
+// ===============================
+window.onload = () => {
+  // Garantir que MathJax seja processado em novas renderizações
+  const originalTypeset = MathJax.typeset;
+  MathJax.typeset = function() {
+    if (originalTypeset) originalTypeset.call(MathJax);
+  };
+};
 </script>
 </body>
 </html>
