@@ -110,6 +110,65 @@ h3 {
 }
 
 /* ===============================
+   SISTEMA DE LOGIN
+================================ */
+#login-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #0a0a0a, #000);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  background: rgba(20, 0, 0, 0.9);
+  border: 3px solid #400;
+  padding: 40px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 50px rgba(179, 0, 0, 0.3);
+}
+
+.login-tabs {
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #400;
+}
+
+.login-tab {
+  flex: 1;
+  padding: 15px;
+  background: transparent;
+  color: #666;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+}
+
+.login-tab.active {
+  color: #b30000;
+  border-bottom: 3px solid #b30000;
+}
+
+.login-form {
+  display: none;
+}
+
+.login-form.active {
+  display: block;
+}
+
+/* ===============================
    SIDEBAR ESQUERDA - PERFIL E NAVEGAÇÃO
 ================================ */
 #sidebar {
@@ -134,9 +193,8 @@ h3 {
   overflow: hidden;
   border: 2px solid #400;
   background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
+  position: relative;
 }
 
 .avatar-container img {
@@ -153,7 +211,24 @@ h3 {
   align-items: center;
   justify-content: center;
   color: #666;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.avatar-upload {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 5px;
+  font-size: 0.7rem;
+  color: #b30000;
+  display: none;
+}
+
+.avatar-container:hover .avatar-upload {
+  display: block;
 }
 
 .nav-section {
@@ -212,7 +287,7 @@ h3 {
 }
 
 /* ===============================
-   PAINEL DIREITO - ATIVIDADES E CHAT
+   PAINEL DIREITO - ATIVIDADES E CHATS
 ================================ */
 #right-panel {
   background: rgba(20, 0, 0, 0.8);
@@ -221,33 +296,48 @@ h3 {
   overflow-y: auto;
 }
 
-.activity-log {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 30px;
+.chat-tabs {
+  display: flex;
+  border-bottom: 1px solid #400;
+  margin-bottom: 15px;
 }
 
-.activity-item {
-  padding: 12px;
-  margin-bottom: 8px;
-  background: rgba(30, 0, 0, 0.3);
-  border-left: 3px solid #400;
-  font-size: 0.85rem;
+.chat-tab {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  color: #666;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
 }
 
-.activity-item.new-member { border-left-color: #daa520; }
-.activity-item.new-theory { border-left-color: #1e40af; }
-.activity-item.new-connection { border-left-color: #10b981; }
+.chat-tab.active {
+  color: #b30000;
+  border-bottom: 2px solid #b30000;
+}
 
 .chat-container {
+  display: none;
   border: 1px solid #400;
   background: rgba(0, 0, 0, 0.7);
   padding: 15px;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 300px;
+  flex-direction: column;
 }
 
-#chat-messages {
-  height: 200px;
+.chat-container.active {
+  display: flex;
+}
+
+#chat-messages-global,
+#chat-messages-bounty,
+#chat-messages-private {
+  flex: 1;
   overflow-y: auto;
   margin-bottom: 15px;
   padding: 10px;
@@ -265,6 +355,11 @@ h3 {
   color: #b30000;
   font-weight: bold;
   margin-right: 8px;
+  cursor: pointer;
+}
+
+.chat-message .sender:hover {
+  text-decoration: underline;
 }
 
 .chat-input {
@@ -361,6 +456,12 @@ textarea.form-control {
   border-color: #b30000;
 }
 
+.btn-small {
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  margin-left: 5px;
+}
+
 /* ===============================
    CARDS E LISTAS
 ================================ */
@@ -451,10 +552,63 @@ textarea.form-control {
 }
 
 /* ===============================
+   MODAL DE CHAT PRIVADO
+================================ */
+.chat-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-modal-content {
+  background: #111;
+  border: 2px solid #400;
+  width: 90%;
+  max-width: 600px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-modal-header {
+  padding: 15px 20px;
+  background: rgba(20, 0, 0, 0.8);
+  border-bottom: 1px solid #400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-modal-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #000;
+}
+
+.chat-modal-input {
+  padding: 15px;
+  border-top: 1px solid #400;
+  display: flex;
+  gap: 10px;
+}
+
+/* ===============================
    UTILITÁRIOS
 ================================ */
 .hidden {
   display: none !important;
+}
+
+.visible {
+  display: block !important;
 }
 
 .text-center {
@@ -489,233 +643,313 @@ textarea.form-control {
 </head>
 <body>
 
-<div id="banner">
-  <div class="banner-title">ALGEBRA RENOVA</div>
-  <div class="system-status">
-    <div class="status-item">
-      <span class="status-value" id="member-count">0</span>
-      <span>MEMBROS</span>
+<!-- TELA DE LOGIN -->
+<div id="login-screen" class="visible">
+  <div class="login-container">
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="showLoginForm('login')">Entrar</button>
+      <button class="login-tab" onclick="showLoginForm('register')">Criar Conta</button>
     </div>
-    <div class="status-item">
-      <span class="status-value" id="theory-count">0</span>
-      <span>TEORIAS</span>
+    
+    <div id="login-form" class="login-form active">
+      <div class="form-group">
+        <label>Nome de Usuário</label>
+        <input type="text" id="login-username" class="form-control" placeholder="Digite seu usuário">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="login-password" class="form-control" placeholder="Digite sua senha">
+      </div>
+      <button class="btn-primary" style="width: 100%;" onclick="login()">Entrar na Rede</button>
     </div>
-    <div class="status-item">
-      <span class="status-value" id="online-count">0</span>
-      <span>ONLINE</span>
+    
+    <div id="register-form" class="login-form">
+      <div class="form-group">
+        <label>Nome de Usuário</label>
+        <input type="text" id="register-username" class="form-control" placeholder="Escolha um nome único">
+      </div>
+      <div class="form-group">
+        <label>Email (opcional)</label>
+        <input type="email" id="register-email" class="form-control" placeholder="email@exemplo.com">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="register-password" class="form-control" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" id="register-confirm" class="form-control" placeholder="Digite a senha novamente">
+      </div>
+      <button class="btn-primary" style="width: 100%;" onclick="register()">Criar Conta</button>
     </div>
   </div>
 </div>
 
-<div class="container">
-  
-  <!-- SIDEBAR ESQUERDA -->
-  <aside id="sidebar">
-    <div class="profile-section">
-      <div class="avatar-container" id="user-avatar">
-        <div class="avatar-placeholder" id="avatar-placeholder">A</div>
+<!-- APLICATIVO PRINCIPAL (ESCONDIDO INICIALMENTE) -->
+<div id="main-app" class="hidden">
+  <div id="banner">
+    <div class="banner-title">ALGEBRA RENOVA</div>
+    <div class="system-status">
+      <div class="status-item">
+        <span class="status-value" id="member-count">0</span>
+        <span>MEMBROS</span>
       </div>
-      <h3 id="username-display">Carregando...</h3>
-      <div id="user-rank" class="rank-badge rank-observador">Observador</div>
-      <div class="mt-20">
-        <button class="btn-secondary" onclick="openProfileEditor()">Editar Perfil</button>
+      <div class="status-item">
+        <span class="status-value" id="theory-count">0</span>
+        <span>TEORIAS</span>
+      </div>
+      <div class="status-item">
+        <span class="status-value" id="online-count">0</span>
+        <span>ONLINE</span>
+      </div>
+      <div class="status-item">
+        <button class="btn-secondary" onclick="logout()" style="padding: 5px 15px;">Sair</button>
       </div>
     </div>
+  </div>
 
-    <div class="nav-section">
-      <button class="nav-button active" onclick="showSection('dashboard')">Dashboard</button>
-      <button class="nav-button" onclick="showSection('theories')">Teorias</button>
-      <button class="nav-button" onclick="showSection('archive')">Arquivo</button>
-      <button class="nav-button" onclick="showSection('bounty')">Desafios</button>
-      <button class="nav-button" onclick="showSection('members')">Membros</button>
-      <button class="nav-button" onclick="showSection('connections')">Conexões</button>
-    </div>
-
-    <div class="nav-section">
-      <h4>Ferramentas</h4>
-      <button class="nav-button" onclick="showSection('editor')" id="editor-btn">Editor Teórico</button>
-      <button class="nav-button" onclick="showSection('upload')">Upload de Referência</button>
-      <button class="nav-button" onclick="showSection('reports')">Relatórios</button>
-    </div>
-  </aside>
-
-  <!-- CONTEÚDO CENTRAL -->
-  <main id="main-content">
+  <div class="container">
     
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="content-section active">
-      <h2>Dashboard do Sistema</h2>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Status da Rede</div>
-          <div class="card-meta">Última Atualização: <span id="last-update"></span></div>
+    <!-- SIDEBAR ESQUERDA -->
+    <aside id="sidebar">
+      <div class="profile-section">
+        <div class="avatar-container" id="user-avatar" onclick="changeAvatar()">
+          <div class="avatar-placeholder" id="avatar-placeholder">A</div>
+          <div class="avatar-upload">Clique para alterar</div>
         </div>
-        <p>Plataforma operacional. Sistema de hierarquia rigorosa implementado.</p>
+        <h3 id="username-display">Carregando...</h3>
+        <div id="user-rank" class="rank-badge rank-observador">Observador</div>
         <div class="mt-20">
-          <div class="list-item">
-            <span>Teorias Ativas</span>
-            <span id="active-theories">0</span>
+          <button class="btn-secondary" onclick="openProfileEditor()">Editar Perfil</button>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <button class="nav-button active" onclick="showSection('dashboard')">Dashboard</button>
+        <button class="nav-button" onclick="showSection('theories')">Teorias</button>
+        <button class="nav-button" onclick="showSection('archive')">Arquivo</button>
+        <button class="nav-button" onclick="showSection('bounty')">Desafios</button>
+        <button class="nav-button" onclick="showSection('members')">Membros</button>
+        <button class="nav-button" onclick="showSection('friends')">Amigos</button>
+        <button class="nav-button" onclick="showSection('messages')">Mensagens</button>
+      </div>
+
+      <div class="nav-section">
+        <h4>Ferramentas</h4>
+        <button class="nav-button" onclick="showSection('editor')" id="editor-btn">Editor Teórico</button>
+        <button class="nav-button" onclick="showSection('upload')">Upload de Referência</button>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO CENTRAL -->
+    <main id="main-content">
+      
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="content-section active">
+        <h2>Dashboard do Sistema</h2>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Status da Rede</div>
+            <div class="card-meta">Última Atualização: <span id="last-update"></span></div>
           </div>
-          <div class="list-item">
-            <span>Desafios em Aberto</span>
-            <span id="open-bounties">0</span>
+          <p>Plataforma operacional. Sistema de hierarquia rigorosa implementado.</p>
+          <div class="mt-20">
+            <div class="list-item">
+              <span>Teorias Ativas</span>
+              <span id="active-theories">0</span>
+            </div>
+            <div class="list-item">
+              <span>Desafios em Aberto</span>
+              <span id="open-bounties">0</span>
+            </div>
+            <div class="list-item">
+              <span>Referências Catalogadas</span>
+              <span id="archived-refs">0</span>
+            </div>
+            <div class="list-item">
+              <span>Suas Conexões</span>
+              <span id="my-connections-count">0</span>
+            </div>
           </div>
-          <div class="list-item">
-            <span>Referências Catalogadas</span>
-            <span id="archived-refs">0</span>
+        </div>
+
+        <h3>Notificações</h3>
+        <div id="notifications-list" class="mt-20">
+          <!-- Notificações serão carregadas dinamicamente -->
+        </div>
+      </section>
+
+      <!-- TEORIAS -->
+      <section id="theories" class="content-section">
+        <div class="card-header">
+          <h2>Teorias Publicadas</h2>
+          <button class="btn-primary" id="new-theory-btn" onclick="showSection('editor')">Nova Teoria</button>
+        </div>
+        <div id="theories-list">
+          <!-- Teorias serão carregadas dinamicamente -->
+        </div>
+      </section>
+
+      <!-- EDITOR TEÓRICO -->
+      <section id="editor" class="content-section">
+        <h2>Editor Teórico</h2>
+        <div class="card">
+          <div class="form-group">
+            <label for="theory-title">Título da Teoria</label>
+            <input type="text" id="theory-title" class="form-control" placeholder="Ex: Álgebra Não-Associativa em Espaços de Dimensão Infinita">
+          </div>
+          <div class="form-group">
+            <label for="theory-content">Conteúdo (Suporte LaTeX: use $...$ para inline, $$...$$ para display)</label>
+            <textarea id="theory-content" class="form-control" placeholder="Descreva sua teoria matemática aqui..." rows="10"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="theory-tags">Tags (separadas por vírgula)</label>
+            <input type="text" id="theory-tags" class="form-control" placeholder="álgebra, não-associativa, teoria-de-categorias">
+          </div>
+          <div class="text-center">
+            <button class="btn-primary" onclick="publishTheory()">Publicar Teoria</button>
+            <button class="btn-secondary" onclick="showSection('theories')">Cancelar</button>
           </div>
         </div>
-      </div>
+      </section>
 
-      <h3>Minhas Conexões</h3>
-      <div id="my-connections-list" class="mt-20">
-        <!-- Conexões serão carregadas dinamicamente -->
-      </div>
-    </section>
+      <!-- ARQUIVO -->
+      <section id="archive" class="content-section">
+        <h2>Arquivo de Referências</h2>
+        <div class="card">
+          <div class="form-group">
+            <label for="ref-title">Título da Referência</label>
+            <input type="text" id="ref-title" class="form-control" placeholder="Ex: Artigo: 'Non-Associative Algebras in Quantum Gravity'">
+          </div>
+          <div class="form-group">
+            <label for="ref-url">URL ou DOI</label>
+            <input type="text" id="ref-url" class="form-control" placeholder="https://arxiv.org/abs/... ou DOI: 10.1000/...">
+          </div>
+          <div class="form-group">
+            <label for="ref-description">Descrição/Resumo</label>
+            <textarea id="ref-description" class="form-control" placeholder="Resumo ou comentários sobre esta referência..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="addReference()">Adicionar ao Arquivo</button>
+        </div>
 
-    <!-- TEORIAS -->
-    <section id="theories" class="content-section">
-      <div class="card-header">
-        <h2>Teorias Publicadas</h2>
-        <button class="btn-primary" id="new-theory-btn" onclick="showSection('editor')">Nova Teoria</button>
-      </div>
-      <div id="theories-list">
-        <!-- Teorias serão carregadas dinamicamente -->
-      </div>
-    </section>
+        <div id="references-list" class="mt-30">
+          <!-- Referências serão carregadas dinamicamente -->
+        </div>
+      </section>
 
-    <!-- EDITOR TEÓRICO -->
-    <section id="editor" class="content-section">
-      <h2>Editor Teórico</h2>
-      <div class="card">
+      <!-- DESAFIOS -->
+      <section id="bounty" class="content-section">
+        <h2>Quadro de Desafios</h2>
+        <div id="bounty-board">
+          <!-- Desafios serão carregados dinamicamente -->
+        </div>
+      </section>
+
+      <!-- MEMBROS -->
+      <section id="members" class="content-section">
+        <h2>Membros da Rede</h2>
         <div class="form-group">
-          <label for="theory-title">Título da Teoria</label>
-          <input type="text" id="theory-title" class="form-control" placeholder="Ex: Álgebra Não-Associativa em Espaços de Dimensão Infinita">
+          <input type="text" id="search-member" class="form-control" placeholder="Buscar membro por nome ou nick..." onkeyup="searchMembers()">
         </div>
-        <div class="form-group">
-          <label for="theory-content">Conteúdo (Suporte LaTeX: use $...$ para inline, $$...$$ para display)</label>
-          <textarea id="theory-content" class="form-control" placeholder="Descreva sua teoria matemática aqui..."></textarea>
+        <div id="members-list">
+          <!-- Membros serão carregados dinamicamente -->
         </div>
-        <div class="form-group">
-          <label for="theory-tags">Tags (separadas por vírgula)</label>
-          <input type="text" id="theory-tags" class="form-control" placeholder="álgebra, não-associativa, teoria-de-categorias">
+      </section>
+
+      <!-- AMIGOS -->
+      <section id="friends" class="content-section">
+        <h2>Seus Amigos</h2>
+        <div id="friends-list">
+          <!-- Amigos serão carregados dinamicamente -->
         </div>
-        <div class="text-center">
-          <button class="btn-primary" onclick="publishTheory()">Publicar Teoria</button>
-          <button class="btn-secondary" onclick="showSection('theories')">Cancelar</button>
+        
+        <h3 class="mt-30">Solicitações de Amizade</h3>
+        <div id="friend-requests-list">
+          <!-- Solicitações serão carregadas dinamicamente -->
+        </div>
+      </section>
+
+      <!-- MENSAGENS -->
+      <section id="messages" class="content-section">
+        <h2>Mensagens Privadas</h2>
+        <div id="conversations-list">
+          <!-- Conversas serão carregadas dinamicamente -->
+        </div>
+      </section>
+
+      <!-- UPLOAD -->
+      <section id="upload" class="content-section">
+        <h2>Upload de Documento</h2>
+        <div class="card">
+          <div class="form-group">
+            <label for="doc-title">Título do Documento</label>
+            <input type="text" id="doc-title" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="doc-file">Arquivo (PDF, TEX, MD)</label>
+            <input type="file" id="doc-file" class="form-control" accept=".pdf,.tex,.md,.txt">
+          </div>
+          <div class="form-group">
+            <label for="doc-description">Descrição</label>
+            <textarea id="doc-description" class="form-control"></textarea>
+          </div>
+          <button class="btn-primary" onclick="uploadDocument()">Upload</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- PAINEL DIREITO - CHATS -->
+    <aside id="right-panel">
+      <div class="chat-tabs">
+        <button class="chat-tab active" onclick="showChat('global')">Global</button>
+        <button class="chat-tab" onclick="showChat('bounty')">Desafios</button>
+        <button class="chat-tab" onclick="showChat('private')">Privado</button>
+      </div>
+
+      <!-- CHAT GLOBAL -->
+      <div id="chat-global" class="chat-container active">
+        <div id="chat-messages-global"></div>
+        <div class="chat-input">
+          <input type="text" id="chat-input-global" placeholder="Mensagem para todos..." onkeypress="if(event.key==='Enter') sendGlobalChat()">
+          <button onclick="sendGlobalChat()">Enviar</button>
         </div>
       </div>
-    </section>
 
-    <!-- ARQUIVO -->
-    <section id="archive" class="content-section">
-      <h2>Arquivo de Referências</h2>
-      <div class="card">
-        <div class="form-group">
-          <label for="ref-title">Título da Referência</label>
-          <input type="text" id="ref-title" class="form-control" placeholder="Ex: Artigo: 'Non-Associative Algebras in Quantum Gravity'">
+      <!-- CHAT DE DESAFIOS -->
+      <div id="chat-bounty" class="chat-container">
+        <div id="chat-messages-bounty"></div>
+        <div class="chat-input">
+          <input type="text" id="chat-input-bounty" placeholder="Discuta soluções..." onkeypress="if(event.key==='Enter') sendBountyChat()">
+          <button onclick="sendBountyChat()">Enviar</button>
         </div>
-        <div class="form-group">
-          <label for="ref-url">URL ou DOI</label>
-          <input type="text" id="ref-url" class="form-control" placeholder="https://arxiv.org/abs/... ou DOI: 10.1000/...">
+      </div>
+
+      <!-- CHAT PRIVADO (LISTA DE CONTATOS) -->
+      <div id="chat-private" class="chat-container">
+        <div id="chat-contacts-list">
+          <!-- Contatos para chat privado -->
         </div>
-        <div class="form-group">
-          <label for="ref-description">Descrição/Resumo</label>
-          <textarea id="ref-description" class="form-control" placeholder="Resumo ou comentários sobre esta referência..."></textarea>
+        <div class="chat-input">
+          <input type="text" id="search-contact" placeholder="Buscar contato..." onkeyup="searchContacts()">
         </div>
-        <button class="btn-primary" onclick="addReference()">Adicionar ao Arquivo</button>
       </div>
 
-      <div id="references-list" class="mt-30">
-        <!-- Referências serão carregadas dinamicamente -->
-      </div>
-    </section>
-
-    <!-- DESAFIOS -->
-    <section id="bounty" class="content-section">
-      <h2>Quadro de Desafios</h2>
-      <div id="bounty-board">
-        <!-- Desafios serão carregados dinamicamente -->
-      </div>
-    </section>
-
-    <!-- MEMBROS -->
-    <section id="members" class="content-section">
-      <h2>Membros da Rede</h2>
-      <div class="form-group">
-        <input type="text" id="search-member" class="form-control" placeholder="Buscar membro por nome ou nick..." onkeyup="searchMembers()">
-      </div>
-      <div id="members-list">
-        <!-- Membros serão carregados dinamicamente -->
-      </div>
-    </section>
-
-    <!-- CONEXÕES -->
-    <section id="connections" class="content-section">
-      <h2>Minhas Conexões</h2>
-      <div id="connections-container">
-        <!-- Conexões serão carregadas dinamicamente -->
-      </div>
-    </section>
-
-    <!-- UPLOAD -->
-    <section id="upload" class="content-section">
-      <h2>Upload de Documento</h2>
-      <div class="card">
-        <div class="form-group">
-          <label for="doc-title">Título do Documento</label>
-          <input type="text" id="doc-title" class="form-control">
+      <!-- ATIVIDADES -->
+      <div class="mt-30">
+        <h4>Log de Atividades</h4>
+        <div id="activity-log" style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+          <!-- Atividades serão carregadas dinamicamente -->
         </div>
-        <div class="form-group">
-          <label for="doc-file">Arquivo (PDF, TEX, MD)</label>
-          <input type="file" id="doc-file" class="form-control" accept=".pdf,.tex,.md,.txt">
-        </div>
-        <div class="form-group">
-          <label for="doc-description">Descrição</label>
-          <textarea id="doc-description" class="form-control"></textarea>
-        </div>
-        <button class="btn-primary" onclick="uploadDocument()">Upload</button>
       </div>
-    </section>
-
-    <!-- RELATÓRIOS -->
-    <section id="reports" class="content-section">
-      <h2>Relatórios do Sistema</h2>
-      <div class="card">
-        <h3>Estatísticas da Rede</h3>
-        <div id="system-stats"></div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- PAINEL DIREITO -->
-  <aside id="right-panel">
-    <h3>Log de Atividades</h3>
-    <div class="activity-log" id="activity-log">
-      <!-- Atividades serão carregadas dinamicamente -->
-    </div>
-
-    <h3>Chat de Desafios</h3>
-    <div class="chat-container">
-      <div id="chat-messages"></div>
-      <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Discuta soluções..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-        <button onclick="sendChatMessage()">Enviar</button>
-      </div>
-    </div>
-
-    <div class="mt-30">
-      <h4>Status do Usuário</h4>
-      <div id="user-status-display"></div>
-    </div>
-  </aside>
-
+    </aside>
+  </div>
 </div>
 
 <!-- MODAL EDITOR DE PERFIL -->
-<div id="profile-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-  <div style="background: #111; border: 2px solid #400; padding: 30px; width: 90%; max-width: 500px;">
+<div id="profile-modal" class="hidden">
+  <div class="modal-overlay" onclick="closeProfileEditor()"></div>
+  <div class="modal-content">
     <h2 style="color: #b30000; margin-bottom: 20px;">Editar Perfil</h2>
     
     <div class="form-group">
@@ -724,8 +958,9 @@ textarea.form-control {
     </div>
     
     <div class="form-group">
-      <label>Avatar (URL da imagem)</label>
+      <label>URL da Foto de Perfil</label>
       <input type="text" id="edit-avatar" class="form-control" placeholder="https://...">
+      <small style="color: #666;">Cole a URL de uma imagem</small>
     </div>
     
     <div class="form-group">
@@ -745,6 +980,70 @@ textarea.form-control {
   </div>
 </div>
 
+<!-- MODAL DE CHAT PRIVADO -->
+<div id="private-chat-modal" class="chat-modal">
+  <div class="chat-modal-content">
+    <div class="chat-modal-header">
+      <h3 id="chat-with-user">Chat com Usuário</h3>
+      <button class="btn-secondary btn-small" onclick="closePrivateChat()">Fechar</button>
+    </div>
+    <div class="chat-modal-messages" id="private-chat-messages"></div>
+    <div class="chat-modal-input">
+      <input type="text" id="private-chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') sendPrivateMessage()">
+      <button onclick="sendPrivateMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE UPLOAD DE AVATAR -->
+<div id="avatar-modal" class="hidden">
+  <div class="modal-overlay" onclick="closeAvatarModal()"></div>
+  <div class="modal-content">
+    <h2 style="color: #b30000; margin-bottom: 20px;">Alterar Foto de Perfil</h2>
+    
+    <div class="form-group">
+      <label>URL da Imagem</label>
+      <input type="text" id="avatar-url" class="form-control" placeholder="https://exemplo.com/sua-foto.jpg">
+      <small style="color: #666;">Recomendado: 200x200 pixels</small>
+    </div>
+    
+    <div class="form-group">
+      <label>Ou faça upload</label>
+      <input type="file" id="avatar-upload" class="form-control" accept="image/*">
+    </div>
+    
+    <div style="display: flex; gap: 15px; margin-top: 25px;">
+      <button class="btn-primary" onclick="saveAvatar()">Salvar</button>
+      <button class="btn-secondary" onclick="closeAvatarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 999;
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  border: 2px solid #400;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+}
+</style>
+
 <script>
 // ===============================
 // SISTEMA DE ESTADO GLOBAL
@@ -756,82 +1055,351 @@ class AlgebraRenovaSystem {
   }
 
   loadState() {
-    // Estado principal
-    this.currentUser = JSON.parse(localStorage.getItem('ar_currentUser')) || this.createDefaultUser();
-    this.users = JSON.parse(localStorage.getItem('ar_users')) || [this.currentUser];
+    // Carregar estado do localStorage
+    this.users = JSON.parse(localStorage.getItem('ar_users')) || [];
+    this.currentUser = JSON.parse(localStorage.getItem('ar_currentUser')) || null;
     this.theories = JSON.parse(localStorage.getItem('ar_theories')) || [];
     this.references = JSON.parse(localStorage.getItem('ar_references')) || [];
     this.bounties = JSON.parse(localStorage.getItem('ar_bounties')) || [];
     this.documents = JSON.parse(localStorage.getItem('ar_documents')) || [];
     this.activities = JSON.parse(localStorage.getItem('ar_activities')) || [];
-    this.chatMessages = JSON.parse(localStorage.getItem('ar_chatMessages')) || [];
+    this.globalChat = JSON.parse(localStorage.getItem('ar_globalChat')) || [];
+    this.bountyChat = JSON.parse(localStorage.getItem('ar_bountyChat')) || [];
+    this.privateMessages = JSON.parse(localStorage.getItem('ar_privateMessages')) || {};
+    this.friendRequests = JSON.parse(localStorage.getItem('ar_friendRequests')) || {};
     
-    // Inicializar contadores reais
+    // Inicializar sistema de mensagens privadas se não existir
+    if (!this.privateMessages[this.getCurrentUserId()]) {
+      this.privateMessages[this.getCurrentUserId()] = {};
+    }
+    
+    // Inicializar sistema de solicitações de amizade
+    if (!this.friendRequests[this.getCurrentUserId()]) {
+      this.friendRequests[this.getCurrentUserId()] = [];
+    }
+    
     this.updateCounters();
-    
-    // Log de inicialização
-    this.logActivity('Sistema inicializado', 'system');
   }
 
-  createDefaultUser() {
-    return {
+  getCurrentUserId() {
+    return this.currentUser ? this.currentUser.id : 'guest';
+  }
+
+  // ===============================
+  // SISTEMA DE AUTENTICAÇÃO
+  // ===============================
+  login(username, password) {
+    const user = this.users.find(u => 
+      u.username.toLowerCase() === username.toLowerCase() && 
+      u.password === password
+    );
+    
+    if (user) {
+      this.currentUser = user;
+      this.currentUser.lastActive = new Date().toISOString();
+      localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+      
+      // Log de atividade
+      this.logActivity(`${username} entrou na rede`, 'login');
+      
+      return true;
+    }
+    return false;
+  }
+
+  register(username, email, password) {
+    // Verificar se usuário já existe
+    if (this.users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+      return { success: false, message: 'Nome de usuário já existe' };
+    }
+    
+    // Criar novo usuário
+    const newUser = {
       id: this.generateId(),
-      username: 'Usuario_' + Math.floor(Math.random() * 1000),
+      username: username,
+      email: email || '',
+      password: password,
       rank: 'observador',
       avatar: '',
       bio: '',
       interests: [],
+      friends: [],
       connections: [],
       joinDate: new Date().toISOString(),
       lastActive: new Date().toISOString()
     };
-  }
-
-  generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-  }
-
-  initializeSystem() {
-    // Atualizar interface
-    this.updateUserDisplay();
-    this.updateCounters();
-    this.renderTheories();
-    this.renderReferences();
-    this.renderBounties();
-    this.renderMembers();
-    this.renderActivities();
-    this.renderChat();
     
-    // Configurar intervalos de atualização
-    setInterval(() => this.updateUserActivity(), 30000);
-    setInterval(() => this.renderActivities(), 60000);
+    this.users.push(newUser);
+    this.currentUser = newUser;
+    
+    // Salvar no localStorage
+    localStorage.setItem('ar_users', JSON.stringify(this.users));
+    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+    
+    // Inicializar sistemas do usuário
+    if (!this.privateMessages[newUser.id]) {
+      this.privateMessages[newUser.id] = {};
+    }
+    if (!this.friendRequests[newUser.id]) {
+      this.friendRequests[newUser.id] = [];
+    }
+    
+    localStorage.setItem('ar_privateMessages', JSON.stringify(this.privateMessages));
+    localStorage.setItem('ar_friendRequests', JSON.stringify(this.friendRequests));
+    
+    // Log de atividade
+    this.logActivity(`Novo membro: ${username}`, 'new-member');
+    
+    return { success: true, message: 'Conta criada com sucesso!' };
+  }
+
+  logout() {
+    this.logActivity(`${this.currentUser.username} saiu da rede`, 'logout');
+    this.currentUser = null;
+    localStorage.removeItem('ar_currentUser');
+    location.reload();
   }
 
   // ===============================
-  // SISTEMA DE HIERARQUIA
+  // SISTEMA DE PERFIL
   // ===============================
-  canPublishTheory() {
-    const ranks = ['nucleo', 'iniciado'];
-    return ranks.includes(this.currentUser.rank);
+  updateProfile(username, avatar, bio, interests) {
+    if (!this.currentUser) return;
+    
+    const oldUsername = this.currentUser.username;
+    
+    if (username) {
+      this.currentUser.username = username;
+    }
+    
+    if (avatar) {
+      this.currentUser.avatar = avatar;
+    }
+    
+    this.currentUser.bio = bio || '';
+    this.currentUser.interests = interests.split(',').map(i => i.trim()).filter(i => i);
+    
+    // Atualizar em todos os lugares
+    const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+    if (userIndex > -1) {
+      this.users[userIndex] = this.currentUser;
+    }
+    
+    // Atualizar teorias e outros conteúdos do usuário
+    this.theories.forEach(t => {
+      if (t.authorId === this.currentUser.id) {
+        t.author = this.currentUser.username;
+      }
+    });
+    
+    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+    localStorage.setItem('ar_users', JSON.stringify(this.users));
+    localStorage.setItem('ar_theories', JSON.stringify(this.theories));
+    
+    this.logActivity(`${oldUsername} atualizou seu perfil`, 'profile-update');
+    this.updateUserDisplay();
   }
 
-  canCreateBounty() {
-    return this.currentUser.rank === 'nucleo';
+  // ===============================
+  // SISTEMA DE AMIZADES
+  // ===============================
+  sendFriendRequest(targetUserId) {
+    if (!this.currentUser) return;
+    
+    const targetUser = this.users.find(u => u.id === targetUserId);
+    if (!targetUser || targetUser.id === this.currentUser.id) return;
+    
+    // Verificar se já são amigos
+    if (this.currentUser.friends.includes(targetUserId)) {
+      alert('Você já é amigo deste usuário.');
+      return;
+    }
+    
+    // Verificar se já existe solicitação
+    if (!this.friendRequests[targetUserId]) {
+      this.friendRequests[targetUserId] = [];
+    }
+    
+    if (this.friendRequests[targetUserId].includes(this.currentUser.id)) {
+      alert('Solicitação já enviada.');
+      return;
+    }
+    
+    // Enviar solicitação
+    this.friendRequests[targetUserId].push(this.currentUser.id);
+    localStorage.setItem('ar_friendRequests', JSON.stringify(this.friendRequests));
+    
+    this.logActivity(`${this.currentUser.username} enviou solicitação de amizade para ${targetUser.username}`, 'friend-request');
+    this.renderMembers();
+    
+    alert(`Solicitação de amizade enviada para ${targetUser.username}`);
   }
 
-  getRankDisplay(rank) {
-    const ranks = {
-      'nucleo': { name: 'Núcleo', class: 'rank-nucleo' },
-      'iniciado': { name: 'Iniciado', class: 'rank-iniciado' },
-      'observador': { name: 'Observador', class: 'rank-observador' }
+  acceptFriendRequest(fromUserId) {
+    const fromUser = this.users.find(u => u.id === fromUserId);
+    if (!fromUser || !this.currentUser) return;
+    
+    // Adicionar como amigo
+    if (!this.currentUser.friends.includes(fromUserId)) {
+      this.currentUser.friends.push(fromUserId);
+    }
+    
+    if (!fromUser.friends.includes(this.currentUser.id)) {
+      fromUser.friends.push(this.currentUser.id);
+    }
+    
+    // Remover solicitação
+    const requestIndex = this.friendRequests[this.currentUser.id].indexOf(fromUserId);
+    if (requestIndex > -1) {
+      this.friendRequests[this.currentUser.id].splice(requestIndex, 1);
+    }
+    
+    // Salvar alterações
+    localStorage.setItem('ar_users', JSON.stringify(this.users));
+    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+    localStorage.setItem('ar_friendRequests', JSON.stringify(this.friendRequests));
+    
+    this.logActivity(`${this.currentUser.username} aceitou amizade de ${fromUser.username}`, 'friend-accepted');
+    this.renderFriendRequests();
+    this.renderFriends();
+  }
+
+  rejectFriendRequest(fromUserId) {
+    const fromUser = this.users.find(u => u.id === fromUserId);
+    if (!fromUser || !this.currentUser) return;
+    
+    // Remover solicitação
+    const requestIndex = this.friendRequests[this.currentUser.id].indexOf(fromUserId);
+    if (requestIndex > -1) {
+      this.friendRequests[this.currentUser.id].splice(requestIndex, 1);
+    }
+    
+    localStorage.setItem('ar_friendRequests', JSON.stringify(this.friendRequests));
+    
+    this.logActivity(`${this.currentUser.username} rejeitou amizade de ${fromUser.username}`, 'friend-rejected');
+    this.renderFriendRequests();
+  }
+
+  removeFriend(friendId) {
+    const friend = this.users.find(u => u.id === friendId);
+    if (!friend || !this.currentUser) return;
+    
+    // Remover de ambas as listas
+    const userIndex = this.currentUser.friends.indexOf(friendId);
+    if (userIndex > -1) {
+      this.currentUser.friends.splice(userIndex, 1);
+    }
+    
+    const friendIndex = friend.friends.indexOf(this.currentUser.id);
+    if (friendIndex > -1) {
+      friend.friends.splice(friendIndex, 1);
+    }
+    
+    // Salvar alterações
+    localStorage.setItem('ar_users', JSON.stringify(this.users));
+    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
+    
+    this.logActivity(`${this.currentUser.username} removeu ${friend.username} dos amigos`, 'friend-removed');
+    this.renderFriends();
+  }
+
+  // ===============================
+  // SISTEMA DE CHAT
+  // ===============================
+  sendGlobalChat(message) {
+    if (!this.currentUser || !message.trim()) return;
+    
+    const chatMessage = {
+      id: this.generateId(),
+      user: this.currentUser.username,
+      userId: this.currentUser.id,
+      userRank: this.currentUser.rank,
+      text: message,
+      timestamp: new Date().toISOString()
     };
-    return ranks[rank] || ranks.observador;
+    
+    this.globalChat.push(chatMessage);
+    
+    // Manter histórico limitado
+    if (this.globalChat.length > 200) {
+      this.globalChat = this.globalChat.slice(-200);
+    }
+    
+    localStorage.setItem('ar_globalChat', JSON.stringify(this.globalChat));
+    this.renderGlobalChat();
+  }
+
+  sendBountyChat(message) {
+    if (!this.currentUser || !message.trim()) return;
+    
+    const chatMessage = {
+      id: this.generateId(),
+      user: this.currentUser.username,
+      userId: this.currentUser.id,
+      userRank: this.currentUser.rank,
+      text: message,
+      timestamp: new Date().toISOString()
+    };
+    
+    this.bountyChat.push(chatMessage);
+    
+    // Manter histórico limitado
+    if (this.bountyChat.length > 200) {
+      this.bountyChat = this.bountyChat.slice(-200);
+    }
+    
+    localStorage.setItem('ar_bountyChat', JSON.stringify(this.bountyChat));
+    this.renderBountyChat();
+  }
+
+  sendPrivateMessage(toUserId, message) {
+    if (!this.currentUser || !toUserId || !message.trim()) return;
+    
+    const chatMessage = {
+      id: this.generateId(),
+      from: this.currentUser.id,
+      fromName: this.currentUser.username,
+      to: toUserId,
+      text: message,
+      timestamp: new Date().toISOString(),
+      read: false
+    };
+    
+    // Garantir que existam os arrays de mensagens
+    if (!this.privateMessages[this.currentUser.id]) {
+      this.privateMessages[this.currentUser.id] = {};
+    }
+    if (!this.privateMessages[toUserId]) {
+      this.privateMessages[toUserId] = {};
+    }
+    if (!this.privateMessages[this.currentUser.id][toUserId]) {
+      this.privateMessages[this.currentUser.id][toUserId] = [];
+    }
+    if (!this.privateMessages[toUserId][this.currentUser.id]) {
+      this.privateMessages[toUserId][this.currentUser.id] = [];
+    }
+    
+    // Adicionar mensagem em ambas as conversas
+    this.privateMessages[this.currentUser.id][toUserId].push(chatMessage);
+    this.privateMessages[toUserId][this.currentUser.id].push(chatMessage);
+    
+    localStorage.setItem('ar_privateMessages', JSON.stringify(this.privateMessages));
+    
+    // Se estiver no chat com esta pessoa, atualizar
+    if (window.currentPrivateChatWith === toUserId) {
+      this.renderPrivateChat(toUserId);
+    }
+    
+    // Renderizar conversas
+    this.renderConversations();
   }
 
   // ===============================
-  // OPERAÇÕES DO USUÁRIO
+  // RENDERIZAÇÃO
   // ===============================
   updateUserDisplay() {
+    if (!this.currentUser) return;
+    
     document.getElementById('username-display').textContent = this.currentUser.username;
     
     const rank = this.getRankDisplay(this.currentUser.rank);
@@ -840,8 +1408,11 @@ class AlgebraRenovaSystem {
     rankBadge.className = `rank-badge ${rank.class}`;
     
     // Atualizar avatar
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
     if (this.currentUser.avatar) {
-      document.getElementById('avatar-placeholder').innerHTML = `<img src="${this.currentUser.avatar}" alt="${this.currentUser.username}">`;
+      avatarPlaceholder.innerHTML = `<img src="${this.currentUser.avatar}" alt="${this.currentUser.username}" onerror="this.onerror=null; this.parentElement.innerHTML='${this.currentUser.username.charAt(0)}'">`;
+    } else {
+      avatarPlaceholder.textContent = this.currentUser.username.charAt(0);
     }
     
     // Botão de nova teoria baseado em permissões
@@ -853,306 +1424,273 @@ class AlgebraRenovaSystem {
     }
   }
 
-  updateUserActivity() {
-    this.currentUser.lastActive = new Date().toISOString();
-    this.saveUserState();
-  }
-
-  saveUserState() {
-    // Atualizar usuário na lista
-    const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
-    if (userIndex > -1) {
-      this.users[userIndex] = this.currentUser;
-    } else {
-      this.users.push(this.currentUser);
-    }
-    
-    localStorage.setItem('ar_currentUser', JSON.stringify(this.currentUser));
-    localStorage.setItem('ar_users', JSON.stringify(this.users));
-  }
-
-  // ===============================
-  // TEORIAS
-  // ===============================
-  publishTheory(title, content, tags) {
-    if (!this.canPublishTheory()) {
-      alert('Apenas membros do Núcleo e Iniciados podem publicar teorias.');
-      return;
-    }
-
-    const theory = {
-      id: this.generateId(),
-      title: title,
-      content: content,
-      tags: tags.split(',').map(tag => tag.trim()),
-      author: this.currentUser.username,
-      authorId: this.currentUser.id,
-      authorRank: this.currentUser.rank,
-      createdAt: new Date().toISOString(),
-      views: 0,
-      comments: []
-    };
-
-    this.theories.unshift(theory);
-    localStorage.setItem('ar_theories', JSON.stringify(this.theories));
-    
-    this.logActivity(`${this.currentUser.username} publicou uma nova teoria: "${title}"`, 'new-theory');
-    this.renderTheories();
-    this.updateCounters();
-    
-    // Processar MathJax
-    setTimeout(() => MathJax.typeset(), 100);
-  }
-
-  renderTheories() {
-    const container = document.getElementById('theories-list');
+  renderGlobalChat() {
+    const container = document.getElementById('chat-messages-global');
     if (!container) return;
-
+    
     container.innerHTML = '';
     
-    this.theories.forEach(theory => {
-      const theoryCard = document.createElement('div');
-      theoryCard.className = 'card';
-      theoryCard.innerHTML = `
-        <div class="card-header">
-          <div class="card-title">${theory.title}</div>
-          <div class="card-meta">
-            Por: ${theory.author} 
-            <span class="rank-badge ${this.getRankDisplay(theory.authorRank).class}">${this.getRankDisplay(theory.authorRank).name}</span>
-          </div>
-        </div>
-        <div class="theory-content">${theory.content}</div>
-        <div class="mt-20">
-          <span style="color: #666; font-size: 0.8rem;">Tags: ${theory.tags.join(', ')}</span>
-          <span style="float: right; color: #666; font-size: 0.8rem;">Visualizações: ${theory.views}</span>
-        </div>
-      `;
-      container.appendChild(theoryCard);
-    });
-  }
-
-  // ===============================
-  // ARQUIVO DE REFERÊNCIAS
-  // ===============================
-  addReference(title, url, description) {
-    const reference = {
-      id: this.generateId(),
-      title: title,
-      url: url,
-      description: description,
-      addedBy: this.currentUser.username,
-      addedById: this.currentUser.id,
-      addedAt: new Date().toISOString(),
-      verified: this.currentUser.rank === 'nucleo'
-    };
-
-    this.references.unshift(reference);
-    localStorage.setItem('ar_references', JSON.stringify(this.references));
-    
-    this.logActivity(`${this.currentUser.username} adicionou uma referência: "${title}"`, 'archive');
-    this.renderReferences();
-    this.updateCounters();
-  }
-
-  renderReferences() {
-    const container = document.getElementById('references-list');
-    if (!container) return;
-
-    container.innerHTML = '';
-    
-    this.references.forEach(ref => {
-      const refItem = document.createElement('div');
-      refItem.className = 'list-item';
-      refItem.innerHTML = `
+    this.globalChat.slice(-50).forEach(msg => {
+      const rank = this.getRankDisplay(msg.userRank);
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message';
+      messageDiv.innerHTML = `
         <div>
-          <strong>${ref.title}</strong><br>
-          <small style="color: #666;">${ref.url}</small><br>
-          <small>${ref.description}</small>
+          <span class="sender" onclick="startPrivateChat('${msg.userId}')">${msg.user}</span>
+          <span class="rank-badge ${rank.class}" style="font-size: 0.6rem; padding: 1px 6px;">${rank.name}</span>
+          <span style="color: #666; font-size: 0.7rem;">
+            ${new Date(msg.timestamp).toLocaleTimeString()}
+          </span>
         </div>
-        <div style="text-align: right;">
-          <small>Adicionado por: ${ref.addedBy}</small><br>
-          <small>${new Date(ref.addedAt).toLocaleDateString()}</small>
-        </div>
+        <div>${msg.text}</div>
       `;
-      container.appendChild(refItem);
+      container.appendChild(messageDiv);
     });
+    
+    container.scrollTop = container.scrollHeight;
   }
 
-  // ===============================
-  // QUADRO DE DESAFIOS
-  // ===============================
-  createBounty(title, description, reward) {
-    if (!this.canCreateBounty()) {
-      alert('Apenas membros do Núcleo podem criar desafios.');
+  renderBountyChat() {
+    const container = document.getElementById('chat-messages-bounty');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    this.bountyChat.slice(-50).forEach(msg => {
+      const rank = this.getRankDisplay(msg.userRank);
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message';
+      messageDiv.innerHTML = `
+        <div>
+          <span class="sender" onclick="startPrivateChat('${msg.userId}')">${msg.user}</span>
+          <span class="rank-badge ${rank.class}" style="font-size: 0.6rem; padding: 1px 6px;">${rank.name}</span>
+          <span style="color: #666; font-size: 0.7rem;">
+            ${new Date(msg.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+        <div>${msg.text}</div>
+      `;
+      container.appendChild(messageDiv);
+    });
+    
+    container.scrollTop = container.scrollHeight;
+  }
+
+  renderPrivateChat(userId) {
+    const container = document.getElementById('private-chat-messages');
+    const user = this.users.find(u => u.id === userId);
+    
+    if (!container || !user) return;
+    
+    document.getElementById('chat-with-user').textContent = `Chat com ${user.username}`;
+    container.innerHTML = '';
+    
+    const messages = this.privateMessages[this.currentUser.id][userId] || [];
+    
+    messages.forEach(msg => {
+      const isFromMe = msg.from === this.currentUser.id;
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message';
+      messageDiv.style.background = isFromMe ? 'rgba(64, 0, 0, 0.3)' : 'rgba(0, 20, 0, 0.3)';
+      messageDiv.style.borderLeft = isFromMe ? '3px solid #b30000' : '3px solid #008000';
+      messageDiv.innerHTML = `
+        <div>
+          <strong style="color: ${isFromMe ? '#b30000' : '#008000'}">
+            ${isFromMe ? 'Você' : msg.fromName}
+          </strong>
+          <span style="color: #666; font-size: 0.7rem; margin-left: 10px;">
+            ${new Date(msg.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+        <div>${msg.text}</div>
+      `;
+      container.appendChild(messageDiv);
+    });
+    
+    container.scrollTop = container.scrollHeight;
+    window.currentPrivateChatWith = userId;
+  }
+
+  renderFriends() {
+    const container = document.getElementById('friends-list');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    if (!this.currentUser || !this.currentUser.friends.length) {
+      container.innerHTML = '<p style="color: #666;">Você ainda não tem amigos. Adicione alguns membros!</p>';
       return;
     }
-
-    const bounty = {
-      id: this.generateId(),
-      title: title,
-      description: description,
-      reward: reward,
-      createdBy: this.currentUser.username,
-      createdById: this.currentUser.id,
-      createdAt: new Date().toISOString(),
-      status: 'open',
-      submissions: []
-    };
-
-    this.bounties.unshift(bounty);
-    localStorage.setItem('ar_bounties', JSON.stringify(this.bounties));
     
-    this.logActivity(`Novo desafio criado por ${this.currentUser.username}: "${title}"`, 'bounty');
-    this.renderBounties();
-    this.updateCounters();
-  }
-
-  renderBounties() {
-    const container = document.getElementById('bounty-board');
-    if (!container) return;
-
-    container.innerHTML = '';
-    
-    this.bounties.forEach(bounty => {
-      const bountyCard = document.createElement('div');
-      bountyCard.className = 'card';
-      bountyCard.innerHTML = `
-        <div class="card-header">
-          <div class="card-title">${bounty.title}</div>
-          <div class="card-meta">
-            <span class="rank-badge ${bounty.status === 'open' ? 'rank-iniciado' : 'rank-observador'}">
-              ${bounty.status === 'open' ? 'ABERTO' : 'RESOLVIDO'}
-            </span>
-          </div>
-        </div>
-        <p>${bounty.description}</p>
-        <div class="mt-20">
-          <span style="color: #daa520;">Recompensa: ${bounty.reward}</span>
-          <span style="float: right; color: #666;">Criado por: ${bounty.createdBy}</span>
-        </div>
-        ${bounty.status === 'open' ? 
-          `<button class="btn-secondary mt-20" onclick="submitBountySolution('${bounty.id}')">Submeter Solução</button>` : 
-          ''
-        }
-      `;
-      container.appendChild(bountyCard);
-    });
-  }
-
-  // ===============================
-  // SISTEMA DE MEMBROS
-  // ===============================
-  renderMembers() {
-    const container = document.getElementById('members-list');
-    if (!container) return;
-
-    container.innerHTML = '';
-    
-    this.users.forEach(user => {
-      const rank = this.getRankDisplay(user.rank);
-      const memberCard = document.createElement('div');
-      memberCard.className = 'list-item';
-      memberCard.innerHTML = `
+    this.currentUser.friends.forEach(friendId => {
+      const friend = this.users.find(u => u.id === friendId);
+      if (!friend) return;
+      
+      const rank = this.getRankDisplay(friend.rank);
+      const friendCard = document.createElement('div');
+      friendCard.className = 'list-item';
+      friendCard.innerHTML = `
         <div style="display: flex; align-items: center; gap: 15px;">
           <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center;">
-            ${user.username.charAt(0)}
+            ${friend.avatar ? 
+              `<img src="${friend.avatar}" alt="${friend.username}" style="width:100%;height:100%;border-radius:50%;">` : 
+              friend.username.charAt(0)
+            }
           </div>
           <div>
-            <strong>${user.username}</strong><br>
+            <strong>${friend.username}</strong><br>
             <span class="rank-badge ${rank.class}" style="font-size: 0.7rem;">${rank.name}</span>
+            <small style="color: #666; display: block;">${friend.interests?.slice(0, 2).join(', ') || ''}</small>
           </div>
         </div>
         <div>
-          ${user.id !== this.currentUser.id && !this.currentUser.connections.includes(user.id) ?
-            `<button class="btn-secondary" onclick="system.sendConnectionRequest('${user.id}')">Conectar</button>` :
-            '<small style="color: #666;">Conectado</small>'
-          }
+          <button class="btn-secondary btn-small" onclick="startPrivateChat('${friend.id}')">Mensagem</button>
+          <button class="btn-small" style="background: #400; color: #fff; border: none;" onclick="system.removeFriend('${friend.id}')">Remover</button>
         </div>
       `;
-      container.appendChild(memberCard);
+      container.appendChild(friendCard);
     });
   }
 
-  searchMembers() {
-    const searchTerm = document.getElementById('search-member').value.toLowerCase();
-    const members = document.querySelectorAll('#members-list .list-item');
+  renderFriendRequests() {
+    const container = document.getElementById('friend-requests-list');
+    if (!container || !this.currentUser) return;
     
-    members.forEach(member => {
-      const text = member.textContent.toLowerCase();
-      member.style.display = text.includes(searchTerm) ? 'flex' : 'none';
-    });
-  }
-
-  // ===============================
-  // SISTEMA DE CONEXÕES
-  // ===============================
-  sendConnectionRequest(targetUserId) {
-    const targetUser = this.users.find(u => u.id === targetUserId);
-    if (!targetUser) return;
-
-    // Adicionar conexão
-    if (!this.currentUser.connections.includes(targetUserId)) {
-      this.currentUser.connections.push(targetUserId);
-      this.saveUserState();
-      
-      this.logActivity(`${this.currentUser.username} conectou-se com ${targetUser.username}`, 'new-connection');
-      this.renderMembers();
-      this.updateUserDisplay();
-    }
-  }
-
-  renderConnections() {
-    const container = document.getElementById('connections-container');
-    if (!container) return;
-
     container.innerHTML = '';
     
-    const connectedUsers = this.users.filter(user => 
-      this.currentUser.connections.includes(user.id)
-    );
-
-    if (connectedUsers.length === 0) {
-      container.innerHTML = '<p style="color: #666;">Nenhuma conexão estabelecida.</p>';
+    const requests = this.friendRequests[this.currentUser.id] || [];
+    
+    if (requests.length === 0) {
+      container.innerHTML = '<p style="color: #666;">Nenhuma solicitação de amizade pendente.</p>';
       return;
     }
-
-    connectedUsers.forEach(user => {
-      const rank = this.getRankDisplay(user.rank);
-      const connectionCard = document.createElement('div');
-      connectionCard.className = 'list-item';
-      connectionCard.innerHTML = `
+    
+    requests.forEach(fromUserId => {
+      const fromUser = this.users.find(u => u.id === fromUserId);
+      if (!fromUser) return;
+      
+      const requestCard = document.createElement('div');
+      requestCard.className = 'list-item';
+      requestCard.innerHTML = `
         <div style="display: flex; align-items: center; gap: 15px;">
-          <div style="width: 50px; height: 50px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
-            ${user.username.charAt(0)}
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center;">
+            ${fromUser.avatar ? 
+              `<img src="${fromUser.avatar}" alt="${fromUser.username}" style="width:100%;height:100%;border-radius:50%;">` : 
+              fromUser.username.charAt(0)
+            }
           </div>
           <div>
-            <strong>${user.username}</strong><br>
-            <span class="rank-badge ${rank.class}">${rank.name}</span><br>
-            <small style="color: #666;">${user.interests?.slice(0, 3).join(', ') || 'Sem interesses definidos'}</small>
+            <strong>${fromUser.username}</strong><br>
+            <small style="color: #666;">Quer ser seu amigo</small>
+          </div>
+        </div>
+        <div>
+          <button class="btn-secondary btn-small" onclick="system.acceptFriendRequest('${fromUserId}')">Aceitar</button>
+          <button class="btn-small" style="background: #400; color: #fff; border: none;" onclick="system.rejectFriendRequest('${fromUserId}')">Recusar</button>
+        </div>
+      `;
+      container.appendChild(requestCard);
+    });
+  }
+
+  renderConversations() {
+    const container = document.getElementById('conversations-list');
+    if (!container || !this.currentUser) return;
+    
+    container.innerHTML = '';
+    
+    const myMessages = this.privateMessages[this.currentUser.id];
+    if (!myMessages) {
+      container.innerHTML = '<p style="color: #666;">Nenhuma conversa ainda.</p>';
+      return;
+    }
+    
+    const conversations = Object.keys(myMessages)
+      .map(userId => {
+        const messages = myMessages[userId];
+        const lastMessage = messages[messages.length - 1];
+        const otherUser = this.users.find(u => u.id === userId);
+        return {
+          userId,
+          user: otherUser,
+          lastMessage,
+          unread: messages.filter(m => !m.read && m.from !== this.currentUser.id).length
+        };
+      })
+      .filter(c => c.user && c.lastMessage)
+      .sort((a, b) => new Date(b.lastMessage.timestamp) - new Date(a.lastMessage.timestamp));
+    
+    if (conversations.length === 0) {
+      container.innerHTML = '<p style="color: #666;">Nenhuma conversa ainda.</p>';
+      return;
+    }
+    
+    conversations.forEach(conv => {
+      const conversationCard = document.createElement('div');
+      conversationCard.className = 'list-item';
+      conversationCard.style.cursor = 'pointer';
+      conversationCard.onclick = () => startPrivateChat(conv.userId);
+      conversationCard.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center;">
+            ${conv.user.avatar ? 
+              `<img src="${conv.user.avatar}" alt="${conv.user.username}" style="width:100%;height:100%;border-radius:50%;">` : 
+              conv.user.username.charAt(0)
+            }
+          </div>
+          <div style="flex: 1;">
+            <strong>${conv.user.username}</strong>
+            ${conv.unread > 0 ? `<span style="background: #b30000; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: 10px;">${conv.unread}</span>` : ''}
+            <div style="color: #666; font-size: 0.9rem; margin-top: 5px;">
+              ${conv.lastMessage.text.length > 50 ? conv.lastMessage.text.substring(0, 50) + '...' : conv.lastMessage.text}
+            </div>
+          </div>
+          <div style="color: #666; font-size: 0.8rem;">
+            ${new Date(conv.lastMessage.timestamp).toLocaleDateString()}
           </div>
         </div>
       `;
-      container.appendChild(connectionCard);
+      container.appendChild(conversationCard);
     });
   }
 
   // ===============================
-  // ATIVIDADES E LOG
+  // UTILITÁRIOS
   // ===============================
+  generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  getRankDisplay(rank) {
+    const ranks = {
+      'nucleo': { name: 'Núcleo', class: 'rank-nucleo' },
+      'iniciado': { name: 'Iniciado', class: 'rank-iniciado' },
+      'observador': { name: 'Observador', class: 'rank-observador' }
+    };
+    return ranks[rank] || ranks.observador;
+  }
+
+  canPublishTheory() {
+    const ranks = ['nucleo', 'iniciado'];
+    return this.currentUser && ranks.includes(this.currentUser.rank);
+  }
+
+  canCreateBounty() {
+    return this.currentUser && this.currentUser.rank === 'nucleo';
+  }
+
   logActivity(message, type = 'system') {
     const activity = {
       id: this.generateId(),
       message: message,
       type: type,
-      timestamp: new Date().toISOString(),
-      user: this.currentUser.username
+      timestamp: new Date().toISOString()
     };
 
     this.activities.unshift(activity);
     
-    // Manter apenas as 50 atividades mais recentes
-    if (this.activities.length > 50) {
-      this.activities = this.activities.slice(0, 50);
+    if (this.activities.length > 100) {
+      this.activities = this.activities.slice(0, 100);
     }
 
     localStorage.setItem('ar_activities', JSON.stringify(this.activities));
@@ -1167,7 +1705,7 @@ class AlgebraRenovaSystem {
     
     this.activities.slice(0, 10).forEach(activity => {
       const activityItem = document.createElement('div');
-      activityItem.className = `activity-item ${activity.type}`;
+      activityItem.className = 'activity-item';
       activityItem.innerHTML = `
         <div style="color: #999; font-size: 0.75rem;">
           ${new Date(activity.timestamp).toLocaleTimeString()}
@@ -1178,67 +1716,9 @@ class AlgebraRenovaSystem {
     });
   }
 
-  // ===============================
-  // SISTEMA DE CHAT
-  // ===============================
-  sendChatMessage(message) {
-    const input = document.getElementById('chat-input');
-    if (!input) return;
-
-    const text = message || input.value.trim();
-    if (!text) return;
-
-    const chatMessage = {
-      id: this.generateId(),
-      user: this.currentUser.username,
-      userId: this.currentUser.id,
-      userRank: this.currentUser.rank,
-      text: text,
-      timestamp: new Date().toISOString()
-    };
-
-    this.chatMessages.push(chatMessage);
-    
-    // Manter apenas as 100 mensagens mais recentes
-    if (this.chatMessages.length > 100) {
-      this.chatMessages = this.chatMessages.slice(-100);
-    }
-
-    localStorage.setItem('ar_chatMessages', JSON.stringify(this.chatMessages));
-    input.value = '';
-    this.renderChat();
-  }
-
-  renderChat() {
-    const container = document.getElementById('chat-messages');
-    if (!container) return;
-
-    container.innerHTML = '';
-    
-    this.chatMessages.slice(-20).forEach(msg => {
-      const rank = this.getRankDisplay(msg.userRank);
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'chat-message';
-      messageDiv.innerHTML = `
-        <div>
-          <span class="sender">${msg.user}</span>
-          <span class="rank-badge ${rank.class}" style="font-size: 0.6rem; padding: 1px 6px;">${rank.name}</span>
-          <span style="color: #666; font-size: 0.7rem;">
-            ${new Date(msg.timestamp).toLocaleTimeString()}
-          </span>
-        </div>
-        <div>${msg.text}</div>
-      `;
-      container.appendChild(messageDiv);
-    });
-
-    container.scrollTop = container.scrollHeight;
-  }
-
-  // ===============================
-  // CONTADORES E ESTATÍSTICAS
-  // ===============================
   updateCounters() {
+    if (!this.currentUser) return;
+    
     document.getElementById('member-count').textContent = this.users.length;
     document.getElementById('theory-count').textContent = this.theories.length;
     document.getElementById('online-count').textContent = this.users.filter(u => 
@@ -1248,35 +1728,9 @@ class AlgebraRenovaSystem {
     document.getElementById('active-theories').textContent = this.theories.length;
     document.getElementById('open-bounties').textContent = this.bounties.filter(b => b.status === 'open').length;
     document.getElementById('archived-refs').textContent = this.references.length;
+    document.getElementById('my-connections-count').textContent = this.currentUser.friends.length;
     
     document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
-  }
-
-  // ===============================
-  // PERFIL DO USUÁRIO
-  // ===============================
-  saveProfile() {
-    const username = document.getElementById('edit-username').value.trim();
-    const avatar = document.getElementById('edit-avatar').value.trim();
-    const bio = document.getElementById('edit-bio').value.trim();
-    const interests = document.getElementById('edit-interests').value.split(',').map(i => i.trim());
-
-    if (username) {
-      this.currentUser.username = username;
-    }
-    
-    if (avatar) {
-      this.currentUser.avatar = avatar;
-    }
-    
-    this.currentUser.bio = bio;
-    this.currentUser.interests = interests;
-
-    this.saveUserState();
-    this.updateUserDisplay();
-    this.closeProfileEditor();
-    
-    this.logActivity(`${this.currentUser.username} atualizou seu perfil`, 'system');
   }
 }
 
@@ -1285,63 +1739,429 @@ class AlgebraRenovaSystem {
 // ===============================
 let system;
 
-document.addEventListener('DOMContentLoaded', () => {
-  system = new AlgebraRenovaSystem();
-  
-  // Adicionar alguns dados iniciais se o sistema estiver vazio
-  if (system.theories.length === 0) {
-    system.publishTheory(
-      'Fundamentos da Algebra Renova',
-      'A Algebra Renova transcende as estruturas convencionais. Consideremos uma álgebra $A$ sobre um corpo $K$ com operação $*$ não necessariamente associativa. Definimos a transformação radical: $$T: A \\to A, \\quad T(x) = \\lim_{n\\to\\infty} \\frac{x^{*n}}{n!}$$ onde $x^{*n}$ denota a $n$-ésima potência não-associativa.',
-      'álgebra, fundamentos, não-associativa'
-    );
-  }
-
-  if (system.bounties.length === 0 && system.currentUser.rank === 'nucleo') {
-    system.createBounty(
-      'Problema da Auto-Similaridade Algébrica',
-      'Encontre uma estrutura algébrica não-associativa que seja isomorfa a um de seus subconjuntos próprios. Considere espaços de dimensão infinita.',
-      'Acesso ao Núcleo por 30 dias'
-    );
-  }
-});
-
 // ===============================
 // FUNÇÕES DE INTERFACE
 // ===============================
+function showLoginForm(form) {
+  document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+  document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+  
+  document.getElementById(form + '-form').classList.add('active');
+  document.querySelector(`[onclick="showLoginForm('${form}')"]`).classList.add('active');
+}
+
+function login() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  
+  if (!username || !password) {
+    alert('Preencha todos os campos');
+    return;
+  }
+  
+  if (!system) {
+    system = new AlgebraRenovaSystem();
+  }
+  
+  if (system.login(username, password)) {
+    document.getElementById('login-screen').classList.remove('visible');
+    document.getElementById('main-app').classList.remove('hidden');
+    
+    system.updateUserDisplay();
+    system.renderGlobalChat();
+    system.renderBountyChat();
+    system.renderFriends();
+    system.renderFriendRequests();
+    system.renderConversations();
+    system.renderActivities();
+    system.updateCounters();
+    
+    // Renderizar membros
+    renderMembers();
+    
+    // Inicializar chat
+    showChat('global');
+  } else {
+    alert('Usuário ou senha incorretos');
+  }
+}
+
+function register() {
+  const username = document.getElementById('register-username').value.trim();
+  const email = document.getElementById('register-email').value.trim();
+  const password = document.getElementById('register-password').value;
+  const confirm = document.getElementById('register-confirm').value;
+  
+  if (!username || !password) {
+    alert('Usuário e senha são obrigatórios');
+    return;
+  }
+  
+  if (password.length < 6) {
+    alert('A senha deve ter pelo menos 6 caracteres');
+    return;
+  }
+  
+  if (password !== confirm) {
+    alert('As senhas não coincidem');
+    return;
+  }
+  
+  if (!system) {
+    system = new AlgebraRenovaSystem();
+  }
+  
+  const result = system.register(username, email, password);
+  
+  if (result.success) {
+    alert(result.message);
+    showLoginForm('login');
+    document.getElementById('login-username').value = username;
+    document.getElementById('login-password').value = '';
+  } else {
+    alert(result.message);
+  }
+}
+
+function logout() {
+  if (confirm('Tem certeza que deseja sair?')) {
+    system.logout();
+  }
+}
+
 function showSection(sectionId) {
-  // Esconder todas as seções
   document.querySelectorAll('.content-section').forEach(section => {
     section.classList.remove('active');
   });
   
-  // Mostrar seção selecionada
+  document.querySelectorAll('.nav-button').forEach(button => {
+    button.classList.remove('active');
+  });
+  
   const section = document.getElementById(sectionId);
   if (section) {
     section.classList.add('active');
   }
   
-  // Atualizar botões de navegação
-  document.querySelectorAll('.nav-button').forEach(button => {
-    button.classList.remove('active');
-  });
-  
-  // Atualizar interface baseado na seção
-  if (sectionId === 'theories') {
-    system.renderTheories();
-  } else if (sectionId === 'members') {
-    system.renderMembers();
-  } else if (sectionId === 'connections') {
-    system.renderConnections();
-  } else if (sectionId === 'bounty') {
-    system.renderBounties();
+  // Atualizar botão de navegação
+  const activeButton = document.querySelector(`.nav-button[onclick="showSection('${sectionId}')"]`);
+  if (activeButton) {
+    activeButton.classList.add('active');
   }
   
-  // Processar MathJax
+  // Atualizar conteúdo específico da seção
+  if (sectionId === 'friends') {
+    system.renderFriends();
+    system.renderFriendRequests();
+  } else if (sectionId === 'messages') {
+    system.renderConversations();
+  } else if (sectionId === 'members') {
+    renderMembers();
+  }
+  
   setTimeout(() => MathJax.typeset(), 100);
 }
 
+function showChat(chatType) {
+  document.querySelectorAll('.chat-container').forEach(chat => {
+    chat.classList.remove('active');
+  });
+  
+  document.querySelectorAll('.chat-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  document.getElementById('chat-' + chatType).classList.add('active');
+  document.querySelector(`.chat-tab[onclick="showChat('${chatType}')"]`).classList.add('active');
+  
+  if (chatType === 'global') {
+    system.renderGlobalChat();
+  } else if (chatType === 'bounty') {
+    system.renderBountyChat();
+  } else if (chatType === 'private') {
+    renderContacts();
+  }
+}
+
+function sendGlobalChat() {
+  const input = document.getElementById('chat-input-global');
+  const message = input.value.trim();
+  
+  if (message && system) {
+    system.sendGlobalChat(message);
+    input.value = '';
+    input.focus();
+  }
+}
+
+function sendBountyChat() {
+  const input = document.getElementById('chat-input-bounty');
+  const message = input.value.trim();
+  
+  if (message && system) {
+    system.sendBountyChat(message);
+    input.value = '';
+    input.focus();
+  }
+}
+
+function startPrivateChat(userId) {
+  const user = system.users.find(u => u.id === userId);
+  if (!user) return;
+  
+  document.getElementById('private-chat-modal').style.display = 'flex';
+  system.renderPrivateChat(userId);
+  
+  // Focar no input
+  setTimeout(() => {
+    document.getElementById('private-chat-input').focus();
+  }, 100);
+}
+
+function closePrivateChat() {
+  document.getElementById('private-chat-modal').style.display = 'none';
+  window.currentPrivateChatWith = null;
+}
+
+function sendPrivateMessage() {
+  const input = document.getElementById('private-chat-input');
+  const message = input.value.trim();
+  
+  if (message && window.currentPrivateChatWith && system) {
+    system.sendPrivateMessage(window.currentPrivateChatWith, message);
+    input.value = '';
+    input.focus();
+  }
+}
+
+function openProfileEditor() {
+  if (!system || !system.currentUser) return;
+  
+  document.getElementById('edit-username').value = system.currentUser.username;
+  document.getElementById('edit-avatar').value = system.currentUser.avatar || '';
+  document.getElementById('edit-bio').value = system.currentUser.bio || '';
+  document.getElementById('edit-interests').value = system.currentUser.interests?.join(', ') || '';
+  
+  document.getElementById('profile-modal').classList.remove('hidden');
+}
+
+function closeProfileEditor() {
+  document.getElementById('profile-modal').classList.add('hidden');
+}
+
+function saveProfile() {
+  const username = document.getElementById('edit-username').value.trim();
+  const avatar = document.getElementById('edit-avatar').value.trim();
+  const bio = document.getElementById('edit-bio').value;
+  const interests = document.getElementById('edit-interests').value;
+  
+  if (system && system.currentUser) {
+    system.updateProfile(username, avatar, bio, interests);
+    closeProfileEditor();
+  }
+}
+
+function changeAvatar() {
+  document.getElementById('avatar-modal').classList.remove('hidden');
+}
+
+function closeAvatarModal() {
+  document.getElementById('avatar-modal').classList.add('hidden');
+}
+
+function saveAvatar() {
+  const url = document.getElementById('avatar-url').value.trim();
+  const fileInput = document.getElementById('avatar-upload');
+  
+  let avatarUrl = url;
+  
+  // Se houver arquivo selecionado, simular upload
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    // Em um sistema real, aqui faríamos upload para um servidor
+    // Por enquanto, apenas usamos uma URL de placeholder
+    avatarUrl = `https://ui-avatars.com/api/?name=${system.currentUser.username}&background=400&color=fff&size=200`;
+    alert('Em um sistema real, a imagem seria enviada para um servidor. Usando placeholder por enquanto.');
+  }
+  
+  if (avatarUrl && system && system.currentUser) {
+    system.currentUser.avatar = avatarUrl;
+    system.updateProfile(system.currentUser.username, avatarUrl, system.currentUser.bio, system.currentUser.interests?.join(', '));
+    closeAvatarModal();
+  }
+}
+
+function renderMembers() {
+  const container = document.getElementById('members-list');
+  if (!container || !system || !system.currentUser) return;
+  
+  container.innerHTML = '';
+  
+  // Excluir o usuário atual da lista
+  const otherUsers = system.users.filter(u => u.id !== system.currentUser.id);
+  
+  otherUsers.forEach(user => {
+    const rank = system.getRankDisplay(user.rank);
+    const isFriend = system.currentUser.friends.includes(user.id);
+    const hasPendingRequest = system.friendRequests[user.id]?.includes(system.currentUser.id) || 
+                             system.friendRequests[system.currentUser.id]?.includes(user.id);
+    
+    const memberCard = document.createElement('div');
+    memberCard.className = 'list-item';
+    memberCard.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          ${user.avatar ? 
+            `<img src="${user.avatar}" alt="${user.username}" style="width:100%;height:100%;object-fit:cover;">` : 
+            user.username.charAt(0)
+          }
+        </div>
+        <div>
+          <strong>${user.username}</strong><br>
+          <span class="rank-badge ${rank.class}" style="font-size: 0.7rem;">${rank.name}</span>
+          <small style="color: #666; display: block;">${user.interests?.slice(0, 2).join(', ') || ''}</small>
+        </div>
+      </div>
+      <div>
+        ${isFriend ? 
+          `<button class="btn-secondary btn-small" onclick="startPrivateChat('${user.id}')">Mensagem</button>` :
+          hasPendingRequest ?
+          `<button class="btn-small" style="background: #666; color: #fff; border: none;" disabled>Solicitado</button>` :
+          `<button class="btn-secondary btn-small" onclick="system.sendFriendRequest('${user.id}')">Adicionar</button>`
+        }
+      </div>
+    `;
+    container.appendChild(memberCard);
+  });
+}
+
+function searchMembers() {
+  const searchTerm = document.getElementById('search-member').value.toLowerCase();
+  const members = document.querySelectorAll('#members-list .list-item');
+  
+  members.forEach(member => {
+    const text = member.textContent.toLowerCase();
+    member.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+  });
+}
+
+function renderContacts() {
+  const container = document.getElementById('chat-contacts-list');
+  if (!container || !system || !system.currentUser) return;
+  
+  container.innerHTML = '';
+  
+  // Mostrar amigos primeiro
+  const friends = system.currentUser.friends.map(id => system.users.find(u => u.id === id)).filter(Boolean);
+  
+  if (friends.length === 0) {
+    container.innerHTML = '<p style="color: #666; padding: 20px; text-align: center;">Adicione amigos para conversar</p>';
+    return;
+  }
+  
+  friends.forEach(friend => {
+    const rank = system.getRankDisplay(friend.rank);
+    const unread = (system.privateMessages[system.currentUser.id][friend.id] || [])
+      .filter(m => !m.read && m.from !== system.currentUser.id).length;
+    
+    const contactCard = document.createElement('div');
+    contactCard.className = 'list-item';
+    contactCard.style.cursor = 'pointer';
+    contactCard.onclick = () => startPrivateChat(friend.id);
+    contactCard.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          ${friend.avatar ? 
+            `<img src="${friend.avatar}" alt="${friend.username}" style="width:100%;height:100%;object-fit:cover;">` : 
+            friend.username.charAt(0)
+          }
+        </div>
+        <div style="flex: 1;">
+          <strong>${friend.username}</strong>
+          ${unread > 0 ? `<span style="background: #b30000; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: 10px;">${unread}</span>` : ''}
+          <div style="color: #666; font-size: 0.8rem;">${rank.name}</div>
+        </div>
+        <div>
+          <button class="btn-small" style="background: #400; color: #fff; border: none; padding: 5px 10px;">Chat</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(contactCard);
+  });
+}
+
+function searchContacts() {
+  const searchTerm = document.getElementById('search-contact').value.toLowerCase();
+  const contacts = document.querySelectorAll('#chat-contacts-list .list-item');
+  
+  contacts.forEach(contact => {
+    const text = contact.textContent.toLowerCase();
+    contact.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+  });
+}
+
+// ===============================
+// INICIALIZAÇÃO
+// ===============================
+document.addEventListener('DOMContentLoaded', () => {
+  system = new AlgebraRenovaSystem();
+  
+  // Verificar se há usuário logado
+  if (system.currentUser) {
+    document.getElementById('login-screen').classList.remove('visible');
+    document.getElementById('main-app').classList.remove('hidden');
+    
+    system.updateUserDisplay();
+    system.renderGlobalChat();
+    system.renderBountyChat();
+    system.renderFriends();
+    system.renderFriendRequests();
+    system.renderConversations();
+    system.renderActivities();
+    system.updateCounters();
+    
+    renderMembers();
+    showChat('global');
+  }
+  
+  // Teclas de atalho
+  document.addEventListener('keydown', (e) => {
+    // Ctrl + Enter envia mensagem no chat ativo
+    if (e.ctrlKey && e.key === 'Enter') {
+      const activeChat = document.querySelector('.chat-container.active');
+      if (activeChat && activeChat.id === 'chat-global') {
+        sendGlobalChat();
+      } else if (activeChat && activeChat.id === 'chat-bounty') {
+        sendBountyChat();
+      } else if (document.getElementById('private-chat-modal').style.display === 'flex') {
+        sendPrivateMessage();
+      }
+    }
+    
+    // ESC fecha modais
+    if (e.key === 'Escape') {
+      if (document.getElementById('profile-modal').classList.contains('hidden') === false) {
+        closeProfileEditor();
+      }
+      if (document.getElementById('avatar-modal').classList.contains('hidden') === false) {
+        closeAvatarModal();
+      }
+      if (document.getElementById('private-chat-modal').style.display === 'flex') {
+        closePrivateChat();
+      }
+    }
+  });
+});
+
+// ===============================
+// FUNÇÕES DE TEORIA (mantidas do código anterior)
+// ===============================
 function publishTheory() {
+  if (!system || !system.currentUser) {
+    alert('Você precisa estar logado');
+    return;
+  }
+  
   const title = document.getElementById('theory-title').value.trim();
   const content = document.getElementById('theory-content').value.trim();
   const tags = document.getElementById('theory-tags').value.trim();
@@ -1351,7 +2171,29 @@ function publishTheory() {
     return;
   }
 
-  system.publishTheory(title, content, tags);
+  if (!system.canPublishTheory()) {
+    alert('Apenas membros do Núcleo e Iniciados podem publicar teorias.');
+    return;
+  }
+
+  const theory = {
+    id: system.generateId(),
+    title: title,
+    content: content,
+    tags: tags.split(',').map(tag => tag.trim()),
+    author: system.currentUser.username,
+    authorId: system.currentUser.id,
+    authorRank: system.currentUser.rank,
+    createdAt: new Date().toISOString(),
+    views: 0,
+    comments: []
+  };
+
+  system.theories.unshift(theory);
+  localStorage.setItem('ar_theories', JSON.stringify(system.theories));
+  
+  system.logActivity(`${system.currentUser.username} publicou uma nova teoria: "${title}"`, 'new-theory');
+  system.updateCounters();
   
   // Limpar formulário
   document.getElementById('theory-title').value = '';
@@ -1360,81 +2202,10 @@ function publishTheory() {
   
   // Voltar para teorias
   showSection('theories');
-}
-
-function addReference() {
-  const title = document.getElementById('ref-title').value.trim();
-  const url = document.getElementById('ref-url').value.trim();
-  const description = document.getElementById('ref-description').value.trim();
-
-  if (!title) {
-    alert('Título é obrigatório.');
-    return;
-  }
-
-  system.addReference(title, url, description);
   
-  // Limpar formulário
-  document.getElementById('ref-title').value = '';
-  document.getElementById('ref-url').value = '';
-  document.getElementById('ref-description').value = '';
+  // Processar MathJax
+  setTimeout(() => MathJax.typeset(), 100);
 }
-
-function openProfileEditor() {
-  const modal = document.getElementById('profile-modal');
-  if (!modal) return;
-
-  document.getElementById('edit-username').value = system.currentUser.username;
-  document.getElementById('edit-avatar').value = system.currentUser.avatar || '';
-  document.getElementById('edit-bio').value = system.currentUser.bio || '';
-  document.getElementById('edit-interests').value = system.currentUser.interests?.join(', ') || '';
-
-  modal.classList.remove('hidden');
-}
-
-function closeProfileEditor() {
-  document.getElementById('profile-modal').classList.add('hidden');
-}
-
-function saveProfile() {
-  system.saveProfile();
-}
-
-function sendChatMessage() {
-  system.sendChatMessage();
-}
-
-function searchMembers() {
-  system.searchMembers();
-}
-
-function submitBountySolution(bountyId) {
-  const solution = prompt('Descreva sua solução para este desafio:');
-  if (solution) {
-    alert('Solução submetida para análise do Núcleo.');
-    system.logActivity(`${system.currentUser.username} submeteu uma solução para um desafio`, 'bounty');
-  }
-}
-
-// ===============================
-// EVENT LISTENERS
-// ===============================
-document.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter' && e.target.id === 'chat-input') {
-    sendChatMessage();
-  }
-});
-
-// ===============================
-// INICIALIZAÇÃO FINAL
-// ===============================
-window.onload = () => {
-  // Garantir que MathJax seja processado em novas renderizações
-  const originalTypeset = MathJax.typeset;
-  MathJax.typeset = function() {
-    if (originalTypeset) originalTypeset.call(MathJax);
-  };
-};
 </script>
 </body>
 </html>
